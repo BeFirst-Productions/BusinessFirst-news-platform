@@ -1,0 +1,58 @@
+// ======================================================
+// PageSeo – stores SEO metadata for each static website
+// page (home, contact, policy pages, category pages, etc.)
+//
+// NOTE: Article-level SEO is handled per-article during
+//       creation and is stored on the Article model.
+//       This model only manages STATIC PAGE SEO.
+// ======================================================
+
+model PageSeo {
+  id            String          @id @default(uuid())
+
+  // Identifier – the canonical slug without leading slash
+  // Examples: "", "contact", "policy/privacy", "category/tech"
+  slug          String          @unique
+
+  // Human-readable label shown in the admin list
+  label         String
+
+  // Page type – drives the admin UI grouping and auto-linking
+  pageType      PageType        @default(CUSTOM)
+
+  // If pageType = CATEGORY, this links to the Category record
+  categoryId    String?
+  category      Category?       @relation("CategorySeo", fields: [categoryId], references: [id], onDelete: SetNull)
+
+  // Core SEO fields
+  metaTitle       String
+  metaDescription String        @db.Text
+  canonicalUrl    String?
+  ogTitle         String?
+  ogDescription   String?       @db.Text
+  ogImage         String?
+  twitterCard     TwitterCardType @default(SUMMARY_LARGE_IMAGE)
+  twitterTitle    String?
+  twitterDescription String?    @db.Text
+  twitterImage    String?
+
+  // Structured data / JSON-LD blob (optional)
+  structuredData  Json?
+
+  // Robots directive e.g. "index, follow" | "noindex, nofollow"
+  robots          String?       @default("index, follow")
+
+  // Extra <meta> tags stored as JSON array: [{name:string, content:string}]
+  extraMeta       Json?
+
+  // Audit fields
+  isActive        Boolean       @default(true)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  // Indexes for fast slug lookups (main query path on the web app side)
+  @@index([slug])
+  @@index([pageType])
+  @@index([categoryId])
+  @@index([isActive])
+}

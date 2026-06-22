@@ -1,0 +1,22 @@
+// Contact message model
+
+model ContactMessage {
+  id          String    @id @default(uuid())
+  name        String
+  email       String
+  phone       String?
+  subject     String
+  message     String
+  isRead      Boolean   @default(false)
+  isReplied   Boolean   @default(false)
+  repliedAt   DateTime?
+  repliedBy   String?
+  notes       String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([isRead])
+  @@index([isReplied])
+  @@index([createdAt])
+  @@index([email])
+}

@@ -1,0 +1,75 @@
+// All enums for the application
+
+enum Role {
+  SUPERADMIN
+  ADMIN
+  EDITOR
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+enum ArticleStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+  SCHEDULED
+}
+
+enum AdType {
+  IMAGE
+  VIDEO
+  BOTH
+}
+
+enum AdStatus {
+  ACTIVE
+  INACTIVE
+  EXPIRED
+}
+
+enum NotificationType {
+  INFO
+  SUCCESS
+  WARNING
+  ERROR
+}
+
+enum SettingType {
+  STRING
+  NUMBER
+  BOOLEAN
+  JSON
+  ARRAY
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+  DOCUMENT
+  OTHER
+}
+
+enum CampaignStatus {
+  DRAFT
+  SENDING
+  SENT
+  FAILED
+}
+
+enum TwitterCardType {
+  SUMMARY
+  SUMMARY_LARGE_IMAGE
+}
+
+enum PageType {
+  HOME
+  CONTACT
+  POLICY
+  CATEGORY
+  CUSTOM
+}
+

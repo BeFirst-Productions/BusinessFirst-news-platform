@@ -1,0 +1,25 @@
+// Media model
+
+model Media {
+  id           String    @id @default(uuid())
+  filename     String
+  originalName String
+  mimeType     String
+  size         Int
+  url          String
+  thumbnailUrl String?
+  width        Int?
+  height       Int?
+  alt          String?
+  type         MediaType @default(IMAGE)
+  uploadedBy   String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  uploader User @relation(fields: [uploadedBy], references: [id])
+
+  @@index([uploadedBy])
+  @@index([mimeType])
+  @@index([type])
+  @@index([createdAt])
+}

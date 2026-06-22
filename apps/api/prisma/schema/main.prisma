@@ -1,0 +1,15 @@
+
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  // URL is provided via prisma.config.ts or adapter configuration
+}
+
+// Import all schema modules
+// Note: Prisma doesn't support imports natively, 
+// so we'll use a build script to merge them

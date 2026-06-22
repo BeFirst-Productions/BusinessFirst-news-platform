@@ -1,0 +1,26 @@
+// Category model
+
+model Category {
+  id              String     @id @default(uuid())
+  name            String     @unique
+  slug            String     @unique
+  description     String?
+  parentId        String?
+  parent          Category?  @relation("SubCategories", fields: [parentId], references: [id], onDelete: SetNull)
+  children        Category[] @relation("SubCategories")
+  image           String?
+  order           Int        @default(0)
+  isActive        Boolean    @default(true)
+  metaTitle       String?
+  metaDescription String?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  articles Article[]
+  pageSeo  PageSeo[] @relation("CategorySeo")
+
+  @@index([slug])
+  @@index([parentId])
+  @@index([isActive])
+  @@index([order])
+}

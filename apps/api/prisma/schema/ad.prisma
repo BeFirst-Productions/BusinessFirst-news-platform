@@ -1,0 +1,92 @@
+// Ad, AdSpace, AdPlacement models
+
+model Ad {
+  id          String    @id @default(uuid())
+  name        String
+  description String?
+  type        AdType
+  imageUrl    String?
+  videoUrl    String?
+  redirectUrl String?
+  startDate   DateTime
+  endDate     DateTime
+  status      AdStatus  @default(ACTIVE)
+  priority    Int       @default(0)
+  impressions Int       @default(0)
+  clicks      Int       @default(0)
+  createdBy   String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  creator    User          @relation(fields: [createdBy], references: [id])
+  placements AdPlacement[]
+  articles   ArticleAd[]
+  analytics  AdAnalytics[]
+
+  @@index([status])
+  @@index([startDate, endDate])
+  @@index([createdBy])
+}
+
+model AdSpace {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  code        String   @unique
+  description String?
+  maxAds      Int      @default(1)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  placements AdPlacement[]
+
+  @@index([code])
+  @@index([isActive])
+}
+
+model AdPlacement {
+  id        String   @id @default(uuid())
+  adId      String
+  adSpaceId String
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  ad      Ad      @relation(fields: [adId], references: [id], onDelete: Cascade)
+  adSpace AdSpace @relation(fields: [adSpaceId], references: [id], onDelete: Cascade)
+
+  @@unique([adId, adSpaceId])
+  @@index([adSpaceId])
+  @@index([isActive])
+}
+
+model ArticleAd {
+  id        String   @id @default(uuid())
+  articleId String
+  adId      String
+  position  String
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+
+  article Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  ad      Ad      @relation(fields: [adId], references: [id], onDelete: Cascade)
+
+  @@unique([articleId, adId, position])
+  @@index([articleId])
+  @@index([position])
+}
+
+model AdAnalytics {
+  id          String   @id @default(uuid())
+  adId        String
+  impressions Int      @default(0)
+  clicks      Int      @default(0)
+  date        DateTime @default(now())
+  createdAt   DateTime @default(now())
+
+  ad Ad @relation(fields: [adId], references: [id], onDelete: Cascade)
+
+  @@index([adId, date])
+  @@index([date])
+}

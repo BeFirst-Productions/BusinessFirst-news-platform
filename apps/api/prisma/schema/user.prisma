@@ -1,0 +1,69 @@
+
+
+model User {
+  id             String         @id @default(uuid())
+  email          String         @unique
+  password       String
+  name           String
+  role           Role           @default(EDITOR)
+  status         UserStatus     @default(ACTIVE)
+  avatar         String?
+  bio            String?
+  canCreateUsers Boolean        @default(false)
+  createdBy      String?
+  creator        User?          @relation("UserCreations", fields: [createdBy], references: [id])
+  createdUsers   User[]         @relation("UserCreations")
+  refreshToken   String?
+  lastLoginAt    DateTime?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  articles            Article[]
+  modules             UserModulePermission[]
+  notifications       Notification[]
+  ads                 Ad[]
+  articleActivities   ArticleActivity[]
+  settings            SiteSetting[]
+  media               Media[]
+
+  @@index([email])
+  @@index([role])
+  @@index([status])
+  @@index([createdBy])
+}
+
+model Module {
+  id          String                  @id @default(uuid())
+  name        String                  @unique
+  code        String                  @unique
+  description String?
+  icon        String?
+  order       Int                     @default(0)
+  isActive    Boolean                 @default(true)
+  createdAt   DateTime                @default(now())
+  updatedAt   DateTime                @updatedAt
+
+  permissions UserModulePermission[]
+
+  @@index([code])
+  @@index([isActive])
+}
+
+model UserModulePermission {
+  id        String   @id @default(uuid())
+  userId    String
+  moduleId  String
+  canView   Boolean  @default(true)
+  canCreate Boolean  @default(false)
+  canEdit   Boolean  @default(false)
+  canDelete Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  module Module @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, moduleId])
+  @@index([userId])
+  @@index([moduleId])
+}

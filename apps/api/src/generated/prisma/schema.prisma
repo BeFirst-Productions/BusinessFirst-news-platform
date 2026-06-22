@@ -1,0 +1,556 @@
+// Ad, AdSpace, AdPlacement models
+
+model Ad {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  type        AdType
+  imageUrl    String?
+  videoUrl    String?
+  redirectUrl String?
+  startDate   DateTime
+  endDate     DateTime
+  status      AdStatus @default(ACTIVE)
+  priority    Int      @default(0)
+  impressions Int      @default(0)
+  clicks      Int      @default(0)
+  createdBy   String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  creator    User          @relation(fields: [createdBy], references: [id])
+  placements AdPlacement[]
+  articles   ArticleAd[]
+  analytics  AdAnalytics[]
+
+  @@index([status])
+  @@index([startDate, endDate])
+  @@index([createdBy])
+}
+
+model AdSpace {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  code        String   @unique
+  description String?
+  maxAds      Int      @default(1)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  placements AdPlacement[]
+
+  @@index([code])
+  @@index([isActive])
+}
+
+model AdPlacement {
+  id        String   @id @default(uuid())
+  adId      String
+  adSpaceId String
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  ad      Ad      @relation(fields: [adId], references: [id], onDelete: Cascade)
+  adSpace AdSpace @relation(fields: [adSpaceId], references: [id], onDelete: Cascade)
+
+  @@unique([adId, adSpaceId])
+  @@index([adSpaceId])
+  @@index([isActive])
+}
+
+model ArticleAd {
+  id        String   @id @default(uuid())
+  articleId String
+  adId      String
+  position  String
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+
+  article Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  ad      Ad      @relation(fields: [adId], references: [id], onDelete: Cascade)
+
+  @@unique([articleId, adId, position])
+  @@index([articleId])
+  @@index([position])
+}
+
+model AdAnalytics {
+  id          String   @id @default(uuid())
+  adId        String
+  impressions Int      @default(0)
+  clicks      Int      @default(0)
+  date        DateTime @default(now())
+  createdAt   DateTime @default(now())
+
+  ad Ad @relation(fields: [adId], references: [id], onDelete: Cascade)
+
+  @@index([adId, date])
+  @@index([date])
+}
+
+// Article, Comment, Tag models
+
+model Article {
+  id              String        @id @default(uuid())
+  title           String
+  slug            String        @unique
+  content         String
+  excerpt         String?
+  featuredImage   String?
+  status          ArticleStatus @default(DRAFT)
+  isFeatured      Boolean       @default(false)
+  isBreakingNews  Boolean       @default(false)
+  viewCount       Int           @default(0)
+  scheduledAt     DateTime?
+  publishedAt     DateTime?
+  metaTitle       String?
+  metaDescription String?
+  metaKeywords    String?
+  readingTime     Int           @default(0)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  categories Category[]
+  authorId   String
+  author     User              @relation(fields: [authorId], references: [id])
+  tags       ArticleTag[]
+  comments   Comment[]
+  ads        ArticleAd[]
+  activities ArticleActivity[]
+
+  @@index([slug])
+  @@index([status])
+  @@index([authorId])
+  @@index([publishedAt])
+  @@index([isFeatured])
+  @@index([isBreakingNews])
+  @@index([createdAt])
+}
+
+model Tag {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  articles ArticleTag[]
+
+  @@index([slug])
+  @@index([name])
+}
+
+model ArticleTag {
+  articleId  String
+  tagId      String
+  assignedAt DateTime @default(now())
+  article    Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  tag        Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([articleId, tagId])
+  @@index([articleId])
+  @@index([tagId])
+}
+
+model ArticleActivity {
+  id        String   @id @default(uuid())
+  action    String
+  details   Json?
+  userId    String
+  articleId String?
+  createdAt DateTime @default(now())
+
+  user    User     @relation(fields: [userId], references: [id])
+  article Article? @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@index([articleId])
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model Comment {
+  id         String   @id @default(uuid())
+  content    String
+  userName   String
+  userEmail  String
+  isApproved Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  articleId String
+  article   Article   @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  parentId  String?
+  parent    Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: SetNull)
+  replies   Comment[] @relation("CommentReplies")
+
+  @@index([articleId])
+  @@index([parentId])
+  @@index([isApproved])
+  @@index([createdAt])
+}
+
+// Category model
+
+model Category {
+  id              String     @id @default(uuid())
+  name            String     @unique
+  slug            String     @unique
+  description     String?
+  parentId        String?
+  parent          Category?  @relation("SubCategories", fields: [parentId], references: [id], onDelete: SetNull)
+  children        Category[] @relation("SubCategories")
+  image           String?
+  order           Int        @default(0)
+  isActive        Boolean    @default(true)
+  metaTitle       String?
+  metaDescription String?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  articles Article[]
+  pageSeo  PageSeo[] @relation("CategorySeo")
+
+  @@index([slug])
+  @@index([parentId])
+  @@index([isActive])
+  @@index([order])
+}
+
+// Contact message model
+
+model ContactMessage {
+  id        String    @id @default(uuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String
+  message   String
+  isRead    Boolean   @default(false)
+  isReplied Boolean   @default(false)
+  repliedAt DateTime?
+  repliedBy String?
+  notes     String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([isRead])
+  @@index([isReplied])
+  @@index([createdAt])
+  @@index([email])
+}
+
+// All enums for the application
+
+enum Role {
+  SUPERADMIN
+  ADMIN
+  EDITOR
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+enum ArticleStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+  SCHEDULED
+}
+
+enum AdType {
+  IMAGE
+  VIDEO
+  BOTH
+}
+
+enum AdStatus {
+  ACTIVE
+  INACTIVE
+  EXPIRED
+}
+
+enum NotificationType {
+  INFO
+  SUCCESS
+  WARNING
+  ERROR
+}
+
+enum SettingType {
+  STRING
+  NUMBER
+  BOOLEAN
+  JSON
+  ARRAY
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+  DOCUMENT
+  OTHER
+}
+
+enum CampaignStatus {
+  DRAFT
+  SENDING
+  SENT
+  FAILED
+}
+
+enum TwitterCardType {
+  SUMMARY
+  SUMMARY_LARGE_IMAGE
+}
+
+enum PageType {
+  HOME
+  CONTACT
+  POLICY
+  CATEGORY
+  CUSTOM
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  // URL is provided via prisma.config.ts or adapter configuration
+}
+
+// Import all schema modules
+// Note: Prisma doesn't support imports natively, 
+// so we'll use a build script to merge them
+// Media model
+
+model Media {
+  id           String    @id @default(uuid())
+  filename     String
+  originalName String
+  mimeType     String
+  size         Int
+  url          String
+  thumbnailUrl String?
+  width        Int?
+  height       Int?
+  alt          String?
+  type         MediaType @default(IMAGE)
+  uploadedBy   String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  uploader User @relation(fields: [uploadedBy], references: [id])
+
+  @@index([uploadedBy])
+  @@index([mimeType])
+  @@index([type])
+  @@index([createdAt])
+}
+
+// Newsletter subscriber model
+model Newsletter {
+  id             String    @id @default(uuid())
+  email          String    @unique
+  name           String?
+  isActive       Boolean   @default(true)
+  token          String?   @unique
+  subscribedAt   DateTime  @default(now())
+  unsubscribedAt DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([email])
+  @@index([isActive])
+  @@index([token])
+}
+
+// Newsletter campaign model (tracks bulk email sends)
+model NewsletterCampaign {
+  id          String         @id @default(uuid())
+  subject     String
+  htmlContent String         @db.Text
+  status      CampaignStatus @default(DRAFT)
+  sentCount   Int            @default(0)
+  failedCount Int            @default(0)
+  sentBy      String?
+  sentAt      DateTime?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  @@index([status])
+  @@index([createdAt])
+}
+
+// Notification model
+
+model Notification {
+  id        String           @id @default(uuid())
+  title     String
+  message   String
+  type      NotificationType @default(INFO)
+  isRead    Boolean          @default(false)
+  link      String?
+  userId    String
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isRead])
+  @@index([createdAt])
+}
+
+// ======================================================
+// PageSeo – stores SEO metadata for each static website
+// page (home, contact, policy pages, category pages, etc.)
+//
+// NOTE: Article-level SEO is handled per-article during
+//       creation and is stored on the Article model.
+//       This model only manages STATIC PAGE SEO.
+// ======================================================
+
+model PageSeo {
+  id String @id @default(uuid())
+
+  // Identifier – the canonical slug without leading slash
+  // Examples: "", "contact", "policy/privacy", "category/tech"
+  slug String @unique
+
+  // Human-readable label shown in the admin list
+  label String
+
+  // Page type – drives the admin UI grouping and auto-linking
+  pageType PageType @default(CUSTOM)
+
+  // If pageType = CATEGORY, this links to the Category record
+  categoryId String?
+  category   Category? @relation("CategorySeo", fields: [categoryId], references: [id], onDelete: SetNull)
+
+  // Core SEO fields
+  metaTitle          String
+  metaDescription    String          @db.Text
+  canonicalUrl       String?
+  ogTitle            String?
+  ogDescription      String?         @db.Text
+  ogImage            String?
+  twitterCard        TwitterCardType @default(SUMMARY_LARGE_IMAGE)
+  twitterTitle       String?
+  twitterDescription String?         @db.Text
+  twitterImage       String?
+
+  // Structured data / JSON-LD blob (optional)
+  structuredData Json?
+
+  // Robots directive e.g. "index, follow" | "noindex, nofollow"
+  robots String? @default("index, follow")
+
+  // Extra <meta> tags stored as JSON array: [{name:string, content:string}]
+  extraMeta Json?
+
+  // Audit fields
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Indexes for fast slug lookups (main query path on the web app side)
+  @@index([slug])
+  @@index([pageType])
+  @@index([categoryId])
+  @@index([isActive])
+}
+
+// Site settings model
+
+model SiteSetting {
+  id            String      @id @default(uuid())
+  key           String      @unique
+  value         Json
+  type          SettingType @default(STRING)
+  description   String?
+  isPublic      Boolean     @default(false)
+  updatedBy     String?
+  updatedByUser User?       @relation(fields: [updatedBy], references: [id])
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@index([key])
+  @@index([isPublic])
+}
+
+model User {
+  id             String     @id @default(uuid())
+  email          String     @unique
+  password       String
+  name           String
+  role           Role       @default(EDITOR)
+  status         UserStatus @default(ACTIVE)
+  avatar         String?
+  bio            String?
+  canCreateUsers Boolean    @default(false)
+  createdBy      String?
+  creator        User?      @relation("UserCreations", fields: [createdBy], references: [id])
+  createdUsers   User[]     @relation("UserCreations")
+  refreshToken   String?
+  lastLoginAt    DateTime?
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  articles          Article[]
+  modules           UserModulePermission[]
+  notifications     Notification[]
+  ads               Ad[]
+  articleActivities ArticleActivity[]
+  settings          SiteSetting[]
+  media             Media[]
+
+  @@index([email])
+  @@index([role])
+  @@index([status])
+  @@index([createdBy])
+}
+
+model Module {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  code        String   @unique
+  description String?
+  icon        String?
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  permissions UserModulePermission[]
+
+  @@index([code])
+  @@index([isActive])
+}
+
+model UserModulePermission {
+  id        String   @id @default(uuid())
+  userId    String
+  moduleId  String
+  canView   Boolean  @default(true)
+  canCreate Boolean  @default(false)
+  canEdit   Boolean  @default(false)
+  canDelete Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  module Module @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, moduleId])
+  @@index([userId])
+  @@index([moduleId])
+}

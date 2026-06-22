@@ -1,0 +1,33 @@
+// Newsletter subscriber model
+model Newsletter {
+  id             String    @id @default(uuid())
+  email          String    @unique
+  name           String?
+  isActive       Boolean   @default(true)
+  token          String?   @unique
+  subscribedAt   DateTime  @default(now())
+  unsubscribedAt DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([email])
+  @@index([isActive])
+  @@index([token])
+}
+
+// Newsletter campaign model (tracks bulk email sends)
+model NewsletterCampaign {
+  id          String         @id @default(uuid())
+  subject     String
+  htmlContent String         @db.Text
+  status      CampaignStatus @default(DRAFT)
+  sentCount   Int            @default(0)
+  failedCount Int            @default(0)
+  sentBy      String?
+  sentAt      DateTime?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  @@index([status])
+  @@index([createdAt])
+}

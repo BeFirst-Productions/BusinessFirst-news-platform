@@ -1,0 +1,45 @@
+{
+  "name": "businessfirst-news-platform",
+  "version": "1.0.0",
+  "private": true,
+  "description": "BusinessFirst News Platform - Monorepo",
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "start": "turbo start",
+    "lint": "turbo lint",
+    "test": "turbo test",
+    "clean": "turbo clean",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "db:migrate": "turbo db:migrate",
+    "db:seed": "turbo db:seed",
+    "db:generate": "turbo db:generate",
+    "db:studio": "turbo db:studio",
+    "docker:dev": "docker compose up -d",
+    "docker:prod": "docker compose -f docker compose.prod.yml up -d",
+    "docker:down": "docker compose down",
+    "setup": "pnpm install && pnpm db:generate && pnpm db:migrate && pnpm db:seed",
+    "prepare": "husky install || true"
+  },
+  "devDependencies": {
+    "turbo": "^2.0.6",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.5",
+    "prettier": "^3.3.2",
+    "typescript": "^5.4.5"
+  },
+  "packageManager": "pnpm@9.1.4",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
+  }
+}
