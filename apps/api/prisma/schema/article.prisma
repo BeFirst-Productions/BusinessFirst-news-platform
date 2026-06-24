@@ -6,7 +6,8 @@ model Article {
   slug            String        @unique
   content         String
   excerpt         String?
-  featuredImage   String?
+  featuredImage      String?
+  featuredImageTitle String?
   status          ArticleStatus @default(DRAFT)
   isFeatured      Boolean       @default(false)
   isBreakingNews  Boolean       @default(false)
@@ -20,9 +21,10 @@ model Article {
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
 
-  categories Category[]
+  categoryId      String?
+  category        Category?         @relation(fields: [categoryId], references: [id], onDelete: SetNull)
   authorId   String
-  author     User     @relation(fields: [authorId], references: [id])
+  author     User              @relation(fields: [authorId], references: [id])
   tags       ArticleTag[]
   comments   Comment[]
   ads        ArticleAd[]
@@ -31,6 +33,7 @@ model Article {
   @@index([slug])
   @@index([status])
   @@index([authorId])
+  @@index([categoryId])
   @@index([publishedAt])
   @@index([isFeatured])
   @@index([isBreakingNews])
@@ -38,12 +41,12 @@ model Article {
 }
 
 model Tag {
-  id          String       @id @default(uuid())
-  name        String       @unique
-  slug        String       @unique
+  id          String   @id @default(uuid())
+  name        String   @unique
+  slug        String   @unique
   description String?
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   articles ArticleTag[]
 
@@ -52,11 +55,11 @@ model Tag {
 }
 
 model ArticleTag {
-  articleId String
-  tagId     String
+  articleId  String
+  tagId      String
   assignedAt DateTime @default(now())
-  article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
-  tag       Tag     @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  article    Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  tag        Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
 
   @@id([articleId, tagId])
   @@index([articleId])
@@ -80,18 +83,18 @@ model ArticleActivity {
 }
 
 model Comment {
-  id         String    @id @default(uuid())
+  id         String   @id @default(uuid())
   content    String
   userName   String
   userEmail  String
-  isApproved Boolean   @default(false)
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  isApproved Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   articleId String
-  article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  article   Article   @relation(fields: [articleId], references: [id], onDelete: Cascade)
   parentId  String?
-  parent    Comment? @relation("CommentReplies", fields: [parentId], references: [id], onDelete: SetNull)
+  parent    Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: SetNull)
   replies   Comment[] @relation("CommentReplies")
 
   @@index([articleId])

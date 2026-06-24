@@ -174,11 +174,7 @@ export class CategoriesService {
     // Check if category has articles
     const articlesCount = await prisma.article.count({
       where: {
-        categories: {
-          some: {
-            id,
-          },
-        },
+        categoryId: id,
       },
     });
     if (articlesCount > 0) {

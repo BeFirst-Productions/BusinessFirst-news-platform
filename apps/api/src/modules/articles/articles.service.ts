@@ -26,11 +26,7 @@ export class ArticlesService {
     }
 
     if (categoryId) {
-      where.categories = {
-        some: {
-          id: categoryId,
-        },
-      };
+      where.categoryId = categoryId;
     }
 
     if (search) {
@@ -53,7 +49,7 @@ export class ArticlesService {
         take: limit,
         orderBy,
         include: {
-          categories: {
+          category: {
             select: { id: true, name: true, slug: true },
           },
           author: {
@@ -71,10 +67,9 @@ export class ArticlesService {
       prisma.article.count({ where }),
     ]);
 
-    // Flatten tags for client convenience and include category mapping
+    // Flatten tags for client convenience
     const formattedArticles = articles.map(article => ({
       ...article,
-      category: article.categories[0] || null,
       tags: article.tags.map(t => t.tag),
     }));
 
@@ -85,7 +80,7 @@ export class ArticlesService {
     const article = await prisma.article.findUnique({
       where: { id },
       include: {
-        categories: true,
+        category: true,
         author: {
           select: { id: true, name: true, email: true, avatar: true },
         },
@@ -103,7 +98,6 @@ export class ArticlesService {
 
     return {
       ...article,
-      category: article.categories[0] || null,
       tags: article.tags.map(t => t.tag),
     };
   }
@@ -118,12 +112,12 @@ export class ArticlesService {
       slug = SlugUtil.generate(data.title, true);
     }
 
-    // Check categories exist
-    const categoriesCount = await prisma.category.count({
-      where: { id: { in: data.categoryIds } },
+    // Check category exists
+    const categoryExists = await prisma.category.findUnique({
+      where: { id: data.categoryId },
     });
-    if (categoriesCount !== data.categoryIds.length) {
-      throw new NotFoundError('One or more categories not found');
+    if (!categoryExists) {
+      throw new NotFoundError('Category not found');
     }
 
     // Validate that SEO and Featured Image are provided if publishing
@@ -151,6 +145,7 @@ export class ArticlesService {
         content: data.content,
         excerpt: data.excerpt || null,
         featuredImage: data.featuredImage || null,
+        featuredImageTitle: data.featuredImageTitle || null,
         status: data.status as ArticleStatus,
         scheduledAt: data.scheduledAt ? new Date(data.scheduledAt) : null,
         publishedAt: data.status === 'PUBLISHED' ? new Date() : null,
@@ -161,15 +156,13 @@ export class ArticlesService {
         metaKeywords: data.metaKeywords || null,
         readingTime,
         authorId,
-        categories: {
-          connect: data.categoryIds.map(id => ({ id })),
-        },
+        categoryId: data.categoryId,
         tags: {
           create: data.tags?.map(tagId => ({ tagId })) || [],
         },
       },
       include: {
-        categories: true,
+        category: true,
         author: {
           select: { id: true, name: true, email: true, avatar: true },
         },
@@ -183,7 +176,6 @@ export class ArticlesService {
 
     return {
       ...article,
-      category: article.categories[0] || null,
       tags: article.tags.map(t => t.tag),
     };
   }
@@ -250,16 +242,22 @@ export class ArticlesService {
       updateData.featuredImage = data.featuredImage || null;
     }
 
-    if (data.categoryIds !== undefined) {
-      const categoriesCount = await prisma.category.count({
-        where: { id: { in: data.categoryIds } },
-      });
-      if (categoriesCount !== data.categoryIds.length) {
-        throw new NotFoundError('One or more categories not found');
+    if (data.featuredImageTitle !== undefined) {
+      updateData.featuredImageTitle = data.featuredImageTitle || null;
+    }
+
+    if (data.categoryId !== undefined) {
+      if (data.categoryId) {
+        const categoryExists = await prisma.category.findUnique({
+          where: { id: data.categoryId },
+        });
+        if (!categoryExists) {
+          throw new NotFoundError('Category not found');
+        }
+        updateData.categoryId = data.categoryId;
+      } else {
+        updateData.categoryId = null;
       }
-      updateData.categories = {
-        set: data.categoryIds.map(id => ({ id })),
-      };
     }
 
     if (data.status !== undefined) {
@@ -316,7 +314,7 @@ export class ArticlesService {
         where: { id },
         data: updateData,
         include: {
-          categories: true,
+          category: true,
           author: {
             select: { id: true, name: true, email: true, avatar: true },
           },
@@ -331,7 +329,6 @@ export class ArticlesService {
 
     return {
       ...updatedArticle,
-      category: updatedArticle.categories[0] || null,
       tags: updatedArticle.tags.map(t => t.tag),
     };
   }

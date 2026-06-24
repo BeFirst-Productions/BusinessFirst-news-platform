@@ -2921,7 +2921,6 @@ export namespace Prisma {
    */
 
   export type ArticleCountOutputType = {
-    categories: number
     tags: number
     comments: number
     ads: number
@@ -2929,7 +2928,6 @@ export namespace Prisma {
   }
 
   export type ArticleCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    categories?: boolean | ArticleCountOutputTypeCountCategoriesArgs
     tags?: boolean | ArticleCountOutputTypeCountTagsArgs
     comments?: boolean | ArticleCountOutputTypeCountCommentsArgs
     ads?: boolean | ArticleCountOutputTypeCountAdsArgs
@@ -2945,13 +2943,6 @@ export namespace Prisma {
      * Select specific fields to fetch from the ArticleCountOutputType
      */
     select?: ArticleCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * ArticleCountOutputType without action
-   */
-  export type ArticleCountOutputTypeCountCategoriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CategoryWhereInput
   }
 
   /**
@@ -9097,6 +9088,7 @@ export namespace Prisma {
     content: string | null
     excerpt: string | null
     featuredImage: string | null
+    featuredImageTitle: string | null
     status: $Enums.ArticleStatus | null
     isFeatured: boolean | null
     isBreakingNews: boolean | null
@@ -9109,6 +9101,7 @@ export namespace Prisma {
     readingTime: number | null
     createdAt: Date | null
     updatedAt: Date | null
+    categoryId: string | null
     authorId: string | null
   }
 
@@ -9119,6 +9112,7 @@ export namespace Prisma {
     content: string | null
     excerpt: string | null
     featuredImage: string | null
+    featuredImageTitle: string | null
     status: $Enums.ArticleStatus | null
     isFeatured: boolean | null
     isBreakingNews: boolean | null
@@ -9131,6 +9125,7 @@ export namespace Prisma {
     readingTime: number | null
     createdAt: Date | null
     updatedAt: Date | null
+    categoryId: string | null
     authorId: string | null
   }
 
@@ -9141,6 +9136,7 @@ export namespace Prisma {
     content: number
     excerpt: number
     featuredImage: number
+    featuredImageTitle: number
     status: number
     isFeatured: number
     isBreakingNews: number
@@ -9153,6 +9149,7 @@ export namespace Prisma {
     readingTime: number
     createdAt: number
     updatedAt: number
+    categoryId: number
     authorId: number
     _all: number
   }
@@ -9175,6 +9172,7 @@ export namespace Prisma {
     content?: true
     excerpt?: true
     featuredImage?: true
+    featuredImageTitle?: true
     status?: true
     isFeatured?: true
     isBreakingNews?: true
@@ -9187,6 +9185,7 @@ export namespace Prisma {
     readingTime?: true
     createdAt?: true
     updatedAt?: true
+    categoryId?: true
     authorId?: true
   }
 
@@ -9197,6 +9196,7 @@ export namespace Prisma {
     content?: true
     excerpt?: true
     featuredImage?: true
+    featuredImageTitle?: true
     status?: true
     isFeatured?: true
     isBreakingNews?: true
@@ -9209,6 +9209,7 @@ export namespace Prisma {
     readingTime?: true
     createdAt?: true
     updatedAt?: true
+    categoryId?: true
     authorId?: true
   }
 
@@ -9219,6 +9220,7 @@ export namespace Prisma {
     content?: true
     excerpt?: true
     featuredImage?: true
+    featuredImageTitle?: true
     status?: true
     isFeatured?: true
     isBreakingNews?: true
@@ -9231,6 +9233,7 @@ export namespace Prisma {
     readingTime?: true
     createdAt?: true
     updatedAt?: true
+    categoryId?: true
     authorId?: true
     _all?: true
   }
@@ -9328,6 +9331,7 @@ export namespace Prisma {
     content: string
     excerpt: string | null
     featuredImage: string | null
+    featuredImageTitle: string | null
     status: $Enums.ArticleStatus
     isFeatured: boolean
     isBreakingNews: boolean
@@ -9340,6 +9344,7 @@ export namespace Prisma {
     readingTime: number
     createdAt: Date
     updatedAt: Date
+    categoryId: string | null
     authorId: string
     _count: ArticleCountAggregateOutputType | null
     _avg: ArticleAvgAggregateOutputType | null
@@ -9369,6 +9374,7 @@ export namespace Prisma {
     content?: boolean
     excerpt?: boolean
     featuredImage?: boolean
+    featuredImageTitle?: boolean
     status?: boolean
     isFeatured?: boolean
     isBreakingNews?: boolean
@@ -9381,8 +9387,9 @@ export namespace Prisma {
     readingTime?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    categoryId?: boolean
     authorId?: boolean
-    categories?: boolean | Article$categoriesArgs<ExtArgs>
+    category?: boolean | Article$categoryArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
     tags?: boolean | Article$tagsArgs<ExtArgs>
     comments?: boolean | Article$commentsArgs<ExtArgs>
@@ -9398,6 +9405,7 @@ export namespace Prisma {
     content?: boolean
     excerpt?: boolean
     featuredImage?: boolean
+    featuredImageTitle?: boolean
     status?: boolean
     isFeatured?: boolean
     isBreakingNews?: boolean
@@ -9410,7 +9418,9 @@ export namespace Prisma {
     readingTime?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    categoryId?: boolean
     authorId?: boolean
+    category?: boolean | Article$categoryArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["article"]>
 
@@ -9421,6 +9431,7 @@ export namespace Prisma {
     content?: boolean
     excerpt?: boolean
     featuredImage?: boolean
+    featuredImageTitle?: boolean
     status?: boolean
     isFeatured?: boolean
     isBreakingNews?: boolean
@@ -9433,7 +9444,9 @@ export namespace Prisma {
     readingTime?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    categoryId?: boolean
     authorId?: boolean
+    category?: boolean | Article$categoryArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["article"]>
 
@@ -9444,6 +9457,7 @@ export namespace Prisma {
     content?: boolean
     excerpt?: boolean
     featuredImage?: boolean
+    featuredImageTitle?: boolean
     status?: boolean
     isFeatured?: boolean
     isBreakingNews?: boolean
@@ -9456,12 +9470,13 @@ export namespace Prisma {
     readingTime?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    categoryId?: boolean
     authorId?: boolean
   }
 
-  export type ArticleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "content" | "excerpt" | "featuredImage" | "status" | "isFeatured" | "isBreakingNews" | "viewCount" | "scheduledAt" | "publishedAt" | "metaTitle" | "metaDescription" | "metaKeywords" | "readingTime" | "createdAt" | "updatedAt" | "authorId", ExtArgs["result"]["article"]>
+  export type ArticleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "content" | "excerpt" | "featuredImage" | "featuredImageTitle" | "status" | "isFeatured" | "isBreakingNews" | "viewCount" | "scheduledAt" | "publishedAt" | "metaTitle" | "metaDescription" | "metaKeywords" | "readingTime" | "createdAt" | "updatedAt" | "categoryId" | "authorId", ExtArgs["result"]["article"]>
   export type ArticleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    categories?: boolean | Article$categoriesArgs<ExtArgs>
+    category?: boolean | Article$categoryArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
     tags?: boolean | Article$tagsArgs<ExtArgs>
     comments?: boolean | Article$commentsArgs<ExtArgs>
@@ -9470,16 +9485,18 @@ export namespace Prisma {
     _count?: boolean | ArticleCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ArticleIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    category?: boolean | Article$categoryArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type ArticleIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    category?: boolean | Article$categoryArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $ArticlePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Article"
     objects: {
-      categories: Prisma.$CategoryPayload<ExtArgs>[]
+      category: Prisma.$CategoryPayload<ExtArgs> | null
       author: Prisma.$UserPayload<ExtArgs>
       tags: Prisma.$ArticleTagPayload<ExtArgs>[]
       comments: Prisma.$CommentPayload<ExtArgs>[]
@@ -9493,6 +9510,7 @@ export namespace Prisma {
       content: string
       excerpt: string | null
       featuredImage: string | null
+      featuredImageTitle: string | null
       status: $Enums.ArticleStatus
       isFeatured: boolean
       isBreakingNews: boolean
@@ -9505,6 +9523,7 @@ export namespace Prisma {
       readingTime: number
       createdAt: Date
       updatedAt: Date
+      categoryId: string | null
       authorId: string
     }, ExtArgs["result"]["article"]>
     composites: {}
@@ -9900,7 +9919,7 @@ export namespace Prisma {
    */
   export interface Prisma__ArticleClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    categories<T extends Article$categoriesArgs<ExtArgs> = {}>(args?: Subset<T, Article$categoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    category<T extends Article$categoryArgs<ExtArgs> = {}>(args?: Subset<T, Article$categoryArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     author<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     tags<T extends Article$tagsArgs<ExtArgs> = {}>(args?: Subset<T, Article$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ArticleTagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     comments<T extends Article$commentsArgs<ExtArgs> = {}>(args?: Subset<T, Article$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -9941,6 +9960,7 @@ export namespace Prisma {
     readonly content: FieldRef<"Article", 'String'>
     readonly excerpt: FieldRef<"Article", 'String'>
     readonly featuredImage: FieldRef<"Article", 'String'>
+    readonly featuredImageTitle: FieldRef<"Article", 'String'>
     readonly status: FieldRef<"Article", 'ArticleStatus'>
     readonly isFeatured: FieldRef<"Article", 'Boolean'>
     readonly isBreakingNews: FieldRef<"Article", 'Boolean'>
@@ -9953,6 +9973,7 @@ export namespace Prisma {
     readonly readingTime: FieldRef<"Article", 'Int'>
     readonly createdAt: FieldRef<"Article", 'DateTime'>
     readonly updatedAt: FieldRef<"Article", 'DateTime'>
+    readonly categoryId: FieldRef<"Article", 'String'>
     readonly authorId: FieldRef<"Article", 'String'>
   }
     
@@ -10355,9 +10376,9 @@ export namespace Prisma {
   }
 
   /**
-   * Article.categories
+   * Article.category
    */
-  export type Article$categoriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Article$categoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Category
      */
@@ -10371,11 +10392,6 @@ export namespace Prisma {
      */
     include?: CategoryInclude<ExtArgs> | null
     where?: CategoryWhereInput
-    orderBy?: CategoryOrderByWithRelationInput | CategoryOrderByWithRelationInput[]
-    cursor?: CategoryWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: CategoryScalarFieldEnum | CategoryScalarFieldEnum[]
   }
 
   /**
@@ -28001,6 +28017,7 @@ export namespace Prisma {
     content: 'content',
     excerpt: 'excerpt',
     featuredImage: 'featuredImage',
+    featuredImageTitle: 'featuredImageTitle',
     status: 'status',
     isFeatured: 'isFeatured',
     isBreakingNews: 'isBreakingNews',
@@ -28013,6 +28030,7 @@ export namespace Prisma {
     readingTime: 'readingTime',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
+    categoryId: 'categoryId',
     authorId: 'authorId'
   };
 
@@ -28951,6 +28969,7 @@ export namespace Prisma {
     content?: StringFilter<"Article"> | string
     excerpt?: StringNullableFilter<"Article"> | string | null
     featuredImage?: StringNullableFilter<"Article"> | string | null
+    featuredImageTitle?: StringNullableFilter<"Article"> | string | null
     status?: EnumArticleStatusFilter<"Article"> | $Enums.ArticleStatus
     isFeatured?: BoolFilter<"Article"> | boolean
     isBreakingNews?: BoolFilter<"Article"> | boolean
@@ -28963,8 +28982,9 @@ export namespace Prisma {
     readingTime?: IntFilter<"Article"> | number
     createdAt?: DateTimeFilter<"Article"> | Date | string
     updatedAt?: DateTimeFilter<"Article"> | Date | string
+    categoryId?: StringNullableFilter<"Article"> | string | null
     authorId?: StringFilter<"Article"> | string
-    categories?: CategoryListRelationFilter
+    category?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
     tags?: ArticleTagListRelationFilter
     comments?: CommentListRelationFilter
@@ -28979,6 +28999,7 @@ export namespace Prisma {
     content?: SortOrder
     excerpt?: SortOrderInput | SortOrder
     featuredImage?: SortOrderInput | SortOrder
+    featuredImageTitle?: SortOrderInput | SortOrder
     status?: SortOrder
     isFeatured?: SortOrder
     isBreakingNews?: SortOrder
@@ -28991,8 +29012,9 @@ export namespace Prisma {
     readingTime?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    categoryId?: SortOrderInput | SortOrder
     authorId?: SortOrder
-    categories?: CategoryOrderByRelationAggregateInput
+    category?: CategoryOrderByWithRelationInput
     author?: UserOrderByWithRelationInput
     tags?: ArticleTagOrderByRelationAggregateInput
     comments?: CommentOrderByRelationAggregateInput
@@ -29010,6 +29032,7 @@ export namespace Prisma {
     content?: StringFilter<"Article"> | string
     excerpt?: StringNullableFilter<"Article"> | string | null
     featuredImage?: StringNullableFilter<"Article"> | string | null
+    featuredImageTitle?: StringNullableFilter<"Article"> | string | null
     status?: EnumArticleStatusFilter<"Article"> | $Enums.ArticleStatus
     isFeatured?: BoolFilter<"Article"> | boolean
     isBreakingNews?: BoolFilter<"Article"> | boolean
@@ -29022,8 +29045,9 @@ export namespace Prisma {
     readingTime?: IntFilter<"Article"> | number
     createdAt?: DateTimeFilter<"Article"> | Date | string
     updatedAt?: DateTimeFilter<"Article"> | Date | string
+    categoryId?: StringNullableFilter<"Article"> | string | null
     authorId?: StringFilter<"Article"> | string
-    categories?: CategoryListRelationFilter
+    category?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
     tags?: ArticleTagListRelationFilter
     comments?: CommentListRelationFilter
@@ -29038,6 +29062,7 @@ export namespace Prisma {
     content?: SortOrder
     excerpt?: SortOrderInput | SortOrder
     featuredImage?: SortOrderInput | SortOrder
+    featuredImageTitle?: SortOrderInput | SortOrder
     status?: SortOrder
     isFeatured?: SortOrder
     isBreakingNews?: SortOrder
@@ -29050,6 +29075,7 @@ export namespace Prisma {
     readingTime?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    categoryId?: SortOrderInput | SortOrder
     authorId?: SortOrder
     _count?: ArticleCountOrderByAggregateInput
     _avg?: ArticleAvgOrderByAggregateInput
@@ -29068,6 +29094,7 @@ export namespace Prisma {
     content?: StringWithAggregatesFilter<"Article"> | string
     excerpt?: StringNullableWithAggregatesFilter<"Article"> | string | null
     featuredImage?: StringNullableWithAggregatesFilter<"Article"> | string | null
+    featuredImageTitle?: StringNullableWithAggregatesFilter<"Article"> | string | null
     status?: EnumArticleStatusWithAggregatesFilter<"Article"> | $Enums.ArticleStatus
     isFeatured?: BoolWithAggregatesFilter<"Article"> | boolean
     isBreakingNews?: BoolWithAggregatesFilter<"Article"> | boolean
@@ -29080,6 +29107,7 @@ export namespace Prisma {
     readingTime?: IntWithAggregatesFilter<"Article"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Article"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Article"> | Date | string
+    categoryId?: StringNullableWithAggregatesFilter<"Article"> | string | null
     authorId?: StringWithAggregatesFilter<"Article"> | string
   }
 
@@ -30770,6 +30798,7 @@ export namespace Prisma {
     content: string
     excerpt?: string | null
     featuredImage?: string | null
+    featuredImageTitle?: string | null
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
@@ -30782,7 +30811,7 @@ export namespace Prisma {
     readingTime?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    categories?: CategoryCreateNestedManyWithoutArticlesInput
+    category?: CategoryCreateNestedOneWithoutArticlesInput
     author: UserCreateNestedOneWithoutArticlesInput
     tags?: ArticleTagCreateNestedManyWithoutArticleInput
     comments?: CommentCreateNestedManyWithoutArticleInput
@@ -30797,6 +30826,7 @@ export namespace Prisma {
     content: string
     excerpt?: string | null
     featuredImage?: string | null
+    featuredImageTitle?: string | null
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
@@ -30809,8 +30839,8 @@ export namespace Prisma {
     readingTime?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    categoryId?: string | null
     authorId: string
-    categories?: CategoryUncheckedCreateNestedManyWithoutArticlesInput
     tags?: ArticleTagUncheckedCreateNestedManyWithoutArticleInput
     comments?: CommentUncheckedCreateNestedManyWithoutArticleInput
     ads?: ArticleAdUncheckedCreateNestedManyWithoutArticleInput
@@ -30824,6 +30854,7 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
+    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
@@ -30836,7 +30867,7 @@ export namespace Prisma {
     readingTime?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    categories?: CategoryUpdateManyWithoutArticlesNestedInput
+    category?: CategoryUpdateOneWithoutArticlesNestedInput
     author?: UserUpdateOneRequiredWithoutArticlesNestedInput
     tags?: ArticleTagUpdateManyWithoutArticleNestedInput
     comments?: CommentUpdateManyWithoutArticleNestedInput
@@ -30851,6 +30882,7 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
+    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
@@ -30863,8 +30895,8 @@ export namespace Prisma {
     readingTime?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     authorId?: StringFieldUpdateOperationsInput | string
-    categories?: CategoryUncheckedUpdateManyWithoutArticlesNestedInput
     tags?: ArticleTagUncheckedUpdateManyWithoutArticleNestedInput
     comments?: CommentUncheckedUpdateManyWithoutArticleNestedInput
     ads?: ArticleAdUncheckedUpdateManyWithoutArticleNestedInput
@@ -30878,6 +30910,7 @@ export namespace Prisma {
     content: string
     excerpt?: string | null
     featuredImage?: string | null
+    featuredImageTitle?: string | null
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
@@ -30890,6 +30923,7 @@ export namespace Prisma {
     readingTime?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    categoryId?: string | null
     authorId: string
   }
 
@@ -30900,6 +30934,7 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
+    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
@@ -30921,6 +30956,7 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
+    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
@@ -30933,6 +30969,7 @@ export namespace Prisma {
     readingTime?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     authorId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -31204,7 +31241,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     parent?: CategoryCreateNestedOneWithoutChildrenInput
     children?: CategoryCreateNestedManyWithoutParentInput
-    articles?: ArticleCreateNestedManyWithoutCategoriesInput
+    articles?: ArticleCreateNestedManyWithoutCategoryInput
     pageSeo?: PageSeoCreateNestedManyWithoutCategoryInput
   }
 
@@ -31222,7 +31259,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     children?: CategoryUncheckedCreateNestedManyWithoutParentInput
-    articles?: ArticleUncheckedCreateNestedManyWithoutCategoriesInput
+    articles?: ArticleUncheckedCreateNestedManyWithoutCategoryInput
     pageSeo?: PageSeoUncheckedCreateNestedManyWithoutCategoryInput
   }
 
@@ -31240,7 +31277,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     parent?: CategoryUpdateOneWithoutChildrenNestedInput
     children?: CategoryUpdateManyWithoutParentNestedInput
-    articles?: ArticleUpdateManyWithoutCategoriesNestedInput
+    articles?: ArticleUpdateManyWithoutCategoryNestedInput
     pageSeo?: PageSeoUpdateManyWithoutCategoryNestedInput
   }
 
@@ -31258,7 +31295,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: CategoryUncheckedUpdateManyWithoutParentNestedInput
-    articles?: ArticleUncheckedUpdateManyWithoutCategoriesNestedInput
+    articles?: ArticleUncheckedUpdateManyWithoutCategoryNestedInput
     pageSeo?: PageSeoUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
@@ -32833,10 +32870,9 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
-  export type CategoryListRelationFilter = {
-    every?: CategoryWhereInput
-    some?: CategoryWhereInput
-    none?: CategoryWhereInput
+  export type CategoryNullableScalarRelationFilter = {
+    is?: CategoryWhereInput | null
+    isNot?: CategoryWhereInput | null
   }
 
   export type ArticleTagListRelationFilter = {
@@ -32855,10 +32891,6 @@ export namespace Prisma {
     every?: ArticleActivityWhereInput
     some?: ArticleActivityWhereInput
     none?: ArticleActivityWhereInput
-  }
-
-  export type CategoryOrderByRelationAggregateInput = {
-    _count?: SortOrder
   }
 
   export type ArticleTagOrderByRelationAggregateInput = {
@@ -32880,6 +32912,7 @@ export namespace Prisma {
     content?: SortOrder
     excerpt?: SortOrder
     featuredImage?: SortOrder
+    featuredImageTitle?: SortOrder
     status?: SortOrder
     isFeatured?: SortOrder
     isBreakingNews?: SortOrder
@@ -32892,6 +32925,7 @@ export namespace Prisma {
     readingTime?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    categoryId?: SortOrder
     authorId?: SortOrder
   }
 
@@ -32907,6 +32941,7 @@ export namespace Prisma {
     content?: SortOrder
     excerpt?: SortOrder
     featuredImage?: SortOrder
+    featuredImageTitle?: SortOrder
     status?: SortOrder
     isFeatured?: SortOrder
     isBreakingNews?: SortOrder
@@ -32919,6 +32954,7 @@ export namespace Prisma {
     readingTime?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    categoryId?: SortOrder
     authorId?: SortOrder
   }
 
@@ -32929,6 +32965,7 @@ export namespace Prisma {
     content?: SortOrder
     excerpt?: SortOrder
     featuredImage?: SortOrder
+    featuredImageTitle?: SortOrder
     status?: SortOrder
     isFeatured?: SortOrder
     isBreakingNews?: SortOrder
@@ -32941,6 +32978,7 @@ export namespace Prisma {
     readingTime?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    categoryId?: SortOrder
     authorId?: SortOrder
   }
 
@@ -33148,9 +33186,10 @@ export namespace Prisma {
     parentId?: SortOrder
   }
 
-  export type CategoryNullableScalarRelationFilter = {
-    is?: CategoryWhereInput | null
-    isNot?: CategoryWhereInput | null
+  export type CategoryListRelationFilter = {
+    every?: CategoryWhereInput
+    some?: CategoryWhereInput
+    none?: CategoryWhereInput
   }
 
   export type ArticleListRelationFilter = {
@@ -33163,6 +33202,10 @@ export namespace Prisma {
     every?: PageSeoWhereInput
     some?: PageSeoWhereInput
     none?: PageSeoWhereInput
+  }
+
+  export type CategoryOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type ArticleOrderByRelationAggregateInput = {
@@ -34262,10 +34305,10 @@ export namespace Prisma {
     update?: XOR<XOR<AdUpdateToOneWithWhereWithoutAnalyticsInput, AdUpdateWithoutAnalyticsInput>, AdUncheckedUpdateWithoutAnalyticsInput>
   }
 
-  export type CategoryCreateNestedManyWithoutArticlesInput = {
-    create?: XOR<CategoryCreateWithoutArticlesInput, CategoryUncheckedCreateWithoutArticlesInput> | CategoryCreateWithoutArticlesInput[] | CategoryUncheckedCreateWithoutArticlesInput[]
-    connectOrCreate?: CategoryCreateOrConnectWithoutArticlesInput | CategoryCreateOrConnectWithoutArticlesInput[]
-    connect?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
+  export type CategoryCreateNestedOneWithoutArticlesInput = {
+    create?: XOR<CategoryCreateWithoutArticlesInput, CategoryUncheckedCreateWithoutArticlesInput>
+    connectOrCreate?: CategoryCreateOrConnectWithoutArticlesInput
+    connect?: CategoryWhereUniqueInput
   }
 
   export type UserCreateNestedOneWithoutArticlesInput = {
@@ -34300,12 +34343,6 @@ export namespace Prisma {
     connectOrCreate?: ArticleActivityCreateOrConnectWithoutArticleInput | ArticleActivityCreateOrConnectWithoutArticleInput[]
     createMany?: ArticleActivityCreateManyArticleInputEnvelope
     connect?: ArticleActivityWhereUniqueInput | ArticleActivityWhereUniqueInput[]
-  }
-
-  export type CategoryUncheckedCreateNestedManyWithoutArticlesInput = {
-    create?: XOR<CategoryCreateWithoutArticlesInput, CategoryUncheckedCreateWithoutArticlesInput> | CategoryCreateWithoutArticlesInput[] | CategoryUncheckedCreateWithoutArticlesInput[]
-    connectOrCreate?: CategoryCreateOrConnectWithoutArticlesInput | CategoryCreateOrConnectWithoutArticlesInput[]
-    connect?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
   }
 
   export type ArticleTagUncheckedCreateNestedManyWithoutArticleInput = {
@@ -34344,17 +34381,14 @@ export namespace Prisma {
     set?: Date | string | null
   }
 
-  export type CategoryUpdateManyWithoutArticlesNestedInput = {
-    create?: XOR<CategoryCreateWithoutArticlesInput, CategoryUncheckedCreateWithoutArticlesInput> | CategoryCreateWithoutArticlesInput[] | CategoryUncheckedCreateWithoutArticlesInput[]
-    connectOrCreate?: CategoryCreateOrConnectWithoutArticlesInput | CategoryCreateOrConnectWithoutArticlesInput[]
-    upsert?: CategoryUpsertWithWhereUniqueWithoutArticlesInput | CategoryUpsertWithWhereUniqueWithoutArticlesInput[]
-    set?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
-    disconnect?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
-    delete?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
-    connect?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
-    update?: CategoryUpdateWithWhereUniqueWithoutArticlesInput | CategoryUpdateWithWhereUniqueWithoutArticlesInput[]
-    updateMany?: CategoryUpdateManyWithWhereWithoutArticlesInput | CategoryUpdateManyWithWhereWithoutArticlesInput[]
-    deleteMany?: CategoryScalarWhereInput | CategoryScalarWhereInput[]
+  export type CategoryUpdateOneWithoutArticlesNestedInput = {
+    create?: XOR<CategoryCreateWithoutArticlesInput, CategoryUncheckedCreateWithoutArticlesInput>
+    connectOrCreate?: CategoryCreateOrConnectWithoutArticlesInput
+    upsert?: CategoryUpsertWithoutArticlesInput
+    disconnect?: CategoryWhereInput | boolean
+    delete?: CategoryWhereInput | boolean
+    connect?: CategoryWhereUniqueInput
+    update?: XOR<XOR<CategoryUpdateToOneWithWhereWithoutArticlesInput, CategoryUpdateWithoutArticlesInput>, CategoryUncheckedUpdateWithoutArticlesInput>
   }
 
   export type UserUpdateOneRequiredWithoutArticlesNestedInput = {
@@ -34419,19 +34453,6 @@ export namespace Prisma {
     update?: ArticleActivityUpdateWithWhereUniqueWithoutArticleInput | ArticleActivityUpdateWithWhereUniqueWithoutArticleInput[]
     updateMany?: ArticleActivityUpdateManyWithWhereWithoutArticleInput | ArticleActivityUpdateManyWithWhereWithoutArticleInput[]
     deleteMany?: ArticleActivityScalarWhereInput | ArticleActivityScalarWhereInput[]
-  }
-
-  export type CategoryUncheckedUpdateManyWithoutArticlesNestedInput = {
-    create?: XOR<CategoryCreateWithoutArticlesInput, CategoryUncheckedCreateWithoutArticlesInput> | CategoryCreateWithoutArticlesInput[] | CategoryUncheckedCreateWithoutArticlesInput[]
-    connectOrCreate?: CategoryCreateOrConnectWithoutArticlesInput | CategoryCreateOrConnectWithoutArticlesInput[]
-    upsert?: CategoryUpsertWithWhereUniqueWithoutArticlesInput | CategoryUpsertWithWhereUniqueWithoutArticlesInput[]
-    set?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
-    disconnect?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
-    delete?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
-    connect?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
-    update?: CategoryUpdateWithWhereUniqueWithoutArticlesInput | CategoryUpdateWithWhereUniqueWithoutArticlesInput[]
-    updateMany?: CategoryUpdateManyWithWhereWithoutArticlesInput | CategoryUpdateManyWithWhereWithoutArticlesInput[]
-    deleteMany?: CategoryScalarWhereInput | CategoryScalarWhereInput[]
   }
 
   export type ArticleTagUncheckedUpdateManyWithoutArticleNestedInput = {
@@ -34675,9 +34696,10 @@ export namespace Prisma {
     connect?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
   }
 
-  export type ArticleCreateNestedManyWithoutCategoriesInput = {
-    create?: XOR<ArticleCreateWithoutCategoriesInput, ArticleUncheckedCreateWithoutCategoriesInput> | ArticleCreateWithoutCategoriesInput[] | ArticleUncheckedCreateWithoutCategoriesInput[]
-    connectOrCreate?: ArticleCreateOrConnectWithoutCategoriesInput | ArticleCreateOrConnectWithoutCategoriesInput[]
+  export type ArticleCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<ArticleCreateWithoutCategoryInput, ArticleUncheckedCreateWithoutCategoryInput> | ArticleCreateWithoutCategoryInput[] | ArticleUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: ArticleCreateOrConnectWithoutCategoryInput | ArticleCreateOrConnectWithoutCategoryInput[]
+    createMany?: ArticleCreateManyCategoryInputEnvelope
     connect?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
   }
 
@@ -34695,9 +34717,10 @@ export namespace Prisma {
     connect?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
   }
 
-  export type ArticleUncheckedCreateNestedManyWithoutCategoriesInput = {
-    create?: XOR<ArticleCreateWithoutCategoriesInput, ArticleUncheckedCreateWithoutCategoriesInput> | ArticleCreateWithoutCategoriesInput[] | ArticleUncheckedCreateWithoutCategoriesInput[]
-    connectOrCreate?: ArticleCreateOrConnectWithoutCategoriesInput | ArticleCreateOrConnectWithoutCategoriesInput[]
+  export type ArticleUncheckedCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<ArticleCreateWithoutCategoryInput, ArticleUncheckedCreateWithoutCategoryInput> | ArticleCreateWithoutCategoryInput[] | ArticleUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: ArticleCreateOrConnectWithoutCategoryInput | ArticleCreateOrConnectWithoutCategoryInput[]
+    createMany?: ArticleCreateManyCategoryInputEnvelope
     connect?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
   }
 
@@ -34732,16 +34755,17 @@ export namespace Prisma {
     deleteMany?: CategoryScalarWhereInput | CategoryScalarWhereInput[]
   }
 
-  export type ArticleUpdateManyWithoutCategoriesNestedInput = {
-    create?: XOR<ArticleCreateWithoutCategoriesInput, ArticleUncheckedCreateWithoutCategoriesInput> | ArticleCreateWithoutCategoriesInput[] | ArticleUncheckedCreateWithoutCategoriesInput[]
-    connectOrCreate?: ArticleCreateOrConnectWithoutCategoriesInput | ArticleCreateOrConnectWithoutCategoriesInput[]
-    upsert?: ArticleUpsertWithWhereUniqueWithoutCategoriesInput | ArticleUpsertWithWhereUniqueWithoutCategoriesInput[]
+  export type ArticleUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<ArticleCreateWithoutCategoryInput, ArticleUncheckedCreateWithoutCategoryInput> | ArticleCreateWithoutCategoryInput[] | ArticleUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: ArticleCreateOrConnectWithoutCategoryInput | ArticleCreateOrConnectWithoutCategoryInput[]
+    upsert?: ArticleUpsertWithWhereUniqueWithoutCategoryInput | ArticleUpsertWithWhereUniqueWithoutCategoryInput[]
+    createMany?: ArticleCreateManyCategoryInputEnvelope
     set?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
     disconnect?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
     delete?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
     connect?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
-    update?: ArticleUpdateWithWhereUniqueWithoutCategoriesInput | ArticleUpdateWithWhereUniqueWithoutCategoriesInput[]
-    updateMany?: ArticleUpdateManyWithWhereWithoutCategoriesInput | ArticleUpdateManyWithWhereWithoutCategoriesInput[]
+    update?: ArticleUpdateWithWhereUniqueWithoutCategoryInput | ArticleUpdateWithWhereUniqueWithoutCategoryInput[]
+    updateMany?: ArticleUpdateManyWithWhereWithoutCategoryInput | ArticleUpdateManyWithWhereWithoutCategoryInput[]
     deleteMany?: ArticleScalarWhereInput | ArticleScalarWhereInput[]
   }
 
@@ -34773,16 +34797,17 @@ export namespace Prisma {
     deleteMany?: CategoryScalarWhereInput | CategoryScalarWhereInput[]
   }
 
-  export type ArticleUncheckedUpdateManyWithoutCategoriesNestedInput = {
-    create?: XOR<ArticleCreateWithoutCategoriesInput, ArticleUncheckedCreateWithoutCategoriesInput> | ArticleCreateWithoutCategoriesInput[] | ArticleUncheckedCreateWithoutCategoriesInput[]
-    connectOrCreate?: ArticleCreateOrConnectWithoutCategoriesInput | ArticleCreateOrConnectWithoutCategoriesInput[]
-    upsert?: ArticleUpsertWithWhereUniqueWithoutCategoriesInput | ArticleUpsertWithWhereUniqueWithoutCategoriesInput[]
+  export type ArticleUncheckedUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<ArticleCreateWithoutCategoryInput, ArticleUncheckedCreateWithoutCategoryInput> | ArticleCreateWithoutCategoryInput[] | ArticleUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: ArticleCreateOrConnectWithoutCategoryInput | ArticleCreateOrConnectWithoutCategoryInput[]
+    upsert?: ArticleUpsertWithWhereUniqueWithoutCategoryInput | ArticleUpsertWithWhereUniqueWithoutCategoryInput[]
+    createMany?: ArticleCreateManyCategoryInputEnvelope
     set?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
     disconnect?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
     delete?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
     connect?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
-    update?: ArticleUpdateWithWhereUniqueWithoutCategoriesInput | ArticleUpdateWithWhereUniqueWithoutCategoriesInput[]
-    updateMany?: ArticleUpdateManyWithWhereWithoutCategoriesInput | ArticleUpdateManyWithWhereWithoutCategoriesInput[]
+    update?: ArticleUpdateWithWhereUniqueWithoutCategoryInput | ArticleUpdateWithWhereUniqueWithoutCategoryInput[]
+    updateMany?: ArticleUpdateManyWithWhereWithoutCategoryInput | ArticleUpdateManyWithWhereWithoutCategoryInput[]
     deleteMany?: ArticleScalarWhereInput | ArticleScalarWhereInput[]
   }
 
@@ -36244,6 +36269,7 @@ export namespace Prisma {
     content: string
     excerpt?: string | null
     featuredImage?: string | null
+    featuredImageTitle?: string | null
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
@@ -36256,7 +36282,7 @@ export namespace Prisma {
     readingTime?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    categories?: CategoryCreateNestedManyWithoutArticlesInput
+    category?: CategoryCreateNestedOneWithoutArticlesInput
     author: UserCreateNestedOneWithoutArticlesInput
     tags?: ArticleTagCreateNestedManyWithoutArticleInput
     comments?: CommentCreateNestedManyWithoutArticleInput
@@ -36270,6 +36296,7 @@ export namespace Prisma {
     content: string
     excerpt?: string | null
     featuredImage?: string | null
+    featuredImageTitle?: string | null
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
@@ -36282,8 +36309,8 @@ export namespace Prisma {
     readingTime?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    categoryId?: string | null
     authorId: string
-    categories?: CategoryUncheckedCreateNestedManyWithoutArticlesInput
     tags?: ArticleTagUncheckedCreateNestedManyWithoutArticleInput
     comments?: CommentUncheckedCreateNestedManyWithoutArticleInput
     activities?: ArticleActivityUncheckedCreateNestedManyWithoutArticleInput
@@ -36359,6 +36386,7 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
+    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
@@ -36371,7 +36399,7 @@ export namespace Prisma {
     readingTime?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    categories?: CategoryUpdateManyWithoutArticlesNestedInput
+    category?: CategoryUpdateOneWithoutArticlesNestedInput
     author?: UserUpdateOneRequiredWithoutArticlesNestedInput
     tags?: ArticleTagUpdateManyWithoutArticleNestedInput
     comments?: CommentUpdateManyWithoutArticleNestedInput
@@ -36385,6 +36413,7 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
+    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
@@ -36397,8 +36426,8 @@ export namespace Prisma {
     readingTime?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     authorId?: StringFieldUpdateOperationsInput | string
-    categories?: CategoryUncheckedUpdateManyWithoutArticlesNestedInput
     tags?: ArticleTagUncheckedUpdateManyWithoutArticleNestedInput
     comments?: CommentUncheckedUpdateManyWithoutArticleNestedInput
     activities?: ArticleActivityUncheckedUpdateManyWithoutArticleNestedInput
@@ -36755,38 +36784,49 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type CategoryUpsertWithWhereUniqueWithoutArticlesInput = {
-    where: CategoryWhereUniqueInput
+  export type CategoryUpsertWithoutArticlesInput = {
     update: XOR<CategoryUpdateWithoutArticlesInput, CategoryUncheckedUpdateWithoutArticlesInput>
     create: XOR<CategoryCreateWithoutArticlesInput, CategoryUncheckedCreateWithoutArticlesInput>
+    where?: CategoryWhereInput
   }
 
-  export type CategoryUpdateWithWhereUniqueWithoutArticlesInput = {
-    where: CategoryWhereUniqueInput
+  export type CategoryUpdateToOneWithWhereWithoutArticlesInput = {
+    where?: CategoryWhereInput
     data: XOR<CategoryUpdateWithoutArticlesInput, CategoryUncheckedUpdateWithoutArticlesInput>
   }
 
-  export type CategoryUpdateManyWithWhereWithoutArticlesInput = {
-    where: CategoryScalarWhereInput
-    data: XOR<CategoryUpdateManyMutationInput, CategoryUncheckedUpdateManyWithoutArticlesInput>
+  export type CategoryUpdateWithoutArticlesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    parent?: CategoryUpdateOneWithoutChildrenNestedInput
+    children?: CategoryUpdateManyWithoutParentNestedInput
+    pageSeo?: PageSeoUpdateManyWithoutCategoryNestedInput
   }
 
-  export type CategoryScalarWhereInput = {
-    AND?: CategoryScalarWhereInput | CategoryScalarWhereInput[]
-    OR?: CategoryScalarWhereInput[]
-    NOT?: CategoryScalarWhereInput | CategoryScalarWhereInput[]
-    id?: StringFilter<"Category"> | string
-    name?: StringFilter<"Category"> | string
-    slug?: StringFilter<"Category"> | string
-    description?: StringNullableFilter<"Category"> | string | null
-    parentId?: StringNullableFilter<"Category"> | string | null
-    image?: StringNullableFilter<"Category"> | string | null
-    order?: IntFilter<"Category"> | number
-    isActive?: BoolFilter<"Category"> | boolean
-    metaTitle?: StringNullableFilter<"Category"> | string | null
-    metaDescription?: StringNullableFilter<"Category"> | string | null
-    createdAt?: DateTimeFilter<"Category"> | Date | string
-    updatedAt?: DateTimeFilter<"Category"> | Date | string
+  export type CategoryUncheckedUpdateWithoutArticlesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: CategoryUncheckedUpdateManyWithoutParentNestedInput
+    pageSeo?: PageSeoUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
   export type UserUpsertWithoutArticlesInput = {
@@ -36991,6 +37031,7 @@ export namespace Prisma {
     content: string
     excerpt?: string | null
     featuredImage?: string | null
+    featuredImageTitle?: string | null
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
@@ -37003,7 +37044,7 @@ export namespace Prisma {
     readingTime?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    categories?: CategoryCreateNestedManyWithoutArticlesInput
+    category?: CategoryCreateNestedOneWithoutArticlesInput
     author: UserCreateNestedOneWithoutArticlesInput
     comments?: CommentCreateNestedManyWithoutArticleInput
     ads?: ArticleAdCreateNestedManyWithoutArticleInput
@@ -37017,6 +37058,7 @@ export namespace Prisma {
     content: string
     excerpt?: string | null
     featuredImage?: string | null
+    featuredImageTitle?: string | null
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
@@ -37029,8 +37071,8 @@ export namespace Prisma {
     readingTime?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    categoryId?: string | null
     authorId: string
-    categories?: CategoryUncheckedCreateNestedManyWithoutArticlesInput
     comments?: CommentUncheckedCreateNestedManyWithoutArticleInput
     ads?: ArticleAdUncheckedCreateNestedManyWithoutArticleInput
     activities?: ArticleActivityUncheckedCreateNestedManyWithoutArticleInput
@@ -37082,6 +37124,7 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
+    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
@@ -37094,7 +37137,7 @@ export namespace Prisma {
     readingTime?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    categories?: CategoryUpdateManyWithoutArticlesNestedInput
+    category?: CategoryUpdateOneWithoutArticlesNestedInput
     author?: UserUpdateOneRequiredWithoutArticlesNestedInput
     comments?: CommentUpdateManyWithoutArticleNestedInput
     ads?: ArticleAdUpdateManyWithoutArticleNestedInput
@@ -37108,6 +37151,7 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
+    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
@@ -37120,8 +37164,8 @@ export namespace Prisma {
     readingTime?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     authorId?: StringFieldUpdateOperationsInput | string
-    categories?: CategoryUncheckedUpdateManyWithoutArticlesNestedInput
     comments?: CommentUncheckedUpdateManyWithoutArticleNestedInput
     ads?: ArticleAdUncheckedUpdateManyWithoutArticleNestedInput
     activities?: ArticleActivityUncheckedUpdateManyWithoutArticleNestedInput
@@ -37216,6 +37260,7 @@ export namespace Prisma {
     content: string
     excerpt?: string | null
     featuredImage?: string | null
+    featuredImageTitle?: string | null
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
@@ -37228,7 +37273,7 @@ export namespace Prisma {
     readingTime?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    categories?: CategoryCreateNestedManyWithoutArticlesInput
+    category?: CategoryCreateNestedOneWithoutArticlesInput
     author: UserCreateNestedOneWithoutArticlesInput
     tags?: ArticleTagCreateNestedManyWithoutArticleInput
     comments?: CommentCreateNestedManyWithoutArticleInput
@@ -37242,6 +37287,7 @@ export namespace Prisma {
     content: string
     excerpt?: string | null
     featuredImage?: string | null
+    featuredImageTitle?: string | null
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
@@ -37254,8 +37300,8 @@ export namespace Prisma {
     readingTime?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    categoryId?: string | null
     authorId: string
-    categories?: CategoryUncheckedCreateNestedManyWithoutArticlesInput
     tags?: ArticleTagUncheckedCreateNestedManyWithoutArticleInput
     comments?: CommentUncheckedCreateNestedManyWithoutArticleInput
     ads?: ArticleAdUncheckedCreateNestedManyWithoutArticleInput
@@ -37343,6 +37389,7 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
+    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
@@ -37355,7 +37402,7 @@ export namespace Prisma {
     readingTime?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    categories?: CategoryUpdateManyWithoutArticlesNestedInput
+    category?: CategoryUpdateOneWithoutArticlesNestedInput
     author?: UserUpdateOneRequiredWithoutArticlesNestedInput
     tags?: ArticleTagUpdateManyWithoutArticleNestedInput
     comments?: CommentUpdateManyWithoutArticleNestedInput
@@ -37369,6 +37416,7 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
+    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
@@ -37381,8 +37429,8 @@ export namespace Prisma {
     readingTime?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     authorId?: StringFieldUpdateOperationsInput | string
-    categories?: CategoryUncheckedUpdateManyWithoutArticlesNestedInput
     tags?: ArticleTagUncheckedUpdateManyWithoutArticleNestedInput
     comments?: CommentUncheckedUpdateManyWithoutArticleNestedInput
     ads?: ArticleAdUncheckedUpdateManyWithoutArticleNestedInput
@@ -37395,6 +37443,7 @@ export namespace Prisma {
     content: string
     excerpt?: string | null
     featuredImage?: string | null
+    featuredImageTitle?: string | null
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
@@ -37407,7 +37456,7 @@ export namespace Prisma {
     readingTime?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    categories?: CategoryCreateNestedManyWithoutArticlesInput
+    category?: CategoryCreateNestedOneWithoutArticlesInput
     author: UserCreateNestedOneWithoutArticlesInput
     tags?: ArticleTagCreateNestedManyWithoutArticleInput
     ads?: ArticleAdCreateNestedManyWithoutArticleInput
@@ -37421,6 +37470,7 @@ export namespace Prisma {
     content: string
     excerpt?: string | null
     featuredImage?: string | null
+    featuredImageTitle?: string | null
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
@@ -37433,8 +37483,8 @@ export namespace Prisma {
     readingTime?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    categoryId?: string | null
     authorId: string
-    categories?: CategoryUncheckedCreateNestedManyWithoutArticlesInput
     tags?: ArticleTagUncheckedCreateNestedManyWithoutArticleInput
     ads?: ArticleAdUncheckedCreateNestedManyWithoutArticleInput
     activities?: ArticleActivityUncheckedCreateNestedManyWithoutArticleInput
@@ -37526,6 +37576,7 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
+    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
@@ -37538,7 +37589,7 @@ export namespace Prisma {
     readingTime?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    categories?: CategoryUpdateManyWithoutArticlesNestedInput
+    category?: CategoryUpdateOneWithoutArticlesNestedInput
     author?: UserUpdateOneRequiredWithoutArticlesNestedInput
     tags?: ArticleTagUpdateManyWithoutArticleNestedInput
     ads?: ArticleAdUpdateManyWithoutArticleNestedInput
@@ -37552,6 +37603,7 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
+    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
@@ -37564,8 +37616,8 @@ export namespace Prisma {
     readingTime?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     authorId?: StringFieldUpdateOperationsInput | string
-    categories?: CategoryUncheckedUpdateManyWithoutArticlesNestedInput
     tags?: ArticleTagUncheckedUpdateManyWithoutArticleNestedInput
     ads?: ArticleAdUncheckedUpdateManyWithoutArticleNestedInput
     activities?: ArticleActivityUncheckedUpdateManyWithoutArticleNestedInput
@@ -37635,7 +37687,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     parent?: CategoryCreateNestedOneWithoutChildrenInput
-    articles?: ArticleCreateNestedManyWithoutCategoriesInput
+    articles?: ArticleCreateNestedManyWithoutCategoryInput
     pageSeo?: PageSeoCreateNestedManyWithoutCategoryInput
   }
 
@@ -37652,7 +37704,7 @@ export namespace Prisma {
     metaDescription?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    articles?: ArticleUncheckedCreateNestedManyWithoutCategoriesInput
+    articles?: ArticleUncheckedCreateNestedManyWithoutCategoryInput
     pageSeo?: PageSeoUncheckedCreateNestedManyWithoutCategoryInput
   }
 
@@ -37674,7 +37726,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     children?: CategoryCreateNestedManyWithoutParentInput
-    articles?: ArticleCreateNestedManyWithoutCategoriesInput
+    articles?: ArticleCreateNestedManyWithoutCategoryInput
     pageSeo?: PageSeoCreateNestedManyWithoutCategoryInput
   }
 
@@ -37691,7 +37743,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     children?: CategoryUncheckedCreateNestedManyWithoutParentInput
-    articles?: ArticleUncheckedCreateNestedManyWithoutCategoriesInput
+    articles?: ArticleUncheckedCreateNestedManyWithoutCategoryInput
     pageSeo?: PageSeoUncheckedCreateNestedManyWithoutCategoryInput
   }
 
@@ -37705,13 +37757,14 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type ArticleCreateWithoutCategoriesInput = {
+  export type ArticleCreateWithoutCategoryInput = {
     id?: string
     title: string
     slug: string
     content: string
     excerpt?: string | null
     featuredImage?: string | null
+    featuredImageTitle?: string | null
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
@@ -37731,13 +37784,14 @@ export namespace Prisma {
     activities?: ArticleActivityCreateNestedManyWithoutArticleInput
   }
 
-  export type ArticleUncheckedCreateWithoutCategoriesInput = {
+  export type ArticleUncheckedCreateWithoutCategoryInput = {
     id?: string
     title: string
     slug: string
     content: string
     excerpt?: string | null
     featuredImage?: string | null
+    featuredImageTitle?: string | null
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
@@ -37757,9 +37811,14 @@ export namespace Prisma {
     activities?: ArticleActivityUncheckedCreateNestedManyWithoutArticleInput
   }
 
-  export type ArticleCreateOrConnectWithoutCategoriesInput = {
+  export type ArticleCreateOrConnectWithoutCategoryInput = {
     where: ArticleWhereUniqueInput
-    create: XOR<ArticleCreateWithoutCategoriesInput, ArticleUncheckedCreateWithoutCategoriesInput>
+    create: XOR<ArticleCreateWithoutCategoryInput, ArticleUncheckedCreateWithoutCategoryInput>
+  }
+
+  export type ArticleCreateManyCategoryInputEnvelope = {
+    data: ArticleCreateManyCategoryInput | ArticleCreateManyCategoryInput[]
+    skipDuplicates?: boolean
   }
 
   export type PageSeoCreateWithoutCategoryInput = {
@@ -37842,7 +37901,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     parent?: CategoryUpdateOneWithoutChildrenNestedInput
-    articles?: ArticleUpdateManyWithoutCategoriesNestedInput
+    articles?: ArticleUpdateManyWithoutCategoryNestedInput
     pageSeo?: PageSeoUpdateManyWithoutCategoryNestedInput
   }
 
@@ -37859,7 +37918,7 @@ export namespace Prisma {
     metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    articles?: ArticleUncheckedUpdateManyWithoutCategoriesNestedInput
+    articles?: ArticleUncheckedUpdateManyWithoutCategoryNestedInput
     pageSeo?: PageSeoUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
@@ -37879,20 +37938,38 @@ export namespace Prisma {
     data: XOR<CategoryUpdateManyMutationInput, CategoryUncheckedUpdateManyWithoutParentInput>
   }
 
-  export type ArticleUpsertWithWhereUniqueWithoutCategoriesInput = {
-    where: ArticleWhereUniqueInput
-    update: XOR<ArticleUpdateWithoutCategoriesInput, ArticleUncheckedUpdateWithoutCategoriesInput>
-    create: XOR<ArticleCreateWithoutCategoriesInput, ArticleUncheckedCreateWithoutCategoriesInput>
+  export type CategoryScalarWhereInput = {
+    AND?: CategoryScalarWhereInput | CategoryScalarWhereInput[]
+    OR?: CategoryScalarWhereInput[]
+    NOT?: CategoryScalarWhereInput | CategoryScalarWhereInput[]
+    id?: StringFilter<"Category"> | string
+    name?: StringFilter<"Category"> | string
+    slug?: StringFilter<"Category"> | string
+    description?: StringNullableFilter<"Category"> | string | null
+    parentId?: StringNullableFilter<"Category"> | string | null
+    image?: StringNullableFilter<"Category"> | string | null
+    order?: IntFilter<"Category"> | number
+    isActive?: BoolFilter<"Category"> | boolean
+    metaTitle?: StringNullableFilter<"Category"> | string | null
+    metaDescription?: StringNullableFilter<"Category"> | string | null
+    createdAt?: DateTimeFilter<"Category"> | Date | string
+    updatedAt?: DateTimeFilter<"Category"> | Date | string
   }
 
-  export type ArticleUpdateWithWhereUniqueWithoutCategoriesInput = {
+  export type ArticleUpsertWithWhereUniqueWithoutCategoryInput = {
     where: ArticleWhereUniqueInput
-    data: XOR<ArticleUpdateWithoutCategoriesInput, ArticleUncheckedUpdateWithoutCategoriesInput>
+    update: XOR<ArticleUpdateWithoutCategoryInput, ArticleUncheckedUpdateWithoutCategoryInput>
+    create: XOR<ArticleCreateWithoutCategoryInput, ArticleUncheckedCreateWithoutCategoryInput>
   }
 
-  export type ArticleUpdateManyWithWhereWithoutCategoriesInput = {
+  export type ArticleUpdateWithWhereUniqueWithoutCategoryInput = {
+    where: ArticleWhereUniqueInput
+    data: XOR<ArticleUpdateWithoutCategoryInput, ArticleUncheckedUpdateWithoutCategoryInput>
+  }
+
+  export type ArticleUpdateManyWithWhereWithoutCategoryInput = {
     where: ArticleScalarWhereInput
-    data: XOR<ArticleUpdateManyMutationInput, ArticleUncheckedUpdateManyWithoutCategoriesInput>
+    data: XOR<ArticleUpdateManyMutationInput, ArticleUncheckedUpdateManyWithoutCategoryInput>
   }
 
   export type ArticleScalarWhereInput = {
@@ -37905,6 +37982,7 @@ export namespace Prisma {
     content?: StringFilter<"Article"> | string
     excerpt?: StringNullableFilter<"Article"> | string | null
     featuredImage?: StringNullableFilter<"Article"> | string | null
+    featuredImageTitle?: StringNullableFilter<"Article"> | string | null
     status?: EnumArticleStatusFilter<"Article"> | $Enums.ArticleStatus
     isFeatured?: BoolFilter<"Article"> | boolean
     isBreakingNews?: BoolFilter<"Article"> | boolean
@@ -37917,6 +37995,7 @@ export namespace Prisma {
     readingTime?: IntFilter<"Article"> | number
     createdAt?: DateTimeFilter<"Article"> | Date | string
     updatedAt?: DateTimeFilter<"Article"> | Date | string
+    categoryId?: StringNullableFilter<"Article"> | string | null
     authorId?: StringFilter<"Article"> | string
   }
 
@@ -38201,7 +38280,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     parent?: CategoryCreateNestedOneWithoutChildrenInput
     children?: CategoryCreateNestedManyWithoutParentInput
-    articles?: ArticleCreateNestedManyWithoutCategoriesInput
+    articles?: ArticleCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryUncheckedCreateWithoutPageSeoInput = {
@@ -38218,7 +38297,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     children?: CategoryUncheckedCreateNestedManyWithoutParentInput
-    articles?: ArticleUncheckedCreateNestedManyWithoutCategoriesInput
+    articles?: ArticleUncheckedCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryCreateOrConnectWithoutPageSeoInput = {
@@ -38251,7 +38330,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     parent?: CategoryUpdateOneWithoutChildrenNestedInput
     children?: CategoryUpdateManyWithoutParentNestedInput
-    articles?: ArticleUpdateManyWithoutCategoriesNestedInput
+    articles?: ArticleUpdateManyWithoutCategoryNestedInput
   }
 
   export type CategoryUncheckedUpdateWithoutPageSeoInput = {
@@ -38268,7 +38347,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: CategoryUncheckedUpdateManyWithoutParentNestedInput
-    articles?: ArticleUncheckedUpdateManyWithoutCategoriesNestedInput
+    articles?: ArticleUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
   export type UserCreateWithoutSettingsInput = {
@@ -38501,6 +38580,7 @@ export namespace Prisma {
     content: string
     excerpt?: string | null
     featuredImage?: string | null
+    featuredImageTitle?: string | null
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
@@ -38513,7 +38593,7 @@ export namespace Prisma {
     readingTime?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    categories?: CategoryCreateNestedManyWithoutArticlesInput
+    category?: CategoryCreateNestedOneWithoutArticlesInput
     tags?: ArticleTagCreateNestedManyWithoutArticleInput
     comments?: CommentCreateNestedManyWithoutArticleInput
     ads?: ArticleAdCreateNestedManyWithoutArticleInput
@@ -38527,6 +38607,7 @@ export namespace Prisma {
     content: string
     excerpt?: string | null
     featuredImage?: string | null
+    featuredImageTitle?: string | null
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
@@ -38539,7 +38620,7 @@ export namespace Prisma {
     readingTime?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    categories?: CategoryUncheckedCreateNestedManyWithoutArticlesInput
+    categoryId?: string | null
     tags?: ArticleTagUncheckedCreateNestedManyWithoutArticleInput
     comments?: CommentUncheckedCreateNestedManyWithoutArticleInput
     ads?: ArticleAdUncheckedCreateNestedManyWithoutArticleInput
@@ -39458,55 +39539,6 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type CategoryUpdateWithoutArticlesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    order?: IntFieldUpdateOperationsInput | number
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    parent?: CategoryUpdateOneWithoutChildrenNestedInput
-    children?: CategoryUpdateManyWithoutParentNestedInput
-    pageSeo?: PageSeoUpdateManyWithoutCategoryNestedInput
-  }
-
-  export type CategoryUncheckedUpdateWithoutArticlesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    parentId?: NullableStringFieldUpdateOperationsInput | string | null
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    order?: IntFieldUpdateOperationsInput | number
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    children?: CategoryUncheckedUpdateManyWithoutParentNestedInput
-    pageSeo?: PageSeoUncheckedUpdateManyWithoutCategoryNestedInput
-  }
-
-  export type CategoryUncheckedUpdateManyWithoutArticlesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    parentId?: NullableStringFieldUpdateOperationsInput | string | null
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    order?: IntFieldUpdateOperationsInput | number
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type ArticleTagUpdateWithoutArticleInput = {
     assignedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tag?: TagUpdateOneRequiredWithoutArticlesNestedInput
@@ -39685,6 +39717,29 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type ArticleCreateManyCategoryInput = {
+    id?: string
+    title: string
+    slug: string
+    content: string
+    excerpt?: string | null
+    featuredImage?: string | null
+    featuredImageTitle?: string | null
+    status?: $Enums.ArticleStatus
+    isFeatured?: boolean
+    isBreakingNews?: boolean
+    viewCount?: number
+    scheduledAt?: Date | string | null
+    publishedAt?: Date | string | null
+    metaTitle?: string | null
+    metaDescription?: string | null
+    metaKeywords?: string | null
+    readingTime?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    authorId: string
+  }
+
   export type PageSeoCreateManyCategoryInput = {
     id?: string
     slug: string
@@ -39721,7 +39776,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: CategoryUpdateManyWithoutParentNestedInput
-    articles?: ArticleUpdateManyWithoutCategoriesNestedInput
+    articles?: ArticleUpdateManyWithoutCategoryNestedInput
     pageSeo?: PageSeoUpdateManyWithoutCategoryNestedInput
   }
 
@@ -39738,7 +39793,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: CategoryUncheckedUpdateManyWithoutParentNestedInput
-    articles?: ArticleUncheckedUpdateManyWithoutCategoriesNestedInput
+    articles?: ArticleUncheckedUpdateManyWithoutCategoryNestedInput
     pageSeo?: PageSeoUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
@@ -39756,13 +39811,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ArticleUpdateWithoutCategoriesInput = {
+  export type ArticleUpdateWithoutCategoryInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
+    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
@@ -39782,13 +39838,14 @@ export namespace Prisma {
     activities?: ArticleActivityUpdateManyWithoutArticleNestedInput
   }
 
-  export type ArticleUncheckedUpdateWithoutCategoriesInput = {
+  export type ArticleUncheckedUpdateWithoutCategoryInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
+    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
@@ -39808,13 +39865,14 @@ export namespace Prisma {
     activities?: ArticleActivityUncheckedUpdateManyWithoutArticleNestedInput
   }
 
-  export type ArticleUncheckedUpdateManyWithoutCategoriesInput = {
+  export type ArticleUncheckedUpdateManyWithoutCategoryInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
+    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
@@ -39922,6 +39980,7 @@ export namespace Prisma {
     content: string
     excerpt?: string | null
     featuredImage?: string | null
+    featuredImageTitle?: string | null
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
@@ -39934,6 +39993,7 @@ export namespace Prisma {
     readingTime?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    categoryId?: string | null
   }
 
   export type UserModulePermissionCreateManyUserInput = {
@@ -40082,6 +40142,7 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
+    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
@@ -40094,7 +40155,7 @@ export namespace Prisma {
     readingTime?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    categories?: CategoryUpdateManyWithoutArticlesNestedInput
+    category?: CategoryUpdateOneWithoutArticlesNestedInput
     tags?: ArticleTagUpdateManyWithoutArticleNestedInput
     comments?: CommentUpdateManyWithoutArticleNestedInput
     ads?: ArticleAdUpdateManyWithoutArticleNestedInput
@@ -40108,6 +40169,7 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
+    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
@@ -40120,7 +40182,7 @@ export namespace Prisma {
     readingTime?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    categories?: CategoryUncheckedUpdateManyWithoutArticlesNestedInput
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: ArticleTagUncheckedUpdateManyWithoutArticleNestedInput
     comments?: CommentUncheckedUpdateManyWithoutArticleNestedInput
     ads?: ArticleAdUncheckedUpdateManyWithoutArticleNestedInput
@@ -40134,6 +40196,7 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
+    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
@@ -40146,6 +40209,7 @@ export namespace Prisma {
     readingTime?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserModulePermissionUpdateWithoutUserInput = {

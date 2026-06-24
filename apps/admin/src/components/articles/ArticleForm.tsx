@@ -35,7 +35,7 @@ import { cn } from '@/lib/utils';
 const articleSchema = z.object({
   title: z.string().min(5, 'Title must be at least 5 characters'),
   excerpt: z.string().min(10, 'Excerpt must be at least 10 characters').max(300),
-  categoryIds: z.array(z.string()).min(1, 'At least one category is required'),
+  categoryId: z.string().min(1, 'Category is required'),
   tags: z.array(z.string()).optional(),
   status: z.enum(['DRAFT', 'PUBLISHED']),
   scheduledAt: z.string().optional().nullable(),
@@ -45,6 +45,7 @@ const articleSchema = z.object({
   metaDescription: z.string().max(160).optional().nullable(),
   metaKeywords: z.string().optional().nullable(),
   featuredImage: z.string().optional().nullable(),
+  featuredImageTitle: z.string().optional().nullable(),
 }).superRefine((data, ctx) => {
   if (data.status === 'PUBLISHED') {
     if (!data.metaTitle || data.metaTitle.trim() === '') {
@@ -113,7 +114,8 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
       isFeatured: false,
       isBreakingNews: false,
       tags: [],
-      categoryIds: [],
+      categoryId: '',
+      featuredImageTitle: '',
     },
   });
 
@@ -126,7 +128,7 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
       reset({
         title: initialData.title || '',
         excerpt: initialData.excerpt || '',
-        categoryIds: initialData.categories?.map((c: any) => typeof c === 'string' ? c : c.id) || [],
+        categoryId: initialData.categoryId || (initialData.category?.id) || '',
         status: initialData.status || 'DRAFT',
         scheduledAt: formatDateTimeLocal(initialData.scheduledAt),
         isFeatured: !!initialData.isFeatured,
@@ -135,6 +137,7 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
         metaDescription: initialData.metaDescription || '',
         metaKeywords: initialData.metaKeywords || '',
         featuredImage: initialData.featuredImage || '',
+        featuredImageTitle: initialData.featuredImageTitle || '',
         tags: initialData.tags?.map((t: any) => typeof t === 'string' ? t : t.id) || [],
       });
       if (initialData.content) {
@@ -165,12 +168,21 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
     const file = e.target.files?.[0];
     if (!file) return;
 
+    const imageTitle = watch('featuredImageTitle');
+    if (!imageTitle || imageTitle.trim() === '') {
+      toast.error('Please enter a Featured Image Title first to optimize the filename for SEO.');
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+      return;
+    }
+
     setIsUploadingImage(true);
     try {
       const formData = new FormData();
       formData.append('files', file);
 
-      const response = await apiClient.post('/media/upload', formData, {
+      const response = await apiClient.post(`/media/upload?customName=${encodeURIComponent(imageTitle.trim())}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -398,39 +410,31 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <Label>Categories *</Label>
-                <div className="flex flex-wrap gap-2 mt-2">
-                  {categoriesData?.map((category: any) => {
-                    const currentCategories = watch('categoryIds') || [];
-                    const isChecked = currentCategories.includes(category.id);
-                    return (
-                      <label
-                        key={category.id}
-                        className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg border text-sm font-medium cursor-pointer hover:bg-accent transition-all duration-200 ${isChecked
-                          ? 'bg-primary/10 border-primary text-primary font-semibold shadow-sm'
-                          : 'border-input bg-background text-muted-foreground'
-                          }`}
-                      >
-                        <input
-                          type="checkbox"
-                          value={category.id}
-                          checked={isChecked}
-                          className="rounded border-input text-primary focus:ring-primary h-4 w-4 cursor-pointer"
-                          onChange={(e) => {
-                            if (e.target.checked) {
-                              setValue('categoryIds', [...currentCategories, category.id]);
-                            } else {
-                              setValue('categoryIds', currentCategories.filter((id) => id !== category.id));
-                            }
-                          }}
-                        />
-                        {category.name}
-                      </label>
-                    );
-                  })}
-                </div>
-                {errors.categoryIds && (
-                  <p className="text-sm text-destructive mt-1">{(errors.categoryIds as any).message}</p>
+                <Label>Category *</Label>
+                <Controller
+                  name="categoryId"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      key={`category-${initialData?.id || 'new'}-${field.value}`}
+                      value={field.value || ''}
+                      onValueChange={field.onChange}
+                    >
+                      <SelectTrigger className="mt-1.5">
+                        <SelectValue placeholder="Select a category" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {categoriesData?.map((category: any) => (
+                          <SelectItem key={category.id} value={category.id}>
+                            {category.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+                {errors.categoryId && (
+                  <p className="text-sm text-destructive mt-1">{errors.categoryId.message}</p>
                 )}
               </div>
 
@@ -565,6 +569,14 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
               {errors.featuredImage && (
                 <p className="text-sm text-destructive mt-2">{errors.featuredImage.message}</p>
               )}
+              <div className="mt-4">
+                <Input
+                  label="Featured Image Title (for SEO)"
+                  placeholder="Enter title first, then click to upload"
+                  {...register('featuredImageTitle')}
+                  error={errors.featuredImageTitle?.message}
+                />
+              </div>
             </CardContent>
           </Card>
         </div>

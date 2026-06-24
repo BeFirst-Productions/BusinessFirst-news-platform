@@ -86,6 +86,7 @@ async function bootstrap() {
     console.log(`🚀 Server running on http://localhost:${env.PORT}`);
     console.log(`📡 Health check: http://localhost:${env.PORT}/api/v1/health`);
     console.log(`🌍 Environment: ${env.NODE_ENV}`);
+    console.log(`🔒 Allowed Origins: Web=${env.WEB_URL}, Admin=${env.ADMIN_URL}`);
     console.log(`📦 Database: Connected`);
     console.log(`💾 Redis: Connected`);
     console.log('='.repeat(50));

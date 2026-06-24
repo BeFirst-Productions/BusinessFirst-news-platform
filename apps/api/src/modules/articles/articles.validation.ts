@@ -4,7 +4,7 @@ export const createArticleSchema = z.object({
   title: z.string().min(5, 'Title must be at least 5 characters'),
   content: z.string().min(1, 'Content is required'),
   excerpt: z.string().max(300).optional().nullable().or(z.literal('')),
-  categoryIds: z.array(z.string().uuid('Invalid category ID')).min(1, 'At least one category must be selected'),
+  categoryId: z.string().uuid('Invalid category ID'),
   tags: z.array(z.string().uuid()).optional(),
   status: z.enum(['DRAFT', 'PUBLISHED']).default('DRAFT'),
   scheduledAt: z.string().optional().nullable().or(z.literal('')),
@@ -14,6 +14,7 @@ export const createArticleSchema = z.object({
   metaDescription: z.string().max(160).optional().nullable().or(z.literal('')),
   metaKeywords: z.string().optional().nullable().or(z.literal('')),
   featuredImage: z.string().optional().nullable().or(z.literal('')),
+  featuredImageTitle: z.string().optional().nullable().or(z.literal('')),
 }).superRefine((data, ctx) => {
   if (data.status === 'PUBLISHED') {
     if (!data.metaTitle || data.metaTitle.trim() === '') {
@@ -44,7 +45,7 @@ export const updateArticleSchema = z.object({
   title: z.string().min(5).optional(),
   content: z.string().optional(),
   excerpt: z.string().max(300).optional().nullable().or(z.literal('')),
-  categoryIds: z.array(z.string().uuid()).optional(),
+  categoryId: z.string().uuid().optional(),
   tags: z.array(z.string().uuid()).optional(),
   status: z.enum(['DRAFT', 'PUBLISHED', 'ARCHIVED']).optional(),
   scheduledAt: z.string().optional().nullable().or(z.literal('')),
@@ -54,6 +55,7 @@ export const updateArticleSchema = z.object({
   metaDescription: z.string().max(160).optional().nullable().or(z.literal('')),
   metaKeywords: z.string().optional().nullable().or(z.literal('')),
   featuredImage: z.string().optional().nullable().or(z.literal('')),
+  featuredImageTitle: z.string().optional().nullable().or(z.literal('')),
 });
 
 export const articleQuerySchema = z.object({

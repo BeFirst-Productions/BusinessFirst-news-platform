@@ -94,26 +94,28 @@ model AdAnalytics {
 // Article, Comment, Tag models
 
 model Article {
-  id              String        @id @default(uuid())
-  title           String
-  slug            String        @unique
-  content         String
-  excerpt         String?
-  featuredImage   String?
-  status          ArticleStatus @default(DRAFT)
-  isFeatured      Boolean       @default(false)
-  isBreakingNews  Boolean       @default(false)
-  viewCount       Int           @default(0)
-  scheduledAt     DateTime?
-  publishedAt     DateTime?
-  metaTitle       String?
-  metaDescription String?
-  metaKeywords    String?
-  readingTime     Int           @default(0)
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
+  id                 String        @id @default(uuid())
+  title              String
+  slug               String        @unique
+  content            String
+  excerpt            String?
+  featuredImage      String?
+  featuredImageTitle String?
+  status             ArticleStatus @default(DRAFT)
+  isFeatured         Boolean       @default(false)
+  isBreakingNews     Boolean       @default(false)
+  viewCount          Int           @default(0)
+  scheduledAt        DateTime?
+  publishedAt        DateTime?
+  metaTitle          String?
+  metaDescription    String?
+  metaKeywords       String?
+  readingTime        Int           @default(0)
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
 
-  categories Category[]
+  categoryId String?
+  category   Category?         @relation(fields: [categoryId], references: [id], onDelete: SetNull)
   authorId   String
   author     User              @relation(fields: [authorId], references: [id])
   tags       ArticleTag[]
@@ -124,6 +126,7 @@ model Article {
   @@index([slug])
   @@index([status])
   @@index([authorId])
+  @@index([categoryId])
   @@index([publishedAt])
   @@index([isFeatured])
   @@index([isBreakingNews])

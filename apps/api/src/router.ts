@@ -11,6 +11,7 @@ import { analyticsRouter } from './modules/analytics/analytics.router';
 import { settingsRouter } from './modules/settings/settings.router';
 import { newsletterRouter } from './modules/newsletter/newsletter.router';
 import { seoRouter } from './modules/seo/seo.router';
+import { websiteRouter } from './modules/website/website.router';
 
 const router:Router = Router();
 
@@ -38,5 +39,6 @@ router.use('/analytics', analyticsRouter);
 router.use('/settings', settingsRouter);
 router.use('/newsletter', newsletterRouter);
 router.use('/seo', seoRouter);
+router.use('/website', websiteRouter);
 
 export { router };

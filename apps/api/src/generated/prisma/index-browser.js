@@ -185,6 +185,7 @@ exports.Prisma.ArticleScalarFieldEnum = {
   content: 'content',
   excerpt: 'excerpt',
   featuredImage: 'featuredImage',
+  featuredImageTitle: 'featuredImageTitle',
   status: 'status',
   isFeatured: 'isFeatured',
   isBreakingNews: 'isBreakingNews',
@@ -197,6 +198,7 @@ exports.Prisma.ArticleScalarFieldEnum = {
   readingTime: 'readingTime',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  categoryId: 'categoryId',
   authorId: 'authorId'
 };
 

@@ -56,7 +56,7 @@ export default function ArticlesPage() {
 
   const pageItemIds = data?.data?.map((item: any) => item.id) || [];
   const isAllSelected = pageItemIds.length > 0 && pageItemIds.every((id: string) => selectedIds.includes(id));
-  
+
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
       setSelectedIds(prev => Array.from(new Set([...prev, ...pageItemIds])));
@@ -235,10 +235,10 @@ export default function ArticlesPage() {
             item.status === 'PUBLISHED'
               ? 'success'
               : item.status === 'DRAFT'
-              ? 'warning'
-              : item.status === 'SCHEDULED'
-              ? 'info'
-              : 'secondary'
+                ? 'warning'
+                : item.status === 'SCHEDULED'
+                  ? 'info'
+                  : 'secondary'
           }
         >
           {item.status}
