@@ -156,12 +156,10 @@ export default function ViewArticlePage() {
               {!article.featuredImage && (
                 <div className="border-b pb-6 space-y-4">
                   <div className="flex flex-wrap items-center gap-2">
-                    {article.categories && article.categories.length > 0 ? (
-                      article.categories.map((cat: any) => (
-                        <Badge key={cat.id} variant="secondary" className="text-xs font-semibold px-2.5 py-1">
-                          {cat.name}
-                        </Badge>
-                      ))
+                    {article.category ? (
+                      <Badge variant="secondary" className="text-xs font-semibold px-2.5 py-1">
+                        {article.category.name}
+                      </Badge>
                     ) : (
                       <Badge variant="secondary" className="text-xs font-semibold px-2.5 py-1">
                         Uncategorized
@@ -369,28 +367,26 @@ export default function ViewArticlePage() {
             </CardContent>
           </Card>
 
-          {/* Card: Categories */}
+          {/* Card: Category */}
           <Card className="border shadow-sm">
             <CardHeader className="border-b py-4 px-5">
               <CardTitle className="text-base font-bold flex items-center gap-2">
                 <Folder className="h-4 w-4 text-primary" />
-                Article Categories
+                Article Category
               </CardTitle>
             </CardHeader>
             <CardContent className="p-5">
-              {article.categories && article.categories.length > 0 ? (
+              {article.category ? (
                 <div className="flex flex-wrap gap-2">
-                  {article.categories.map((cat: any) => (
-                    <Badge key={cat.id} variant="outline" className="flex items-center gap-1 px-2.5 py-1 text-xs">
-                      <Folder className="h-3 w-3 text-muted-foreground" />
-                      {cat.name}
-                    </Badge>
-                  ))}
+                  <Badge variant="outline" className="flex items-center gap-1 px-2.5 py-1 text-xs">
+                    <Folder className="h-3 w-3 text-muted-foreground" />
+                    {article.category.name}
+                  </Badge>
                 </div>
               ) : (
                 <div className="text-center py-4 text-muted-foreground text-sm flex flex-col items-center justify-center border border-dashed rounded-lg">
                   <Folder className="h-5 w-5 text-muted-foreground/40 mb-1" />
-                  No categories associated with this article.
+                  No category associated with this article.
                 </div>
               )}
             </CardContent>

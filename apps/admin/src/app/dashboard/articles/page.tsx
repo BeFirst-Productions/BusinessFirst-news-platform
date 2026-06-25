@@ -159,56 +159,16 @@ export default function ArticlesPage() {
     },
     {
       key: 'category',
-      header: 'Categories',
+      header: 'Category',
       cell: (item: any) => {
-        const categories = item.categories || [];
-        if (categories.length === 0) {
+        const category = item.category;
+        if (!category) {
           return <Badge variant="outline">Uncategorized</Badge>;
         }
-        const maxVisible = 2;
-        const visibleCategories = categories.slice(0, maxVisible);
-        const remainingCategories = categories.slice(maxVisible);
-
         return (
-          <div className="flex flex-wrap gap-1 max-w-[220px] items-center">
-            {visibleCategories.map((cat: any) => (
-              <Badge key={cat.id} variant="outline" className="text-xs truncate max-w-[90px]">
-                {cat.name}
-              </Badge>
-            ))}
-            {remainingCategories.length > 0 && (
-              <TooltipWrapper
-                content={
-                  <div className="p-1.5 max-w-[240px]">
-                    <p className="font-semibold text-xs border-b border-slate-700 pb-1 mb-1.5 text-slate-200">
-                      More Categories
-                    </p>
-                    <div className="flex flex-wrap gap-1">
-                      {remainingCategories.map((cat: any) => (
-                        <Badge
-                          key={cat.id}
-                          variant="secondary"
-                          className="text-[10px] py-0.5 px-1.5 bg-slate-800 text-slate-100 border border-slate-700"
-                        >
-                          {cat.name}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-                }
-                side="top"
-                align="center"
-              >
-                <Badge
-                  variant="secondary"
-                  className="text-xs cursor-pointer hover:bg-secondary/80 font-medium"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  +{remainingCategories.length}
-                </Badge>
-              </TooltipWrapper>
-            )}
-          </div>
+          <Badge variant="outline" className="text-xs truncate max-w-[120px]">
+            {category.name}
+          </Badge>
         );
       },
     },

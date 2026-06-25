@@ -110,4 +110,44 @@ export class AuthController {
       next(error);
     }
   }
+
+  static async updateProfile(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      if (!req.user) {
+        throw new AppError('Not authenticated', 401);
+      }
+
+      const { name, avatar, bio } = req.body;
+      const updateData: any = {};
+      if (name !== undefined) updateData.name = name;
+      if (avatar !== undefined) updateData.avatar = avatar || null;
+      if (bio !== undefined) updateData.bio = bio || null;
+
+      const user = await prisma.user.update({
+        where: { id: req.user.userId },
+        data: updateData,
+        select: {
+          id: true,
+          email: true,
+          name: true,
+          role: true,
+          status: true,
+          avatar: true,
+          bio: true,
+          canCreateUsers: true,
+          modules: {
+            include: {
+              module: {
+                select: { code: true }
+              }
+            }
+          }
+        }
+      });
+
+      ResponseUtil.success(res, user, 'Profile updated successfully');
+    } catch (error) {
+      next(error);
+    }
+  }
 }

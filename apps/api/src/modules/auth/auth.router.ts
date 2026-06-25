@@ -6,7 +6,8 @@ import { PermissionMiddleware } from '../../middleware/permission.middleware';
 import { 
   loginSchema, 
   registerSchema, 
-  changePasswordSchema 
+  changePasswordSchema,
+  updateProfileSchema 
 } from './auth.validation';
 
 const router: Router = Router();
@@ -49,6 +50,13 @@ router.get(
   '/profile',
   AuthMiddleware.authenticate,
   AuthController.getProfile
+);
+
+router.put(
+  '/profile',
+  AuthMiddleware.authenticate,
+  ValidationMiddleware.validate(updateProfileSchema),
+  AuthController.updateProfile
 );
 
 export { router as authRouter };

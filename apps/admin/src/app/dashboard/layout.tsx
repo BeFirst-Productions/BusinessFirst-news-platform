@@ -31,7 +31,8 @@ const GOOGLE_FONTS_MAP: Record<string, string> = {
   jetbrains: 'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap',
 };
 
-const ROUTE_MODULE_MAP: Record<string, string> = {
+const ROUTE_MODULE_MAP: Record<string, string | null> = {
+  '/dashboard/profile': null,
   '/dashboard': 'DASHBOARD',
   '/dashboard/analytics': 'ANALYTICS',
   '/dashboard/articles': 'ARTICLES',

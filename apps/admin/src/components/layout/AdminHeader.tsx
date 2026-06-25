@@ -41,6 +41,10 @@ export function AdminHeader() {
     }
   };
 
+  const canViewSettings =
+    user?.role === 'SUPERADMIN' ||
+    user?.modules?.some((m) => m.module.code === 'SETTINGS' && m.canView);
+
   return (
     <header className="sticky top-0 z-30 h-16 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="flex items-center justify-between h-full px-4 sm:px-6 gap-4">
@@ -99,14 +103,22 @@ export function AdminHeader() {
                 <p className="text-xs text-muted-foreground">{user?.email}</p>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="px-4 py-2 cursor-pointer hover:bg-accent flex items-center gap-2">
+              <DropdownMenuItem 
+                className="px-4 py-2 cursor-pointer hover:bg-accent flex items-center gap-2"
+                onClick={() => router.push('/dashboard/profile')}
+              >
                 <User className="h-4 w-4" />
                 <span>Profile</span>
               </DropdownMenuItem>
-              <DropdownMenuItem className="px-4 py-2 cursor-pointer hover:bg-accent flex items-center gap-2">
-                <Settings className="h-4 w-4" />
-                <span>Settings</span>
-              </DropdownMenuItem>
+              {canViewSettings && (
+                <DropdownMenuItem 
+                  className="px-4 py-2 cursor-pointer hover:bg-accent flex items-center gap-2"
+                  onClick={() => router.push('/dashboard/settings')}
+                >
+                  <Settings className="h-4 w-4" />
+                  <span>Settings</span>
+                </DropdownMenuItem>
+              )}
               <DropdownMenuSeparator />
               <DropdownMenuItem 
                 className="px-4 py-2 cursor-pointer hover:bg-accent flex items-center gap-2 text-destructive"

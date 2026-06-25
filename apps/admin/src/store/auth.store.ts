@@ -24,6 +24,7 @@ export interface User {
   name: string;
   role: 'SUPERADMIN' | 'ADMIN' | 'EDITOR';
   avatar?: string;
+  bio?: string;
   canCreateUsers: boolean;
   modules?: UserModulePermission[];
 }
