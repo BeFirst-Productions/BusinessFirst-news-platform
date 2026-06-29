@@ -49,24 +49,7 @@ async function main() {
   });
   console.log('✅ Super Admin created');
 
-  // Create sample categories
-  const categories = [
-    { name: 'Business', slug: 'business', description: 'Business news and updates' },
-    { name: 'Technology', slug: 'technology', description: 'Technology news and innovations' },
-    { name: 'Finance', slug: 'finance', description: 'Financial news and markets' },
-    { name: 'Economy', slug: 'economy', description: 'Economic news and analysis' },
-    { name: 'Startups', slug: 'startups', description: 'Startup news and stories' },
-    { name: 'Markets', slug: 'markets', description: 'Market updates and trends' },
-  ];
 
-  for (const category of categories) {
-    await prisma.category.upsert({
-      where: { slug: category.slug },
-      update: category,
-      create: category,
-    });
-  }
-  console.log('✅ Categories created');
 
   // Create ad spaces
   const adSpaces = [

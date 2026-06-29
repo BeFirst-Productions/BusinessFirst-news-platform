@@ -93,6 +93,18 @@ const DEFAULT_SETTINGS = [
       },
     },
   },
+  {
+    key: 'ui_notification_settings',
+    type: 'JSON' as const,
+    isPublic: true,
+    description: 'Toggle real-time notifications for specific system modules',
+    value: {
+      newsletter: true,
+      articles: true,
+      comments: true,
+      ads: true,
+    },
+  },
 ];
 
 export class SettingsService {

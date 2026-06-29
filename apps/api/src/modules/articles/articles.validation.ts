@@ -2,6 +2,12 @@ import { z } from 'zod';
 
 export const createArticleSchema = z.object({
   title: z.string().min(5, 'Title must be at least 5 characters'),
+  slug: z.string()
+    .min(3, 'Slug must be at least 3 characters')
+    .regex(/^[a-z0-9-]+$/, 'Slug must only contain lowercase letters, numbers, and hyphens')
+    .optional()
+    .nullable()
+    .or(z.literal('')),
   content: z.string().min(1, 'Content is required'),
   excerpt: z.string().max(300).optional().nullable().or(z.literal('')),
   categoryId: z.string().uuid('Invalid category ID'),
@@ -10,6 +16,10 @@ export const createArticleSchema = z.object({
   scheduledAt: z.string().optional().nullable().or(z.literal('')),
   isFeatured: z.boolean().default(false),
   isBreakingNews: z.boolean().default(false),
+  isTopHeadline: z.boolean().default(false),
+  isTrending: z.boolean().default(false),
+  isUaeNews: z.boolean().default(false),
+  isSponsored: z.boolean().default(false),
   metaTitle: z.string().optional().nullable().or(z.literal('')),
   metaDescription: z.string().max(160).optional().nullable().or(z.literal('')),
   metaKeywords: z.string().optional().nullable().or(z.literal('')),
@@ -43,6 +53,12 @@ export const createArticleSchema = z.object({
 
 export const updateArticleSchema = z.object({
   title: z.string().min(5).optional(),
+  slug: z.string()
+    .min(3, 'Slug must be at least 3 characters')
+    .regex(/^[a-z0-9-]+$/, 'Slug must only contain lowercase letters, numbers, and hyphens')
+    .optional()
+    .nullable()
+    .or(z.literal('')),
   content: z.string().optional(),
   excerpt: z.string().max(300).optional().nullable().or(z.literal('')),
   categoryId: z.string().uuid().optional(),
@@ -51,6 +67,10 @@ export const updateArticleSchema = z.object({
   scheduledAt: z.string().optional().nullable().or(z.literal('')),
   isFeatured: z.boolean().optional(),
   isBreakingNews: z.boolean().optional(),
+  isTopHeadline: z.boolean().optional(),
+  isTrending: z.boolean().optional(),
+  isUaeNews: z.boolean().optional(),
+  isSponsored: z.boolean().optional(),
   metaTitle: z.string().optional().nullable().or(z.literal('')),
   metaDescription: z.string().max(160).optional().nullable().or(z.literal('')),
   metaKeywords: z.string().optional().nullable().or(z.literal('')),
@@ -64,6 +84,10 @@ export const articleQuerySchema = z.object({
   search: z.string().optional(),
   status: z.enum(['DRAFT', 'PUBLISHED', 'SCHEDULED', 'ARCHIVED']).optional(),
   categoryId: z.string().uuid().optional(),
+  isTopHeadline: z.preprocess((val) => val === 'true' || val === true ? true : val === 'false' || val === false ? false : undefined, z.boolean().optional()),
+  isTrending: z.preprocess((val) => val === 'true' || val === true ? true : val === 'false' || val === false ? false : undefined, z.boolean().optional()),
+  isUaeNews: z.preprocess((val) => val === 'true' || val === true ? true : val === 'false' || val === false ? false : undefined, z.boolean().optional()),
+  isSponsored: z.preprocess((val) => val === 'true' || val === true ? true : val === 'false' || val === false ? false : undefined, z.boolean().optional()),
   sortBy: z.enum(['title', 'createdAt', 'publishedAt', 'viewCount']).default('createdAt'),
   sortOrder: z.enum(['asc', 'desc']).default('desc'),
 });

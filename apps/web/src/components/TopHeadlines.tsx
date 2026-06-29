@@ -1,59 +1,62 @@
 "use client"
 import React, { useRef, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import SectionContainer from './SectionContainer';
 import SectionTitle from './SectionTitle';
-
-const headlines = [
-  {
-    id: 1,
-    title: 'How 5G Will Transform Communication and Connectivity',
-    category: 'Oil, Gas & Energy',
-    date: 'July 23, 2024',
-    image: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=400&h=300&q=80'
-  },
-  {
-    id: 2,
-    title: 'How 5G Will Transform Communication and Connectivity',
-    category: 'Oil, Gas & Energy',
-    date: 'July 23, 2024',
-    image: 'https://images.unsplash.com/photo-1574328405096-7fcfa4a9b583?auto=format&fit=crop&w=400&h=300&q=80'
-  },
-  {
-    id: 3,
-    title: 'How 5G Will Transform Communication and Connectivity',
-    category: 'Oil, Gas & Energy',
-    date: 'July 23, 2024',
-    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=400&h=300&q=80'
-  },
-  {
-    id: 4,
-    title: 'How 5G Will Transform Communication and Connectivity',
-    category: 'Oil, Gas & Energy',
-    date: 'July 23, 2024',
-    image: 'https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=400&h=300&q=80'
-  },
-  {
-    id: 5,
-    title: 'How 5G Will Transform Communication and Connectivity',
-    category: 'Oil, Gas & Energy',
-    date: 'July 23, 2024',
-    image: 'https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=400&h=300&q=80'
-  },
-  {
-    id: 6,
-    title: 'How 5G Will Transform Communication and Connectivity',
-    category: 'Oil, Gas & Energy',
-    date: 'July 23, 2024',
-    image: 'https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=400&h=300&q=80'
-  }
-];
+import { useArticles } from '../hooks/use-articles';
+import { Skeleton } from './ui/Skeleton';
 
 const TopHeadlines = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  // Fetch articles from the server
+  const { data: articlesRes, isLoading } = useArticles({
+    isTopHeadline: true,
+    limit: 10,
+  });
+
+  const rawHeadlines = articlesRes?.data || [];
+
+  // Format headlines for rendering
+  const headlines = rawHeadlines.map((h) => ({
+    id: h.id,
+    title: h.title,
+    category: h.category?.name || 'News',
+    date: h.publishedAt
+      ? new Date(h.publishedAt).toLocaleDateString('en-US', {
+          month: 'long',
+          day: 'numeric',
+          year: 'numeric',
+        })
+      : '',
+    image: h.featuredImage || 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=400&h=300&q=80',
+    slug: h.slug,
+  }));
+
+  // Ensure we repeat the headlines list enough times to have at least 15 items.
+  // This guarantees there is always enough scroll range for infinite loop resets.
+  const minRequiredItems = 15;
+  const replicateCount = headlines.length > 0 ? Math.max(3, Math.ceil(minRequiredItems / headlines.length)) : 0;
+  const listToRender = headlines.length > 0 ? Array(replicateCount).fill(headlines).flat() : [];
+
+  // Scroll to the start of the second cycle on load to allow scrolling left and right immediately
   useEffect(() => {
+    if (headlines.length === 0) return;
+
+    const container = scrollRef.current;
+    if (container) {
+      const scrollAmount = window.innerWidth >= 768 ? 340 + 16 : 300 + 16;
+      const singleSetWidth = headlines.length * scrollAmount;
+      container.scrollLeft = singleSetWidth;
+    }
+  }, [headlines.length]);
+
+  // Set up the auto-scrolling interval
+  useEffect(() => {
+    if (headlines.length === 0) return;
+
     let intervalId: NodeJS.Timeout;
 
     const startAutoScroll = () => {
@@ -61,17 +64,6 @@ const TopHeadlines = () => {
         if (scrollRef.current) {
           const container = scrollRef.current;
           const scrollAmount = window.innerWidth >= 768 ? 340 + 16 : 300 + 16;
-          
-          // The exact width of one original set of items
-          const singleSetWidth = headlines.length * scrollAmount;
-          
-          // Seamless infinite scroll logic:
-          // If we have scrolled far enough that the first duplicate is at the front,
-          // instantly jump back to the exact same visual position in the original set.
-          if (container.scrollLeft >= singleSetWidth) {
-            container.scrollLeft = container.scrollLeft - singleSetWidth;
-          }
-          
           container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
         }
       }, 3000); // 3 seconds interval
@@ -90,7 +82,26 @@ const TopHeadlines = () => {
       clearInterval(intervalId);
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [headlines.length]);
+
+  // Handle manual wrapping when scrolling past Cycle boundaries
+  const handleScroll = () => {
+    if (scrollRef.current) {
+      const container = scrollRef.current;
+      const scrollAmount = window.innerWidth >= 768 ? 340 + 16 : 300 + 16;
+      const singleSetWidth = headlines.length * scrollAmount;
+
+      // Wrapping logic:
+      // If we scroll past the end of Cycle 2 (entering Cycle 3), subtract singleSetWidth
+      if (container.scrollLeft >= singleSetWidth * 2) {
+        container.scrollLeft = container.scrollLeft - singleSetWidth;
+      }
+      // If we scroll past the start of Cycle 2 (entering Cycle 1), add singleSetWidth
+      else if (container.scrollLeft <= 0) {
+        container.scrollLeft = container.scrollLeft + singleSetWidth;
+      }
+    }
+  };
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -101,6 +112,30 @@ const TopHeadlines = () => {
       });
     }
   };
+
+  if (isLoading) {
+    return (
+      <SectionContainer as="section" className="bg-white py-8 md:py-12">
+        <SectionTitle title="Top Headlines" />
+        <div className="flex gap-4 overflow-x-auto scrollbar-hide py-2 px-4 md:px-0">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="flex bg-white rounded-lg border border-gray-200 overflow-hidden w-[300px] md:w-[340px] shrink-0 h-[100px] shadow-sm">
+              <Skeleton className="w-2/5 h-full" />
+              <div className="w-3/5 p-3 space-y-2">
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-3/4" />
+                <Skeleton className="h-3 w-1/2" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </SectionContainer>
+    );
+  }
+
+  if (headlines.length === 0) {
+    return null; // Don't show if there are no headlines
+  }
 
   return (
     <SectionContainer as="section" className="bg-white py-8 md:py-12" containerClassName="relative">
@@ -121,12 +156,14 @@ const TopHeadlines = () => {
         {/* Scrollable Area */}
         <div 
           ref={scrollRef}
+          onScroll={handleScroll}
           className="flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory py-2 px-4 md:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
         >
-          {[...headlines, ...headlines].map((item, index) => (
-            <div 
+          {listToRender.map((item, index) => (
+            <Link 
+              href={`/news/${item.slug}`}
               key={`${item.id}-${index}`} 
-              className="flex bg-white rounded-lg border border-gray-200 overflow-hidden w-[300px] md:w-[340px] shrink-0 h-[100px] shadow-sm hover:shadow-md transition-shadow snap-start"
+              className="flex bg-white rounded-lg border border-gray-200 overflow-hidden w-[300px] md:w-[340px] shrink-0 h-[100px] shadow-sm hover:shadow-md transition-shadow snap-start cursor-pointer"
             >
               <div className="relative w-2/5 h-full">
                 <Image 
@@ -134,17 +171,18 @@ const TopHeadlines = () => {
                   alt={item.title} 
                   fill 
                   className="object-cover"
+                  sizes="150px"
                 />
               </div>
               <div className="w-3/5 p-3 flex flex-col justify-between bg-white">
-                <h3 className="text-[#24214c] font-bold text-xs leading-snug line-clamp-3">
+                <h3 className="text-[#24214c] font-bold text-xs leading-snug line-clamp-3 hover:text-[#cd2027] transition-colors">
                   {item.title}
                 </h3>
                 <span className="text-[10px] text-gray-500 font-medium">
                   {item.category} | {item.date}
                 </span>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 

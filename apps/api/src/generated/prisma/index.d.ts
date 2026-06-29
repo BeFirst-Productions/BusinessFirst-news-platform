@@ -9092,6 +9092,10 @@ export namespace Prisma {
     status: $Enums.ArticleStatus | null
     isFeatured: boolean | null
     isBreakingNews: boolean | null
+    isTopHeadline: boolean | null
+    isTrending: boolean | null
+    isUaeNews: boolean | null
+    isSponsored: boolean | null
     viewCount: number | null
     scheduledAt: Date | null
     publishedAt: Date | null
@@ -9116,6 +9120,10 @@ export namespace Prisma {
     status: $Enums.ArticleStatus | null
     isFeatured: boolean | null
     isBreakingNews: boolean | null
+    isTopHeadline: boolean | null
+    isTrending: boolean | null
+    isUaeNews: boolean | null
+    isSponsored: boolean | null
     viewCount: number | null
     scheduledAt: Date | null
     publishedAt: Date | null
@@ -9140,6 +9148,10 @@ export namespace Prisma {
     status: number
     isFeatured: number
     isBreakingNews: number
+    isTopHeadline: number
+    isTrending: number
+    isUaeNews: number
+    isSponsored: number
     viewCount: number
     scheduledAt: number
     publishedAt: number
@@ -9176,6 +9188,10 @@ export namespace Prisma {
     status?: true
     isFeatured?: true
     isBreakingNews?: true
+    isTopHeadline?: true
+    isTrending?: true
+    isUaeNews?: true
+    isSponsored?: true
     viewCount?: true
     scheduledAt?: true
     publishedAt?: true
@@ -9200,6 +9216,10 @@ export namespace Prisma {
     status?: true
     isFeatured?: true
     isBreakingNews?: true
+    isTopHeadline?: true
+    isTrending?: true
+    isUaeNews?: true
+    isSponsored?: true
     viewCount?: true
     scheduledAt?: true
     publishedAt?: true
@@ -9224,6 +9244,10 @@ export namespace Prisma {
     status?: true
     isFeatured?: true
     isBreakingNews?: true
+    isTopHeadline?: true
+    isTrending?: true
+    isUaeNews?: true
+    isSponsored?: true
     viewCount?: true
     scheduledAt?: true
     publishedAt?: true
@@ -9335,6 +9359,10 @@ export namespace Prisma {
     status: $Enums.ArticleStatus
     isFeatured: boolean
     isBreakingNews: boolean
+    isTopHeadline: boolean
+    isTrending: boolean
+    isUaeNews: boolean
+    isSponsored: boolean
     viewCount: number
     scheduledAt: Date | null
     publishedAt: Date | null
@@ -9378,6 +9406,10 @@ export namespace Prisma {
     status?: boolean
     isFeatured?: boolean
     isBreakingNews?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isSponsored?: boolean
     viewCount?: boolean
     scheduledAt?: boolean
     publishedAt?: boolean
@@ -9409,6 +9441,10 @@ export namespace Prisma {
     status?: boolean
     isFeatured?: boolean
     isBreakingNews?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isSponsored?: boolean
     viewCount?: boolean
     scheduledAt?: boolean
     publishedAt?: boolean
@@ -9435,6 +9471,10 @@ export namespace Prisma {
     status?: boolean
     isFeatured?: boolean
     isBreakingNews?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isSponsored?: boolean
     viewCount?: boolean
     scheduledAt?: boolean
     publishedAt?: boolean
@@ -9461,6 +9501,10 @@ export namespace Prisma {
     status?: boolean
     isFeatured?: boolean
     isBreakingNews?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isSponsored?: boolean
     viewCount?: boolean
     scheduledAt?: boolean
     publishedAt?: boolean
@@ -9474,7 +9518,7 @@ export namespace Prisma {
     authorId?: boolean
   }
 
-  export type ArticleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "content" | "excerpt" | "featuredImage" | "featuredImageTitle" | "status" | "isFeatured" | "isBreakingNews" | "viewCount" | "scheduledAt" | "publishedAt" | "metaTitle" | "metaDescription" | "metaKeywords" | "readingTime" | "createdAt" | "updatedAt" | "categoryId" | "authorId", ExtArgs["result"]["article"]>
+  export type ArticleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "content" | "excerpt" | "featuredImage" | "featuredImageTitle" | "status" | "isFeatured" | "isBreakingNews" | "isTopHeadline" | "isTrending" | "isUaeNews" | "isSponsored" | "viewCount" | "scheduledAt" | "publishedAt" | "metaTitle" | "metaDescription" | "metaKeywords" | "readingTime" | "createdAt" | "updatedAt" | "categoryId" | "authorId", ExtArgs["result"]["article"]>
   export type ArticleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | Article$categoryArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
@@ -9514,6 +9558,10 @@ export namespace Prisma {
       status: $Enums.ArticleStatus
       isFeatured: boolean
       isBreakingNews: boolean
+      isTopHeadline: boolean
+      isTrending: boolean
+      isUaeNews: boolean
+      isSponsored: boolean
       viewCount: number
       scheduledAt: Date | null
       publishedAt: Date | null
@@ -9964,6 +10012,10 @@ export namespace Prisma {
     readonly status: FieldRef<"Article", 'ArticleStatus'>
     readonly isFeatured: FieldRef<"Article", 'Boolean'>
     readonly isBreakingNews: FieldRef<"Article", 'Boolean'>
+    readonly isTopHeadline: FieldRef<"Article", 'Boolean'>
+    readonly isTrending: FieldRef<"Article", 'Boolean'>
+    readonly isUaeNews: FieldRef<"Article", 'Boolean'>
+    readonly isSponsored: FieldRef<"Article", 'Boolean'>
     readonly viewCount: FieldRef<"Article", 'Int'>
     readonly scheduledAt: FieldRef<"Article", 'DateTime'>
     readonly publishedAt: FieldRef<"Article", 'DateTime'>
@@ -28021,6 +28073,10 @@ export namespace Prisma {
     status: 'status',
     isFeatured: 'isFeatured',
     isBreakingNews: 'isBreakingNews',
+    isTopHeadline: 'isTopHeadline',
+    isTrending: 'isTrending',
+    isUaeNews: 'isUaeNews',
+    isSponsored: 'isSponsored',
     viewCount: 'viewCount',
     scheduledAt: 'scheduledAt',
     publishedAt: 'publishedAt',
@@ -28973,6 +29029,10 @@ export namespace Prisma {
     status?: EnumArticleStatusFilter<"Article"> | $Enums.ArticleStatus
     isFeatured?: BoolFilter<"Article"> | boolean
     isBreakingNews?: BoolFilter<"Article"> | boolean
+    isTopHeadline?: BoolFilter<"Article"> | boolean
+    isTrending?: BoolFilter<"Article"> | boolean
+    isUaeNews?: BoolFilter<"Article"> | boolean
+    isSponsored?: BoolFilter<"Article"> | boolean
     viewCount?: IntFilter<"Article"> | number
     scheduledAt?: DateTimeNullableFilter<"Article"> | Date | string | null
     publishedAt?: DateTimeNullableFilter<"Article"> | Date | string | null
@@ -29003,6 +29063,10 @@ export namespace Prisma {
     status?: SortOrder
     isFeatured?: SortOrder
     isBreakingNews?: SortOrder
+    isTopHeadline?: SortOrder
+    isTrending?: SortOrder
+    isUaeNews?: SortOrder
+    isSponsored?: SortOrder
     viewCount?: SortOrder
     scheduledAt?: SortOrderInput | SortOrder
     publishedAt?: SortOrderInput | SortOrder
@@ -29036,6 +29100,10 @@ export namespace Prisma {
     status?: EnumArticleStatusFilter<"Article"> | $Enums.ArticleStatus
     isFeatured?: BoolFilter<"Article"> | boolean
     isBreakingNews?: BoolFilter<"Article"> | boolean
+    isTopHeadline?: BoolFilter<"Article"> | boolean
+    isTrending?: BoolFilter<"Article"> | boolean
+    isUaeNews?: BoolFilter<"Article"> | boolean
+    isSponsored?: BoolFilter<"Article"> | boolean
     viewCount?: IntFilter<"Article"> | number
     scheduledAt?: DateTimeNullableFilter<"Article"> | Date | string | null
     publishedAt?: DateTimeNullableFilter<"Article"> | Date | string | null
@@ -29066,6 +29134,10 @@ export namespace Prisma {
     status?: SortOrder
     isFeatured?: SortOrder
     isBreakingNews?: SortOrder
+    isTopHeadline?: SortOrder
+    isTrending?: SortOrder
+    isUaeNews?: SortOrder
+    isSponsored?: SortOrder
     viewCount?: SortOrder
     scheduledAt?: SortOrderInput | SortOrder
     publishedAt?: SortOrderInput | SortOrder
@@ -29098,6 +29170,10 @@ export namespace Prisma {
     status?: EnumArticleStatusWithAggregatesFilter<"Article"> | $Enums.ArticleStatus
     isFeatured?: BoolWithAggregatesFilter<"Article"> | boolean
     isBreakingNews?: BoolWithAggregatesFilter<"Article"> | boolean
+    isTopHeadline?: BoolWithAggregatesFilter<"Article"> | boolean
+    isTrending?: BoolWithAggregatesFilter<"Article"> | boolean
+    isUaeNews?: BoolWithAggregatesFilter<"Article"> | boolean
+    isSponsored?: BoolWithAggregatesFilter<"Article"> | boolean
     viewCount?: IntWithAggregatesFilter<"Article"> | number
     scheduledAt?: DateTimeNullableWithAggregatesFilter<"Article"> | Date | string | null
     publishedAt?: DateTimeNullableWithAggregatesFilter<"Article"> | Date | string | null
@@ -30802,6 +30878,10 @@ export namespace Prisma {
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isSponsored?: boolean
     viewCount?: number
     scheduledAt?: Date | string | null
     publishedAt?: Date | string | null
@@ -30830,6 +30910,10 @@ export namespace Prisma {
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isSponsored?: boolean
     viewCount?: number
     scheduledAt?: Date | string | null
     publishedAt?: Date | string | null
@@ -30858,6 +30942,10 @@ export namespace Prisma {
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
+    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
+    isTrending?: BoolFieldUpdateOperationsInput | boolean
+    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
+    isSponsored?: BoolFieldUpdateOperationsInput | boolean
     viewCount?: IntFieldUpdateOperationsInput | number
     scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -30886,6 +30974,10 @@ export namespace Prisma {
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
+    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
+    isTrending?: BoolFieldUpdateOperationsInput | boolean
+    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
+    isSponsored?: BoolFieldUpdateOperationsInput | boolean
     viewCount?: IntFieldUpdateOperationsInput | number
     scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -30914,6 +31006,10 @@ export namespace Prisma {
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isSponsored?: boolean
     viewCount?: number
     scheduledAt?: Date | string | null
     publishedAt?: Date | string | null
@@ -30938,6 +31034,10 @@ export namespace Prisma {
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
+    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
+    isTrending?: BoolFieldUpdateOperationsInput | boolean
+    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
+    isSponsored?: BoolFieldUpdateOperationsInput | boolean
     viewCount?: IntFieldUpdateOperationsInput | number
     scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -30960,6 +31060,10 @@ export namespace Prisma {
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
+    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
+    isTrending?: BoolFieldUpdateOperationsInput | boolean
+    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
+    isSponsored?: BoolFieldUpdateOperationsInput | boolean
     viewCount?: IntFieldUpdateOperationsInput | number
     scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -32916,6 +33020,10 @@ export namespace Prisma {
     status?: SortOrder
     isFeatured?: SortOrder
     isBreakingNews?: SortOrder
+    isTopHeadline?: SortOrder
+    isTrending?: SortOrder
+    isUaeNews?: SortOrder
+    isSponsored?: SortOrder
     viewCount?: SortOrder
     scheduledAt?: SortOrder
     publishedAt?: SortOrder
@@ -32945,6 +33053,10 @@ export namespace Prisma {
     status?: SortOrder
     isFeatured?: SortOrder
     isBreakingNews?: SortOrder
+    isTopHeadline?: SortOrder
+    isTrending?: SortOrder
+    isUaeNews?: SortOrder
+    isSponsored?: SortOrder
     viewCount?: SortOrder
     scheduledAt?: SortOrder
     publishedAt?: SortOrder
@@ -32969,6 +33081,10 @@ export namespace Prisma {
     status?: SortOrder
     isFeatured?: SortOrder
     isBreakingNews?: SortOrder
+    isTopHeadline?: SortOrder
+    isTrending?: SortOrder
+    isUaeNews?: SortOrder
+    isSponsored?: SortOrder
     viewCount?: SortOrder
     scheduledAt?: SortOrder
     publishedAt?: SortOrder
@@ -36273,6 +36389,10 @@ export namespace Prisma {
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isSponsored?: boolean
     viewCount?: number
     scheduledAt?: Date | string | null
     publishedAt?: Date | string | null
@@ -36300,6 +36420,10 @@ export namespace Prisma {
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isSponsored?: boolean
     viewCount?: number
     scheduledAt?: Date | string | null
     publishedAt?: Date | string | null
@@ -36390,6 +36514,10 @@ export namespace Prisma {
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
+    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
+    isTrending?: BoolFieldUpdateOperationsInput | boolean
+    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
+    isSponsored?: BoolFieldUpdateOperationsInput | boolean
     viewCount?: IntFieldUpdateOperationsInput | number
     scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -36417,6 +36545,10 @@ export namespace Prisma {
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
+    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
+    isTrending?: BoolFieldUpdateOperationsInput | boolean
+    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
+    isSponsored?: BoolFieldUpdateOperationsInput | boolean
     viewCount?: IntFieldUpdateOperationsInput | number
     scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -37035,6 +37167,10 @@ export namespace Prisma {
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isSponsored?: boolean
     viewCount?: number
     scheduledAt?: Date | string | null
     publishedAt?: Date | string | null
@@ -37062,6 +37198,10 @@ export namespace Prisma {
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isSponsored?: boolean
     viewCount?: number
     scheduledAt?: Date | string | null
     publishedAt?: Date | string | null
@@ -37128,6 +37268,10 @@ export namespace Prisma {
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
+    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
+    isTrending?: BoolFieldUpdateOperationsInput | boolean
+    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
+    isSponsored?: BoolFieldUpdateOperationsInput | boolean
     viewCount?: IntFieldUpdateOperationsInput | number
     scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -37155,6 +37299,10 @@ export namespace Prisma {
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
+    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
+    isTrending?: BoolFieldUpdateOperationsInput | boolean
+    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
+    isSponsored?: BoolFieldUpdateOperationsInput | boolean
     viewCount?: IntFieldUpdateOperationsInput | number
     scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -37264,6 +37412,10 @@ export namespace Prisma {
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isSponsored?: boolean
     viewCount?: number
     scheduledAt?: Date | string | null
     publishedAt?: Date | string | null
@@ -37291,6 +37443,10 @@ export namespace Prisma {
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isSponsored?: boolean
     viewCount?: number
     scheduledAt?: Date | string | null
     publishedAt?: Date | string | null
@@ -37393,6 +37549,10 @@ export namespace Prisma {
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
+    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
+    isTrending?: BoolFieldUpdateOperationsInput | boolean
+    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
+    isSponsored?: BoolFieldUpdateOperationsInput | boolean
     viewCount?: IntFieldUpdateOperationsInput | number
     scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -37420,6 +37580,10 @@ export namespace Prisma {
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
+    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
+    isTrending?: BoolFieldUpdateOperationsInput | boolean
+    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
+    isSponsored?: BoolFieldUpdateOperationsInput | boolean
     viewCount?: IntFieldUpdateOperationsInput | number
     scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -37447,6 +37611,10 @@ export namespace Prisma {
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isSponsored?: boolean
     viewCount?: number
     scheduledAt?: Date | string | null
     publishedAt?: Date | string | null
@@ -37474,6 +37642,10 @@ export namespace Prisma {
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isSponsored?: boolean
     viewCount?: number
     scheduledAt?: Date | string | null
     publishedAt?: Date | string | null
@@ -37580,6 +37752,10 @@ export namespace Prisma {
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
+    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
+    isTrending?: BoolFieldUpdateOperationsInput | boolean
+    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
+    isSponsored?: BoolFieldUpdateOperationsInput | boolean
     viewCount?: IntFieldUpdateOperationsInput | number
     scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -37607,6 +37783,10 @@ export namespace Prisma {
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
+    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
+    isTrending?: BoolFieldUpdateOperationsInput | boolean
+    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
+    isSponsored?: BoolFieldUpdateOperationsInput | boolean
     viewCount?: IntFieldUpdateOperationsInput | number
     scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -37768,6 +37948,10 @@ export namespace Prisma {
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isSponsored?: boolean
     viewCount?: number
     scheduledAt?: Date | string | null
     publishedAt?: Date | string | null
@@ -37795,6 +37979,10 @@ export namespace Prisma {
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isSponsored?: boolean
     viewCount?: number
     scheduledAt?: Date | string | null
     publishedAt?: Date | string | null
@@ -37986,6 +38174,10 @@ export namespace Prisma {
     status?: EnumArticleStatusFilter<"Article"> | $Enums.ArticleStatus
     isFeatured?: BoolFilter<"Article"> | boolean
     isBreakingNews?: BoolFilter<"Article"> | boolean
+    isTopHeadline?: BoolFilter<"Article"> | boolean
+    isTrending?: BoolFilter<"Article"> | boolean
+    isUaeNews?: BoolFilter<"Article"> | boolean
+    isSponsored?: BoolFilter<"Article"> | boolean
     viewCount?: IntFilter<"Article"> | number
     scheduledAt?: DateTimeNullableFilter<"Article"> | Date | string | null
     publishedAt?: DateTimeNullableFilter<"Article"> | Date | string | null
@@ -38584,6 +38776,10 @@ export namespace Prisma {
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isSponsored?: boolean
     viewCount?: number
     scheduledAt?: Date | string | null
     publishedAt?: Date | string | null
@@ -38611,6 +38807,10 @@ export namespace Prisma {
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isSponsored?: boolean
     viewCount?: number
     scheduledAt?: Date | string | null
     publishedAt?: Date | string | null
@@ -39728,6 +39928,10 @@ export namespace Prisma {
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isSponsored?: boolean
     viewCount?: number
     scheduledAt?: Date | string | null
     publishedAt?: Date | string | null
@@ -39822,6 +40026,10 @@ export namespace Prisma {
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
+    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
+    isTrending?: BoolFieldUpdateOperationsInput | boolean
+    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
+    isSponsored?: BoolFieldUpdateOperationsInput | boolean
     viewCount?: IntFieldUpdateOperationsInput | number
     scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -39849,6 +40057,10 @@ export namespace Prisma {
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
+    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
+    isTrending?: BoolFieldUpdateOperationsInput | boolean
+    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
+    isSponsored?: BoolFieldUpdateOperationsInput | boolean
     viewCount?: IntFieldUpdateOperationsInput | number
     scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -39876,6 +40088,10 @@ export namespace Prisma {
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
+    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
+    isTrending?: BoolFieldUpdateOperationsInput | boolean
+    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
+    isSponsored?: BoolFieldUpdateOperationsInput | boolean
     viewCount?: IntFieldUpdateOperationsInput | number
     scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -39984,6 +40200,10 @@ export namespace Prisma {
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isSponsored?: boolean
     viewCount?: number
     scheduledAt?: Date | string | null
     publishedAt?: Date | string | null
@@ -40146,6 +40366,10 @@ export namespace Prisma {
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
+    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
+    isTrending?: BoolFieldUpdateOperationsInput | boolean
+    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
+    isSponsored?: BoolFieldUpdateOperationsInput | boolean
     viewCount?: IntFieldUpdateOperationsInput | number
     scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -40173,6 +40397,10 @@ export namespace Prisma {
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
+    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
+    isTrending?: BoolFieldUpdateOperationsInput | boolean
+    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
+    isSponsored?: BoolFieldUpdateOperationsInput | boolean
     viewCount?: IntFieldUpdateOperationsInput | number
     scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -40200,6 +40428,10 @@ export namespace Prisma {
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
+    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
+    isTrending?: BoolFieldUpdateOperationsInput | boolean
+    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
+    isSponsored?: BoolFieldUpdateOperationsInput | boolean
     viewCount?: IntFieldUpdateOperationsInput | number
     scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null

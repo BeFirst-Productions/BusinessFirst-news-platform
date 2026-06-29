@@ -96,11 +96,14 @@ export default function CategoriesPage() {
       </div>
 
       <div className="grid gap-4">
-        {categories?.map((category: any) => (
+        {categories?.map((category: any, index: number) => (
           <Card key={category.id}>
             <CardContent className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 py-4 px-4 sm:px-6">
               <div className="flex items-start gap-3 w-full">
                 <GripVertical className="h-5 w-5 text-muted-foreground cursor-move mt-1 flex-shrink-0" />
+                <div className="flex items-center justify-center bg-muted text-muted-foreground rounded-md w-7 h-7 font-mono text-xs font-bold flex-shrink-0 select-none border">
+                  {index + 1}
+                </div>
                 <div className="space-y-1 min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
                     <FolderTree className="h-5 w-5 text-primary flex-shrink-0" />

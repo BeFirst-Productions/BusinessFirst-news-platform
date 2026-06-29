@@ -31,7 +31,7 @@ export class Database {
                 const result = await query(args);
                 const after = Date.now();
                 
-                if (after - before > 100) { // Log slow queries
+                if (after - before > 100) { 
                   console.warn(`⚠ Slow query (${after - before}ms): ${model}.${operation}`);
                 }
                 

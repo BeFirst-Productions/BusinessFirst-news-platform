@@ -48,6 +48,13 @@ export interface TranslationsConfig {
   };
 }
 
+export interface NotificationSettingsConfig {
+  newsletter: boolean;
+  articles: boolean;
+  comments: boolean;
+  ads: boolean;
+}
+
 interface SettingsState {
   branding: BrandingConfig;
   sidebarNav: SidebarNavItem[];
@@ -55,6 +62,7 @@ interface SettingsState {
   featureFlags: FeatureFlagsConfig;
   customCode: CustomCodeConfig;
   translations: TranslationsConfig;
+  notificationSettings: NotificationSettingsConfig;
   setSettings: (settings: { key: string; value: any }[]) => void;
   updateBranding: (branding: Partial<BrandingConfig>) => void;
   updateSidebarNav: (sidebarNav: SidebarNavItem[]) => void;
@@ -62,6 +70,7 @@ interface SettingsState {
   updateFeatureFlags: (featureFlags: Partial<FeatureFlagsConfig>) => void;
   updateCustomCode: (customCode: Partial<CustomCodeConfig>) => void;
   updateTranslations: (translations: TranslationsConfig) => void;
+  updateNotificationSettings: (notificationSettings: Partial<NotificationSettingsConfig>) => void;
 }
 
 export const useSettingsStore = create<SettingsState>((set) => ({
@@ -94,6 +103,12 @@ export const useSettingsStore = create<SettingsState>((set) => ({
   translations: {
     en: {},
   },
+  notificationSettings: {
+    newsletter: true,
+    articles: true,
+    comments: true,
+    ads: true,
+  },
   setSettings: (settings) => {
     const getVal = (key: string) => settings.find((s: any) => s.key === key)?.value;
     set((state) => ({
@@ -103,6 +118,7 @@ export const useSettingsStore = create<SettingsState>((set) => ({
       featureFlags: getVal('ui_feature_flags') || state.featureFlags,
       customCode: getVal('ui_custom_code') || state.customCode,
       translations: getVal('ui_translation_keys') || state.translations,
+      notificationSettings: getVal('ui_notification_settings') || state.notificationSettings,
     }));
   },
   updateBranding: (branding) => set((state) => ({ branding: { ...state.branding, ...branding } })),
@@ -111,4 +127,5 @@ export const useSettingsStore = create<SettingsState>((set) => ({
   updateFeatureFlags: (featureFlags) => set((state) => ({ featureFlags: { ...state.featureFlags, ...featureFlags } })),
   updateCustomCode: (customCode) => set((state) => ({ customCode: { ...state.customCode, ...customCode } })),
   updateTranslations: (translations) => set({ translations }),
+  updateNotificationSettings: (notificationSettings) => set((state) => ({ notificationSettings: { ...state.notificationSettings, ...notificationSettings } })),
 }));

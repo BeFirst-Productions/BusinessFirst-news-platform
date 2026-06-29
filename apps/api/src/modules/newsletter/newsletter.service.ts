@@ -10,6 +10,7 @@ import {
   CampaignQueryInput,
 } from './newsletter.validation';
 import { randomBytes } from 'crypto';
+import { NotificationsService } from '../notifications/notifications.service';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Helpers
@@ -301,5 +302,37 @@ export class NewsletterService {
     const campaign = await prisma.newsletterCampaign.findUnique({ where: { id } });
     if (!campaign) throw new NotFoundError('Campaign not found');
     return campaign;
+  }
+
+  // ── Public: Test newsletter subscription & notifications trigger ─────────
+  static async testSubscribe(email: string, name?: string) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      throw new BadRequestError('Invalid email address');
+    }
+
+    const existing = await prisma.newsletter.findUnique({
+      where: { email },
+    });
+
+    if (existing && existing.isActive) {
+      return { success: true, subscriber: existing };
+    }
+
+    const subscriber = await prisma.newsletter.upsert({
+      where: { email },
+      update: { isActive: true },
+      create: {
+        email,
+        name: name || null,
+        isActive: true,
+        token: generateToken(),
+      },
+    });
+
+    await NotificationsService.createNewsletterNotification(email, name).catch((err) => {
+      console.error('Failed to trigger test subscriber notification:', err);
+    });
+
+    return { success: true, subscriber };
   }
 }

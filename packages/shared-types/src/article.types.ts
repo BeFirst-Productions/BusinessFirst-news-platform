@@ -27,7 +27,12 @@ export interface Article extends BaseEntity {
   status: ArticleStatus;
   isFeatured: boolean;
   isBreakingNews: boolean;
+  isTopHeadline: boolean;
+  isTrending: boolean;
+  isUaeNews: boolean;
+  isSponsored: boolean;
   viewCount: number;
+  readingTime?: number;
   scheduledAt?: string;
   publishedAt?: string;
   metaTitle?: string;
@@ -48,6 +53,10 @@ export interface ArticleFilters {
   search?: string;
   isFeatured?: boolean;
   isBreakingNews?: boolean;
+  isTopHeadline?: boolean;
+  isTrending?: boolean;
+  isUaeNews?: boolean;
+  isSponsored?: boolean;
   status?: ArticleStatus;
   sortBy?: string;
   sortOrder?: 'asc' | 'desc';

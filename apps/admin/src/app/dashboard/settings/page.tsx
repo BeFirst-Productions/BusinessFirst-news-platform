@@ -33,6 +33,7 @@ import {
   Trash2,
   Image as ImageIcon,
   AlertCircle,
+  Bell,
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { cn } from '@/lib/utils';
@@ -85,6 +86,13 @@ interface TranslationsConfig {
   [lang: string]: {
     [key: string]: string;
   };
+}
+
+interface NotificationSettingsConfig {
+  newsletter: boolean;
+  articles: boolean;
+  comments: boolean;
+  ads: boolean;
 }
 
 const PRESETS = [
@@ -318,7 +326,7 @@ function ImageUploadField({
 
 export default function SettingsPage() {
   const queryClient = useQueryClient();
-  const [activeTab, setActiveTab] = useState<'branding' | 'sidebar' | 'widgets' | 'flags' | 'code' | 'i18n'>('branding');
+  const [activeTab, setActiveTab] = useState<'branding' | 'sidebar' | 'widgets' | 'flags' | 'notifications' | 'code' | 'i18n'>('branding');
 
   // Form states
   const [branding, setBranding] = useState<BrandingConfig>({
@@ -350,6 +358,12 @@ export default function SettingsPage() {
   const [translations, setTranslations] = useState<TranslationsConfig>({
     en: {},
   });
+  const [notificationSettings, setNotificationSettings] = useState<NotificationSettingsConfig>({
+    newsletter: true,
+    articles: true,
+    comments: true,
+    ads: true,
+  });
 
   const { data: settingsData, isLoading, refetch, isRefetching } = useQuery({
     queryKey: ['settings'],
@@ -380,6 +394,9 @@ export default function SettingsPage() {
 
       const translationVal = getVal('ui_translation_keys');
       if (translationVal) setTranslations(translationVal);
+
+      const notifVal = getVal('ui_notification_settings');
+      if (notifVal) setNotificationSettings(notifVal);
     }
   }, [settingsData]);
 
@@ -390,6 +407,7 @@ export default function SettingsPage() {
     updateFeatureFlags,
     updateCustomCode,
     updateTranslations,
+    updateNotificationSettings,
     setSettings,
   } = useSettingsStore();
 
@@ -432,6 +450,11 @@ export default function SettingsPage() {
     updateTranslations(translations);
   }, [translations, updateTranslations]);
 
+  // Sync local notificationSettings to store in real-time
+  useEffect(() => {
+    updateNotificationSettings(notificationSettings);
+  }, [notificationSettings, updateNotificationSettings]);
+
   const saveSettings = useMutation({
     mutationFn: async (payload: { settings: { key: string; value: any }[] }) => {
       return apiClient.put('/settings', payload);
@@ -463,6 +486,7 @@ export default function SettingsPage() {
       { key: 'ui_feature_flags', value: featureFlags },
       { key: 'ui_custom_code', value: customCode },
       { key: 'ui_translation_keys', value: translations },
+      { key: 'ui_notification_settings', value: notificationSettings },
     ];
     saveSettings.mutate({ settings: payload });
   };
@@ -538,6 +562,7 @@ export default function SettingsPage() {
     { id: 'sidebar', label: 'Sidebar Navigation', icon: <Menu className="h-4 w-4" /> },
     { id: 'widgets', label: 'Dashboard Widgets', icon: <LayoutGrid className="h-4 w-4" /> },
     { id: 'flags', label: 'Feature Flags', icon: <ToggleLeft className="h-4 w-4" /> },
+    { id: 'notifications', label: 'Notification Settings', icon: <Bell className="h-4 w-4" /> },
     { id: 'code', label: 'Styles & Code', icon: <Code className="h-4 w-4" /> },
     { id: 'i18n', label: 'Translations', icon: <Languages className="h-4 w-4" /> },
   ] as const;
@@ -981,6 +1006,66 @@ export default function SettingsPage() {
                       />
                     </div>
                   ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {activeTab === 'notifications' && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Notification Settings</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="divide-y">
+                  <div className="flex items-center justify-between py-4 first:pt-0">
+                    <div>
+                      <h4 className="font-semibold text-sm">Newsletter Notifications</h4>
+                      <p className="text-xs text-muted-foreground">
+                        Receive real-time notifications when a user subscribes to the newsletter.
+                      </p>
+                    </div>
+                    <Switch
+                      checked={notificationSettings.newsletter}
+                      onCheckedChange={(v) => setNotificationSettings({ ...notificationSettings, newsletter: v })}
+                    />
+                  </div>
+                  <div className="flex items-center justify-between py-4">
+                    <div>
+                      <h4 className="font-semibold text-sm">Article Notifications</h4>
+                      <p className="text-xs text-muted-foreground">
+                        Receive real-time notifications for article creations or updates.
+                      </p>
+                    </div>
+                    <Switch
+                      checked={notificationSettings.articles}
+                      onCheckedChange={(v) => setNotificationSettings({ ...notificationSettings, articles: v })}
+                    />
+                  </div>
+                  <div className="flex items-center justify-between py-4">
+                    <div>
+                      <h4 className="font-semibold text-sm">Comments Notifications</h4>
+                      <p className="text-xs text-muted-foreground">
+                        Receive notifications when new comments are posted.
+                      </p>
+                    </div>
+                    <Switch
+                      checked={notificationSettings.comments}
+                      onCheckedChange={(v) => setNotificationSettings({ ...notificationSettings, comments: v })}
+                    />
+                  </div>
+                  <div className="flex items-center justify-between py-4 last:pb-0">
+                    <div>
+                      <h4 className="font-semibold text-sm">Ads Notifications</h4>
+                      <p className="text-xs text-muted-foreground">
+                        Receive notifications for ads status changes or expirations.
+                      </p>
+                    </div>
+                    <Switch
+                      checked={notificationSettings.ads}
+                      onCheckedChange={(v) => setNotificationSettings({ ...notificationSettings, ads: v })}
+                    />
+                  </div>
                 </div>
               </CardContent>
             </Card>

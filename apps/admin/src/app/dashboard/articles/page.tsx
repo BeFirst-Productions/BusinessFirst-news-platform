@@ -137,6 +137,7 @@ export default function ArticlesPage() {
     {
       key: 'title',
       header: 'Title',
+      className: 'min-w-[250px] max-w-[320px]',
       cell: (item: any) => (
         <div className="flex items-center gap-3 max-w-sm">
           {item.featuredImage ? (
@@ -160,6 +161,7 @@ export default function ArticlesPage() {
     {
       key: 'category',
       header: 'Category',
+      className: 'w-[130px]',
       cell: (item: any) => {
         const category = item.category;
         if (!category) {
@@ -175,6 +177,7 @@ export default function ArticlesPage() {
     {
       key: 'author',
       header: 'Author',
+      className: 'w-[140px]',
       cell: (item: any) => (
         <div className="flex items-center gap-2">
           <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center">
@@ -189,6 +192,7 @@ export default function ArticlesPage() {
     {
       key: 'status',
       header: 'Status',
+      className: 'w-[120px]',
       cell: (item: any) => (
         <Badge
           variant={
@@ -218,12 +222,13 @@ export default function ArticlesPage() {
     {
       key: 'createdAt',
       header: 'Date',
+      className: 'w-[130px]',
       cell: (item: any) => formatDate(item.createdAt),
     },
     {
       key: 'actions',
       header: 'Actions',
-      className: 'text-right',
+      className: 'w-[120px] text-right',
       cell: (item: any) => (
         <div className="flex items-center justify-end gap-2">
           <TooltipWrapper content="View ">

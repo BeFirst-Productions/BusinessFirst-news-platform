@@ -23,6 +23,13 @@ router.post(
   NewsletterController.subscribe,
 );
 
+// POST /api/v1/newsletter/test-subscribe (For manual testing and notifications test)
+router.post(
+  '/test-subscribe',
+  ValidationMiddleware.validate(subscribeSchema),
+  NewsletterController.testSubscribe,
+);
+
 // GET /api/v1/newsletter/unsubscribe?token=...
 router.get('/unsubscribe', NewsletterController.unsubscribe);
 

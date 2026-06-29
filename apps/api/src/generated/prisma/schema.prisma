@@ -104,6 +104,10 @@ model Article {
   status             ArticleStatus @default(DRAFT)
   isFeatured         Boolean       @default(false)
   isBreakingNews     Boolean       @default(false)
+  isTopHeadline      Boolean       @default(false)
+  isTrending         Boolean       @default(false)
+  isUaeNews          Boolean       @default(false)
+  isSponsored        Boolean       @default(false)
   viewCount          Int           @default(0)
   scheduledAt        DateTime?
   publishedAt        DateTime?
@@ -334,6 +338,7 @@ datasource db {
 // Import all schema modules
 // Note: Prisma doesn't support imports natively, 
 // so we'll use a build script to merge them
+
 // Media model
 
 model Media {

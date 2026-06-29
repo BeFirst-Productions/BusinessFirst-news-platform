@@ -3,6 +3,7 @@ import { NotFoundError, ConflictError, BadRequestError } from '../../shared/erro
 import { CreateArticleInput, UpdateArticleInput, ArticleQueryInput } from './articles.validation';
 import { SlugUtil } from '../../shared/utils/slug.util';
 import { Prisma, ArticleStatus } from '../../generated/prisma';
+import { WebsiteService } from '../website/website.service';
 
 export class ArticlesService {
   static async getArticles(query: ArticleQueryInput) {
@@ -12,6 +13,10 @@ export class ArticlesService {
       search,
       status,
       categoryId,
+      isTopHeadline,
+      isTrending,
+      isUaeNews,
+      isSponsored,
       sortBy,
       sortOrder,
     } = query;
@@ -27,6 +32,22 @@ export class ArticlesService {
 
     if (categoryId) {
       where.categoryId = categoryId;
+    }
+
+    if (isTopHeadline !== undefined) {
+      where.isTopHeadline = isTopHeadline;
+    }
+
+    if (isTrending !== undefined) {
+      where.isTrending = isTrending;
+    }
+
+    if (isUaeNews !== undefined) {
+      where.isUaeNews = isUaeNews;
+    }
+
+    if (isSponsored !== undefined) {
+      where.isSponsored = isSponsored;
     }
 
     if (search) {
@@ -104,12 +125,17 @@ export class ArticlesService {
 
   static async createArticle(data: CreateArticleInput, authorId: string) {
     // Generate unique slug
-    let slug = SlugUtil.generate(data.title, false);
+    const customSlug = data.slug && data.slug.trim() !== '' ? data.slug : null;
+    let slug = customSlug ? SlugUtil.generate(customSlug, false) : SlugUtil.generate(data.title, false);
     const existingSlug = await prisma.article.findUnique({
       where: { slug },
     });
     if (existingSlug) {
-      slug = SlugUtil.generate(data.title, true);
+      if (customSlug) {
+        throw new ConflictError('The custom URL slug is already in use by another article');
+      } else {
+        slug = SlugUtil.generate(data.title, true);
+      }
     }
 
     // Check category exists
@@ -150,7 +176,11 @@ export class ArticlesService {
         scheduledAt: data.scheduledAt ? new Date(data.scheduledAt) : null,
         publishedAt: data.status === 'PUBLISHED' ? new Date() : null,
         isFeatured: data.isFeatured,
-        isBreakingNews: data.isBreakingNews,
+        isBreakingNews: data.isBreakingNews || data.isTopHeadline || false,
+        isTopHeadline: data.isTopHeadline || false,
+        isTrending: data.isTrending || false,
+        isUaeNews: data.isUaeNews || false,
+        isSponsored: data.isSponsored || false,
         metaTitle: data.metaTitle || null,
         metaDescription: data.metaDescription || null,
         metaKeywords: data.metaKeywords || null,
@@ -173,6 +203,11 @@ export class ArticlesService {
         },
       },
     });
+
+    // Invalidate website cache asynchronously
+    WebsiteService.invalidateCache().catch((err) =>
+      console.error('Failed to invalidate website cache on article creation:', err)
+    );
 
     return {
       ...article,
@@ -216,12 +251,26 @@ export class ArticlesService {
 
     if (data.title !== undefined && data.title !== article.title) {
       updateData.title = data.title;
-      // Generate new slug
+    }
+
+    if (data.slug !== undefined && data.slug !== null && data.slug.trim() !== '') {
+      const cleanSlug = SlugUtil.generate(data.slug, false);
+      if (cleanSlug !== article.slug) {
+        const existingSlug = await prisma.article.findUnique({
+          where: { slug: cleanSlug },
+        });
+        if (existingSlug && existingSlug.id !== id) {
+          throw new ConflictError('The custom URL slug is already in use by another article');
+        }
+        updateData.slug = cleanSlug;
+      }
+    } else if (data.title !== undefined && data.title !== article.title) {
+      // If title changed and no slug was provided in the update payload
       let slug = SlugUtil.generate(data.title, false);
       const existingSlug = await prisma.article.findUnique({
         where: { slug },
       });
-      if (existingSlug) {
+      if (existingSlug && existingSlug.id !== id) {
         slug = SlugUtil.generate(data.title, true);
       }
       updateData.slug = slug;
@@ -279,6 +328,23 @@ export class ArticlesService {
       updateData.isBreakingNews = data.isBreakingNews;
     }
 
+    if (data.isTopHeadline !== undefined) {
+      updateData.isTopHeadline = data.isTopHeadline;
+      updateData.isBreakingNews = data.isTopHeadline;
+    }
+
+    if (data.isTrending !== undefined) {
+      updateData.isTrending = data.isTrending;
+    }
+
+    if (data.isUaeNews !== undefined) {
+      updateData.isUaeNews = data.isUaeNews;
+    }
+
+    if (data.isSponsored !== undefined) {
+      updateData.isSponsored = data.isSponsored;
+    }
+
     if (data.metaTitle !== undefined) {
       updateData.metaTitle = data.metaTitle || null;
     }
@@ -327,6 +393,11 @@ export class ArticlesService {
       });
     });
 
+    // Invalidate website cache asynchronously
+    WebsiteService.invalidateCache().catch((err) =>
+      console.error('Failed to invalidate website cache on article update:', err)
+    );
+
     return {
       ...updatedArticle,
       tags: updatedArticle.tags.map(t => t.tag),
@@ -348,6 +419,11 @@ export class ArticlesService {
       where: { id },
     });
 
+    // Invalidate website cache asynchronously
+    WebsiteService.invalidateCache().catch((err) =>
+      console.error('Failed to invalidate website cache on article deletion:', err)
+    );
+
     return { message: 'Article deleted successfully' };
   }
 
@@ -357,6 +433,11 @@ export class ArticlesService {
         id: { in: ids },
       },
     });
+
+    // Invalidate website cache asynchronously
+    WebsiteService.invalidateCache().catch((err) =>
+      console.error('Failed to invalidate website cache on bulk article deletion:', err)
+    );
 
     return { message: `${ids.length} articles deleted successfully` };
   }

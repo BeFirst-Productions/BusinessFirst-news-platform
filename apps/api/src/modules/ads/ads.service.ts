@@ -3,6 +3,7 @@ import { NotFoundError } from '../../shared/errors/AppError';
 import { CreateAdInput, UpdateAdInput, AdQueryInput } from './ads.validation';
 import { CloudinaryService } from '../../shared/services/cloudinary.service';
 import { Prisma, AdType, AdStatus } from '../../generated/prisma';
+import { WebsiteService } from '../website/website.service';
 
 export class AdsService {
   static async getAds(query: AdQueryInput) {
@@ -74,6 +75,11 @@ export class AdsService {
       },
     });
 
+    // Invalidate website cache asynchronously
+    WebsiteService.invalidateCache().catch((err) =>
+      console.error('Failed to invalidate website cache on ad creation:', err)
+    );
+
     return ad;
   }
 
@@ -110,6 +116,11 @@ export class AdsService {
       data: updateData,
     });
 
+    // Invalidate website cache asynchronously
+    WebsiteService.invalidateCache().catch((err) =>
+      console.error('Failed to invalidate website cache on ad update:', err)
+    );
+
     return updatedAd;
   }
 
@@ -125,6 +136,11 @@ export class AdsService {
     await prisma.ad.delete({
       where: { id },
     });
+
+    // Invalidate website cache asynchronously
+    WebsiteService.invalidateCache().catch((err) =>
+      console.error('Failed to invalidate website cache on ad deletion:', err)
+    );
 
     return { message: 'Advertisement deleted successfully' };
   }

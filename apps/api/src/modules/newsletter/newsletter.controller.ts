@@ -160,4 +160,15 @@ export class NewsletterController {
       next(error);
     }
   }
+
+  // ── Public Test: Trigger newsletter subscription and real-time notification ──
+  static async testSubscribe(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const { email, name } = req.body;
+      const result = await NewsletterService.testSubscribe(email as string, name as string);
+      ResponseUtil.created(res, result, 'Newsletter test subscription processed and notifications triggered');
+    } catch (error) {
+      next(error);
+    }
+  }
 }

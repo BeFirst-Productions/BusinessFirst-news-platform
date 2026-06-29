@@ -12,6 +12,8 @@ import { settingsRouter } from './modules/settings/settings.router';
 import { newsletterRouter } from './modules/newsletter/newsletter.router';
 import { seoRouter } from './modules/seo/seo.router';
 import { websiteRouter } from './modules/website/website.router';
+import { notificationsRouter } from './modules/notifications/notifications.router';
+import { searchRouter } from './modules/search/search.router';
 
 const router:Router = Router();
 
@@ -40,5 +42,7 @@ router.use('/settings', settingsRouter);
 router.use('/newsletter', newsletterRouter);
 router.use('/seo', seoRouter);
 router.use('/website', websiteRouter);
+router.use('/notifications', notificationsRouter);
+router.use('/search', searchRouter);
 
 export { router };

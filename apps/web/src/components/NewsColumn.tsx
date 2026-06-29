@@ -44,7 +44,7 @@ const NewsColumn: React.FC<NewsColumnProps> = ({ title, titleColor = '#FF0202', 
           />
         </div>
         <span className="text-xs text-gray-500 font-medium mt-1">
-          {featured.category} | {featured.date}
+          {featured.date}
         </span>
         <h3 className="text-[#24214c] font-bold text-lg leading-tight group-hover:text-[#cd2027] transition-colors">
           {featured.title}
@@ -67,7 +67,7 @@ const NewsColumn: React.FC<NewsColumnProps> = ({ title, titleColor = '#FF0202', 
               {item.title}
             </h4>
             <span className="text-[10px] text-gray-500 font-medium">
-              {item.category} | {item.date}
+              {item.date}
             </span>
           </Link>
         ))}
@@ -90,7 +90,7 @@ const NewsColumn: React.FC<NewsColumnProps> = ({ title, titleColor = '#FF0202', 
                 {item.title}
               </h4>
               <span className="text-[10px] text-gray-500 font-medium mt-1">
-                {item.category} | {item.date}
+                {item.date}
               </span>
             </div>
           </Link>

@@ -21,6 +21,26 @@ export class WebsiteController {
         isBreakingNews = req.query.isBreakingNews === 'true';
       }
 
+      let isTopHeadline: boolean | undefined = undefined;
+      if (req.query.isTopHeadline !== undefined) {
+        isTopHeadline = req.query.isTopHeadline === 'true';
+      }
+
+      let isTrending: boolean | undefined = undefined;
+      if (req.query.isTrending !== undefined) {
+        isTrending = req.query.isTrending === 'true';
+      }
+
+      let isUaeNews: boolean | undefined = undefined;
+      if (req.query.isUaeNews !== undefined) {
+        isUaeNews = req.query.isUaeNews === 'true';
+      }
+
+      let isSponsored: boolean | undefined = undefined;
+      if (req.query.isSponsored !== undefined) {
+        isSponsored = req.query.isSponsored === 'true';
+      }
+
       const result = await WebsiteService.getArticles({
         page,
         limit,
@@ -28,6 +48,10 @@ export class WebsiteController {
         categoryId,
         isFeatured,
         isBreakingNews,
+        isTopHeadline,
+        isTrending,
+        isUaeNews,
+        isSponsored,
         sortBy,
         sortOrder,
       });

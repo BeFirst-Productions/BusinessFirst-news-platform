@@ -1,10 +1,14 @@
+'use client';
+
 import React from 'react';
 import SectionContainer from './SectionContainer';
 import NewsColumn, { NewsItem } from './NewsColumn';
 import AdBanner from './AdBanner';
 import NewsletterWidget from './NewsletterWidget';
+import { useArticles } from '../hooks/use-articles';
+import { Skeleton } from './ui/Skeleton';
 
-// --- Dummy Data ---
+// --- Dummy Data (Fallbacks) ---
 const dummyFeaturedTrending: NewsItem = {
   id: 'ft1',
   title: 'How 5G Will Transform Communication and Connectivity',
@@ -77,6 +81,84 @@ const dummySmallList: NewsItem[] = [
 ];
 
 const NewsGridSection = () => {
+  // Query Trending Articles
+  const { data: trendingRes, isLoading: isTrendingLoading } = useArticles({
+    isTrending: true,
+    limit: 8,
+  });
+
+  // Query UAE Articles
+  const { data: uaeRes, isLoading: isUaeLoading } = useArticles({
+    isUaeNews: true,
+    limit: 8,
+  });
+
+  const mapToNewsItem = (article: any): NewsItem => ({
+    id: article.slug,
+    title: article.title,
+    category: article.category?.name || 'News',
+    date: article.publishedAt
+      ? new Date(article.publishedAt).toLocaleDateString('en-US', {
+          month: 'long',
+          day: 'numeric',
+          year: 'numeric',
+        })
+      : '',
+    imageUrl: article.featuredImage || 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80',
+  });
+
+  const trendingList = (trendingRes?.data || []).map(mapToNewsItem);
+  const uaeList = (uaeRes?.data || []).map(mapToNewsItem);
+
+  const renderColumnData = (list: NewsItem[], fallbackFeatured: NewsItem) => {
+    if (list.length === 0) {
+      return {
+        featured: fallbackFeatured,
+        mediumGrid: dummyMediumGrid,
+        smallList: dummySmallList,
+      };
+    }
+
+    return {
+      featured: list[0] || fallbackFeatured,
+      mediumGrid: list.slice(1, 5).concat(dummyMediumGrid.slice(Math.max(0, list.length - 1))), // Pad if needed
+      smallList: list.slice(5, 8).concat(dummySmallList.slice(Math.max(0, list.length - 5))),   // Pad if needed
+    };
+  };
+
+  const trendingData = renderColumnData(trendingList, dummyFeaturedTrending);
+  const uaeData = renderColumnData(uaeList, dummyFeaturedUAE);
+
+  const showSkeleton = isTrendingLoading || isUaeLoading;
+
+  if (showSkeleton) {
+    return (
+      <SectionContainer as="section" className="bg-white py-8 md:py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 w-full">
+          <div className="lg:col-span-4 space-y-6">
+            <Skeleton className="h-8 w-48" />
+            <Skeleton className="h-64 w-full rounded" />
+            <div className="grid grid-cols-2 gap-4">
+              <Skeleton className="h-32 w-full" />
+              <Skeleton className="h-32 w-full" />
+            </div>
+          </div>
+          <div className="lg:col-span-4 space-y-6">
+            <Skeleton className="h-8 w-48" />
+            <Skeleton className="h-64 w-full rounded" />
+            <div className="grid grid-cols-2 gap-4">
+              <Skeleton className="h-32 w-full" />
+              <Skeleton className="h-32 w-full" />
+            </div>
+          </div>
+          <div className="lg:col-span-4 space-y-6">
+            <Skeleton className="h-64 w-full" />
+          </div>
+        </div>
+      </SectionContainer>
+    );
+  }
+
   return (
     <SectionContainer as="section" className="bg-white py-8 md:py-12">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 w-full">
@@ -86,9 +168,9 @@ const NewsGridSection = () => {
           <NewsColumn 
             title="Trending News" 
             titleColor="#FF0202"
-            featured={dummyFeaturedTrending}
-            mediumGrid={dummyMediumGrid.slice(0, 4)}
-            smallList={dummySmallList}
+            featured={trendingData.featured}
+            mediumGrid={trendingData.mediumGrid}
+            smallList={trendingData.smallList}
           />
         </div>
 
@@ -97,9 +179,9 @@ const NewsGridSection = () => {
           <NewsColumn 
             title="UAE News" 
             titleColor="#cd2027"
-            featured={dummyFeaturedUAE}
-            mediumGrid={dummyMediumGrid.slice(0, 4)}
-            smallList={dummySmallList}
+            featured={uaeData.featured}
+            mediumGrid={uaeData.mediumGrid}
+            smallList={uaeData.smallList}
           />
         </div>
 

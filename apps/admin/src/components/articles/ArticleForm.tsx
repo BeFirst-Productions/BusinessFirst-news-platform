@@ -32,8 +32,36 @@ import { apiClient } from '@/lib/api-client';
 import toast from 'react-hot-toast';
 import { cn } from '@/lib/utils';
 
+const STOP_WORDS = new Set([
+  'a', 'an', 'the', 'and', 'but', 'or', 'in', 'on', 'at', 'for', 'with', 'to', 'of', 'by', 'from',
+  'is', 'are', 'was', 'were', 'be', 'been', 'being', 'it', 'its', 'this', 'that', 'these', 'those',
+  'as', 'into', 'onto', 'your', 'my', 'their', 'her', 'his', 'our', 'us', 'them', 'about', 'above',
+  'after', 'again', 'against', 'all', 'am', 'any', 'because', 'before', 'below', 'between', 'both',
+  'during', 'each', 'few', 'further', 'had', 'has', 'have', 'having', 'how', 'if', 'once', 'only',
+  'other', 'ought', 'ours', 'ourselves', 'out', 'over', 'own', 'same', 'she', 'should', 'some',
+  'such', 'than', 'then', 'through', 'too', 'under', 'until', 'up', 'very', 'what', 'when',
+  'where', 'which', 'while', 'who', 'whom', 'why', 'would', 'you', 'yours', 'yourself', 'yourselves'
+]);
+
+export function generateSeoSlug(title: string): string {
+  let slug = title.toLowerCase();
+  slug = slug.replace(/[^a-z0-9\s-]/g, ''); // Keep only alphanumeric, spaces, and hyphens (removes punctuation/underscores)
+  slug = slug.replace(/[\s-]+/g, ' '); // Normalize spaces and hyphens to spaces
+  
+  const words = slug.trim().split(' ');
+  const filteredWords = words.filter(word => word && !STOP_WORDS.has(word));
+  
+  const finalWords = filteredWords.length > 0 ? filteredWords : words.filter(Boolean);
+  const truncatedWords = finalWords.slice(0, 8); // Keep max 8 words for SEO focus
+  
+  return truncatedWords.join('-');
+}
+
 const articleSchema = z.object({
   title: z.string().min(5, 'Title must be at least 5 characters'),
+  slug: z.string()
+    .min(3, 'Slug must be at least 3 characters')
+    .regex(/^[a-z0-9-]+$/, 'Slug must only contain lowercase letters, numbers, and hyphens'),
   excerpt: z.string().min(10, 'Excerpt must be at least 10 characters').max(300),
   categoryId: z.string().min(1, 'Category is required'),
   tags: z.array(z.string()).optional(),
@@ -41,6 +69,10 @@ const articleSchema = z.object({
   scheduledAt: z.string().optional().nullable(),
   isFeatured: z.boolean().default(false),
   isBreakingNews: z.boolean().default(false),
+  isTopHeadline: z.boolean().default(false),
+  isTrending: z.boolean().default(false),
+  isUaeNews: z.boolean().default(false),
+  isSponsored: z.boolean().default(false),
   metaTitle: z.string().optional().nullable(),
   metaDescription: z.string().max(160).optional().nullable(),
   metaKeywords: z.string().optional().nullable(),
@@ -99,6 +131,8 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
   const [isUploadingImage, setIsUploadingImage] = useState(false);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
+  const [isSlugCustomized, setIsSlugCustomized] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -109,30 +143,52 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
     formState: { errors },
   } = useForm<ArticleFormData>({
     resolver: zodResolver(articleSchema),
-    defaultValues: {
-      status: 'DRAFT',
-      isFeatured: false,
-      isBreakingNews: false,
-      tags: [],
-      categoryId: '',
-      featuredImageTitle: '',
-    },
+      defaultValues: {
+        status: 'DRAFT',
+        isFeatured: false,
+        isBreakingNews: false,
+        isTopHeadline: false,
+        isTrending: false,
+        isUaeNews: false,
+        isSponsored: false,
+        tags: [],
+        categoryId: '',
+        featuredImageTitle: '',
+        slug: '',
+      },
   });
 
   const status = watch('status');
   const featuredImage = watch('featuredImage');
+  const title = watch('title');
+  const categoryId = watch('categoryId');
+  const slug = watch('slug');
+  // Fetch categories using standardized apiClient
+  const { data: categoriesData } = useQuery({
+    queryKey: ['categories'],
+    queryFn: async () => {
+      const response = await apiClient.get('/categories');
+      return response.data.data;
+    },
+  });
 
-  // Load initialData when available
+  const selectedCategory = categoriesData?.find((c: any) => c.id === categoryId);
+  const categorySlug = selectedCategory?.slug || '';
   useEffect(() => {
     if (initialData) {
       reset({
         title: initialData.title || '',
+        slug: initialData.slug || '',
         excerpt: initialData.excerpt || '',
         categoryId: initialData.categoryId || (initialData.category?.id) || '',
         status: initialData.status || 'DRAFT',
         scheduledAt: formatDateTimeLocal(initialData.scheduledAt),
         isFeatured: !!initialData.isFeatured,
         isBreakingNews: !!initialData.isBreakingNews,
+        isTopHeadline: !!initialData.isTopHeadline,
+        isTrending: !!initialData.isTrending,
+        isUaeNews: !!initialData.isUaeNews,
+        isSponsored: !!initialData.isSponsored,
         metaTitle: initialData.metaTitle || '',
         metaDescription: initialData.metaDescription || '',
         metaKeywords: initialData.metaKeywords || '',
@@ -143,17 +199,25 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
       if (initialData.content) {
         setContent(initialData.content);
       }
+      if (initialData.slug) {
+        setIsSlugCustomized(true);
+      }
     }
   }, [initialData, reset]);
 
-  // Fetch categories using standardized apiClient
-  const { data: categoriesData } = useQuery({
-    queryKey: ['categories'],
-    queryFn: async () => {
-      const response = await apiClient.get('/categories');
-      return response.data.data;
-    },
-  });
+  // Dynamic real-time SEO slug generator
+  useEffect(() => {
+    if (!isSlugCustomized) {
+      if (title) {
+        const generatedSlug = generateSeoSlug(title);
+        setValue('slug', generatedSlug, { shouldValidate: true });
+      } else {
+        setValue('slug', '', { shouldValidate: true });
+      }
+    }
+  }, [title, isSlugCustomized, setValue]);
+
+
 
   // Fetch tags using standardized apiClient
   const { data: tagsData } = useQuery({
@@ -272,15 +336,95 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Main Content */}
         <div className="lg:col-span-2 space-y-6">
-          {/* Title */}
+          {/* Title & SEO URL */}
           <Card>
-            <CardContent className="pt-6">
+            <CardContent className="pt-6 space-y-5">
               <Input
                 label="Article Title"
                 placeholder="Enter article title"
                 {...register('title')}
                 error={errors.title?.message}
               />
+
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="slug" className="text-sm font-semibold text-foreground">Article URL Slug</Label>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const newCustomized = !isSlugCustomized;
+                      setIsSlugCustomized(newCustomized);
+                      if (!newCustomized) {
+                        setValue('slug', generateSeoSlug(title || ''), { shouldValidate: true });
+                      }
+                    }}
+                    className="text-xs text-primary hover:underline font-semibold focus:outline-none focus:ring-0"
+                  >
+                    {isSlugCustomized ? 'Auto-generate from title' : 'Customize URL'}
+                  </button>
+                </div>
+                
+                <div className="relative flex items-stretch shadow-sm rounded-lg border bg-background overflow-hidden focus-within:ring-2 focus-within:ring-primary/50 focus-within:border-primary transition-all">
+                  <div className="flex items-center bg-muted/50 px-3 border-r text-sm text-muted-foreground select-none font-medium whitespace-nowrap">
+                    <span>Domain Name/</span>
+                    <span className={cn(
+                      "px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ml-1.5 transition-all duration-300",
+                      categorySlug 
+                        ? "bg-primary/10 text-primary border border-primary/20" 
+                        : "bg-amber-100 text-amber-800 border border-amber-200 animate-pulse"
+                    )}>
+                      {categorySlug || 'category-name'}
+                    </span>
+                    <span className="ml-1.5">/</span>
+                  </div>
+                  <input
+                    id="slug"
+                    type="text"
+                    className={cn(
+                      "flex-1 bg-transparent px-3 py-2 text-sm focus-visible:outline-none disabled:cursor-not-allowed disabled:text-muted-foreground/60 font-mono tracking-tight",
+                      errors.slug && "text-destructive font-semibold"
+                    )}
+                    disabled={!isSlugCustomized}
+                    placeholder="article-url-slug"
+                    {...register('slug')}
+                  />
+                </div>
+                {errors.slug && (
+                  <p className="text-sm text-destructive mt-1 font-semibold">{errors.slug.message}</p>
+                )}
+
+                {/* Google Search Snippet Preview Widget */}
+                <div className="mt-4 p-4 rounded-xl border border-border/85 bg-muted/20 space-y-2.5 shadow-sm transition-all hover:bg-muted/30">
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground border-b pb-1.5 font-medium">
+                    <Globe className="h-3.5 w-3.5 text-primary" />
+                    <span>Dynamic Search Engine Snippet Preview</span>
+                  </div>
+                  <div className="space-y-1">
+                    <div className="text-xs text-emerald-700 dark:text-emerald-500 font-medium truncate flex items-center gap-1">
+                      <span>https://businessfirst.ae</span>
+                      <span className="text-gray-400">›</span>
+                      <span className={cn(
+                        "font-semibold",
+                        categorySlug ? "text-emerald-800 dark:text-emerald-400" : "text-amber-700 dark:text-amber-500 italic"
+                      )}>
+                        {categorySlug || 'category-name'}
+                      </span>
+                      <span className="text-gray-400">›</span>
+                      <span className="truncate text-gray-600 dark:text-gray-400">{slug || 'article-url-slug'}</span>
+                    </div>
+                    <h3 className="text-base md:text-lg font-bold text-blue-800 hover:underline cursor-pointer dark:text-blue-400 leading-tight">
+                      {watch('metaTitle') || watch('title') || 'Article Title Preview'}
+                    </h3>
+                    <p className="text-xs md:text-sm text-muted-foreground line-clamp-2 leading-relaxed">
+                      {watch('metaDescription') || 'Please enter a meta description under the SEO tab to see how this article will describe itself in search engines.'}
+                    </p>
+                  </div>
+                </div>
+
+                <p className="text-[11px] text-muted-foreground leading-relaxed">
+                  <strong>Premium URL Builder:</strong> The URL automatically updates to include the active category slug above to build a hierarchy structure. Make sure you select a category under the <em>Category & Tags</em> sidebar panel.
+                </p>
+              </div>
             </CardContent>
           </Card>
 
@@ -472,16 +616,16 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
             </CardContent>
           </Card>
 
-          {/* Featured Options */}
+          {/* Choose Sections */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">Options</CardTitle>
+              <CardTitle className="text-lg">Choose Sections</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
-                <Label>Featured Article</Label>
+                <Label>Top Headlines</Label>
                 <Controller
-                  name="isFeatured"
+                  name="isTopHeadline"
                   control={control}
                   render={({ field }) => (
                     <Switch
@@ -492,9 +636,35 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
                 />
               </div>
               <div className="flex items-center justify-between">
-                <Label>Breaking News</Label>
+                <Label>Trending News</Label>
                 <Controller
-                  name="isBreakingNews"
+                  name="isTrending"
+                  control={control}
+                  render={({ field }) => (
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  )}
+                />
+              </div>
+              <div className="flex items-center justify-between">
+                <Label>UAE News</Label>
+                <Controller
+                  name="isUaeNews"
+                  control={control}
+                  render={({ field }) => (
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  )}
+                />
+              </div>
+              <div className="flex items-center justify-between">
+                <Label>Sponsered Contents</Label>
+                <Controller
+                  name="isSponsored"
                   control={control}
                   render={({ field }) => (
                     <Switch

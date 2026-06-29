@@ -2,6 +2,7 @@ import { prisma } from '../../config/database';
 import { NotFoundError, ConflictError } from '../../shared/errors/AppError';
 import { CreateCategoryInput, UpdateCategoryInput } from './categories.validation';
 import { SlugUtil } from '../../shared/utils/slug.util';
+import { WebsiteService } from '../website/website.service';
 
 export class CategoriesService {
   static async getAllCategories() {
@@ -83,6 +84,11 @@ export class CategoriesService {
       },
     });
 
+    // Invalidate website cache asynchronously
+    WebsiteService.invalidateCache().catch((err) =>
+      console.error('Failed to invalidate website cache on category creation:', err)
+    );
+
     return category;
   }
 
@@ -151,6 +157,11 @@ export class CategoriesService {
       data: updateData,
     });
 
+    // Invalidate website cache asynchronously
+    WebsiteService.invalidateCache().catch((err) =>
+      console.error('Failed to invalidate website cache on category update:', err)
+    );
+
     return updatedCategory;
   }
 
@@ -184,6 +195,11 @@ export class CategoriesService {
     await prisma.category.delete({
       where: { id },
     });
+
+    // Invalidate website cache asynchronously
+    WebsiteService.invalidateCache().catch((err) =>
+      console.error('Failed to invalidate website cache on category deletion:', err)
+    );
 
     return { message: 'Category deleted successfully' };
   }

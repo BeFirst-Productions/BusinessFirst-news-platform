@@ -443,11 +443,11 @@ export function EditorToolbar({ editor, onInsertImage }: EditorToolbarProps) {
           <ImageIcon className="h-4 w-4" />
         </ToolbarBtn>
 
-        <ToolbarBtn title="Insert Table (3×3)" onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()} isActive={editor.isActive('table')}>
+        {/* <ToolbarBtn title="Insert Table (3×3)" onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()} isActive={editor.isActive('table')}>
           <TableIcon className="h-4 w-4" />
-        </ToolbarBtn>
+        </ToolbarBtn> */}
 
-        <YoutubeButton editor={editor} />
+        {/* <YoutubeButton editor={editor} /> */}
 
         <Sep />
 

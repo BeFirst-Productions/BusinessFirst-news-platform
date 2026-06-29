@@ -1,8 +1,45 @@
 import { prisma } from '../../config/database';
 import { NotFoundError, BadRequestError } from '../../shared/errors/AppError';
 import { Prisma } from '../../generated/prisma';
+import { NotificationsService } from '../notifications/notifications.service';
+import RedisClient from '../../config/redis';
 
 export class WebsiteService {
+  // Generic Redis Cache-aside helper
+  private static async getCachedOrFetch<T>(
+    key: string,
+    ttl: number,
+    fetchFn: () => Promise<T>
+  ): Promise<T> {
+    try {
+      const cached = await RedisClient.get(key);
+      if (cached) {
+        return JSON.parse(cached);
+      }
+    } catch (err) {
+      console.error(`Redis cache get failed for key ${key}:`, err);
+    }
+
+    const data = await fetchFn();
+
+    try {
+      await RedisClient.set(key, JSON.stringify(data), ttl);
+    } catch (err) {
+      console.error(`Redis cache set failed for key ${key}:`, err);
+    }
+
+    return data;
+  }
+
+  // Invalidate cache keys matching a pattern
+  public static async invalidateCache(pattern: string = 'website:*') {
+    try {
+      await RedisClient.delByPattern(pattern);
+    } catch (err) {
+      console.error(`Failed to invalidate cache with pattern ${pattern}:`, err);
+    }
+  }
+
   // Optimized Article Listing (No heavy 'content' field in response)
   static async getArticles(query: {
     page?: number;
@@ -11,98 +48,85 @@ export class WebsiteService {
     categoryId?: string;
     isFeatured?: boolean;
     isBreakingNews?: boolean;
+    isTopHeadline?: boolean;
+    isTrending?: boolean;
+    isUaeNews?: boolean;
+    isSponsored?: boolean;
     sortBy?: string;
     sortOrder?: 'asc' | 'desc';
   }) {
-    const page = Math.max(1, Number(query.page) || 1);
-    const limit = Math.max(1, Math.min(100, Number(query.limit) || 12));
-    const skip = (page - 1) * limit;
+    const cacheKey = `website:articles:${JSON.stringify(query)}`;
 
-    const where: Prisma.ArticleWhereInput = {
-      status: 'PUBLISHED',
-    };
+    return this.getCachedOrFetch(cacheKey, 300, async () => {
+      const page = Math.max(1, Number(query.page) || 1);
+      const limit = Math.max(1, Math.min(100, Number(query.limit) || 12));
+      const skip = (page - 1) * limit;
 
-    if (query.categoryId) {
-      where.categoryId = query.categoryId;
-    }
+      const where: Prisma.ArticleWhereInput = {
+        status: 'PUBLISHED',
+      };
 
-    if (query.isFeatured !== undefined) {
-      where.isFeatured = query.isFeatured;
-    }
+      if (query.categoryId) {
+        where.categoryId = query.categoryId;
+      }
 
-    if (query.isBreakingNews !== undefined) {
-      where.isBreakingNews = query.isBreakingNews;
-    }
+      if (query.isFeatured !== undefined) {
+        where.isFeatured = query.isFeatured;
+      }
 
-    if (query.search) {
-      where.OR = [
-        { title: { contains: query.search, mode: 'insensitive' } },
-        { excerpt: { contains: query.search, mode: 'insensitive' } },
-      ];
-    }
+      if (query.isBreakingNews !== undefined) {
+        where.isBreakingNews = query.isBreakingNews;
+      }
 
-    const sortBy = query.sortBy || 'publishedAt';
-    const sortOrder = query.sortOrder || 'desc';
+      if (query.isTopHeadline !== undefined) {
+        where.isTopHeadline = query.isTopHeadline;
+      }
 
-    const orderBy: Prisma.ArticleOrderByWithRelationInput = {
-      [sortBy]: sortOrder,
-    };
+      if (query.isTrending !== undefined) {
+        where.isTrending = query.isTrending;
+      }
 
-    // Projected selection for listing (excluding heavy 'content' column)
-    const select = {
-      id: true,
-      title: true,
-      slug: true,
-      excerpt: true,
-      featuredImage: true,
-      isFeatured: true,
-      isBreakingNews: true,
-      viewCount: true,
-      readingTime: true,
-      publishedAt: true,
-      category: {
-        select: {
-          id: true,
-          name: true,
-          slug: true,
-        },
-      },
-      author: {
-        select: {
-          id: true,
-          name: true,
-          avatar: true,
-        },
-      },
-    };
+      if (query.isUaeNews !== undefined) {
+        where.isUaeNews = query.isUaeNews;
+      }
 
-    const [articles, total] = await Promise.all([
-      prisma.article.findMany({
-        where,
-        skip,
-        take: limit,
-        orderBy,
-        select,
-      }),
-      prisma.article.count({ where }),
-    ]);
+      if (query.isSponsored !== undefined) {
+        where.isSponsored = query.isSponsored;
+      } else {
+        // Exclude sponsored articles by default in general listing/category queries
+        where.isSponsored = false;
+      }
 
-    return {
-      data: articles,
-      metadata: {
-        page,
-        limit,
-        total,
-        totalPages: Math.ceil(total / limit),
-      },
-    };
-  }
+      if (query.search) {
+        where.OR = [
+          { title: { contains: query.search, mode: 'insensitive' } },
+          { excerpt: { contains: query.search, mode: 'insensitive' } },
+        ];
+      }
 
-  // Get Single Article by Slug (with full content and increments view count)
-  static async getArticleBySlug(slug: string) {
-    const article = await prisma.article.findUnique({
-      where: { slug },
-      include: {
+      const sortBy = query.sortBy || 'publishedAt';
+      const sortOrder = query.sortOrder || 'desc';
+
+      const orderBy: Prisma.ArticleOrderByWithRelationInput = {
+        [sortBy]: sortOrder,
+      };
+
+      // Projected selection for listing (excluding heavy 'content' column)
+      const select = {
+        id: true,
+        title: true,
+        slug: true,
+        excerpt: true,
+        featuredImage: true,
+        isFeatured: true,
+        isBreakingNews: true,
+        isTopHeadline: true,
+        isTrending: true,
+        isUaeNews: true,
+        isSponsored: true,
+        viewCount: true,
+        readingTime: true,
+        publishedAt: true,
         category: {
           select: {
             id: true,
@@ -115,17 +139,67 @@ export class WebsiteService {
             id: true,
             name: true,
             avatar: true,
-            bio: true,
           },
         },
-      },
+      };
+
+      const [articles, total] = await Promise.all([
+        prisma.article.findMany({
+          where,
+          skip,
+          take: limit,
+          orderBy,
+          select,
+        }),
+        prisma.article.count({ where }),
+      ]);
+
+      return {
+        data: articles,
+        metadata: {
+          page,
+          limit,
+          total,
+          totalPages: Math.ceil(total / limit),
+        },
+      };
+    });
+  }
+
+  // Get Single Article by Slug (with full content and increments view count)
+  static async getArticleBySlug(slug: string) {
+    const cacheKey = `website:article:${slug}`;
+
+    const article = await this.getCachedOrFetch(cacheKey, 60, async () => {
+      const dbArticle = await prisma.article.findUnique({
+        where: { slug },
+        include: {
+          category: {
+            select: {
+              id: true,
+              name: true,
+              slug: true,
+            },
+          },
+          author: {
+            select: {
+              id: true,
+              name: true,
+              avatar: true,
+              bio: true,
+            },
+          },
+        },
+      });
+
+      if (!dbArticle || dbArticle.status !== 'PUBLISHED') {
+        throw new NotFoundError('Article not found');
+      }
+
+      return dbArticle;
     });
 
-    if (!article || article.status !== 'PUBLISHED') {
-      throw new NotFoundError('Article not found');
-    }
-
-    // Increment view count asynchronously
+    // Increment view count asynchronously on every hit (without blocking the request)
     prisma.article
       .update({
         where: { id: article.id },
@@ -138,100 +212,116 @@ export class WebsiteService {
 
   // Fetch Categories List
   static async getCategories(query: { isActive?: boolean }) {
-    const where: Prisma.CategoryWhereInput = {};
-    if (query.isActive !== undefined) {
-      where.isActive = query.isActive;
-    }
+    const cacheKey = `website:categories:${JSON.stringify(query)}`;
 
-    return prisma.category.findMany({
-      where,
-      orderBy: { order: 'asc' },
-      select: {
-        id: true,
-        name: true,
-        slug: true,
-        description: true,
-        order: true,
-        isActive: true,
-      },
+    return this.getCachedOrFetch(cacheKey, 3600, async () => {
+      const where: Prisma.CategoryWhereInput = {};
+      if (query.isActive !== undefined) {
+        where.isActive = query.isActive;
+      }
+
+      return prisma.category.findMany({
+        where,
+        orderBy: { order: 'asc' },
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+          description: true,
+          order: true,
+          isActive: true,
+        },
+      });
     });
   }
 
   // Fetch Category by Slug
   static async getCategoryBySlug(slug: string) {
-    const category = await prisma.category.findUnique({
-      where: { slug },
+    const cacheKey = `website:category:${slug}`;
+
+    return this.getCachedOrFetch(cacheKey, 3600, async () => {
+      const category = await prisma.category.findUnique({
+        where: { slug },
+      });
+
+      if (!category) {
+        throw new NotFoundError('Category not found');
+      }
+
+      return category;
     });
-
-    if (!category) {
-      throw new NotFoundError('Category not found');
-    }
-
-    return category;
   }
 
   // Fetch Category Tree Structure (for Navbar navigation)
   static async getCategoryTree() {
-    const allCategories = await prisma.category.findMany({
-      where: { isActive: true },
-      orderBy: { order: 'asc' },
-    });
+    const cacheKey = 'website:categorytree';
 
-    // Build the hierarchical tree structure
-    const tree = allCategories.filter((c) => !c.parentId);
-    const map = new Map<string, typeof allCategories>();
+    return this.getCachedOrFetch(cacheKey, 3600, async () => {
+      const allCategories = await prisma.category.findMany({
+        where: { isActive: true },
+        orderBy: { order: 'asc' },
+      });
 
-    allCategories.forEach((c) => {
-      if (c.parentId) {
-        if (!map.has(c.parentId)) {
-          map.set(c.parentId, []);
-        }
-        map.get(c.parentId)!.push(c);
-      }
-    });
+      // Build the hierarchical tree structure
+      const tree = allCategories.filter((c) => !c.parentId);
+      const map = new Map<string, typeof allCategories>();
 
-    const populateChildren = (nodes: any[]) => {
-      nodes.forEach((node) => {
-        const children = map.get(node.id) || [];
-        node.children = children;
-        if (children.length > 0) {
-          populateChildren(children);
+      allCategories.forEach((c) => {
+        if (c.parentId) {
+          if (!map.has(c.parentId)) {
+            map.set(c.parentId, []);
+          }
+          map.get(c.parentId)!.push(c);
         }
       });
-    };
 
-    populateChildren(tree);
-    return tree;
+      const populateChildren = (nodes: any[]) => {
+        nodes.forEach((node) => {
+          const children = map.get(node.id) || [];
+          node.children = children;
+          if (children.length > 0) {
+            populateChildren(children);
+          }
+        });
+      };
+
+      populateChildren(tree);
+      return tree;
+    });
   }
 
   // Fetch Ads for specific slot
   static async getAdsBySlot(slotCode: string) {
-    const adSpace = await prisma.adSpace.findUnique({
-      where: { code: slotCode, isActive: true },
-    });
+    const cacheKey = `website:ads:${slotCode}`;
 
-    if (!adSpace) {
-      return [];
-    }
+    return this.getCachedOrFetch(cacheKey, 600, async () => {
+      const adSpace = await prisma.adSpace.findUnique({
+        where: { code: slotCode, isActive: true },
+      });
 
-    const placements = await prisma.adPlacement.findMany({
-      where: {
-        adSpaceId: adSpace.id,
-        isActive: true,
-        ad: {
-          status: 'ACTIVE',
-          startDate: { lte: new Date() },
-          endDate: { gte: new Date() },
+      if (!adSpace) {
+        return [];
+      }
+
+      const placements = await prisma.adPlacement.findMany({
+        where: {
+          adSpaceId: adSpace.id,
+          isActive: true,
+          ad: {
+            status: 'ACTIVE',
+            startDate: { lte: new Date() },
+            endDate: { gte: new Date() },
+          },
         },
-      },
-      orderBy: { order: 'asc' },
-      include: {
-        ad: true,
-      },
-      take: adSpace.maxAds,
-    });
+        orderBy: { order: 'asc' },
+        include: {
+          ad: true,
+        },
+        take: adSpace.maxAds,
+      });
 
-    return placements.map((p) => p.ad);
+      return placements.map((p) => p.ad);
+    });
   }
 
   // Track ad impression
@@ -276,6 +366,14 @@ export class WebsiteService {
       throw new BadRequestError('Invalid email address');
     }
 
+    const existing = await prisma.newsletter.findUnique({
+      where: { email },
+    });
+
+    if (existing && existing.isActive) {
+      return { success: true, subscriber: existing };
+    }
+
     const subscriber = await prisma.newsletter.upsert({
       where: { email },
       update: { isActive: true },
@@ -286,76 +384,89 @@ export class WebsiteService {
       },
     });
 
+    // Trigger newsletter subscription notification
+    await NotificationsService.createNewsletterNotification(email, name).catch((err) => {
+      console.error('Failed to trigger subscriber notification:', err);
+    });
+
     return { success: true, subscriber };
   }
 
   // Fetch Related Articles (same category, excluding current article)
   static async getRelatedArticles(articleId: string, limit: number) {
-    const article = await prisma.article.findUnique({
-      where: { id: articleId },
-      include: { category: true },
-    });
+    const cacheKey = `website:related:${articleId}:${limit}`;
 
-    if (!article) {
-      throw new NotFoundError('Article not found');
-    }
+    return this.getCachedOrFetch(cacheKey, 600, async () => {
+      const article = await prisma.article.findUnique({
+        where: { id: articleId },
+        include: { category: true },
+      });
 
-    if (!article.categoryId) {
+      if (!article) {
+        throw new NotFoundError('Article not found');
+      }
+
+      if (!article.categoryId) {
+        return {
+          data: [],
+          metadata: {
+            page: 1,
+            limit,
+            total: 0,
+            totalPages: 0,
+          },
+        };
+      }
+
+      const relatedArticles = await prisma.article.findMany({
+        where: {
+          id: { not: articleId },
+          status: 'PUBLISHED',
+          categoryId: article.categoryId,
+        },
+        take: limit,
+        orderBy: { publishedAt: 'desc' },
+        select: {
+          id: true,
+          title: true,
+          slug: true,
+          excerpt: true,
+          featuredImage: true,
+          isFeatured: true,
+          isBreakingNews: true,
+          isTopHeadline: true,
+          isTrending: true,
+          isUaeNews: true,
+          isSponsored: true,
+          viewCount: true,
+          readingTime: true,
+          publishedAt: true,
+          category: {
+            select: {
+              id: true,
+              name: true,
+              slug: true,
+            },
+          },
+          author: {
+            select: {
+              id: true,
+              name: true,
+              avatar: true,
+            },
+          },
+        },
+      });
+
       return {
-        data: [],
+        data: relatedArticles,
         metadata: {
           page: 1,
           limit,
-          total: 0,
-          totalPages: 0,
+          total: relatedArticles.length,
+          totalPages: 1,
         },
       };
-    }
-
-    const relatedArticles = await prisma.article.findMany({
-      where: {
-        id: { not: articleId },
-        status: 'PUBLISHED',
-        categoryId: article.categoryId,
-      },
-      take: limit,
-      orderBy: { publishedAt: 'desc' },
-      select: {
-        id: true,
-        title: true,
-        slug: true,
-        excerpt: true,
-        featuredImage: true,
-        isFeatured: true,
-        isBreakingNews: true,
-        viewCount: true,
-        readingTime: true,
-        publishedAt: true,
-        category: {
-          select: {
-            id: true,
-            name: true,
-            slug: true,
-          },
-        },
-        author: {
-          select: {
-            id: true,
-            name: true,
-            avatar: true,
-          },
-        },
-      },
     });
-
-    return {
-      data: relatedArticles,
-      metadata: {
-        page: 1,
-        limit,
-        total: relatedArticles.length,
-        totalPages: 1,
-      },
-    };
   }
 }

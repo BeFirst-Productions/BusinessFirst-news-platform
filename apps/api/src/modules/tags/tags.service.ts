@@ -2,6 +2,7 @@ import { prisma } from '../../config/database';
 import { ConflictError, NotFoundError } from '../../shared/errors/AppError';
 import { CreateTagInput, UpdateTagInput } from './tags.validation';
 import { SlugUtil } from '../../shared/utils/slug.util';
+import { WebsiteService } from '../website/website.service';
 
 export class TagsService {
   static async getAllTags() {
@@ -63,6 +64,11 @@ export class TagsService {
       },
     });
 
+    // Invalidate website cache asynchronously
+    WebsiteService.invalidateCache().catch((err) =>
+      console.error('Failed to invalidate website cache on tag creation:', err)
+    );
+
     return tag;
   }
 
@@ -105,6 +111,11 @@ export class TagsService {
       data: updateData,
     });
 
+    // Invalidate website cache asynchronously
+    WebsiteService.invalidateCache().catch((err) =>
+      console.error('Failed to invalidate website cache on tag update:', err)
+    );
+
     return updatedTag;
   }
 
@@ -120,6 +131,11 @@ export class TagsService {
     await prisma.tag.delete({
       where: { id },
     });
+
+    // Invalidate website cache asynchronously
+    WebsiteService.invalidateCache().catch((err) =>
+      console.error('Failed to invalidate website cache on tag deletion:', err)
+    );
 
     return { message: 'Tag deleted successfully' };
   }
