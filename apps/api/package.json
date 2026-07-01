@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "prisma generate && tsc",
+    "build": "prisma generate && tsc && cp -r src/generated dist/",
     "start": "node dist/server.js",
     "lint": "tsc --noEmit",
     "test": "jest",
@@ -61,3 +61,4 @@
     "typescript": "^5.4.5"
   }
 }
+
