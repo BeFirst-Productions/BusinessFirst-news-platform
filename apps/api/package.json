@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "prisma generate && tsc",
+    "build": "pnpm -r run build && prisma generate",
     "start": "node dist/server.js",
     "lint": "tsc --noEmit",
     "test": "jest",
