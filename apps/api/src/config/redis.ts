@@ -9,8 +9,15 @@ class RedisClient {
 
   public static getInstance(): Redis {
     if (!RedisClient.instance) {
+      const isTls = env.REDIS_URL.startsWith('rediss://');
       RedisClient.instance = new Redis(env.REDIS_URL, {
         maxRetriesPerRequest: 3,
+        family: 0, // Enable dual-stack IPv4/IPv6 DNS lookup
+        ...(isTls && {
+          tls: {
+            rejectUnauthorized: false, // Prevent issues with root certificate authority inside container
+          },
+        }),
         retryStrategy(times: number) {
           const delay = Math.min(times * 50, 2000);
           if (times > 10) {
