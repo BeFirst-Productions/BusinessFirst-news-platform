@@ -54,18 +54,34 @@ class RedisClient {
     return RedisClient.instance;
   }
 
-  public static async connect(): Promise<void> {
-    const redis = RedisClient.getInstance();
+  // public static async connect(): Promise<void> {
+  //   const redis = RedisClient.getInstance();
     
-    if (!RedisClient.isConnected) {
-      try {
-        await redis.connect();
-      } catch (error) {
-        console.error('❌ Redis connection failed:', error);
-        throw error;
-      }
+  //   if (!RedisClient.isConnected) {
+  //     try {
+  //       await redis.connect();
+  //     } catch (error) {
+  //       console.error('❌ Redis connection failed:', error);
+  //       throw error;
+  //     }
+  //   }
+  // }
+
+public static async connect(): Promise<void> {
+  const redis = RedisClient.getInstance();
+  if (!RedisClient.isConnected) {
+    try {
+      await redis.connect();
+    } catch (error) {
+      console.error('❌ Redis connection failed:', error);
+      // Do NOT throw — caller handles gracefully
     }
   }
+}
+
+public static isHealthy(): boolean {
+  return RedisClient.isConnected;
+}
 
   public static async disconnect(): Promise<void> {
     const redis = RedisClient.getInstance();

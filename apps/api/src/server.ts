@@ -27,7 +27,13 @@ async function bootstrap() {
   );
 
   // Connect to Redis
+  // await RedisClient.connect();
+  // Connect to Redis — non-fatal, server runs without it
+try {
   await RedisClient.connect();
+} catch (error) {
+  console.warn('⚠️ Redis unavailable — continuing without cache. Check REDIS_URL.');
+}
 
   // Configure Cloudinary
   configureCloudinary();
@@ -88,6 +94,7 @@ async function bootstrap() {
     console.log(`🌍 Environment: ${env.NODE_ENV}`);
     console.log(`🔒 Allowed Origins: Web=${env.WEB_URL}, Admin=${env.ADMIN_URL}`);
     console.log(`📦 Database: Connected`);
+    console.log(`💾 Redis: ${RedisClient.isHealthy() ? 'Connected' : 'Unavailable (cache disabled)'}`);
     console.log(`💾 Redis: Connected`);
     console.log('='.repeat(50));
   });
