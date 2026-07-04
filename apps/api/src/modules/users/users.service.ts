@@ -164,6 +164,43 @@ export class UsersService {
     return { canView: false, canCreate: false, canEdit: false, canDelete: false };
   }
 
+  /**
+   * Cache user permissions in Redis (non-blocking)
+   * Failures are logged but do not throw
+   */
+  private static async cacheUserPermissions(userId: string): Promise<void> {
+    try {
+      const userPermissions = await prisma.userModulePermission.findMany({
+        where: { userId },
+        include: {
+          module: {
+            select: { code: true },
+          },
+        },
+      });
+
+      // Fire and forget - don't await Redis operations
+      for (const permission of userPermissions) {
+        const cacheKey = `permissions:${userId}:${permission.module.code}`;
+        RedisClient.set(
+          cacheKey,
+          JSON.stringify({
+            view: permission.canView,
+            create: permission.canCreate,
+            edit: permission.canEdit,
+            delete: permission.canDelete,
+          }),
+          3600
+        ).catch((err) => {
+          console.error(`⚠️ Failed to cache permission ${cacheKey}:`, err.message);
+        });
+      }
+    } catch (error) {
+      console.error('⚠️ Failed to cache user permissions:', error);
+      // Do NOT throw - caching is optional
+    }
+  }
+
   static async createUser(data: CreateUserInput, createdBy: string) {
     // Check if email exists
     const existingUser = await prisma.user.findUnique({
@@ -226,29 +263,10 @@ export class UsersService {
       });
     }
 
-    // Cache the permissions in Redis
-    const userPermissions = await prisma.userModulePermission.findMany({
-      where: { userId: user.id },
-      include: {
-        module: {
-          select: { code: true },
-        },
-      },
+    // Cache permissions asynchronously (non-blocking)
+    this.cacheUserPermissions(user.id).catch((err) => {
+      console.error('⚠️ Failed to cache permissions for new user:', err);
     });
-
-    for (const permission of userPermissions) {
-      const cacheKey = `permissions:${user.id}:${permission.module.code}`;
-      await RedisClient.set(
-        cacheKey,
-        JSON.stringify({
-          view: permission.canView,
-          create: permission.canCreate,
-          edit: permission.canEdit,
-          delete: permission.canDelete,
-        }),
-        3600
-      );
-    }
 
     return user;
   }
@@ -294,9 +312,11 @@ export class UsersService {
       },
     });
 
-    // Clear cached permissions if role changed
+    // Clear cached permissions if role changed (non-blocking)
     if (data.role) {
-      await RedisClient.delByPattern(`permissions:${userId}:*`);
+      RedisClient.delByPattern(`permissions:${userId}:*`).catch((err) => {
+        console.error('⚠️ Failed to clear permission cache:', err);
+      });
     }
 
     return updatedUser;
@@ -327,8 +347,10 @@ export class UsersService {
     // Remove related permissions
     await prisma.userModulePermission.deleteMany({ where: { userId } });
 
-    // Clear permissions cache
-    await RedisClient.delByPattern(`permissions:${userId}:*`);
+    // Clear permissions cache (non-blocking)
+    RedisClient.delByPattern(`permissions:${userId}:*`).catch((err) => {
+      console.error('⚠️ Failed to clear permission cache:', err);
+    });
 
     return { message: 'User deleted successfully' };
   }
@@ -371,10 +393,17 @@ export class UsersService {
       }
     });
 
-    // Clear permissions cache
-    await RedisClient.delByPattern(`permissions:${userId}:*`);
+    // Clear permissions cache (non-blocking)
+    RedisClient.delByPattern(`permissions:${userId}:*`).catch((err) => {
+      console.error('⚠️ Failed to clear permission cache:', err);
+    });
 
-    // Recache permissions
+    // Recache permissions asynchronously (non-blocking)
+    this.cacheUserPermissions(userId).catch((err) => {
+      console.error('⚠️ Failed to recache permissions:', err);
+    });
+
+    // Return immediately without waiting for cache
     const updatedPermissions = await prisma.userModulePermission.findMany({
       where: { userId },
       include: {
@@ -383,20 +412,6 @@ export class UsersService {
         },
       },
     });
-
-    for (const permission of updatedPermissions) {
-      const cacheKey = `permissions:${userId}:${permission.module.code}`;
-      await RedisClient.set(
-        cacheKey,
-        JSON.stringify({
-          view: permission.canView,
-          create: permission.canCreate,
-          edit: permission.canEdit,
-          delete: permission.canDelete,
-        }),
-        3600
-      );
-    }
 
     return { message: 'Permissions updated successfully', permissions: updatedPermissions };
   }
@@ -428,3 +443,4 @@ export class UsersService {
     return permissions;
   }
 }
+
