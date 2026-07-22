@@ -10,9 +10,13 @@ model Ad {
   redirectUrl String?
   startDate   DateTime
   endDate     DateTime
-  status      AdStatus  @default(ACTIVE)
-  priority    Int       @default(0)
-  impressions Int       @default(0)
+  status        AdStatus  @default(ACTIVE)
+  priority      Int       @default(0)
+  targetPage    String?
+  ratio         String?
+  pageName      String?
+  placementName String?
+  impressions   Int       @default(0)
   clicks      Int       @default(0)
   createdBy   String
   createdAt   DateTime  @default(now())

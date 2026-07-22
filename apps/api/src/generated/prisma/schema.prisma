@@ -1,22 +1,26 @@
 // Ad, AdSpace, AdPlacement models
 
 model Ad {
-  id          String   @id @default(uuid())
-  name        String
-  description String?
-  type        AdType
-  imageUrl    String?
-  videoUrl    String?
-  redirectUrl String?
-  startDate   DateTime
-  endDate     DateTime
-  status      AdStatus @default(ACTIVE)
-  priority    Int      @default(0)
-  impressions Int      @default(0)
-  clicks      Int      @default(0)
-  createdBy   String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id            String   @id @default(uuid())
+  name          String
+  description   String?
+  type          AdType
+  imageUrl      String?
+  videoUrl      String?
+  redirectUrl   String?
+  startDate     DateTime
+  endDate       DateTime
+  status        AdStatus @default(ACTIVE)
+  priority      Int      @default(0)
+  targetPage    String?
+  ratio         String?
+  pageName      String?
+  placementName String?
+  impressions   Int      @default(0)
+  clicks        Int      @default(0)
+  createdBy     String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   creator    User          @relation(fields: [createdBy], references: [id])
   placements AdPlacement[]

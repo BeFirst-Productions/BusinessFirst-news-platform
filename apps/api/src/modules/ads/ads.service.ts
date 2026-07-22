@@ -7,7 +7,7 @@ import { WebsiteService } from '../website/website.service';
 
 export class AdsService {
   static async getAds(query: AdQueryInput) {
-    const { page, limit, search, status } = query;
+    const { page, limit, search, status, targetPage } = query;
     const skip = (page - 1) * limit;
 
     const where: Prisma.AdWhereInput = {};
@@ -18,6 +18,10 @@ export class AdsService {
 
     if (search) {
       where.name = { contains: search, mode: 'insensitive' };
+    }
+
+    if (targetPage) {
+      where.targetPage = targetPage;
     }
 
     const [ads, total] = await Promise.all([
@@ -71,6 +75,10 @@ export class AdsService {
         startDate: new Date(data.startDate),
         endDate: new Date(data.endDate),
         priority: data.priority,
+        targetPage: data.targetPage,
+        ratio: data.ratio,
+        pageName: data.pageName,
+        placementName: data.placementName,
         createdBy,
       },
     });
@@ -102,6 +110,10 @@ export class AdsService {
     if (data.endDate) updateData.endDate = new Date(data.endDate);
     if (data.status) updateData.status = data.status as AdStatus;
     if (data.type) updateData.type = data.type as AdType;
+    if (data.targetPage !== undefined) updateData.targetPage = data.targetPage;
+    if (data.ratio !== undefined) updateData.ratio = data.ratio;
+    if (data.pageName !== undefined) updateData.pageName = data.pageName;
+    if (data.placementName !== undefined) updateData.placementName = data.placementName;
 
     // Upload files if updated
     if (files.image) {

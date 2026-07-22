@@ -130,7 +130,7 @@ const EventsSection = () => {
 
       </div>
            <div className="mt-16 w-full">
-              <FullWidthAdBanner />
+              <FullWidthAdBanner ratio="ad_8" />
             </div>
     </SectionContainer>
   );

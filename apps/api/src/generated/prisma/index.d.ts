@@ -3250,6 +3250,10 @@ export namespace Prisma {
     endDate: Date | null
     status: $Enums.AdStatus | null
     priority: number | null
+    targetPage: string | null
+    ratio: string | null
+    pageName: string | null
+    placementName: string | null
     impressions: number | null
     clicks: number | null
     createdBy: string | null
@@ -3269,6 +3273,10 @@ export namespace Prisma {
     endDate: Date | null
     status: $Enums.AdStatus | null
     priority: number | null
+    targetPage: string | null
+    ratio: string | null
+    pageName: string | null
+    placementName: string | null
     impressions: number | null
     clicks: number | null
     createdBy: string | null
@@ -3288,6 +3296,10 @@ export namespace Prisma {
     endDate: number
     status: number
     priority: number
+    targetPage: number
+    ratio: number
+    pageName: number
+    placementName: number
     impressions: number
     clicks: number
     createdBy: number
@@ -3321,6 +3333,10 @@ export namespace Prisma {
     endDate?: true
     status?: true
     priority?: true
+    targetPage?: true
+    ratio?: true
+    pageName?: true
+    placementName?: true
     impressions?: true
     clicks?: true
     createdBy?: true
@@ -3340,6 +3356,10 @@ export namespace Prisma {
     endDate?: true
     status?: true
     priority?: true
+    targetPage?: true
+    ratio?: true
+    pageName?: true
+    placementName?: true
     impressions?: true
     clicks?: true
     createdBy?: true
@@ -3359,6 +3379,10 @@ export namespace Prisma {
     endDate?: true
     status?: true
     priority?: true
+    targetPage?: true
+    ratio?: true
+    pageName?: true
+    placementName?: true
     impressions?: true
     clicks?: true
     createdBy?: true
@@ -3465,6 +3489,10 @@ export namespace Prisma {
     endDate: Date
     status: $Enums.AdStatus
     priority: number
+    targetPage: string | null
+    ratio: string | null
+    pageName: string | null
+    placementName: string | null
     impressions: number
     clicks: number
     createdBy: string
@@ -3503,6 +3531,10 @@ export namespace Prisma {
     endDate?: boolean
     status?: boolean
     priority?: boolean
+    targetPage?: boolean
+    ratio?: boolean
+    pageName?: boolean
+    placementName?: boolean
     impressions?: boolean
     clicks?: boolean
     createdBy?: boolean
@@ -3527,6 +3559,10 @@ export namespace Prisma {
     endDate?: boolean
     status?: boolean
     priority?: boolean
+    targetPage?: boolean
+    ratio?: boolean
+    pageName?: boolean
+    placementName?: boolean
     impressions?: boolean
     clicks?: boolean
     createdBy?: boolean
@@ -3547,6 +3583,10 @@ export namespace Prisma {
     endDate?: boolean
     status?: boolean
     priority?: boolean
+    targetPage?: boolean
+    ratio?: boolean
+    pageName?: boolean
+    placementName?: boolean
     impressions?: boolean
     clicks?: boolean
     createdBy?: boolean
@@ -3567,6 +3607,10 @@ export namespace Prisma {
     endDate?: boolean
     status?: boolean
     priority?: boolean
+    targetPage?: boolean
+    ratio?: boolean
+    pageName?: boolean
+    placementName?: boolean
     impressions?: boolean
     clicks?: boolean
     createdBy?: boolean
@@ -3574,7 +3618,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type AdOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "type" | "imageUrl" | "videoUrl" | "redirectUrl" | "startDate" | "endDate" | "status" | "priority" | "impressions" | "clicks" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["ad"]>
+  export type AdOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "type" | "imageUrl" | "videoUrl" | "redirectUrl" | "startDate" | "endDate" | "status" | "priority" | "targetPage" | "ratio" | "pageName" | "placementName" | "impressions" | "clicks" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["ad"]>
   export type AdInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     creator?: boolean | UserDefaultArgs<ExtArgs>
     placements?: boolean | Ad$placementsArgs<ExtArgs>
@@ -3609,6 +3653,10 @@ export namespace Prisma {
       endDate: Date
       status: $Enums.AdStatus
       priority: number
+      targetPage: string | null
+      ratio: string | null
+      pageName: string | null
+      placementName: string | null
       impressions: number
       clicks: number
       createdBy: string
@@ -4052,6 +4100,10 @@ export namespace Prisma {
     readonly endDate: FieldRef<"Ad", 'DateTime'>
     readonly status: FieldRef<"Ad", 'AdStatus'>
     readonly priority: FieldRef<"Ad", 'Int'>
+    readonly targetPage: FieldRef<"Ad", 'String'>
+    readonly ratio: FieldRef<"Ad", 'String'>
+    readonly pageName: FieldRef<"Ad", 'String'>
+    readonly placementName: FieldRef<"Ad", 'String'>
     readonly impressions: FieldRef<"Ad", 'Int'>
     readonly clicks: FieldRef<"Ad", 'Int'>
     readonly createdBy: FieldRef<"Ad", 'String'>
@@ -28001,6 +28053,10 @@ export namespace Prisma {
     endDate: 'endDate',
     status: 'status',
     priority: 'priority',
+    targetPage: 'targetPage',
+    ratio: 'ratio',
+    pageName: 'pageName',
+    placementName: 'placementName',
     impressions: 'impressions',
     clicks: 'clicks',
     createdBy: 'createdBy',
@@ -28638,6 +28694,10 @@ export namespace Prisma {
     endDate?: DateTimeFilter<"Ad"> | Date | string
     status?: EnumAdStatusFilter<"Ad"> | $Enums.AdStatus
     priority?: IntFilter<"Ad"> | number
+    targetPage?: StringNullableFilter<"Ad"> | string | null
+    ratio?: StringNullableFilter<"Ad"> | string | null
+    pageName?: StringNullableFilter<"Ad"> | string | null
+    placementName?: StringNullableFilter<"Ad"> | string | null
     impressions?: IntFilter<"Ad"> | number
     clicks?: IntFilter<"Ad"> | number
     createdBy?: StringFilter<"Ad"> | string
@@ -28661,6 +28721,10 @@ export namespace Prisma {
     endDate?: SortOrder
     status?: SortOrder
     priority?: SortOrder
+    targetPage?: SortOrderInput | SortOrder
+    ratio?: SortOrderInput | SortOrder
+    pageName?: SortOrderInput | SortOrder
+    placementName?: SortOrderInput | SortOrder
     impressions?: SortOrder
     clicks?: SortOrder
     createdBy?: SortOrder
@@ -28687,6 +28751,10 @@ export namespace Prisma {
     endDate?: DateTimeFilter<"Ad"> | Date | string
     status?: EnumAdStatusFilter<"Ad"> | $Enums.AdStatus
     priority?: IntFilter<"Ad"> | number
+    targetPage?: StringNullableFilter<"Ad"> | string | null
+    ratio?: StringNullableFilter<"Ad"> | string | null
+    pageName?: StringNullableFilter<"Ad"> | string | null
+    placementName?: StringNullableFilter<"Ad"> | string | null
     impressions?: IntFilter<"Ad"> | number
     clicks?: IntFilter<"Ad"> | number
     createdBy?: StringFilter<"Ad"> | string
@@ -28710,6 +28778,10 @@ export namespace Prisma {
     endDate?: SortOrder
     status?: SortOrder
     priority?: SortOrder
+    targetPage?: SortOrderInput | SortOrder
+    ratio?: SortOrderInput | SortOrder
+    pageName?: SortOrderInput | SortOrder
+    placementName?: SortOrderInput | SortOrder
     impressions?: SortOrder
     clicks?: SortOrder
     createdBy?: SortOrder
@@ -28737,6 +28809,10 @@ export namespace Prisma {
     endDate?: DateTimeWithAggregatesFilter<"Ad"> | Date | string
     status?: EnumAdStatusWithAggregatesFilter<"Ad"> | $Enums.AdStatus
     priority?: IntWithAggregatesFilter<"Ad"> | number
+    targetPage?: StringNullableWithAggregatesFilter<"Ad"> | string | null
+    ratio?: StringNullableWithAggregatesFilter<"Ad"> | string | null
+    pageName?: StringNullableWithAggregatesFilter<"Ad"> | string | null
+    placementName?: StringNullableWithAggregatesFilter<"Ad"> | string | null
     impressions?: IntWithAggregatesFilter<"Ad"> | number
     clicks?: IntWithAggregatesFilter<"Ad"> | number
     createdBy?: StringWithAggregatesFilter<"Ad"> | string
@@ -30463,6 +30539,10 @@ export namespace Prisma {
     endDate: Date | string
     status?: $Enums.AdStatus
     priority?: number
+    targetPage?: string | null
+    ratio?: string | null
+    pageName?: string | null
+    placementName?: string | null
     impressions?: number
     clicks?: number
     createdAt?: Date | string
@@ -30485,6 +30565,10 @@ export namespace Prisma {
     endDate: Date | string
     status?: $Enums.AdStatus
     priority?: number
+    targetPage?: string | null
+    ratio?: string | null
+    pageName?: string | null
+    placementName?: string | null
     impressions?: number
     clicks?: number
     createdBy: string
@@ -30507,6 +30591,10 @@ export namespace Prisma {
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumAdStatusFieldUpdateOperationsInput | $Enums.AdStatus
     priority?: IntFieldUpdateOperationsInput | number
+    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
+    ratio?: NullableStringFieldUpdateOperationsInput | string | null
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
+    placementName?: NullableStringFieldUpdateOperationsInput | string | null
     impressions?: IntFieldUpdateOperationsInput | number
     clicks?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30529,6 +30617,10 @@ export namespace Prisma {
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumAdStatusFieldUpdateOperationsInput | $Enums.AdStatus
     priority?: IntFieldUpdateOperationsInput | number
+    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
+    ratio?: NullableStringFieldUpdateOperationsInput | string | null
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
+    placementName?: NullableStringFieldUpdateOperationsInput | string | null
     impressions?: IntFieldUpdateOperationsInput | number
     clicks?: IntFieldUpdateOperationsInput | number
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -30551,6 +30643,10 @@ export namespace Prisma {
     endDate: Date | string
     status?: $Enums.AdStatus
     priority?: number
+    targetPage?: string | null
+    ratio?: string | null
+    pageName?: string | null
+    placementName?: string | null
     impressions?: number
     clicks?: number
     createdBy: string
@@ -30570,6 +30666,10 @@ export namespace Prisma {
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumAdStatusFieldUpdateOperationsInput | $Enums.AdStatus
     priority?: IntFieldUpdateOperationsInput | number
+    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
+    ratio?: NullableStringFieldUpdateOperationsInput | string | null
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
+    placementName?: NullableStringFieldUpdateOperationsInput | string | null
     impressions?: IntFieldUpdateOperationsInput | number
     clicks?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30588,6 +30688,10 @@ export namespace Prisma {
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumAdStatusFieldUpdateOperationsInput | $Enums.AdStatus
     priority?: IntFieldUpdateOperationsInput | number
+    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
+    ratio?: NullableStringFieldUpdateOperationsInput | string | null
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
+    placementName?: NullableStringFieldUpdateOperationsInput | string | null
     impressions?: IntFieldUpdateOperationsInput | number
     clicks?: IntFieldUpdateOperationsInput | number
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -32623,6 +32727,10 @@ export namespace Prisma {
     endDate?: SortOrder
     status?: SortOrder
     priority?: SortOrder
+    targetPage?: SortOrder
+    ratio?: SortOrder
+    pageName?: SortOrder
+    placementName?: SortOrder
     impressions?: SortOrder
     clicks?: SortOrder
     createdBy?: SortOrder
@@ -32648,6 +32756,10 @@ export namespace Prisma {
     endDate?: SortOrder
     status?: SortOrder
     priority?: SortOrder
+    targetPage?: SortOrder
+    ratio?: SortOrder
+    pageName?: SortOrder
+    placementName?: SortOrder
     impressions?: SortOrder
     clicks?: SortOrder
     createdBy?: SortOrder
@@ -32667,6 +32779,10 @@ export namespace Prisma {
     endDate?: SortOrder
     status?: SortOrder
     priority?: SortOrder
+    targetPage?: SortOrder
+    ratio?: SortOrder
+    pageName?: SortOrder
+    placementName?: SortOrder
     impressions?: SortOrder
     clicks?: SortOrder
     createdBy?: SortOrder
@@ -36230,6 +36346,10 @@ export namespace Prisma {
     endDate: Date | string
     status?: $Enums.AdStatus
     priority?: number
+    targetPage?: string | null
+    ratio?: string | null
+    pageName?: string | null
+    placementName?: string | null
     impressions?: number
     clicks?: number
     createdAt?: Date | string
@@ -36251,6 +36371,10 @@ export namespace Prisma {
     endDate: Date | string
     status?: $Enums.AdStatus
     priority?: number
+    targetPage?: string | null
+    ratio?: string | null
+    pageName?: string | null
+    placementName?: string | null
     impressions?: number
     clicks?: number
     createdBy: string
@@ -36315,6 +36439,10 @@ export namespace Prisma {
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumAdStatusFieldUpdateOperationsInput | $Enums.AdStatus
     priority?: IntFieldUpdateOperationsInput | number
+    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
+    ratio?: NullableStringFieldUpdateOperationsInput | string | null
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
+    placementName?: NullableStringFieldUpdateOperationsInput | string | null
     impressions?: IntFieldUpdateOperationsInput | number
     clicks?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36336,6 +36464,10 @@ export namespace Prisma {
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumAdStatusFieldUpdateOperationsInput | $Enums.AdStatus
     priority?: IntFieldUpdateOperationsInput | number
+    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
+    ratio?: NullableStringFieldUpdateOperationsInput | string | null
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
+    placementName?: NullableStringFieldUpdateOperationsInput | string | null
     impressions?: IntFieldUpdateOperationsInput | number
     clicks?: IntFieldUpdateOperationsInput | number
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -36457,6 +36589,10 @@ export namespace Prisma {
     endDate: Date | string
     status?: $Enums.AdStatus
     priority?: number
+    targetPage?: string | null
+    ratio?: string | null
+    pageName?: string | null
+    placementName?: string | null
     impressions?: number
     clicks?: number
     createdAt?: Date | string
@@ -36478,6 +36614,10 @@ export namespace Prisma {
     endDate: Date | string
     status?: $Enums.AdStatus
     priority?: number
+    targetPage?: string | null
+    ratio?: string | null
+    pageName?: string | null
+    placementName?: string | null
     impressions?: number
     clicks?: number
     createdBy: string
@@ -36588,6 +36728,10 @@ export namespace Prisma {
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumAdStatusFieldUpdateOperationsInput | $Enums.AdStatus
     priority?: IntFieldUpdateOperationsInput | number
+    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
+    ratio?: NullableStringFieldUpdateOperationsInput | string | null
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
+    placementName?: NullableStringFieldUpdateOperationsInput | string | null
     impressions?: IntFieldUpdateOperationsInput | number
     clicks?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36609,6 +36753,10 @@ export namespace Prisma {
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumAdStatusFieldUpdateOperationsInput | $Enums.AdStatus
     priority?: IntFieldUpdateOperationsInput | number
+    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
+    ratio?: NullableStringFieldUpdateOperationsInput | string | null
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
+    placementName?: NullableStringFieldUpdateOperationsInput | string | null
     impressions?: IntFieldUpdateOperationsInput | number
     clicks?: IntFieldUpdateOperationsInput | number
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -36630,6 +36778,10 @@ export namespace Prisma {
     endDate: Date | string
     status?: $Enums.AdStatus
     priority?: number
+    targetPage?: string | null
+    ratio?: string | null
+    pageName?: string | null
+    placementName?: string | null
     impressions?: number
     clicks?: number
     createdAt?: Date | string
@@ -36651,6 +36803,10 @@ export namespace Prisma {
     endDate: Date | string
     status?: $Enums.AdStatus
     priority?: number
+    targetPage?: string | null
+    ratio?: string | null
+    pageName?: string | null
+    placementName?: string | null
     impressions?: number
     clicks?: number
     createdBy: string
@@ -36688,6 +36844,10 @@ export namespace Prisma {
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumAdStatusFieldUpdateOperationsInput | $Enums.AdStatus
     priority?: IntFieldUpdateOperationsInput | number
+    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
+    ratio?: NullableStringFieldUpdateOperationsInput | string | null
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
+    placementName?: NullableStringFieldUpdateOperationsInput | string | null
     impressions?: IntFieldUpdateOperationsInput | number
     clicks?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36709,6 +36869,10 @@ export namespace Prisma {
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumAdStatusFieldUpdateOperationsInput | $Enums.AdStatus
     priority?: IntFieldUpdateOperationsInput | number
+    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
+    ratio?: NullableStringFieldUpdateOperationsInput | string | null
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
+    placementName?: NullableStringFieldUpdateOperationsInput | string | null
     impressions?: IntFieldUpdateOperationsInput | number
     clicks?: IntFieldUpdateOperationsInput | number
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -38913,6 +39077,10 @@ export namespace Prisma {
     endDate: Date | string
     status?: $Enums.AdStatus
     priority?: number
+    targetPage?: string | null
+    ratio?: string | null
+    pageName?: string | null
+    placementName?: string | null
     impressions?: number
     clicks?: number
     createdAt?: Date | string
@@ -38934,6 +39102,10 @@ export namespace Prisma {
     endDate: Date | string
     status?: $Enums.AdStatus
     priority?: number
+    targetPage?: string | null
+    ratio?: string | null
+    pageName?: string | null
+    placementName?: string | null
     impressions?: number
     clicks?: number
     createdAt?: Date | string
@@ -39257,6 +39429,10 @@ export namespace Prisma {
     endDate?: DateTimeFilter<"Ad"> | Date | string
     status?: EnumAdStatusFilter<"Ad"> | $Enums.AdStatus
     priority?: IntFilter<"Ad"> | number
+    targetPage?: StringNullableFilter<"Ad"> | string | null
+    ratio?: StringNullableFilter<"Ad"> | string | null
+    pageName?: StringNullableFilter<"Ad"> | string | null
+    placementName?: StringNullableFilter<"Ad"> | string | null
     impressions?: IntFilter<"Ad"> | number
     clicks?: IntFilter<"Ad"> | number
     createdBy?: StringFilter<"Ad"> | string
@@ -40250,6 +40426,10 @@ export namespace Prisma {
     endDate: Date | string
     status?: $Enums.AdStatus
     priority?: number
+    targetPage?: string | null
+    ratio?: string | null
+    pageName?: string | null
+    placementName?: string | null
     impressions?: number
     clicks?: number
     createdAt?: Date | string
@@ -40522,6 +40702,10 @@ export namespace Prisma {
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumAdStatusFieldUpdateOperationsInput | $Enums.AdStatus
     priority?: IntFieldUpdateOperationsInput | number
+    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
+    ratio?: NullableStringFieldUpdateOperationsInput | string | null
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
+    placementName?: NullableStringFieldUpdateOperationsInput | string | null
     impressions?: IntFieldUpdateOperationsInput | number
     clicks?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -40543,6 +40727,10 @@ export namespace Prisma {
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumAdStatusFieldUpdateOperationsInput | $Enums.AdStatus
     priority?: IntFieldUpdateOperationsInput | number
+    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
+    ratio?: NullableStringFieldUpdateOperationsInput | string | null
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
+    placementName?: NullableStringFieldUpdateOperationsInput | string | null
     impressions?: IntFieldUpdateOperationsInput | number
     clicks?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -40564,6 +40752,10 @@ export namespace Prisma {
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumAdStatusFieldUpdateOperationsInput | $Enums.AdStatus
     priority?: IntFieldUpdateOperationsInput | number
+    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
+    ratio?: NullableStringFieldUpdateOperationsInput | string | null
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
+    placementName?: NullableStringFieldUpdateOperationsInput | string | null
     impressions?: IntFieldUpdateOperationsInput | number
     clicks?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

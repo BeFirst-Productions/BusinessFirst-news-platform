@@ -4,6 +4,7 @@ import { ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import SectionContainer from './SectionContainer';
 import AdBanner from './AdBanner';
+import { DynamicAd } from './ads/DynamicAd';
 import NewsletterWidget from './NewsletterWidget';
 
 const dummyBankingFeatured = {
@@ -151,10 +152,17 @@ const BankingFinanceSection = () => {
         {/* Right Block - Ad & Newsletter (Spans 4/12) */}
         <div className="lg:col-span-4 flex flex-col gap-6 w-full h-full pt-10">
           {/* Ad Banner - Takes up available space */}
-          <AdBanner 
-            imageUrl="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80" 
-            altText="Burger Ad"
+          <DynamicAd
+            ratio="ad_4"
             className="w-full flex-1 min-h-[300px] aspect-square lg:aspect-auto"
+            fallback={
+              <Image 
+                src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80" 
+                alt="Burger Ad"
+                fill
+                className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
+              />
+            }
           />
           {/* Newsletter Widget */}
           <NewsletterWidget />

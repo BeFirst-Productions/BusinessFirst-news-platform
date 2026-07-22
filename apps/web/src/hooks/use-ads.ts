@@ -35,6 +35,27 @@ export function useAdSlot(slotCode: string) {
 }
 
 /**
+ * Fetch ads for a specific page (e.g. 'home')
+ */
+export function usePageAds(targetPage: string) {
+  return useQuery({
+    queryKey: adKeys.page(targetPage),
+    queryFn: async () => {
+      const ads = await apiClient.get<Ad[]>('/ads', {
+        params: {
+          targetPage,
+          status: 'ACTIVE',
+          limit: 50,
+        },
+      });
+      return ads;
+    },
+    staleTime: STALE_TIMES.FREQUENT,
+    enabled: !!targetPage,
+  });
+}
+
+/**
  * Track ad impression
  */
 export function useAdImpression() {

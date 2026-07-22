@@ -13,7 +13,7 @@ import { UsersService } from '../users/users.service';
 
 export class AuthService {
   static async login(email: string, password: string) {
-    // Find user
+    // Find user    
     const user = await prisma.user.findUnique({
       where: { email },
     });

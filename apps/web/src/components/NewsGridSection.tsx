@@ -4,7 +4,9 @@ import React from 'react';
 import SectionContainer from './SectionContainer';
 import NewsColumn, { NewsItem } from './NewsColumn';
 import AdBanner from './AdBanner';
+import { DynamicAd } from './ads/DynamicAd';
 import NewsletterWidget from './NewsletterWidget';
+import Image from 'next/image';
 import { useArticles } from '../hooks/use-articles';
 import { Skeleton } from './ui/Skeleton';
 
@@ -80,7 +82,7 @@ const dummySmallList: NewsItem[] = [
   }
 ];
 
-const NewsGridSection = () => {
+const  NewsGridSection = () => {
   // Query Trending Articles
   const { data: trendingRes, isLoading: isTrendingLoading } = useArticles({
     isTrending: true,
@@ -188,15 +190,29 @@ const NewsGridSection = () => {
         {/* Right Column - Ads & Newsletter (Spans 4/12) */}
         <div className="lg:col-span-4 flex flex-col gap-6 h-full">
           <div className="flex flex-col gap-6 flex-1 min-h-[600px] lg:min-h-0">
-            <AdBanner 
-              imageUrl="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80" 
-              altText="Burger Ad 1" 
-              className="flex-[7] shadow-sm"
+            <DynamicAd
+              ratio="ad_2"
+              className="flex-[7] shadow-sm min-h-[300px]"
+              fallback={
+                <Image 
+                  src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80" 
+                  alt="Burger Ad 1" 
+                  fill
+                  className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                />
+              }
             />
-            <AdBanner 
-              imageUrl="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=600&q=80" 
-              altText="Burger Ad 2" 
-              className="flex-[4] shadow-sm"
+            <DynamicAd
+              ratio="ad_3"
+              className="flex-[4] shadow-sm min-h-[200px]"
+              fallback={
+                <Image 
+                  src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=600&q=80" 
+                  alt="Burger Ad 2" 
+                  fill
+                  className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                />
+              }
             />
           </div>
           <NewsletterWidget />

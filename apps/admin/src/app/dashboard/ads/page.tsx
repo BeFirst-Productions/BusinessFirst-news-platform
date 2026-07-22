@@ -8,22 +8,27 @@ import { DataTable } from '@/components/ui/DataTable';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { Card, CardContent } from '@/components/ui/Card';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select';
 import { Plus, Eye, MousePointer, BarChart3, Trash2, Edit, Image, Video } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
 import toast from 'react-hot-toast';
 import { usePermission } from '@/hooks/usePermission';
+import { useConfirmModalStore } from '@/store/confirm-modal.store';
 
 export default function AdsPage() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { hasPermission } = usePermission();
+  const confirmModal = useConfirmModalStore();
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
+  const [targetPage, setTargetPage] = useState<string>('home');
 
   const { data, isLoading, refetch, isRefetching } = useQuery({
-    queryKey: ['ads', page, limit],
+    queryKey: ['ads', page, limit, targetPage],
     queryFn: async () => {
-      const response = await apiClient.get(`/ads?page=${page}&limit=${limit}`);
+      const url = `/ads?page=${page}&limit=${limit}&targetPage=${targetPage}`;
+      const response = await apiClient.get(url);
       return response.data;
     },
   });
@@ -32,6 +37,7 @@ export default function AdsPage() {
     mutationFn: (id: string) => apiClient.delete(`/ads/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['ads'] });
+      queryClient.invalidateQueries({ queryKey: ['ads-active'] });
       toast.success('Ad deleted');
     },
   });
@@ -41,6 +47,7 @@ export default function AdsPage() {
       apiClient.put(`/ads/${id}`, { status }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['ads'] });
+      queryClient.invalidateQueries({ queryKey: ['ads-active'] });
       toast.success('Ad status updated');
     },
   });
@@ -51,8 +58,10 @@ export default function AdsPage() {
       header: 'Ad',
       cell: (item: any) => (
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded bg-muted flex items-center justify-center">
-            {item.type === 'VIDEO' ? (
+          <div className="w-10 h-10 rounded bg-muted flex items-center justify-center overflow-hidden">
+            {item.imageUrl ? (
+              <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover" />
+            ) : item.type === 'VIDEO' ? (
               <Video className="h-5 w-5 text-blue-600" />
             ) : (
               <Image className="h-5 w-5 text-green-600" />
@@ -75,18 +84,11 @@ export default function AdsPage() {
       ),
     },
     {
-      key: 'performance',
-      header: 'Performance',
+      key: 'adNumber',
+      header: 'Ad Number',
       cell: (item: any) => (
-        <div className="space-y-1">
-          <div className="flex items-center gap-2 text-sm">
-            <Eye className="h-3 w-3" />
-            <span>{item.impressions?.toLocaleString() || 0} impressions</span>
-          </div>
-          <div className="flex items-center gap-2 text-sm">
-            <MousePointer className="h-3 w-3" />
-            <span>{item.clicks?.toLocaleString() || 0} clicks</span>
-          </div>
+        <div className="text-sm font-medium">
+          {item.placementName || item.ratio || 'N/A'}
         </div>
       ),
     },
@@ -106,20 +108,23 @@ export default function AdsPage() {
       className: 'text-right',
       cell: (item: any) => (
         <div className="flex items-center justify-end gap-2">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => router.push(`/dashboard/ads/${item.id}`)}
-          >
-            <BarChart3 className="h-4 w-4" />
-          </Button>
+        
           {hasPermission('ADS', 'edit') && (
             <Button
               variant="ghost"
               size="icon"
               onClick={() => {
-                const newStatus = item.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE';
-                toggleAdStatus.mutate({ id: item.id, status: newStatus });
+                const isPausing = item.status === 'ACTIVE';
+                const newStatus = isPausing ? 'INACTIVE' : 'ACTIVE';
+                confirmModal.open({
+                  title: isPausing ? 'Pause Ad' : 'Activate Ad',
+                  message: `Are you sure you want to ${isPausing ? 'pause' : 'activate'} this ad?`,
+                  confirmText: isPausing ? 'Pause' : 'Activate',
+                  variant: isPausing ? 'warning' : 'success',
+                  onConfirm: async () => {
+                    await toggleAdStatus.mutateAsync({ id: item.id, status: newStatus });
+                  },
+                });
               }}
             >
               {item.status === 'ACTIVE' ? (
@@ -129,12 +134,29 @@ export default function AdsPage() {
               )}
             </Button>
           )}
+          {hasPermission('ADS', 'edit') && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => router.push(`/dashboard/ads/edit/${item.id}`)}
+            >
+              <Edit className="h-4 w-4 text-blue-600" />
+            </Button>
+          )}
           {hasPermission('ADS', 'delete') && (
             <Button
               variant="ghost"
               size="icon"
               onClick={() => {
-                if (confirm('Delete this ad?')) deleteAd.mutate(item.id);
+                confirmModal.open({
+                  title: 'Delete Ad',
+                  message: 'Are you sure you want to delete this ad? This action cannot be undone.',
+                  confirmText: 'Delete',
+                  variant: 'danger',
+                  onConfirm: async () => {
+                    await deleteAd.mutateAsync(item.id);
+                  },
+                });
               }}
             >
               <Trash2 className="h-4 w-4 text-destructive" />
@@ -153,8 +175,8 @@ export default function AdsPage() {
           <p className="text-muted-foreground mt-1">Manage advertisements and track performance</p>
         </div>
         <div className="flex gap-3">
-          <Button variant="outline" onClick={() => router.push('/dashboard/ads/slots')}>
-            Manage Ad Spaces
+          <Button variant="outline" onClick={() => window.open(`/ads-preview?page=${targetPage}`, '_blank')} leftIcon={<Eye className="h-4 w-4" />}>
+            Preview
           </Button>
           {hasPermission('ADS', 'create') && (
             <Button onClick={() => router.push('/dashboard/ads/create')} leftIcon={<Plus className="h-4 w-4" />}>
@@ -166,6 +188,23 @@ export default function AdsPage() {
 
       <Card>
         <CardContent className="pt-6">
+          <div className="mb-4 flex items-center justify-end">
+            <div className="w-[250px]">
+              <Select value={targetPage} onValueChange={(val) => {
+                setTargetPage(val);
+                setPage(1); // Reset to first page on filter change
+              }}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Filter by Target Page" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="home">Homepage</SelectItem>
+                  <SelectItem value="news_detail">News Detail Page</SelectItem>
+                  <SelectItem value="contact">Contact Page</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
           <DataTable
             columns={columns}
             data={data?.data || []}

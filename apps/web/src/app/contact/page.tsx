@@ -40,7 +40,7 @@ export default function ContactPage() {
 
         </div>
         <div className='w-full py-8 md:py-12'>
-          <FullWidthAdBanner />
+          <FullWidthAdBanner ratio="contact_bottom" targetPage="contact" />
         </div>
       </SectionContainer>
     </main>

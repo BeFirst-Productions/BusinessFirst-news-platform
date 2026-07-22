@@ -23,4 +23,5 @@ export const categoryKeys = {
 export const adKeys = {
   all: ['ads'] as const,
   slot: (slotCode: string) => [...adKeys.all, 'slot', slotCode] as const,
+  page: (targetPage: string) => [...adKeys.all, 'page', targetPage] as const,
 };

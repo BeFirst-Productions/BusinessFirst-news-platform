@@ -7,6 +7,10 @@ export const createAdSchema = z.object({
   startDate: z.string().min(1, 'Start date is required'),
   endDate: z.string().min(1, 'End date is required'),
   priority: z.coerce.number().int().min(0).default(0),
+  targetPage: z.string().optional(),
+  ratio: z.string().optional(),
+  pageName: z.string().optional(),
+  placementName: z.string().optional(),
 });
 
 export const updateAdSchema = z.object({
@@ -24,6 +28,7 @@ export const adQuerySchema = z.object({
   limit: z.coerce.number().int().positive().max(100).default(10),
   search: z.string().optional(),
   status: z.enum(['ACTIVE', 'INACTIVE', 'EXPIRED']).optional(),
+  targetPage: z.string().optional(),
 });
 
 export type CreateAdInput = z.infer<typeof createAdSchema>;

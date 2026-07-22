@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Menu, Search, UserPlus, ChevronDown, X } from 'lucide-react';
 import Link from 'next/link';
 import SectionContainer from './SectionContainer';
+import { DynamicAd } from './ads/DynamicAd';
 
 const MobileHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -182,14 +183,18 @@ const MobileHeader = () => {
 
       {/* Mobile Banner Ad */}
       <SectionContainer as="div" className="bg-gray-100" containerClassName="py-3">
-        <div className="w-full h-20 sm:h-24 bg-gray-200 relative overflow-hidden group cursor-pointer shadow-sm">
-          <Image 
-            src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1200&h=300&q=80" 
-            alt="Advertisement"
-            fill
-            className="object-cover"
-          />
-        </div>
+        <DynamicAd
+          ratio="ad_1"
+          className="w-full h-20 sm:h-24 bg-gray-200 shadow-sm"
+          fallback={
+            <Image 
+              src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1200&h=300&q=80" 
+              alt="Advertisement"
+              fill
+              className="object-cover"
+            />
+          }
+        />
       </SectionContainer>
 
     </div>

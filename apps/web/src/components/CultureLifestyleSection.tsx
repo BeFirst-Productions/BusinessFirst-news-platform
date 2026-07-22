@@ -86,7 +86,7 @@ const CultureLifestyleSection = () => {
 
       </div>
            <div className="mt-16 w-full">
-        <FullWidthAdBanner />
+        <FullWidthAdBanner ratio="ad_9" />
       </div>
     </SectionContainer>
   );

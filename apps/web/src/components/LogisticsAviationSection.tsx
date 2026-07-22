@@ -185,7 +185,7 @@ const LogisticsAviationSection = () => {
         </div>
       </div>
          <div className="mt-16 w-full">
-        <FullWidthAdBanner />
+        <FullWidthAdBanner ratio="ad_6" />
       </div>
     </SectionContainer>
   );
