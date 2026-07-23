@@ -4,8 +4,8 @@ import { getPageSeoProps } from '@/lib/fetchPageSeo';
 import { buildMetadata } from '@/components/seo/seo.types';
 import { createQueryClient } from '@/lib/query-client';
 import { apiClient } from '@/lib/api-client';
-import { articleKeys, categoryKeys } from '@/lib/query-keys';
-import type { Article, Category } from '@businessfirst/shared-types';
+import { articleKeys, categoryKeys, adKeys } from '@/lib/query-keys';
+import type { Article, Category, Ad } from '@businessfirst/shared-types';
 
 // Import components
 import TopHeadlines from '@/components/TopHeadlines';
@@ -113,6 +113,25 @@ export default async function HomePage() {
       },
     }),
 
+    // Prefetch ads for home page
+    queryClient.prefetchQuery({
+      queryKey: adKeys.page('home'),
+      queryFn: async () => {
+        const ads = await apiClient.get<Ad[]>('/ads', {
+          params: {
+            targetPage: 'home',
+            status: 'ACTIVE',
+            limit: 50,
+          },
+          next: {
+            revalidate: 300,
+            tags: ['ad-page-home'],
+          },
+        });
+        return ads;
+      },
+    }),
+
     // Prefetch category-specific articles for each section
     prefetchCategoryArticles(queryClient, 'technology', 'technology-innovation'),
     prefetchCategoryArticles(queryClient, 'logistics-aviation', 'logistics-aviation'),
@@ -144,7 +163,7 @@ export default async function HomePage() {
           <div className="order-3 lg:order-2 w-full">
             <SectionContainer containerClassName="py-8 md:py-12">
               <Suspense fallback={<AdBannerSkeleton />}>
-                <FullWidthAdBanner containerClassName="w-full" />
+                <FullWidthAdBanner containerClassName="w-full" ratio="ad_4" />
               </Suspense>
             </SectionContainer>
           </div>

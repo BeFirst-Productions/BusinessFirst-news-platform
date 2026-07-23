@@ -2,6 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import SectionContainer from './SectionContainer';
 import { ChevronDown } from 'lucide-react';
+import { DynamicAd } from './ads/DynamicAd';
 
 const TechnologyInnovation = () => {
   return (
@@ -114,14 +115,18 @@ const TechnologyInnovation = () => {
           </div>
 
           {/* Ad Banner */}
-          <div className="relative w-full aspect-square md:aspect-[4/3] lg:aspect-auto lg:flex-grow overflow-hidden mt-2 group cursor-pointer">
-            <Image
-              src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80"
-              alt="Advertisement Banner"
-              fill
-              className="object-cover group-hover:scale-105 transition-transform duration-500"
-            />
-          </div>
+          <DynamicAd
+            ratio="ad_5"
+            className="w-full aspect-square md:aspect-[4/3] lg:aspect-auto lg:flex-grow overflow-hidden mt-2"
+            fallback={
+              <Image
+                src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80"
+                alt="Advertisement Banner"
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            }
+          />
 
         </div>
 

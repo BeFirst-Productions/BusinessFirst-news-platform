@@ -36,7 +36,7 @@ const NewsDetail: React.FC<NewsDetailProps> = ({ articleId }) => {
       </div>
 
       {/* Full-width Ad Banner under the grid layout */}
-      <FullWidthAdBanner containerClassName="w-full mt-12" />
+      <FullWidthAdBanner containerClassName="w-full mt-12" ratio="nd_bottom" targetPage="news_detail" />
 
       {/* Divider */}
       <div className="h-[1px] w-full bg-gray-200 my-12"></div>

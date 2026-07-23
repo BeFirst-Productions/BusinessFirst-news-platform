@@ -147,7 +147,7 @@ export function DataTable<T extends { id: string }>({
                       {column.cell
                         ? column.cell(item, index)
                         : String(item[column.key as keyof T] ?? '')}
-                    </TableCell>
+                    </TableCell>  
                   ))}
                 </TableRow>
               ))

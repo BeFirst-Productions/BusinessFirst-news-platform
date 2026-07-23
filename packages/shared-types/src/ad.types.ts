@@ -14,6 +14,10 @@ export interface Ad extends BaseEntity {
   endDate: string;
   status: AdStatus;
   priority: number;
+  targetPage?: string;
+  ratio?: string;
+  pageName?: string;
+  placementName?: string;
   createdBy: string;
 }
 

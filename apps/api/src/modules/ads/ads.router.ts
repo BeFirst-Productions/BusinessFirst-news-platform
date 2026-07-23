@@ -14,20 +14,18 @@ const upload = multer({
   },
 });
 
-router.use(AuthMiddleware.authenticate);
-
 router.get(
   '/',
-  PermissionMiddleware.checkModule('ADS', 'view'),
   ValidationMiddleware.validate(adQuerySchema, 'query'),
   AdsController.getAds
 );
 
 router.get(
   '/:id',
-  PermissionMiddleware.checkModule('ADS', 'view'),
   AdsController.getAdById
 );
+
+router.use(AuthMiddleware.authenticate);
 
 router.post(
   '/',

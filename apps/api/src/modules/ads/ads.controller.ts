@@ -36,6 +36,7 @@ export class AdsController {
         image: files?.['image']?.[0],
         video: files?.['video']?.[0],
       };
+console.log(req.body);
 
       const ad = await AdsService.createAd(req.body, adFiles, req.user.userId);
       ResponseUtil.created(res, ad, 'Advertisement created successfully');
