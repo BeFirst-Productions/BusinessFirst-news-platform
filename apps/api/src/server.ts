@@ -29,11 +29,11 @@ async function bootstrap() {
   // Connect to Redis
   // await RedisClient.connect();
   // Connect to Redis — non-fatal, server runs without it
-try {
-  await RedisClient.connect();
-} catch (error) {
-  console.warn('⚠️ Redis unavailable — continuing without cache. Check REDIS_URL.');
-}
+  try {
+    await RedisClient.connect();
+  } catch (error) {
+    console.warn('⚠️ Redis unavailable — continuing without cache. Check REDIS_URL.');
+  }
 
   // Configure Cloudinary
   configureCloudinary();
@@ -102,7 +102,7 @@ try {
   // Graceful shutdown
   const shutdown = async (signal: string) => {
     console.log(`\n${signal} received. Shutting down gracefully...`);
-    
+
     server.close(async () => {
       await Database.disconnect();
       await RedisClient.disconnect();

@@ -95,43 +95,85 @@ public static isHealthy(): boolean {
 
   // Cache helpers
   public static async get(key: string): Promise<string | null> {
-    return RedisClient.getInstance().get(key);
+    if (!RedisClient.isConnected) return null;
+    try {
+      return await RedisClient.getInstance().get(key);
+    } catch (error) {
+      console.warn(`⚠️ Redis get error for key ${key}:`, (error as Error).message);
+      return null;
+    }
   }
 
   public static async set(key: string, value: string, ttl?: number): Promise<'OK' | null> {
-    if (ttl) {
-      return RedisClient.getInstance().set(key, value, 'EX', ttl);
+    if (!RedisClient.isConnected) return null;
+    try {
+      if (ttl) {
+        return await RedisClient.getInstance().set(key, value, 'EX', ttl);
+      }
+      return await RedisClient.getInstance().set(key, value);
+    } catch (error) {
+      console.warn(`⚠️ Redis set error for key ${key}:`, (error as Error).message);
+      return null;
     }
-    return RedisClient.getInstance().set(key, value);
   }
 
   public static async del(key: string): Promise<number> {
-    return RedisClient.getInstance().del(key);
+    if (!RedisClient.isConnected) return 0;
+    try {
+      return await RedisClient.getInstance().del(key);
+    } catch (error) {
+      console.warn(`⚠️ Redis del error for key ${key}:`, (error as Error).message);
+      return 0;
+    }
   }
 
   public static async delByPattern(pattern: string): Promise<void> {
-    const redis = RedisClient.getInstance();
-    const keys = await redis.keys(pattern);
-    
-    if (keys.length > 0) {
-      await redis.del(...keys);
+    if (!RedisClient.isConnected) return;
+    try {
+      const redis = RedisClient.getInstance();
+      const keys = await redis.keys(pattern);
+      
+      if (keys.length > 0) {
+        await redis.del(...keys);
+      }
+    } catch (error) {
+      console.warn(`⚠️ Redis delByPattern error for pattern ${pattern}:`, (error as Error).message);
     }
   }
 
   public static async exists(key: string): Promise<boolean> {
-    const result = await RedisClient.getInstance().exists(key);
-    return result === 1;
+    if (!RedisClient.isConnected) return false;
+    try {
+      const result = await RedisClient.getInstance().exists(key);
+      return result === 1;
+    } catch (error) {
+      console.warn(`⚠️ Redis exists error for key ${key}:`, (error as Error).message);
+      return false;
+    }
   }
 
   public static async incr(key: string): Promise<number> {
-    return RedisClient.getInstance().incr(key);
+    if (!RedisClient.isConnected) return 0;
+    try {
+      return await RedisClient.getInstance().incr(key);
+    } catch (error) {
+      console.warn(`⚠️ Redis incr error for key ${key}:`, (error as Error).message);
+      return 0;
+    }
   }
 
   public static async expire(key: string, seconds: number): Promise<number> {
-    return RedisClient.getInstance().expire(key, seconds);
+    if (!RedisClient.isConnected) return 0;
+    try {
+      return await RedisClient.getInstance().expire(key, seconds);
+    } catch (error) {
+      console.warn(`⚠️ Redis expire error for key ${key}:`, (error as Error).message);
+      return 0;
+    }
   }
 
   public static async healthCheck(): Promise<boolean> {
+    if (!RedisClient.isConnected) return false;
     try {
       const redis = RedisClient.getInstance();
       const result = await redis.ping();
