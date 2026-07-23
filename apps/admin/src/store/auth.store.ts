@@ -2,8 +2,7 @@
 
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import axios from 'axios';
-import { API_URL } from '@/lib/constants';
+import { apiClient } from '@/lib/api-client';
 
 export interface UserModulePermission {
   id: string;
@@ -53,7 +52,7 @@ export const useAuthStore = create<AuthState>()(
       login: async (email: string, password: string) => {
         set({ isLoading: true });
         try {
-          const { data } = await axios.post(`${API_URL}/auth/login`, { email, password });
+          const { data } = await apiClient.post('/auth/login', { email, password });
           const { user, tokens } = data.data;
           
           localStorage.setItem('accessToken', tokens.accessToken);
@@ -68,7 +67,7 @@ export const useAuthStore = create<AuthState>()(
           });
         } catch (error: any) {
           set({ isLoading: false });
-          throw new Error(error.response?.data?.message || 'Login failed');
+          throw new Error(error.response?.data?.message || error.message || 'Login failed');
         }
       },
 
@@ -91,27 +90,10 @@ export const useAuthStore = create<AuthState>()(
 
       refreshProfile: async () => {
         try {
-          const token = localStorage.getItem('accessToken');
-          if (!token) return;
-          const { data } = await axios.get(`${API_URL}/auth/profile`, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
+          const { data } = await apiClient.get('/auth/profile');
           set({ user: data.data });
         } catch (error: any) {
           console.error('Failed to refresh profile:', error);
-          if (error.response?.status === 401) {
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('refreshToken');
-            set({
-              user: null,
-              accessToken: null,
-              refreshToken: null,
-              isAuthenticated: false,
-            });
-            if (typeof window !== 'undefined') {
-              window.location.href = '/login';
-            }
-          }
         }
       },
     }),
