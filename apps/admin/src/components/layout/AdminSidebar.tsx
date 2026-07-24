@@ -385,9 +385,17 @@ export function AdminSidebar() {
         {/* Footer */}
         <div className="p-4 border-t mt-auto">
           <div className="flex items-center gap-3 px-3 py-2">
-            <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
-              <Shield className="h-4 w-4 text-white" />
-            </div>
+            {user?.avatar ? (
+              <img
+                src={user.avatar}
+                alt={user.name || 'User Avatar'}
+                className="w-8 h-8 rounded-full object-cover border border-border flex-shrink-0"
+              />
+            ) : (
+              <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
+                <Shield className="h-4 w-4 text-white" />
+              </div>
+            )}
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium truncate">{user?.name || 'User'}</p>
               <p className="text-xs text-muted-foreground truncate">{user?.email}</p>

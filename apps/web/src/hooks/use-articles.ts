@@ -226,3 +226,55 @@ export function useIncrementView() {
     },
   });
 }
+
+/**
+ * Fetch single aggregated home content (Featured, Top Headlines, Breaking, Latest) in 1 request
+ */
+export function useHomeContent() {
+  return useQuery({
+    queryKey: [...articleKeys.all, 'home-content'],
+    queryFn: async () => {
+      const data = await apiClient.get<{
+        featured: Article[];
+        topHeadlines: Article[];
+        breakingNews: Article[];
+        latest: Article[];
+      }>('/website/home-content', {
+        next: {
+          revalidate: 300,
+          tags: ['home-content'],
+        },
+      });
+      return data;
+    },
+    staleTime: STALE_TIMES.FREQUENT,
+  });
+}
+
+export interface HomeCategoriesData {
+  [key: string]: {
+    categoryName: string;
+    categorySlug: string;
+    limit: number;
+    articles: Article[];
+  };
+}
+
+/**
+ * Fetch single aggregated home category sections (all 13 sections with custom limits) in 1 request
+ */
+export function useHomeCategories() {
+  return useQuery<HomeCategoriesData>({
+    queryKey: [...articleKeys.all, 'home-categories'],
+    queryFn: async () => {
+      const data = await apiClient.get<HomeCategoriesData>('/website/home-categories', {
+        next: {
+          revalidate: 300,
+          tags: ['home-categories'],
+        },
+      });
+      return data;
+    },
+    staleTime: STALE_TIMES.FREQUENT,
+  });
+}

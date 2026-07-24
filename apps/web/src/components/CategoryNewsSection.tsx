@@ -28,56 +28,39 @@ const CATEGORY_SLUGS = {
 
 // ==================== API HOOK ====================
 
+import { useHomeCategories } from '@/hooks/use-articles';
+
 function useCategoryNewsData() {
-  return useQuery<CategorySectionData>({
-    queryKey: ['category-news-section'],
-    queryFn: async () => {
-      // Fetch both categories in parallel
-      const [leftCategory, rightCategory] = await Promise.all([
-        apiClient.get<Category>(`/website/categories/slug/${CATEGORY_SLUGS.LEFT}`, {
-          params: { isActive: true },
-        }).catch(() => null),
-        apiClient.get<Category>(`/website/categories/slug/${CATEGORY_SLUGS.RIGHT}`, {
-          params: { isActive: true },
-        }).catch(() => null),
-      ]);
+  const { data: homeCategories, isLoading, isError } = useHomeCategories();
 
-      // Fetch articles for both categories in parallel
-      const [leftArticlesRes, rightArticlesRes] = await Promise.all([
-        leftCategory
-          ? apiClient.getPaginated<Article>('/website/articles', {
-              params: {
-                categoryId: leftCategory.id,
-                status: 'PUBLISHED',
-                limit: 8,
-                sortBy: 'publishedAt',
-                sortOrder: 'desc',
-              },
-            }).catch(() => ({ data: [], metadata: { page: 1, limit: 0, total: 0, totalPages: 0 } }))
-          : Promise.resolve({ data: [], metadata: { page: 1, limit: 0, total: 0, totalPages: 0 } }),
-        rightCategory
-          ? apiClient.getPaginated<Article>('/website/articles', {
-              params: {
-                categoryId: rightCategory.id,
-                status: 'PUBLISHED',
-                limit: 6,
-                sortBy: 'publishedAt',
-                sortOrder: 'desc',
-              },
-            }).catch(() => ({ data: [], metadata: { page: 1, limit: 0, total: 0, totalPages: 0 } }))
-          : Promise.resolve({ data: [], metadata: { page: 1, limit: 0, total: 0, totalPages: 0 } }),
-      ]);
+  const leftSec = homeCategories?.['real-estate-construction'];
+  const rightSec = homeCategories?.['economy-policy'];
 
-      return {
-        leftCategory,
-        leftArticles: leftArticlesRes.data,
-        rightCategory,
-        rightArticles: rightArticlesRes.data,
-      };
+  const leftCategory: Category = {
+    id: leftSec?.categorySlug || 'real-estate-construction',
+    name: leftSec?.categoryName || 'Real Estate & Construction',
+    slug: leftSec?.categorySlug || 'real-estate-construction',
+    isActive: true,
+  } as Category;
+
+  const rightCategory: Category = {
+    id: rightSec?.categorySlug || 'economy-policy',
+    name: rightSec?.categoryName || 'Economy & Policy',
+    slug: rightSec?.categorySlug || 'economy-policy',
+    isActive: true,
+  } as Category;
+
+  return {
+    data: {
+      leftCategory,
+      leftArticles: leftSec?.articles || [],
+      rightCategory,
+      rightArticles: rightSec?.articles || [],
     },
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    refetchOnWindowFocus: false,
-  });
+    isLoading,
+    isError,
+    error: isError ? new Error('Failed to load category sections') : null,
+  };
 }
 
 // ==================== HELPER FUNCTIONS ====================

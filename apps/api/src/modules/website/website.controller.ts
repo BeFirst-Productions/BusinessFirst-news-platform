@@ -2,6 +2,32 @@ import { Request, Response, NextFunction } from 'express';
 import { WebsiteService } from './website.service';
 
 export class WebsiteController {
+  static async getHomeContent(req: Request, res: Response, next: NextFunction) {
+    try {
+      const data = await WebsiteService.getHomeContent();
+      res.status(200).json({
+        success: true,
+        message: 'Home content retrieved successfully',
+        data,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async getHomeCategories(req: Request, res: Response, next: NextFunction) {
+    try {
+      const data = await WebsiteService.getHomeCategories();
+      res.status(200).json({
+        success: true,
+        message: 'Home categories retrieved successfully',
+        data,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   static async getArticles(req: Request, res: Response, next: NextFunction) {
     try {
       const page = Number(req.query.page) || 1;

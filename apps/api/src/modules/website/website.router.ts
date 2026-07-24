@@ -3,7 +3,9 @@ import { WebsiteController } from './website.controller';
 
 const router: Router = Router();
 
-// Article endpoints
+// Home content endpoint
+router.get('/home-content', WebsiteController.getHomeContent);
+router.get('/home-categories', WebsiteController.getHomeCategories);
 router.get('/articles', WebsiteController.getArticles);
 router.get('/articles/slug/:slug', WebsiteController.getArticleBySlug);
 router.get('/articles/:id/related', WebsiteController.getRelatedArticles);

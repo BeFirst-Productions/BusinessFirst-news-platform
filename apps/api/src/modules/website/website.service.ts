@@ -40,6 +40,180 @@ export class WebsiteService {
     }
   }
 
+  // Single Aggregated Home Content
+  static async getHomeContent() {
+    const cacheKey = 'website:home-content';
+
+    return this.getCachedOrFetch(cacheKey, 300, async () => {
+      const selectFields = {
+        id: true,
+        title: true,
+        slug: true,
+        excerpt: true,
+        featuredImage: true,
+        isFeatured: true,
+        isBreakingNews: true,
+        isTopHeadline: true,
+        isTrending: true,
+        isUaeNews: true,
+        isSponsored: true,
+        publishedAt: true,
+        createdAt: true,
+        category: {
+          select: {
+            id: true,
+            name: true,
+            slug: true,
+          },
+        },
+        author: {
+          select: {
+            id: true,
+            name: true,
+            avatar: true,
+          },
+        },
+      };
+
+      const [featured, topHeadlines, breakingNews, latest] = await Promise.all([
+        prisma.article.findMany({
+          where: { status: 'PUBLISHED', isFeatured: true },
+          take: 6,
+          orderBy: { publishedAt: 'desc' },
+          select: selectFields,
+        }),
+        prisma.article.findMany({
+          where: { status: 'PUBLISHED', isTopHeadline: true },
+          take: 10,
+          orderBy: { publishedAt: 'desc' },
+          select: selectFields,
+        }),
+        prisma.article.findMany({
+          where: { status: 'PUBLISHED', isBreakingNews: true },
+          take: 5,
+          orderBy: { publishedAt: 'desc' },
+          select: selectFields,
+        }),
+        prisma.article.findMany({
+          where: { status: 'PUBLISHED' },
+          take: 15,
+          orderBy: { publishedAt: 'desc' },
+          select: selectFields,
+        }),
+      ]);
+
+      return {
+        featured,
+        topHeadlines,
+        breakingNews,
+        latest,
+      };
+    });
+  }
+
+  // Single Aggregated Home Category Sections Endpoint
+  static async getHomeCategories() {
+    const cacheKey = 'website:home-categories';
+
+    return this.getCachedOrFetch(cacheKey, 300, async () => {
+      const selectFields = {
+        id: true,
+        title: true,
+        slug: true,
+        excerpt: true,
+        featuredImage: true,
+        isFeatured: true,
+        isBreakingNews: true,
+        isTopHeadline: true,
+        isTrending: true,
+        isUaeNews: true,
+        isSponsored: true,
+        viewCount: true,
+        readingTime: true,
+        publishedAt: true,
+        category: {
+          select: {
+            id: true,
+            name: true,
+            slug: true,
+          },
+        },
+        author: {
+          select: {
+            id: true,
+            name: true,
+            avatar: true,
+          },
+        },
+      };
+
+      const categoryConfigs = [
+        { key: 'real-estate-construction', name: 'Real Estate & Construction', limit: 7, matchers: ['real-estate-construction', 'real-estate', 'construction'] },
+        { key: 'economy-policy', name: 'Economy & Policy', limit: 4, matchers: ['economy-policy', 'economy', 'policy'] },
+        { key: 'technology-innovation', name: 'Technology & Innovation', limit: 6, matchers: ['technology-innovation', 'technology', 'innovation'] },
+        { key: 'logistics-trade', name: 'Logistics & Trade', limit: 4, matchers: ['logistics-trade', 'logistics', 'trade'] },
+        { key: 'aviation-aerospace', name: 'Aviation & Aerospace', limit: 4, matchers: ['aviation-aerospace', 'aviation', 'aerospace'] },
+        { key: 'oil-gas-energy', name: 'Oil, Gas & Energy', limit: 4, matchers: ['oil-gas-energy', 'oil-gas', 'energy'] },
+        { key: 'sports-recreation', name: 'Sports & Recreation', limit: 4, matchers: ['sports-recreation', 'sports', 'recreation'] },
+        { key: 'banking-finance', name: 'Banking & Finance', limit: 7, matchers: ['banking-finance', 'banking', 'finance'] },
+        { key: 'healthcare-pharma', name: 'Healthcare & Pharma', limit: 7, matchers: ['healthcare-pharma', 'healthcare', 'pharma'] },
+        { key: 'tourism-hospitality', name: 'Tourism & Hospitality', limit: 5, matchers: ['tourism-hospitality', 'tourism', 'hospitality'] },
+        { key: 'events', name: 'Events', limit: 6, matchers: ['events', 'events-coverage'] },
+        { key: 'culture-lifestyle', name: 'Culture & Lifestyle', limit: 6, matchers: ['culture-lifestyle', 'lifestyle', 'culture'] },
+        { key: 'media-entertainment', name: 'Media and Entertainment', limit: 4, matchers: ['media-entertainment', 'media-coverage', 'media', 'entertainment'] },
+      ];
+
+      // Fetch all active categories to resolve matches
+      const dbCategories = await prisma.category.findMany({
+        where: { isActive: true },
+        select: { id: true, name: true, slug: true },
+      });
+
+      const sectionResults = await Promise.all(
+        categoryConfigs.map(async (config) => {
+          // Find category in DB by matching slug or name
+          const matchedCategory = dbCategories.find((cat) =>
+            config.matchers.some(
+              (m) =>
+                cat.slug.toLowerCase() === m.toLowerCase() ||
+                cat.name.toLowerCase().includes(m.toLowerCase())
+            )
+          );
+
+          let articles: any[] = [];
+          if (matchedCategory) {
+            articles = await prisma.article.findMany({
+              where: {
+                status: 'PUBLISHED',
+                categoryId: matchedCategory.id,
+              },
+              take: config.limit,
+              orderBy: { publishedAt: 'desc' },
+              select: selectFields,
+            });
+          }
+
+          return {
+            key: config.key,
+            data: {
+              categoryName: config.name,
+              categorySlug: matchedCategory ? matchedCategory.slug : config.key,
+              limit: config.limit,
+              articles,
+            },
+          };
+        })
+      );
+
+      const result: Record<string, any> = {};
+      for (const section of sectionResults) {
+        result[section.key] = section.data;
+      }
+
+      return result;
+    });
+  }
+
   // Optimized Article Listing (No heavy 'content' field in response)
   static async getArticles(query: {
     page?: number;

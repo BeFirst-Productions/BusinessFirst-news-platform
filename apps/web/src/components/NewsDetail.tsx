@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import SectionContainer from './SectionContainer';
 import NewsBreadcrumbs from './news-detail/NewsBreadcrumbs';
@@ -6,30 +8,54 @@ import NewsContent from './news-detail/NewsContent';
 import NewsSidebar from './news-detail/NewsSidebar';
 import NewsRelated from './news-detail/NewsRelated';
 import FullWidthAdBanner from './FullWidthAdBanner';
-import { getArticleById } from '@/data/newsData';
+import { useArticle } from '@/hooks/use-articles';
 
 interface NewsDetailProps {
   articleId?: string;
 }
 
 const NewsDetail: React.FC<NewsDetailProps> = ({ articleId }) => {
-  const article = getArticleById(articleId || 'default');
+  const slug = articleId || 'default';
+  const { data: article, isLoading } = useArticle(slug);
+
+  if (isLoading) {
+    return (
+      <SectionContainer className="bg-white py-12 text-center">
+        <p className="text-gray-500 font-semibold">Loading article details...</p>
+      </SectionContainer>
+    );
+  }
+
+  if (!article) {
+    return (
+      <SectionContainer className="bg-white py-12 text-center">
+        <h1 className="text-2xl font-bold text-gray-800">Article Not Found</h1>
+        <p className="text-gray-500 mt-2">The requested article is currently unavailable.</p>
+      </SectionContainer>
+    );
+  }
+
+  const title = article.title;
+  const categoryName = article.category?.name || 'News';
+  const imageUrl = article.featuredImage || '/placeholder-news.jpg';
+  const description = article.excerpt || article.title;
+  const contentParagraphs = article.content ? [article.content] : [];
 
   return (
     <SectionContainer className="bg-white py-8 md:py-12">
       {/* Breadcrumbs */}
-      <NewsBreadcrumbs category={article.category} />
+      <NewsBreadcrumbs category={categoryName} />
 
       {/* Main Title Header */}
       <NewsHeader 
-        title={article.title}
-        description={article.description || "Yorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et odio mattis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos."}
+        title={title}
+        description={description}
       />
 
       {/* Layout Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 w-full items-start">
         {/* Left Side: Article Content */}
-        <NewsContent imageUrl={article.imageUrl} title={article.title} contentParagraphs={article.contentParagraphs} />
+        <NewsContent imageUrl={imageUrl} title={title} contentParagraphs={contentParagraphs} />
 
         {/* Right Side: Sidebar */}
         <NewsSidebar />

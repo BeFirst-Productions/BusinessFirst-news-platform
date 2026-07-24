@@ -529,21 +529,44 @@ export function AdminHeader() {
           {/* User menu */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
-                  <span className="text-white text-sm font-medium">
-                    {user?.name?.charAt(0)?.toUpperCase() || 'U'}
-                  </span>
-                </div>
+              <Button variant="ghost" className="flex items-center gap-2 p-1.5 focus:ring-0">
+                {user?.avatar ? (
+                  <img
+                    src={user.avatar}
+                    alt={user.name || 'User Avatar'}
+                    className="w-8 h-8 rounded-full object-cover border border-border"
+                  />
+                ) : (
+                  <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+                    <span className="text-white text-sm font-medium">
+                      {user?.name?.charAt(0)?.toUpperCase() || 'U'}
+                    </span>
+                  </div>
+                )}
                 <span className="text-sm font-medium hidden md:inline">
                   {user?.name || 'User'}
                 </span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56 mt-2 bg-popover border rounded-md shadow-lg z-50" align="end">
-              <DropdownMenuLabel className="px-4 py-2">
-                <p className="text-sm font-medium">{user?.name}</p>
-                <p className="text-xs text-muted-foreground">{user?.email}</p>
+              <DropdownMenuLabel className="px-4 py-2.5 flex items-center gap-3">
+                {user?.avatar ? (
+                  <img
+                    src={user.avatar}
+                    alt={user.name || 'User Avatar'}
+                    className="w-9 h-9 rounded-full object-cover border border-border shrink-0"
+                  />
+                ) : (
+                  <div className="w-9 h-9 rounded-full bg-primary flex items-center justify-center shrink-0">
+                    <span className="text-white text-sm font-medium">
+                      {user?.name?.charAt(0)?.toUpperCase() || 'U'}
+                    </span>
+                  </div>
+                )}
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-semibold truncate leading-snug">{user?.name}</p>
+                  <p className="text-xs text-muted-foreground truncate font-normal">{user?.email}</p>
+                </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem
