@@ -11,7 +11,7 @@ import toast from 'react-hot-toast';
 export function useNewsletterSubscribe() {
   return useMutation({
     mutationFn: (email: string) =>
-      apiClient.post('/website/newsletter/subscribe', { email }),
+      apiClient.post('/newsletter/subscribe', { email }),
     onSuccess: () => {
       toast.success('Successfully subscribed to newsletter!');
     },

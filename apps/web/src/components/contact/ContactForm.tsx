@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import { ArrowUpRight } from 'lucide-react';
+import { useContactForm } from '@/hooks/use-contact';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -11,8 +12,9 @@ const ContactForm = () => {
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  
+  const contactMutation = useContactForm();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -64,40 +66,16 @@ const ContactForm = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!validate()) {
-      return;
-    }
-
-    setIsSubmitting(true);
-
-    // Simulate API request delay
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-      setFormData({ name: '', email: '', subject: '', message: '' });
-      setErrors({});
-    }, 80000); // 800ms
-  };
-
-  // Adjust wait time in simulated submit (800ms)
-  const simulatedDelay = 800;
-  const triggerSubmitSimulation = () => {
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-      setFormData({ name: '', email: '', subject: '', message: '' });
-      setErrors({});
-    }, simulatedDelay);
-  };
-
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (validate()) {
-      triggerSubmitSimulation();
+      contactMutation.mutate(formData, {
+        onSuccess: () => {
+          setIsSubmitted(true);
+          setFormData({ name: '', email: '', subject: '', message: '' });
+          setErrors({});
+        }
+      });
     }
   };
 
@@ -224,11 +202,11 @@ const ContactForm = () => {
         <div className="mt-4 flex">
           <button 
             type="submit" 
-            disabled={isSubmitting}
+            disabled={contactMutation.isPending}
             className="bg-[#24214c] hover:bg-[#1a1738] text-white font-bold text-sm md:text-base px-10 py-4 rounded-xl transition-all flex items-center gap-2 shadow-md focus:outline-none focus:ring-2 focus:ring-[#24214c]/50 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isSubmitting ? 'SENDING...' : 'SUBMIT'} 
-            {!isSubmitting && <ArrowUpRight size={18} strokeWidth={2.5} />}
+            {contactMutation.isPending ? 'SENDING...' : 'SUBMIT'} 
+            {!contactMutation.isPending && <ArrowUpRight size={18} strokeWidth={2.5} />}
           </button>
         </div>
       </form>

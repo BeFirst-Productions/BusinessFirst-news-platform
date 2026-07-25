@@ -1,7 +1,21 @@
-import React from 'react';
+"use client";
+
+import React, { useState } from 'react';
 import { ArrowUpRight } from 'lucide-react';
+import { useNewsletterSubscribe } from '@/hooks/use-newsletter';
 
 const NewsletterWidget = () => {
+  const [email, setEmail] = useState('');
+  const { mutate: subscribe, isPending } = useNewsletterSubscribe();
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email) {
+      subscribe(email, {
+        onSuccess: () => setEmail(''),
+      });
+    }
+  };
   return (
     <div className="bg-[#241F52] rounded-xl p-6 relative overflow-hidden h-[180px] flex flex-col justify-center shadow-md">
       {/* Palm trees background illustration (simulated with CSS/SVGs if needed, here just dark blue bg) */}
@@ -15,18 +29,22 @@ const NewsletterWidget = () => {
           Subscribe to our<br />Weekly Newsletter
         </h3>
 
-        <form className="relative flex items-center w-full bg-white rounded-md overflow-hidden p-1 shadow-sm">
+        <form className="relative flex items-center w-full bg-white rounded-md overflow-hidden p-1 shadow-sm" onSubmit={handleSubscribe}>
           <input
             type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter your email address"
             className="flex-1 px-3 py-1.5 text-xs md:text-sm text-gray-700 outline-none w-full"
             required
+            disabled={isPending}
           />
           <button
             type="submit"
-            className="bg-[#cd2027] hover:bg-[#a61a1f] text-white text-[10px] md:text-xs font-bold uppercase py-2 px-3 md:px-4 rounded transition flex items-center shrink-0"
+            disabled={isPending}
+            className="bg-[#cd2027] hover:bg-[#a61a1f] text-white text-[10px] md:text-xs font-bold uppercase py-2 px-3 md:px-4 rounded transition flex items-center shrink-0 disabled:opacity-70"
           >
-            Subscribe <ArrowUpRight size={14} className="ml-1" />
+            {isPending ? 'Subscribing...' : 'Subscribe'} <ArrowUpRight size={14} className="ml-1" />
           </button>
         </form>
       </div>

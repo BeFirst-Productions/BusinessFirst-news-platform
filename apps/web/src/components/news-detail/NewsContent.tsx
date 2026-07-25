@@ -5,12 +5,14 @@ interface NewsContentProps {
   imageUrl?: string;
   title?: string;
   contentParagraphs?: string[];
+  sidebar?: React.ReactNode;
 }
 
 const NewsContent: React.FC<NewsContentProps> = ({ 
   imageUrl = 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&h=600&q=80',
   title = 'How 5G Will Transform Class Communication',
-  contentParagraphs
+  contentParagraphs,
+  sidebar
 }) => {
   const defaultParagraphs = [
     'Morem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel bibendum lorem. Morbi convallis convallis diam sit amet lacinia. Aliquam in elementum tellus.',
@@ -18,12 +20,30 @@ const NewsContent: React.FC<NewsContentProps> = ({
     'Nam pulvinar blandit velit, id condimentum diam faucibus at. Aliquam lacus nisl, sollicitudin at nisi nec, fermentum congue felis. Quisque mauris dolor, fringilla sed tincidunt ac, finibus non odio. Sed vitae mauris nec ante pretium finibus. Donec nisl neque, pharetra ac elit eu, faucibus aliquam ligula. Nullam dictum, tellus tincidunt tempor laoreet, nibh elit sollicitudin felis, eget feugiat sapien diam nec nisl. Aenean gravida turpis nisl, consequat dictum risus dapibus a. Duis felis ante, varius in neque eu, tempor suscipit sem. Maecenas ullamcorper gravida sem sit amet cursus. Etiam pulvinar purus vitae justo pharetra consequat. Mauris id mi ut arcu feugiat maximus. Mauris consequat tellus id tempus aliquet.'
   ];
 
-  const paragraphs = contentParagraphs || defaultParagraphs;
+  let paragraphs = contentParagraphs || defaultParagraphs;
+
+  // If the backend sent a single HTML string with multiple paragraphs, split it up
+  if (paragraphs.length === 1 && paragraphs[0].includes('<p>')) {
+    // Split by </p> to break the HTML string into an array of paragraph strings
+    const parts = paragraphs[0].split('</p>');
+    // Filter out empty strings and append </p> back
+    paragraphs = parts
+      .map(p => p.trim())
+      .filter(p => p.length > 0)
+      .map(p => p.endsWith('</p>') ? p : p + '</p>');
+  }
 
   return (
-    <article className="lg:col-span-8 flex flex-col gap-8 w-full">
+    <article className="w-full block">
+      {/* Desktop Sidebar Floated Right */}
+      {sidebar && (
+        <div className="hidden lg:block float-right w-[32%] ml-12 mb-8 clear-right">
+          {sidebar}
+        </div>
+      )}
+
       {/* Main Featured Image */}
-      <div className="relative w-full h-[250px] sm:h-[350px] md:h-[420px] rounded-2xl overflow-hidden shadow-sm bg-gray-100">
+      <div className="relative h-[250px] sm:h-[350px] md:h-[420px] rounded-2xl overflow-hidden shadow-sm bg-gray-100 mb-8">
         <Image
           src={imageUrl}
           alt={title}
@@ -34,28 +54,39 @@ const NewsContent: React.FC<NewsContentProps> = ({
       </div>
 
       {/* Article Head and Body 1 */}
-      <div className="flex flex-col gap-4">
-        <h2 className="text-xl md:text-2xl font-bold text-[#24214c]">
+      <div className="block">
+        <h2 className="text-xl md:text-2xl font-bold text-[#24214c] mb-6">
           {title}
         </h2>
         {paragraphs.slice(0, 3).map((para, index) => (
-          <p key={index} className="text-gray-700 text-sm md:text-base leading-relaxed font-medium">
-            {para}
-          </p>
+          <div
+            key={index}
+            className="text-gray-700 text-sm md:text-base leading-relaxed font-medium [&>p]:mb-4 [&>h3]:text-lg [&>h3]:font-bold [&>h3]:mt-6 [&>h3]:mb-2 [&>h3]:text-[#24214c]"
+            dangerouslySetInnerHTML={{ __html: para }}
+          />
         ))}
       </div>
 
       {/* Article Head and Body 2 */}
       {paragraphs.length > 3 && (
-        <div className="flex flex-col gap-4">
-          <h2 className="text-xl md:text-2xl font-bold text-[#24214c]">
+        <div className="block mt-6">
+          <h2 className="text-xl md:text-2xl font-bold text-[#24214c] mb-4">
             Deep Dive: {title}
           </h2>
           {paragraphs.slice(3).map((para, index) => (
-            <p key={index} className="text-gray-700 text-sm md:text-base leading-relaxed font-medium">
-              {para}
-            </p>
+            <div
+              key={index}
+              className="text-gray-700 text-sm md:text-base leading-relaxed font-medium [&>p]:mb-4 [&>h3]:text-lg [&>h3]:font-bold [&>h3]:mt-6 [&>h3]:mb-2 [&>h3]:text-[#24214c]"
+              dangerouslySetInnerHTML={{ __html: para }}
+            />
           ))}
+        </div>
+      )}
+
+      {/* Mobile Sidebar - rendered at bottom on small screens */}
+      {sidebar && (
+        <div className="block lg:hidden w-full mt-12">
+          {sidebar}
         </div>
       )}
     </article>

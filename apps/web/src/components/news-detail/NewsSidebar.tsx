@@ -44,13 +44,13 @@ const recentPosts: RecentPost[] = [
 
 const NewsSidebar = () => {
   return (
-    <aside className="lg:col-span-4 flex flex-col gap-8 w-full">
+    <aside className="flex flex-col gap-8 w-full">
       {/* Recent Posts Section */}
-      <div className="border border-gray-200 rounded-2xl overflow-hidden shadow-sm bg-white">
+      <div className="order-2 lg:order-1 border border-gray-200 rounded-2xl overflow-hidden shadow-sm bg-white">
         <div className="bg-[#FF0202] text-white text-center py-3.5 font-bold text-sm tracking-wider uppercase">
           Recent Posts
         </div>
-        
+
         <div className="flex flex-col divide-y divide-gray-100">
           {recentPosts.map((post) => (
             <Link
@@ -83,7 +83,7 @@ const NewsSidebar = () => {
       <DynamicAd
         ratio="nd_sidebar"
         targetPage="news_detail"
-        className="w-full aspect-square rounded-2xl shadow-sm border border-gray-100 bg-gray-900"
+        className="order-1 lg:order-2 w-full aspect-square rounded-2xl shadow-sm border border-gray-100 bg-gray-900"
         fallback={
           <>
             <Image

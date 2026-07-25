@@ -464,6 +464,50 @@ export class WebsiteService {
     });
   }
 
+  static async getAds(query: any) {
+    const page = query.page ? Number(query.page) : 1;
+    const limit = query.limit ? Number(query.limit) : 10;
+    const skip = (page - 1) * limit;
+
+    const where: Prisma.AdWhereInput = {};
+
+    if (query.status) {
+      where.status = query.status as any;
+    }
+
+    if (query.search) {
+      where.name = { contains: query.search, mode: 'insensitive' };
+    }
+
+    if (query.targetPage) {
+      where.targetPage = query.targetPage;
+    }
+
+    const [ads, total] = await Promise.all([
+      prisma.ad.findMany({
+        where,
+        skip,
+        take: limit,
+        orderBy: { createdAt: 'desc' },
+      }),
+      prisma.ad.count({ where }),
+    ]);
+
+    return { ads, total };
+  }
+
+  static async getAdById(id: string) {
+    const ad = await prisma.ad.findUnique({
+      where: { id },
+    });
+
+    if (!ad) {
+      throw new NotFoundError('Advertisement not found');
+    }
+
+    return ad;
+  }
+
   // Fetch Ads for specific slot
   static async getAdsBySlot(slotCode: string) {
     const cacheKey = `website:ads:${slotCode}`;
@@ -564,6 +608,32 @@ export class WebsiteService {
     });
 
     return { success: true, subscriber };
+  }
+
+  // Submit Contact Form
+  static async submitContactForm(data: { name: string; email: string; subject: string; message: string }) {
+    if (!data.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+      throw new BadRequestError('Invalid email address');
+    }
+    if (!data.name || !data.subject || !data.message) {
+      throw new BadRequestError('All fields are required');
+    }
+
+    const contact = await prisma.contactMessage.create({
+      data: {
+        name: data.name,
+        email: data.email,
+        subject: data.subject,
+        message: data.message,
+      },
+    });
+
+    // Trigger live notification
+    await NotificationsService.createContactNotification(data).catch((err) => {
+      console.error('Failed to trigger contact notification:', err);
+    });
+
+    return { success: true, contact };
   }
 
   // Fetch Related Articles (same category, excluding current article)

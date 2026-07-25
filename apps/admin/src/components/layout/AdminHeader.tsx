@@ -318,9 +318,8 @@ export function AdminHeader() {
                                 <p className="text-xs font-semibold text-foreground truncate group-hover:text-primary transition-colors">
                                   {article.title}
                                 </p>
-                                <span className={`inline-block text-[9px] px-1.5 py-0.5 rounded mt-0.5 font-bold ${
-                                  article.status === 'PUBLISHED' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
-                                }`}>
+                                <span className={`inline-block text-[9px] px-1.5 py-0.5 rounded mt-0.5 font-bold ${article.status === 'PUBLISHED' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                                  }`}>
                                   {article.status}
                                 </span>
                               </div>
@@ -467,18 +466,16 @@ export function AdminHeader() {
                   notifications.map((notification) => (
                     <div
                       key={notification.id}
-                      className={`p-3 text-left relative transition-colors ${
-                        notification.isRead ? 'bg-background hover:bg-muted/10' : 'bg-muted/30 hover:bg-muted/50'
-                      }`}
+                      className={`p-3 text-left relative transition-colors ${notification.isRead ? 'bg-background hover:bg-muted/10' : 'bg-muted/30 hover:bg-muted/50'
+                        }`}
                     >
                       <div className="flex items-start justify-between gap-2">
                         <div className="space-y-1 min-w-0 flex-1">
                           <p className="text-xs font-semibold leading-none text-foreground flex items-center gap-1.5">
-                            <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${
-                              notification.type === 'SUCCESS' ? 'bg-green-500' :
+                            <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${notification.type === 'SUCCESS' ? 'bg-green-500' :
                               notification.type === 'WARNING' ? 'bg-yellow-500' :
-                              notification.type === 'ERROR' ? 'bg-red-500' : 'bg-blue-500'
-                            }`} />
+                                notification.type === 'ERROR' ? 'bg-red-500' : 'bg-blue-500'
+                              }`} />
                             {notification.title}
                           </p>
                           <p className="text-xs text-muted-foreground font-normal break-words leading-snug">
