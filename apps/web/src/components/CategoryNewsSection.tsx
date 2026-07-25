@@ -28,7 +28,10 @@ const CATEGORY_SLUGS = {
 
 // ==================== API HOOK ====================
 
+import { useHomeCategories } from '@/hooks/use-articles';
+
 function useCategoryNewsData() {
+<<<<<<< HEAD
   return useQuery<CategorySectionData>({
     queryKey: ['category-news-section'],
     queryFn: async () => {
@@ -67,17 +70,38 @@ function useCategoryNewsData() {
             }).catch(() => ({ data: [], metadata: { page: 1, limit: 0, total: 0, totalPages: 0 } }))
           : Promise.resolve({ data: [], metadata: { page: 1, limit: 0, total: 0, totalPages: 0 } }),
       ]);
+=======
+  const { data: homeCategories, isLoading, isError } = useHomeCategories();
 
-      return {
-        leftCategory,
-        leftArticles: leftArticlesRes.data,
-        rightCategory,
-        rightArticles: rightArticlesRes.data,
-      };
+  const leftSec = homeCategories?.['real-estate-construction'];
+  const rightSec = homeCategories?.['economy-policy'];
+>>>>>>> 48ee161fc907aae17fb9c1467aed5f8684efa424
+
+  const leftCategory: Category = {
+    id: leftSec?.categorySlug || 'real-estate-construction',
+    name: leftSec?.categoryName || 'Real Estate & Construction',
+    slug: leftSec?.categorySlug || 'real-estate-construction',
+    isActive: true,
+  } as Category;
+
+  const rightCategory: Category = {
+    id: rightSec?.categorySlug || 'economy-policy',
+    name: rightSec?.categoryName || 'Economy & Policy',
+    slug: rightSec?.categorySlug || 'economy-policy',
+    isActive: true,
+  } as Category;
+
+  return {
+    data: {
+      leftCategory,
+      leftArticles: leftSec?.articles || [],
+      rightCategory,
+      rightArticles: rightSec?.articles || [],
     },
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    refetchOnWindowFocus: false,
-  });
+    isLoading,
+    isError,
+    error: isError ? new Error('Failed to load category sections') : null,
+  };
 }
 
 // ==================== HELPER FUNCTIONS ====================
@@ -261,9 +285,9 @@ function CategorySectionSkeleton() {
 
 function EmptyState({ categoryName }: { categoryName: string }) {
   return (
-    <div className="text-center py-12">
-      <p className="text-gray-500">
-        No articles found in {categoryName}. Check back later for updates.
+    <div className="w-full py-12 flex flex-col items-center justify-center bg-gray-50/50 border border-dashed border-gray-200 rounded-lg text-center my-4">
+      <p className="text-gray-400 text-sm font-semibold">
+        No article available in {categoryName}
       </p>
     </div>
   );

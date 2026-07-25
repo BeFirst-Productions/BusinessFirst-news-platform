@@ -49,7 +49,7 @@ const TopHeadlines = () => {
 
   // Format headlines for rendering
   const headlines = rawHeadlines.length > 0
-    ? rawHeadlines.map((h) => ({
+    ? rawHeadlines.map((h: any) => ({
         id: h.id,
         title: h.title,
         category: h.category?.name || 'News',

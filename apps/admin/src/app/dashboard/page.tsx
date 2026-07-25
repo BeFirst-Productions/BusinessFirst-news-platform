@@ -27,7 +27,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import toast from 'react-hot-toast';
-import { useSettingsStore } from '@/store/settings.store';
+import { useUIStore } from '@/store/ui.store';
 
 interface ArticleAuthor {
   id: string;
@@ -134,7 +134,7 @@ function QuickWorkspace({ draftArticles, isLoading }: { draftArticles?: Article[
           >
             Draft Articles
           </button>
-          <button
+          {/* <button
             onClick={() => setActiveSubTab('actions')}
             className={`px-3 py-1 rounded-md font-medium transition-colors ${
               activeSubTab === 'actions'
@@ -143,7 +143,7 @@ function QuickWorkspace({ draftArticles, isLoading }: { draftArticles?: Article[
             }`}
           >
             Quick Actions
-          </button>
+          </button> */}
         </div>
       </CardHeader>
       <CardContent className="flex-1 pt-4 overflow-y-auto">
@@ -207,6 +207,17 @@ function QuickWorkspace({ draftArticles, isLoading }: { draftArticles?: Article[
 }
 
 export default function DashboardPage() {
+  const { theme } = useUIStore();
+  const isDark = theme === 'dark';
+
+  const chartColor = isDark ? '#38bdf8' : '#24214c';
+  const gridColor = isDark ? '#334155' : '#e2e8f0';
+  const axisStroke = isDark ? '#475569' : '#94a3b8';
+  const tickColor = isDark ? '#cbd5e1' : '#0f172a';
+  const tooltipBg = isDark ? '#1e293b' : '#ffffff';
+  const tooltipBorder = isDark ? '#334155' : '#e2e8f0';
+  const tooltipTextColor = isDark ? '#f8fafc' : '#0f172a';
+
   const { data: stats, isLoading } = useQuery<DashboardStats>({
     queryKey: ['dashboard-stats'],
     queryFn: async () => {
@@ -215,31 +226,14 @@ export default function DashboardPage() {
     },
   });
 
-  const { dashboardWidgets: widgetConfig } = useSettingsStore();
-
   const activeWidgets = React.useMemo(() => {
-    const rawWidgets = widgetConfig && Array.isArray(widgetConfig)
-      ? widgetConfig
-      : [
-          { id: 'analytics_views', title: 'Views Performance', visible: true, w: 6, h: 4 },
-          { id: 'recent_articles', title: 'Recent Articles', visible: true, w: 6, h: 4 },
-          { id: 'dashboard_performance', title: 'Dashboard Performance', visible: true, w: 6, h: 4 },
-          { id: 'quick_actions', title: 'Quick Actions', visible: true, w: 6, h: 4 },
-        ];
-
-    return rawWidgets
-      .filter((w) => w.visible)
-      .map((w) => {
-        // Map old settings config to new widget layouts automatically
-        if (w.id === 'recent_comments' || w.id === 'top_articles') {
-          return { ...w, id: 'dashboard_performance', title: 'Dashboard Performance' };
-        }
-        if (w.id === 'quick_draft') {
-          return { ...w, id: 'quick_actions', title: 'Quick Actions' };
-        }
-        return w;
-      });
-  }, [widgetConfig]);
+    return [
+      { id: 'analytics_views', title: 'Views Performance', visible: true, w: 6, h: 4 },
+      { id: 'recent_articles', title: 'Recent Articles', visible: true, w: 6, h: 4 },
+      { id: 'dashboard_performance', title: 'Dashboard Performance', visible: true, w: 6, h: 4 },
+      { id: 'quick_actions', title: 'Quick Actions', visible: true, w: 6, h: 4 },
+    ];
+  }, []);
 
   const viewData = React.useMemo(() => {
     const totalViews = stats?.totalViews || 0;
@@ -310,40 +304,42 @@ export default function DashboardPage() {
                   <AreaChart data={viewData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                     <defs>
                       <linearGradient id="colorViews" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.2} />
-                        <stop offset="95%" stopColor="var(--primary)" stopOpacity={0} />
+                        <stop offset="5%" stopColor={chartColor} stopOpacity={0.4} />
+                        <stop offset="95%" stopColor={chartColor} stopOpacity={0.02} />
                       </linearGradient>
                     </defs>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={gridColor} />
                     <XAxis
                       dataKey="name"
-                      stroke="#94a3b8"
-                      fontSize={11}
+                      stroke={axisStroke}
+                      tick={{ fill: tickColor, fontSize: 11 }}
                       tickLine={false}
                       axisLine={false}
                     />
                     <YAxis
-                      stroke="#94a3b8"
-                      fontSize={11}
+                      stroke={axisStroke}
+                      tick={{ fill: tickColor, fontSize: 11 }}
                       tickLine={false}
                       axisLine={false}
                     />
                     <Tooltip
                       contentStyle={{
-                        backgroundColor: 'white',
-                        border: '1px solid #e2e8f0',
+                        backgroundColor: tooltipBg,
+                        borderColor: tooltipBorder,
+                        color: tooltipTextColor,
                         borderRadius: '8px',
+                        boxShadow: isDark ? '0 4px 12px rgba(0, 0, 0, 0.5)' : '0 2px 8px rgba(0, 0, 0, 0.1)',
                       }}
-                      labelStyle={{ fontWeight: 'bold', fontSize: '11px', color: '#1e293b' }}
-                      itemStyle={{ fontSize: '12px', color: 'var(--primary)' }}
+                      labelStyle={{ fontWeight: 'bold', fontSize: '11px', color: tooltipTextColor }}
+                      itemStyle={{ fontSize: '12px', color: chartColor }}
                     />
                     <Area
                       type="monotone"
                       dataKey="views"
-                      stroke="var(--primary)"
+                      stroke={chartColor}
                       fillOpacity={1}
                       fill="url(#colorViews)"
-                      strokeWidth={2}
+                      strokeWidth={2.5}
                     />
                   </AreaChart>
                 </ResponsiveContainer>
@@ -418,15 +414,33 @@ export default function DashboardPage() {
                     <div className="flex-1 min-h-0">
                       <ResponsiveContainer width="100%" height="100%">
                         <BarChart data={stats?.dashboardUsage?.dailyUsage || []} margin={{ top: 5, right: 5, left: -25, bottom: 5 }}>
-                          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                          <XAxis dataKey="name" stroke="#94a3b8" fontSize={10} tickLine={false} axisLine={false} />
-                          <YAxis stroke="#94a3b8" fontSize={10} tickLine={false} axisLine={false} allowDecimals={false} />
-                          <Tooltip
-                            contentStyle={{ backgroundColor: 'white', border: '1px solid #e2e8f0', borderRadius: '6px' }}
-                            itemStyle={{ fontSize: '11px', color: 'var(--primary)' }}
-                            labelStyle={{ fontWeight: 'bold', fontSize: '10px' }}
+                          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={gridColor} />
+                          <XAxis
+                            dataKey="name"
+                            stroke={axisStroke}
+                            tick={{ fill: tickColor, fontSize: 10 }}
+                            tickLine={false}
+                            axisLine={false}
                           />
-                          <Bar dataKey="count" fill="var(--primary)" radius={[4, 4, 0, 0]} maxBarSize={30} />
+                          <YAxis
+                            stroke={axisStroke}
+                            tick={{ fill: tickColor, fontSize: 10 }}
+                            tickLine={false}
+                            axisLine={false}
+                            allowDecimals={false}
+                          />
+                          <Tooltip
+                            contentStyle={{
+                              backgroundColor: tooltipBg,
+                              borderColor: tooltipBorder,
+                              color: tooltipTextColor,
+                              borderRadius: '6px',
+                              boxShadow: isDark ? '0 4px 12px rgba(0, 0, 0, 0.5)' : '0 2px 8px rgba(0, 0, 0, 0.1)',
+                            }}
+                            itemStyle={{ fontSize: '11px', color: chartColor }}
+                            labelStyle={{ fontWeight: 'bold', fontSize: '10px', color: tooltipTextColor }}
+                          />
+                          <Bar dataKey="count" fill={chartColor} radius={[4, 4, 0, 0]} maxBarSize={30} />
                         </BarChart>
                       </ResponsiveContainer>
                     </div>
@@ -516,4 +530,4 @@ export default function DashboardPage() {
       </div>
     </div>
   );
-}
+}

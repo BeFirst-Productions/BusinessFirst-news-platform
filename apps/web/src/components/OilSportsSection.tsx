@@ -1,185 +1,202 @@
+'use client';
+
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { ChevronDown } from 'lucide-react';
 import SectionContainer from './SectionContainer';
+import { useHomeCategories } from '@/hooks/use-articles';
 
-const dummyOilFeatured = {
-  id: 'oil-f1',
-  title: 'How 5G Will Transform CCCC Class Communication and , ac aliquet Class',
-  category: 'Oil, Gas & Energy',
-  date: 'July 23, 2024',
-  imageUrl: 'https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&w=800&q=80'
-};
+const EmptyCategoryState = ({ categoryName }: { categoryName: string }) => (
+  <div className="w-full py-12 flex flex-col items-center justify-center bg-gray-50/50 border border-dashed border-gray-200 rounded-lg text-center my-4">
+    <p className="text-gray-400 text-sm font-semibold">No articles available in {categoryName}</p>
+  </div>
+);
 
-const dummyOilSmall = [
-  {
-    id: 'oil-s1',
-    title: 'Borem ipsum dolor sit amet, adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad litora',
-    category: 'Oil, Gas & Energy',
-    date: 'July 23, 2024',
-    imageUrl: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=400&q=80'
-  },
-  {
-    id: 'oil-s2',
-    title: 'Borem ipsum dolor sit amet, adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad litora',
-    category: 'Oil, Gas & Energy',
-    date: 'July 23, 2024',
-    imageUrl: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=400&q=80'
-  },
-  {
-    id: 'oil-s3',
-    title: 'Borem ipsum dolor sit amet, adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad litora',
-    category: 'Oil, Gas & Energy',
-    date: 'July 23, 2024',
-    imageUrl: 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=400&q=80'
-  }
-];
+const OilSportsSection: React.FC = () => {
+  const { data: homeCategories } = useHomeCategories();
 
-const dummySportsFeatured = {
-  id: 'spo-f1',
-  title: 'How 5G Will Transform CCCC Class Communication and , ac aliquet Class',
-  category: 'Oil, Gas & Energy',
-  date: 'July 23, 2024',
-  imageUrl: 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=800&q=80'
-};
+  const oilData = homeCategories?.['oil-gas-energy'];
+  const oilArticles = oilData?.articles || [];
+  const oilFeatured = oilArticles[0];
+  const oilSmall = oilArticles.slice(1, 4);
 
-const dummySportsSmall = [
-  {
-    id: 'spo-s1',
-    title: 'Borem ipsum dolor sit amet, adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad litora',
-    category: 'Oil, Gas & Energy',
-    date: 'July 23, 2024',
-    imageUrl: 'https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=400&q=80'
-  },
-  {
-    id: 'spo-s2',
-    title: 'Borem ipsum dolor sit amet, adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad litora',
-    category: 'Oil, Gas & Energy',
-    date: 'July 23, 2024',
-    imageUrl: 'https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=400&q=80'
-  },
-  {
-    id: 'spo-s3',
-    title: 'Borem ipsum dolor sit amet, adipiscing elit. Nunc vulputate libero et interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad litora',
-    category: 'Oil, Gas & Energy',
-    date: 'July 23, 2024',
-    imageUrl: 'https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&w=400&q=80'
-  }
-];
+  const sportsData = homeCategories?.['sports-recreation'];
+  const sportsArticles = sportsData?.articles || [];
+  const sportsFeatured = sportsArticles[0];
+  const sportsSmall = sportsArticles.slice(1, 4);
 
-const OilSportsSection = () => {
+  const formatDate = (dateStr?: string) =>
+    dateStr
+      ? new Date(dateStr).toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric',
+        })
+      : 'Recent';
+
   return (
-    <SectionContainer as="section" className="bg-[#F5F5F5] py-8 md:py-12">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 w-full lg:divide-x lg:divide-gray-300">
-        
+    <SectionContainer as="section" className="py-8 md:py-12 bg-white">
+      <div className="flex flex-col md:flex-row gap-8 lg:gap-12 w-full">
         {/* Left Column: Oil, Gas & Energy */}
-        <div className="flex flex-col gap-6 w-full lg:pr-6">
+        <div className="flex-1 bg-white border border-gray-200 p-6 md:p-8 flex flex-col gap-6 w-full">
           {/* Header */}
           <div className="flex justify-between items-center border-b border-gray-300 pb-2 relative">
-            <h2 className="text-xl md:text-2xl font-bold text-[#FF0202]">Oil, Gas & Energy</h2>
-            <div className="absolute -bottom-[2px] left-0 w-24 h-[3px] bg-[#FF0202]"></div>
-            <a href="#" className="flex items-center text-[#24214c] font-bold text-sm hover:opacity-80 transition-opacity">
+            <h2 className="text-xl md:text-2xl font-bold text-[#24214c]">
+              {oilData?.categoryName || 'Oil, Gas & Energy'}
+            </h2>
+            <div className="absolute -bottom-[2px] left-0 w-1/3 h-[3px] bg-gradient-to-r from-[#FF0202] to-transparent"></div>
+            <Link
+              href={`/news?category=${encodeURIComponent(
+                oilData?.categoryName || 'Oil, Gas & Energy'
+              )}`}
+              className="flex items-center text-[#24214c] font-bold text-sm hover:opacity-80 transition-opacity"
+            >
               View All <ChevronDown size={16} className="ml-1 text-[#24214c]" />
-            </a>
+            </Link>
           </div>
 
-          {/* Featured Article */}
-          <div className="flex flex-col gap-3 group cursor-pointer mt-1">
-            <div className="relative w-full aspect-[2/1] overflow-hidden">
-              <Image 
-                src={dummyOilFeatured.imageUrl} 
-                alt={dummyOilFeatured.title} 
-                fill 
-                className="object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <h3 className="text-[#24214c] font-bold text-[18px] leading-[1.3] group-hover:text-[#FF0202] transition-colors mt-2">
-              {dummyOilFeatured.title}
-            </h3>
-            <span className="text-[11px] text-gray-500 font-medium">
-              {dummyOilFeatured.category} | {dummyOilFeatured.date}
-            </span>
-          </div>
+          {oilArticles.length === 0 ? (
+            <EmptyCategoryState categoryName={oilData?.categoryName || 'Oil, Gas & Energy'} />
+          ) : (
+            <>
+              {/* Featured Article */}
+              {oilFeatured && (
+                <Link
+                  href={`/news/${oilFeatured.slug || oilFeatured.id}`}
+                  className="flex flex-col sm:flex-row gap-4 group cursor-pointer pb-2"
+                >
+                  <div className="relative w-full sm:w-[45%] aspect-[4/3] overflow-hidden shrink-0 bg-gray-100 rounded">
+                    <Image
+                      src={oilFeatured.featuredImage || '/placeholder-news.jpg'}
+                      alt={oilFeatured.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                  <div className="flex flex-col justify-center sm:w-[55%]">
+                    <h3 className="text-[#24214c] font-bold text-[18px] leading-[1.3] group-hover:text-[#FF0202] transition-colors line-clamp-3">
+                      {oilFeatured.title}
+                    </h3>
+                    <span className="text-xs text-gray-500 font-medium mt-3">
+                      {oilFeatured.category?.name || 'Oil, Gas & Energy'} | {formatDate(oilFeatured.publishedAt)}
+                    </span>
+                  </div>
+                </Link>
+              )}
 
-          {/* Small Articles */}
-          <div className="flex flex-col gap-5 mt-2">
-            {dummyOilSmall.map((item) => (
-              <div key={item.id} className="flex gap-4 group cursor-pointer items-center">
-                <div className="relative w-[35%] aspect-[16/9] shrink-0 overflow-hidden">
-                  <Image 
-                    src={item.imageUrl} 
-                    alt={item.title} 
-                    fill 
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
+              {/* Small Articles */}
+              {oilSmall.length > 0 && (
+                <div className="flex flex-col gap-6">
+                  {oilSmall.map((item) => (
+                    <Link
+                      key={item.id}
+                      href={`/news/${item.slug || item.id}`}
+                      className="flex gap-4 group cursor-pointer items-center"
+                    >
+                      <div className="relative w-[30%] aspect-[4/3] shrink-0 overflow-hidden bg-gray-100 rounded">
+                        <Image
+                          src={item.featuredImage || '/placeholder-news.jpg'}
+                          alt={item.title}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                      <div className="flex flex-col justify-center w-[70%]">
+                        <h4 className="text-[#24214c] font-bold text-[14px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-2">
+                          {item.title}
+                        </h4>
+                        <span className="text-[11px] text-gray-500 font-medium mt-1.5">
+                          {item.category?.name || 'Oil, Gas & Energy'} | {formatDate(item.publishedAt)}
+                        </span>
+                      </div>
+                    </Link>
+                  ))}
                 </div>
-                <div className="flex flex-col justify-center w-[65%]">
-                  <h4 className="text-[#24214c] font-bold text-[13px] leading-[1.4] group-hover:text-[#FF0202] transition-colors line-clamp-3">
-                    {item.title}
-                  </h4>
-                  <span className="text-[10px] text-gray-500 font-medium mt-1.5">
-                    {item.category} | {item.date}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
+              )}
+            </>
+          )}
         </div>
 
         {/* Right Column: Sports & Recreation */}
-        <div className="flex flex-col gap-6 w-full lg:pl-6">
+        <div className="flex-1 bg-white border border-gray-200 p-6 md:p-8 flex flex-col gap-6 w-full">
           {/* Header */}
           <div className="flex justify-between items-center border-b border-gray-300 pb-2 relative">
-            <h2 className="text-xl md:text-2xl font-bold text-[#FF0202]">Sports & Recreation</h2>
-            <div className="absolute -bottom-[2px] left-0 w-24 h-[3px] bg-[#FF0202]"></div>
-            <a href="#" className="flex items-center text-[#24214c] font-bold text-sm hover:opacity-80 transition-opacity">
+            <h2 className="text-xl md:text-2xl font-bold text-[#24214c]">
+              {sportsData?.categoryName || 'Sports & Recreation'}
+            </h2>
+            <div className="absolute -bottom-[2px] left-0 w-1/3 h-[3px] bg-gradient-to-r from-[#FF0202] to-transparent"></div>
+            <Link
+              href={`/news?category=${encodeURIComponent(
+                sportsData?.categoryName || 'Sports & Recreation'
+              )}`}
+              className="flex items-center text-[#24214c] font-bold text-sm hover:opacity-80 transition-opacity"
+            >
               View All <ChevronDown size={16} className="ml-1 text-[#24214c]" />
-            </a>
+            </Link>
           </div>
 
-          {/* Featured Article */}
-          <div className="flex flex-col gap-3 group cursor-pointer mt-1">
-            <div className="relative w-full aspect-[2/1] overflow-hidden">
-              <Image 
-                src={dummySportsFeatured.imageUrl} 
-                alt={dummySportsFeatured.title} 
-                fill 
-                className="object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <h3 className="text-[#24214c] font-bold text-[18px] leading-[1.3] group-hover:text-[#FF0202] transition-colors mt-2">
-              {dummySportsFeatured.title}
-            </h3>
-            <span className="text-[11px] text-gray-500 font-medium">
-              {dummySportsFeatured.category} | {dummySportsFeatured.date}
-            </span>
-          </div>
+          {sportsArticles.length === 0 ? (
+            <EmptyCategoryState categoryName={sportsData?.categoryName || 'Sports & Recreation'} />
+          ) : (
+            <>
+              {/* Featured Article */}
+              {sportsFeatured && (
+                <Link
+                  href={`/news/${sportsFeatured.slug || sportsFeatured.id}`}
+                  className="flex flex-col sm:flex-row gap-4 group cursor-pointer pb-2"
+                >
+                  <div className="relative w-full sm:w-[45%] aspect-[4/3] overflow-hidden shrink-0 bg-gray-100 rounded">
+                    <Image
+                      src={sportsFeatured.featuredImage || '/placeholder-news.jpg'}
+                      alt={sportsFeatured.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                  <div className="flex flex-col justify-center sm:w-[55%]">
+                    <h3 className="text-[#24214c] font-bold text-[18px] leading-[1.3] group-hover:text-[#FF0202] transition-colors line-clamp-3">
+                      {sportsFeatured.title}
+                    </h3>
+                    <span className="text-xs text-gray-500 font-medium mt-3">
+                      {sportsFeatured.category?.name || 'Sports & Recreation'} | {formatDate(sportsFeatured.publishedAt)}
+                    </span>
+                  </div>
+                </Link>
+              )}
 
-          {/* Small Articles */}
-          <div className="flex flex-col gap-5 mt-2">
-            {dummySportsSmall.map((item) => (
-              <div key={item.id} className="flex gap-4 group cursor-pointer items-center">
-                <div className="relative w-[35%] aspect-[16/9] shrink-0 overflow-hidden">
-                  <Image 
-                    src={item.imageUrl} 
-                    alt={item.title} 
-                    fill 
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
+              {/* Small Articles */}
+              {sportsSmall.length > 0 && (
+                <div className="flex flex-col gap-6">
+                  {sportsSmall.map((item) => (
+                    <Link
+                      key={item.id}
+                      href={`/news/${item.slug || item.id}`}
+                      className="flex gap-4 group cursor-pointer items-center"
+                    >
+                      <div className="relative w-[30%] aspect-[4/3] shrink-0 overflow-hidden bg-gray-100 rounded">
+                        <Image
+                          src={item.featuredImage || '/placeholder-news.jpg'}
+                          alt={item.title}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                      <div className="flex flex-col justify-center w-[70%]">
+                        <h4 className="text-[#24214c] font-bold text-[14px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-2">
+                          {item.title}
+                        </h4>
+                        <span className="text-[11px] text-gray-500 font-medium mt-1.5">
+                          {item.category?.name || 'Sports & Recreation'} | {formatDate(item.publishedAt)}
+                        </span>
+                      </div>
+                    </Link>
+                  ))}
                 </div>
-                <div className="flex flex-col justify-center w-[65%]">
-                  <h4 className="text-[#24214c] font-bold text-[13px] leading-[1.4] group-hover:text-[#FF0202] transition-colors line-clamp-3">
-                    {item.title}
-                  </h4>
-                  <span className="text-[10px] text-gray-500 font-medium mt-1.5">
-                    {item.category} | {item.date}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
+              )}
+            </>
+          )}
         </div>
-
       </div>
     </SectionContainer>
   );

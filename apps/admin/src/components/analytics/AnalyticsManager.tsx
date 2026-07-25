@@ -37,18 +37,32 @@ import {
   ExternalLink,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useUIStore } from '@/store/ui.store';
 
 const COLORS = ['#24214c', '#cd2027', '#e2e8f0', '#94a3b8', '#0f172a'];
 
 export function AnalyticsManager() {
+  const { theme } = useUIStore();
+  const isDark = theme === 'dark';
+
+  const gridColor = isDark ? '#334155' : '#e2e8f0';
+  const axisColor = isDark ? '#475569' : '#94a3b8';
+  const tickColor = isDark ? '#cbd5e1' : '#0f172a';
+  const tooltipBg = isDark ? '#1e293b' : '#ffffff';
+  const tooltipBorder = isDark ? '#334155' : '#e2e8f0';
+  const tooltipText = isDark ? '#f8fafc' : '#0f172a';
+
+  const viewsColor = isDark ? '#ef4444' : '#cd2027';
+  const sessionsColor = isDark ? '#38bdf8' : '#24214c';
+
   const [period, setPeriod] = useState<7 | 30 | 90>(30);
   const [showConfigModal, setShowConfigModal] = useState(false);
 
   // ── Queries ──────────────────────────────────────────────
-  const { 
-    data: realtimeData, 
-    isLoading: isRealtimeLoading, 
-    refetch: refetchRealtime 
+  const {
+    data: realtimeData,
+    isLoading: isRealtimeLoading,
+    refetch: refetchRealtime
   } = useQuery({
     queryKey: ['analytics-realtime'],
     queryFn: async () => {
@@ -58,10 +72,10 @@ export function AnalyticsManager() {
     refetchInterval: 30_000, // Update active users every 30s
   });
 
-  const { 
-    data: historicalData, 
+  const {
+    data: historicalData,
     isLoading: isHistoricalLoading,
-    refetch: refetchHistorical 
+    refetch: refetchHistorical
   } = useQuery({
     queryKey: ['analytics-historical', period],
     queryFn: async () => {
@@ -70,10 +84,10 @@ export function AnalyticsManager() {
     },
   });
 
-  const { 
-    data: searchData, 
+  const {
+    data: searchData,
     isLoading: isSearchLoading,
-    refetch: refetchSearch 
+    refetch: refetchSearch
   } = useQuery({
     queryKey: ['analytics-search', period],
     queryFn: async () => {
@@ -82,10 +96,10 @@ export function AnalyticsManager() {
     },
   });
 
-  const { 
-    data: geoData, 
+  const {
+    data: geoData,
     isLoading: isGeoLoading,
-    refetch: refetchGeo 
+    refetch: refetchGeo
   } = useQuery({
     queryKey: ['analytics-geo', period],
     queryFn: async () => {
@@ -122,7 +136,7 @@ export function AnalyticsManager() {
             Website stats fetched from Google Analytics (GA4) and Google Search Console
           </p>
         </div>
-        
+
         <div className="flex items-center gap-3">
           {/* Period selector */}
           <div className="inline-flex rounded-lg border border-border p-1 bg-card">
@@ -300,20 +314,29 @@ export function AnalyticsManager() {
                 <AreaChart data={historicalData?.trafficData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                   <defs>
                     <linearGradient id="colorViews" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#cd2027" stopOpacity={0.2}/>
-                      <stop offset="95%" stopColor="#cd2027" stopOpacity={0}/>
+                      <stop offset="5%" stopColor={viewsColor} stopOpacity={0.3} />
+                      <stop offset="95%" stopColor={viewsColor} stopOpacity={0} />
                     </linearGradient>
                     <linearGradient id="colorSessions" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#24214c" stopOpacity={0.2}/>
-                      <stop offset="95%" stopColor="#24214c" stopOpacity={0}/>
+                      <stop offset="5%" stopColor={sessionsColor} stopOpacity={0.3} />
+                      <stop offset="95%" stopColor={sessionsColor} stopOpacity={0} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-                  <XAxis dataKey="date" stroke="#94a3b8" fontSize={10} tickLine={false} />
-                  <YAxis stroke="#94a3b8" fontSize={10} tickLine={false} />
-                  <Tooltip contentStyle={{ fontSize: 12, borderRadius: 8, borderColor: '#e2e8f0' }} />
-                  <Area type="monotone" dataKey="views" name="Page Views" stroke="#cd2027" strokeWidth={2} fillOpacity={1} fill="url(#colorViews)" />
-                  <Area type="monotone" dataKey="sessions" name="Sessions" stroke="#24214c" strokeWidth={2} fillOpacity={1} fill="url(#colorSessions)" />
+                  <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
+                  <XAxis dataKey="date" stroke={axisColor} tick={{ fill: tickColor, fontSize: 10 }} tickLine={false} />
+                  <YAxis stroke={axisColor} tick={{ fill: tickColor, fontSize: 10 }} tickLine={false} />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: tooltipBg,
+                      borderColor: tooltipBorder,
+                      color: tooltipText,
+                      borderRadius: 8,
+                      boxShadow: isDark ? '0 4px 12px rgba(0,0,0,0.5)' : '0 2px 8px rgba(0,0,0,0.1)',
+                    }}
+                    labelStyle={{ color: tooltipText, fontWeight: 'bold' }}
+                  />
+                  <Area type="monotone" dataKey="views" name="Page Views" stroke={viewsColor} strokeWidth={2} fillOpacity={1} fill="url(#colorViews)" />
+                  <Area type="monotone" dataKey="sessions" name="Sessions" stroke={sessionsColor} strokeWidth={2} fillOpacity={1} fill="url(#colorSessions)" />
                 </AreaChart>
               </ResponsiveContainer>
             )}
@@ -400,8 +423,8 @@ export function AnalyticsManager() {
                     <span className="text-muted-foreground font-semibold">{c.users?.toLocaleString()}</span>
                   </div>
                   <div className="w-full bg-slate-100 rounded-full h-1.5">
-                    <div 
-                      className="bg-primary h-1.5 rounded-full transition-all duration-500" 
+                    <div
+                      className="bg-primary h-1.5 rounded-full transition-all duration-500"
                       style={{ width: `${percentage}%` }}
                     />
                   </div>
@@ -560,7 +583,7 @@ export function AnalyticsManager() {
                   Add the downloaded credentials variables to your API server environment configuration (<code>apps/api/.env</code>):
                 </p>
                 <pre className="p-3 bg-slate-950 text-slate-50 font-mono text-[9px] rounded-lg overflow-x-auto leading-relaxed shadow-inner">
-{`# Google Analytics 4 (GA4) Property ID
+                  {`# Google Analytics 4 (GA4) Property ID
 GA_PROPERTY_ID=123456789
 
 # Search Console Site URL

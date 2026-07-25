@@ -48,49 +48,20 @@ export const dynamic = 'force-dynamic';
 // ==================== PAGE COMPONENT ====================
 
 export default async function HomePage() {
-  const queryClient = createQueryClient();
+  const queryClient = createQueryClient(); 
 
   // Prefetch all required data on the server
   await Promise.all([
-    // Prefetch featured/breaking articles for NewsGridSection
+    // Prefetch single aggregated home content
     queryClient.prefetchQuery({
-      queryKey: articleKeys.list({ isFeatured: true, limit: 8, status: 'PUBLISHED' }),
+      queryKey: [...articleKeys.all, 'home-content'],
       queryFn: async () => {
-        const response = await apiClient.getPaginated<Article>('/articles', {
-          params: {
-            isFeatured: true,
-            status: 'PUBLISHED',
-            limit: 8,
-            sortBy: 'publishedAt',
-            sortOrder: 'desc',
-          },
+        return await apiClient.get('/website/home-content', {
           next: {
             revalidate: 300,
-            tags: ['homepage-featured-articles'],
+            tags: ['home-content'],
           },
         });
-        return response;
-      },
-    }),
-
-    // Prefetch breaking news for TopHeadlines
-    queryClient.prefetchQuery({
-      queryKey: articleKeys.breaking(),
-      queryFn: async () => {
-        const response = await apiClient.getPaginated<Article>('/articles', {
-          params: {
-            isBreakingNews: true,
-            status: 'PUBLISHED',
-            limit: 5,
-            sortBy: 'publishedAt',
-            sortOrder: 'desc',
-          },
-          next: {
-            revalidate: 60, // More frequent for breaking news
-            tags: ['homepage-breaking-news'],
-          },
-        });
-        return response;
       },
     }),
 
@@ -132,15 +103,18 @@ export default async function HomePage() {
       },
     }),
 
-    // Prefetch category-specific articles for each section
-    prefetchCategoryArticles(queryClient, 'technology', 'technology-innovation'),
-    prefetchCategoryArticles(queryClient, 'logistics-aviation', 'logistics-aviation'),
-    prefetchCategoryArticles(queryClient, 'oil-gas', 'oil-sports'),
-    prefetchCategoryArticles(queryClient, 'banking-finance', 'banking-finance'),
-    prefetchCategoryArticles(queryClient, 'healthcare-tourism', 'healthcare-tourism'),
-    prefetchCategoryArticles(queryClient, 'events', 'events'),
-    prefetchCategoryArticles(queryClient, 'media-coverage', 'media-coverage'),
-    prefetchCategoryArticles(queryClient, 'culture-lifestyle', 'culture-lifestyle'),
+    // Prefetch single aggregated home category sections
+    queryClient.prefetchQuery({
+      queryKey: [...articleKeys.all, 'home-categories'],
+      queryFn: async () => {
+        return await apiClient.get('/website/home-categories', {
+          next: {
+            revalidate: 300,
+            tags: ['home-categories'],
+          },
+        });
+      },
+    }),
   ]);
 
   return (

@@ -6,9 +6,9 @@ import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import SectionContainer from './SectionContainer';
-import { allNewsArticles } from '@/data/newsData';
 import FullWidthAdBanner from './FullWidthAdBanner';
 import { DynamicAd } from './ads/DynamicAd';
+import { useArticles } from '@/hooks/use-articles';
 
 // Normalized categorization mappings to handle section clicks
 const SECTION_MAPPINGS: Record<string, string[]> = {
@@ -43,69 +43,52 @@ const SECTION_MAPPINGS: Record<string, string[]> = {
   ]
 };
 
-const normalize = (s: string) => s.toLowerCase().replace(/\s+/g, '').replace(/&/g, 'and');
-
-const getFilteredArticles = (categoryName: string) => {
-  const normCategory = normalize(categoryName);
-
-  // Determine target categories (could be a parent section or single sub-category)
-  let targetCategories: string[] = [];
-  const parentKey = Object.keys(SECTION_MAPPINGS).find(
-    key => normalize(key) === normCategory
-  );
-
-  if (parentKey) {
-    targetCategories = SECTION_MAPPINGS[parentKey] || [];
-  } else {
-    targetCategories = [categoryName];
-  }
-
-  const normTargets = targetCategories.map(normalize);
-  
-  // Filter all articles
-  const filtered = allNewsArticles.filter(art => 
-    normTargets.includes(normalize(art.category))
-  );
-
-  if (filtered.length > 0) {
-    return filtered;
-  }
-
-  // Fallback: If no articles exist for a category, map standard ones to it for visual completeness
-  return allNewsArticles.slice(0, 24).map((art, idx) => ({
-    ...art,
-    id: `fallback-${normCategory}-${art.id}-${idx}`,
-    category: categoryName
-  }));
-};
-
 const CategoryListing: React.FC = () => {
   const searchParams = useSearchParams();
   const categoryName = searchParams.get('category') || 'Latest News';
   const pageParam = searchParams.get('page');
   const currentPage = pageParam ? parseInt(pageParam, 10) : 1;
-
-  // Filter articles
-  const articles = getFilteredArticles(categoryName);
-  
-  // Pagination details (15 items per page to match 3 columns x 5 rows in the design image)
   const itemsPerPage = 15;
-  const totalPages = Math.max(1, Math.ceil(articles.length / itemsPerPage));
-  const activePage = Math.min(currentPage, totalPages);
+
+  // Fetch live published articles from Express API (/api/v1/website/articles)
+  const { data: apiResponse, isLoading } = useArticles({
+    page: currentPage,
+    limit: itemsPerPage,
+    ...(categoryName !== 'Latest News' && { search: categoryName }),
+  });
+
+  // Extract live articles from API
+  const rawApiArticles = apiResponse?.data || [];
   
-  const startIndex = (activePage - 1) * itemsPerPage;
-  const paginatedArticles = articles.slice(startIndex, startIndex + itemsPerPage);
+  const displayArticles = rawApiArticles.map((item: any) => ({
+    id: item.slug || item.id,
+    title: item.title,
+    category: item.category?.name || categoryName,
+    date: item.publishedAt
+      ? new Date(item.publishedAt).toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric'
+        })
+      : '',
+    imageUrl: item.featuredImage || '/placeholder-news.jpg',
+    excerpt: item.excerpt || item.title,
+  }));
+
+  const totalPages = apiResponse?.metadata?.totalPages || 1;
+  const activePage = Math.min(currentPage, totalPages);
+  const paginatedArticles = displayArticles;
 
   // Helper to build URL with kept category and set page
   const getPageUrl = (pageNum: number) => {
     return `/news?category=${encodeURIComponent(categoryName)}&page=${pageNum}`;
   };
 
-  // Extract exclusive articles (using first 5 articles as mock exclusives)
-  const exclusiveArticles = allNewsArticles.slice(0, 5);
+  // Extract exclusive articles from API response
+  const exclusiveArticles = displayArticles.slice(0, 5);
 
-  // Suggested UAE News articles (using 4 distinct articles)
-  const suggestedArticles = allNewsArticles.slice(4, 8);
+  // Suggested UAE News articles from API response
+  const suggestedArticles = displayArticles.slice(4, 8);
 
   return (
     <div className="w-full bg-white flex flex-col items-center">

@@ -8,38 +8,10 @@ import SectionTitle from './SectionTitle';
 import { useArticles } from '../hooks/use-articles';
 import { Skeleton } from './ui/Skeleton';
 
-// --- Dummy Data (Fallbacks) ---
-const dummyHeadlines = [
-  {
-    id: 'dh1',
-    title: 'How 5G Will Transform Communication and Connectivity',
-    category: 'Technology',
-    date: 'July 23, 2024',
-    image: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=400&h=300&q=80',
-    slug: '5g-transform-communication'
-  },
-  {
-    id: 'dh2',
-    title: 'Global Markets Eye Inflation Data for Central Bank Cues',
-    category: 'Finance',
-    date: 'July 23, 2024',
-    image: 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&w=400&h=300&q=80',
-    slug: 'global-markets-inflation-data'
-  },
-  {
-    id: 'dh3',
-    title: 'Renewable Energy Capacity Hits Record Highs Globally in 2024',
-    category: 'Energy',
-    date: 'July 23, 2024',
-    image: 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=400&h=300&q=80',
-    slug: 'renewable-energy-record-highs'
-  }
-];
-
 const TopHeadlines = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Fetch articles from the server
+  // Fetch live Top Headline articles from Express API
   const { data: articlesRes, isLoading } = useArticles({
     isTopHeadline: true,
     limit: 10,
@@ -47,23 +19,21 @@ const TopHeadlines = () => {
 
   const rawHeadlines = articlesRes?.data || [];
 
-  // Format headlines for rendering
-  const headlines = rawHeadlines.length > 0
-    ? rawHeadlines.map((h) => ({
-        id: h.id,
-        title: h.title,
-        category: h.category?.name || 'News',
-        date: h.publishedAt
-          ? new Date(h.publishedAt).toLocaleDateString('en-US', {
-              month: 'long',
-              day: 'numeric',
-              year: 'numeric',
-            })
-          : '',
-        image: h.featuredImage || 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=400&h=300&q=80',
-        slug: h.slug,
-      }))
-    : dummyHeadlines;
+  // Format API headlines for rendering
+  const headlines = rawHeadlines.map((h) => ({
+    id: h.id,
+    title: h.title,
+    category: h.category?.name || 'News',
+    date: h.publishedAt
+      ? new Date(h.publishedAt).toLocaleDateString('en-US', {
+          month: 'long',
+          day: 'numeric',
+          year: 'numeric',
+        })
+      : '',
+    image: h.featuredImage || '/placeholder-news.jpg',
+    slug: h.slug,
+  }));
 
   // Ensure we repeat the headlines list enough times to have at least 15 items.
   // This guarantees there is always enough scroll range for infinite loop resets.
@@ -164,7 +134,14 @@ const TopHeadlines = () => {
   }
 
   if (headlines.length === 0) {
-    return null; // Don't show if there are no headlines
+    return (
+      <SectionContainer as="section" className="bg-white py-8 md:py-12" containerClassName="relative">
+        <SectionTitle title="Top Headlines" />
+        <div className="w-full py-12 flex flex-col items-center justify-center bg-gray-50/50 border border-dashed border-gray-200 rounded-lg text-center my-4">
+          <p className="text-gray-400 text-sm font-semibold">No article available</p>
+        </div>
+      </SectionContainer>
+    );
   }
 
   return (

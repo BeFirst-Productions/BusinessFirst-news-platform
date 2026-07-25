@@ -131,7 +131,7 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
   const [isUploadingImage, setIsUploadingImage] = useState(false);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
-  const [isSlugCustomized, setIsSlugCustomized] = useState(false);
+  const [isSlugCustomized, setIsSlugCustomized] = useState(() => !!initialData?.slug);
 
   const {
     register,
@@ -143,19 +143,26 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
     formState: { errors },
   } = useForm<ArticleFormData>({
     resolver: zodResolver(articleSchema),
-      defaultValues: {
-        status: 'DRAFT',
-        isFeatured: false,
-        isBreakingNews: false,
-        isTopHeadline: false,
-        isTrending: false,
-        isUaeNews: false,
-        isSponsored: false,
-        tags: [],
-        categoryId: '',
-        featuredImageTitle: '',
-        slug: '',
-      },
+    defaultValues: {
+      title: initialData?.title || '',
+      slug: initialData?.slug || '',
+      excerpt: initialData?.excerpt || '',
+      categoryId: initialData?.categoryId || (initialData?.category?.id) || '',
+      status: initialData?.status || 'DRAFT',
+      scheduledAt: formatDateTimeLocal(initialData?.scheduledAt),
+      isFeatured: !!initialData?.isFeatured,
+      isBreakingNews: !!initialData?.isBreakingNews,
+      isTopHeadline: !!initialData?.isTopHeadline,
+      isTrending: !!initialData?.isTrending,
+      isUaeNews: !!initialData?.isUaeNews,
+      isSponsored: !!initialData?.isSponsored,
+      metaTitle: initialData?.metaTitle || '',
+      metaDescription: initialData?.metaDescription || '',
+      metaKeywords: initialData?.metaKeywords || '',
+      featuredImage: initialData?.featuredImage || '',
+      featuredImageTitle: initialData?.featuredImageTitle || '',
+      tags: initialData?.tags?.map((t: any) => typeof t === 'string' ? t : t.id) || [],
+    },
   });
 
   const status = watch('status');
@@ -163,6 +170,7 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
   const title = watch('title');
   const categoryId = watch('categoryId');
   const slug = watch('slug');
+
   // Fetch categories using standardized apiClient
   const { data: categoriesData } = useQuery({
     queryKey: ['categories'],
@@ -174,8 +182,12 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
 
   const selectedCategory = categoriesData?.find((c: any) => c.id === categoryId);
   const categorySlug = selectedCategory?.slug || '';
+
   useEffect(() => {
     if (initialData) {
+      if (initialData.slug) {
+        setIsSlugCustomized(true);
+      }
       reset({
         title: initialData.title || '',
         slug: initialData.slug || '',
@@ -199,15 +211,12 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
       if (initialData.content) {
         setContent(initialData.content);
       }
-      if (initialData.slug) {
-        setIsSlugCustomized(true);
-      }
     }
   }, [initialData, reset]);
 
-  // Dynamic real-time SEO slug generator
+  // Dynamic real-time SEO slug generator (Only for NEW articles when slug is not customized)
   useEffect(() => {
-    if (!isSlugCustomized) {
+    if (!initialData && !isSlugCustomized) {
       if (title) {
         const generatedSlug = generateSeoSlug(title);
         setValue('slug', generatedSlug, { shouldValidate: true });
@@ -215,7 +224,7 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
         setValue('slug', '', { shouldValidate: true });
       }
     }
-  }, [title, isSlugCustomized, setValue]);
+  }, [title, isSlugCustomized, initialData, setValue]);
 
 
 

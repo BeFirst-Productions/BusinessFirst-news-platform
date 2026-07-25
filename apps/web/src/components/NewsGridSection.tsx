@@ -10,79 +10,7 @@ import Image from 'next/image';
 import { useArticles } from '../hooks/use-articles';
 import { Skeleton } from './ui/Skeleton';
 
-// --- Dummy Data (Fallbacks) ---
-const dummyFeaturedTrending: NewsItem = {
-  id: 'ft1',
-  title: 'How 5G Will Transform Communication and Connectivity',
-  category: 'Oil, Gas & Energy',
-  date: 'July 23, 2024',
-  imageUrl: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80'
-};
-
-const dummyFeaturedUAE: NewsItem = {
-  id: 'fu1',
-  title: 'How 5G Will Transform Communication and Connectivity',
-  category: 'Oil, Gas & Energy',
-  date: 'July 23, 2024',
-  imageUrl: 'https://images.unsplash.com/photo-1512632578888-169bbbc64f33?auto=format&fit=crop&w=800&q=80'
-};
-
-const dummyMediumGrid: NewsItem[] = [
-  {
-    id: 'm1',
-    title: 'Yorem ipsum dolor sit amet, consectetur',
-    category: 'Oil, Gas & Energy',
-    date: 'July 23, 2024',
-    imageUrl: 'https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=400&q=80'
-  },
-  {
-    id: 'm2',
-    title: 'Yorem ipsum dolor sit amet, consectetur',
-    category: 'Oil, Gas & Energy',
-    date: 'July 23, 2024',
-    imageUrl: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=400&q=80'
-  },
-  {
-    id: 'm3',
-    title: 'Yorem ipsum dolor sit amet, consectetur',
-    category: 'Oil, Gas & Energy',
-    date: 'July 23, 2024',
-    imageUrl: 'https://images.unsplash.com/photo-1574328405096-7fcfa4a9b583?auto=format&fit=crop&w=400&q=80'
-  },
-  {
-    id: 'm4',
-    title: 'Yorem ipsum dolor sit amet, consectetur',
-    category: 'Oil, Gas & Energy',
-    date: 'July 23, 2024',
-    imageUrl: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=400&q=80'
-  }
-];
-
-const dummySmallList: NewsItem[] = [
-  {
-    id: 's1',
-    title: 'Yorem ipsum dolor sit amet, secte ipsum dolor consectetur',
-    category: 'Oil, Gas & Energy',
-    date: 'July 23, 2024',
-    imageUrl: 'https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&w=200&q=80'
-  },
-  {
-    id: 's2',
-    title: 'Yorem ipsum dolor sit amet, secte ipsum dolor consectetur',
-    category: 'Oil, Gas & Energy',
-    date: 'July 23, 2024',
-    imageUrl: 'https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&w=200&q=80'
-  },
-  {
-    id: 's3',
-    title: 'Yorem ipsum dolor sit amet, secte ipsum dolor consectetur',
-    category: 'Oil, Gas & Energy',
-    date: 'July 23, 2024',
-    imageUrl: 'https://images.unsplash.com/photo-1581092335397-9583eb92d232?auto=format&fit=crop&w=200&q=80'
-  }
-];
-
-const  NewsGridSection = () => {
+const NewsGridSection = () => {
   // Query Trending Articles
   const { data: trendingRes, isLoading: isTrendingLoading } = useArticles({
     isTrending: true,
@@ -106,30 +34,11 @@ const  NewsGridSection = () => {
           year: 'numeric',
         })
       : '',
-    imageUrl: article.featuredImage || 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80',
+    imageUrl: article.featuredImage || '/placeholder-news.jpg',
   });
 
   const trendingList = (trendingRes?.data || []).map(mapToNewsItem);
   const uaeList = (uaeRes?.data || []).map(mapToNewsItem);
-
-  const renderColumnData = (list: NewsItem[], fallbackFeatured: NewsItem) => {
-    if (list.length === 0) {
-      return {
-        featured: fallbackFeatured,
-        mediumGrid: dummyMediumGrid,
-        smallList: dummySmallList,
-      };
-    }
-
-    return {
-      featured: list[0] || fallbackFeatured,
-      mediumGrid: list.slice(1, 5).concat(dummyMediumGrid.slice(Math.max(0, list.length - 1))), // Pad if needed
-      smallList: list.slice(5, 8).concat(dummySmallList.slice(Math.max(0, list.length - 5))),   // Pad if needed
-    };
-  };
-
-  const trendingData = renderColumnData(trendingList, dummyFeaturedTrending);
-  const uaeData = renderColumnData(uaeList, dummyFeaturedUAE);
 
   const showSkeleton = isTrendingLoading || isUaeLoading;
 
@@ -170,9 +79,7 @@ const  NewsGridSection = () => {
           <NewsColumn 
             title="Trending News" 
             titleColor="#FF0202"
-            featured={trendingData.featured}
-            mediumGrid={trendingData.mediumGrid}
-            smallList={trendingData.smallList}
+            articles={trendingList}
           />
         </div>
 
@@ -181,9 +88,7 @@ const  NewsGridSection = () => {
           <NewsColumn 
             title="UAE News" 
             titleColor="#cd2027"
-            featured={uaeData.featured}
-            mediumGrid={uaeData.mediumGrid}
-            smallList={uaeData.smallList}
+            articles={uaeList}
           />
         </div>
 
