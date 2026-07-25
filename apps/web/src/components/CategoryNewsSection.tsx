@@ -34,10 +34,10 @@ function useCategoryNewsData() {
     queryFn: async () => {
       // Fetch both categories in parallel
       const [leftCategory, rightCategory] = await Promise.all([
-        apiClient.get<Category>(`/website/categories/slug/${CATEGORY_SLUGS.LEFT}`, {
+        apiClient.get<Category>(`/categories/slug/${CATEGORY_SLUGS.LEFT}`, {
           params: { isActive: true },
         }).catch(() => null),
-        apiClient.get<Category>(`/website/categories/slug/${CATEGORY_SLUGS.RIGHT}`, {
+        apiClient.get<Category>(`/categories/slug/${CATEGORY_SLUGS.RIGHT}`, {
           params: { isActive: true },
         }).catch(() => null),
       ]);
@@ -45,7 +45,7 @@ function useCategoryNewsData() {
       // Fetch articles for both categories in parallel
       const [leftArticlesRes, rightArticlesRes] = await Promise.all([
         leftCategory
-          ? apiClient.getPaginated<Article>('/website/articles', {
+          ? apiClient.getPaginated<Article>('/articles', {
               params: {
                 categoryId: leftCategory.id,
                 status: 'PUBLISHED',
@@ -56,7 +56,7 @@ function useCategoryNewsData() {
             }).catch(() => ({ data: [], metadata: { page: 1, limit: 0, total: 0, totalPages: 0 } }))
           : Promise.resolve({ data: [], metadata: { page: 1, limit: 0, total: 0, totalPages: 0 } }),
         rightCategory
-          ? apiClient.getPaginated<Article>('/website/articles', {
+          ? apiClient.getPaginated<Article>('/articles', {
               params: {
                 categoryId: rightCategory.id,
                 status: 'PUBLISHED',

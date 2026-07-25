@@ -4,7 +4,7 @@ import { AdsController } from './ads.controller';
 import { AuthMiddleware } from '../../middleware/auth.middleware';
 import { PermissionMiddleware } from '../../middleware/permission.middleware';
 import { ValidationMiddleware } from '../../middleware/validation.middleware';
-import { createAdSchema, updateAdSchema, adQuerySchema } from './ads.validation';
+import { createAdSchema, updateAdSchema, adQuerySchema, adIdSchema } from './ads.validation';
 
 const router: Router = Router();
 const upload = multer({
@@ -22,6 +22,7 @@ router.get(
 
 router.get(
   '/:id',
+  ValidationMiddleware.validate(adIdSchema, 'params'),
   AdsController.getAdById
 );
 

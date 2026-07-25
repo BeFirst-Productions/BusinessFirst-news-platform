@@ -201,6 +201,7 @@ export default function AdsPage() {
                   <SelectItem value="home">Homepage</SelectItem>
                   <SelectItem value="news_detail">News Detail Page</SelectItem>
                   <SelectItem value="contact">Contact Page</SelectItem>
+                  <SelectItem value="news_category">News Category Listing Page</SelectItem>
                 </SelectContent>
               </Select>
             </div>

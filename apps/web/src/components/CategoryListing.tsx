@@ -8,6 +8,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import SectionContainer from './SectionContainer';
 import { allNewsArticles } from '@/data/newsData';
 import FullWidthAdBanner from './FullWidthAdBanner';
+import { DynamicAd } from './ads/DynamicAd';
 
 // Normalized categorization mappings to handle section clicks
 const SECTION_MAPPINGS: Record<string, string[]> = {
@@ -240,21 +241,26 @@ const CategoryListing: React.FC = () => {
             </div>
 
             {/* Square Ad Banner */}
-            <div className="relative w-full aspect-square rounded-2xl overflow-hidden shadow-lg border border-gray-100 bg-gray-900 group cursor-pointer">
-              <Image
-                src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=500&h=500&q=80"
-                alt="Burger Sidebar Ad"
-                fill
-                className="object-cover group-hover:scale-103 transition-transform duration-500"
-                sizes="(max-width: 1024px) 100vw, 400px"
-              />
-            </div>
+            <DynamicAd
+              ratio="nc_sidebar"
+              targetPage="news_category"
+              className="relative w-full aspect-square rounded-2xl overflow-hidden shadow-lg border border-gray-100 bg-gray-900 group cursor-pointer"
+              fallback={
+                <Image
+                  src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=500&h=500&q=80"
+                  alt="Burger Sidebar Ad"
+                  fill
+                  className="object-cover group-hover:scale-103 transition-transform duration-500"
+                  sizes="(max-width: 1024px) 100vw, 400px"
+                />
+              }
+            />
           </aside>
         </div>
 
         {/* McDonald's Banner Ad Container */}
        <div className='w-full py-8 md:py-12'>
-          <FullWidthAdBanner />
+          <FullWidthAdBanner targetPage="news_category" ratio="nc_bottom" />
         </div>
       </SectionContainer>
 

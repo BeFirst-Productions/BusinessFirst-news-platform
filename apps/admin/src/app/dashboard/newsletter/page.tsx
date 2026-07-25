@@ -578,7 +578,7 @@ export default function NewsletterPage() {
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <input
                   type="text"
-                  placeholder="Search by email or name..."
+                  placeholder="Search by email..."
                   value={search}
                   onChange={(e) => handleSearchChange(e.target.value)}
                   className="w-full pl-9 pr-4 h-9 text-sm rounded-lg border border-input bg-background focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
@@ -627,7 +627,6 @@ export default function NewsletterPage() {
                         </button>
                       </th>
                       <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide">Email</th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide hidden md:table-cell">Name</th>
                       <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide">Status</th>
                       <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide hidden sm:table-cell">Subscribed</th>
                       <th className="px-4 py-3 text-right text-xs font-semibold text-muted-foreground uppercase tracking-wide">Actions</th>
@@ -644,7 +643,6 @@ export default function NewsletterPage() {
                           </button>
                         </td>
                         <td className="px-4 py-3 font-medium">{sub.email}</td>
-                        <td className="px-4 py-3 text-muted-foreground hidden md:table-cell">{sub.name ?? '—'}</td>
                         <td className="px-4 py-3">
                           <Badge variant={sub.isActive ? 'success' : 'secondary'} className="text-[11px]">
                             {sub.isActive ? 'Active' : 'Unsubscribed'}

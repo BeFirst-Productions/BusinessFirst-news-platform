@@ -28,7 +28,7 @@ export function useArticles(filters: ArticleFilters = {}) {
   return useQuery({
     queryKey: articleKeys.list(filters),
     queryFn: async () => {
-      const response = await apiClient.getPaginated<Article>('/website/articles', {
+      const response = await apiClient.getPaginated<Article>('/articles', {
         params: {
           page: filters.page || 1,
           limit: filters.limit || 12,
@@ -63,7 +63,7 @@ export function useArticle(slug: string) {
   return useQuery({
     queryKey: articleKeys.detail(slug),
     queryFn: async () => {
-      const article = await apiClient.get<Article>(`/website/articles/slug/${slug}`, {
+      const article = await apiClient.get<Article>(`/articles/slug/${slug}`, {
         next: {
           revalidate: 60, // Revalidate every minute for article views
           tags: [`article-${slug}`],
@@ -83,7 +83,7 @@ export function useFeaturedArticles(limit: number = 6) {
   return useQuery({
     queryKey: articleKeys.featured(),
     queryFn: async () => {
-      const response = await apiClient.getPaginated<Article>('/website/articles', {
+      const response = await apiClient.getPaginated<Article>('/articles', {
         params: {
           isFeatured: true,
           status: 'PUBLISHED',
@@ -109,7 +109,7 @@ export function useBreakingNews(limit: number = 5) {
   return useQuery({
     queryKey: articleKeys.breaking(),
     queryFn: async () => {
-      const response = await apiClient.getPaginated<Article>('/website/articles', {
+      const response = await apiClient.getPaginated<Article>('/articles', {
         params: {
           isBreakingNews: true,
           status: 'PUBLISHED',
@@ -137,10 +137,10 @@ export function useArticlesByCategory(categorySlug: string, page: number = 1) {
     queryKey: articleKeys.byCategory(categorySlug),
     queryFn: async () => {
       // First get category by slug
-      const category = await apiClient.get<Category>(`/website/categories/slug/${categorySlug}`);
+      const category = await apiClient.get<Category>(`/categories/slug/${categorySlug}`);
       
       // Then get articles for that category
-      const response = await apiClient.getPaginated<Article>('/website/articles', {
+      const response = await apiClient.getPaginated<Article>('/articles', {
         params: {
           categoryId: category.id,
           status: 'PUBLISHED',
@@ -169,7 +169,7 @@ export function useRelatedArticles(articleId: string, limit: number = 4) {
   return useQuery({
     queryKey: articleKeys.related(articleId),
     queryFn: async () => {
-      const response = await apiClient.getPaginated<Article>(`/website/articles/${articleId}/related`, {
+      const response = await apiClient.getPaginated<Article>(`/articles/${articleId}/related`, {
         params: { limit },
         next: {
           revalidate: 600,
@@ -190,7 +190,7 @@ export function useInfiniteArticles(filters: Omit<ArticleFilters, 'page'> = {}) 
   return useInfiniteQuery({
     queryKey: [...articleKeys.lists(), 'infinite', filters],
     queryFn: async ({ pageParam = 1 }) => {
-      const response = await apiClient.getPaginated<Article>('/website/articles', {
+      const response = await apiClient.getPaginated<Article>('/articles', {
         params: {
           page: pageParam,
           limit: 12,
@@ -217,7 +217,7 @@ export function useIncrementView() {
   
   return useMutation({
     mutationFn: (articleId: string) => 
-      apiClient.post(`/website/articles/${articleId}/view`),
+      apiClient.post(`/articles/${articleId}/view`),
     onSuccess: (_, articleId) => {
       // Invalidate article cache to update view count
       queryClient.invalidateQueries({ 

@@ -29,6 +29,7 @@ const DEFAULT_SETTINGS = [
       { code: 'MEDIA', title: 'Media Library', icon: 'ImageIcon', visible: true },
       { code: 'USERS', title: 'Users', icon: 'Users', visible: true },
       { code: 'NEWSLETTER', title: 'Newsletter', icon: 'Mail', visible: true },
+      { code: 'CONTACTS', title: 'Contacts', icon: 'MessageSquare', visible: true },
       { code: 'COMMENTS', title: 'Comments', icon: 'MessageSquare', visible: true },
       { code: 'ANALYTICS', title: 'Analytics', icon: 'BarChart3', visible: true },
       { code: 'SEO', title: 'SEO', icon: 'Search', visible: true },

@@ -49,6 +49,10 @@ const RATIO_OPTIONS_BY_PAGE: Record<string, any[]> = {
     { value: 'nd_sidebar', label: 'Sidebar Ad', ratio: 'Square', aspectClass: 'aspect-square h-12', desc: 'Article Sidebar', dimensions: '500 × 500 px' },
     { value: 'nd_bottom', label: 'Bottom Ad', ratio: 'Billboard', aspectClass: 'aspect-[16/3] w-full max-w-[120px]', desc: 'Below Article', dimensions: '1600 × 300 px' },
   ],
+  news_category: [
+    { value: 'nc_sidebar', label: 'Sidebar Ad', ratio: 'Square', aspectClass: 'aspect-square h-12', desc: 'Category Sidebar', dimensions: '500 × 500 px' },
+    { value: 'nc_bottom', label: 'Bottom Ad', ratio: 'Billboard', aspectClass: 'aspect-[16/3] w-full max-w-[120px]', desc: 'Below Category', dimensions: '1600 × 300 px' },
+  ],
   contact: [
     { value: 'contact_bottom', label: 'Bottom Ad', ratio: 'Billboard', aspectClass: 'aspect-[16/3] w-full max-w-[120px]', desc: 'Above Footer', dimensions: '1600 × 300 px' },
   ]
@@ -142,7 +146,8 @@ export default function EditAdPage() {
       const pageNames: Record<string, string> = {
         home: 'Homepage',
         news_detail: 'News Detail Page',
-        contact: 'Contact Page'
+        contact: 'Contact Page',
+        news_category: 'News Category Listing Page'
       };
       const selectedRatioOption = currentRatioOptions.find(opt => opt.value === data.ratio);
       const placementName = selectedRatioOption ? `${selectedRatioOption.label} - ${selectedRatioOption.desc}` : data.ratio;
@@ -277,6 +282,7 @@ export default function EditAdPage() {
                       <SelectItem value="home">Homepage</SelectItem>
                       <SelectItem value="news_detail">News Detail Page</SelectItem>
                       <SelectItem value="contact">Contact Page</SelectItem>
+                      <SelectItem value="news_category">News Category Listing Page</SelectItem>
                     </SelectContent>
                   </Select>
                 )}

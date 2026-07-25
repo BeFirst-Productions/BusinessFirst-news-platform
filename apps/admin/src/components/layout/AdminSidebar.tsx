@@ -88,7 +88,7 @@ const sidebarItems: SidebarItem[] = [
     module: 'ADS',
     children: [
       { title: 'All Ads', href: '/dashboard/ads', icon: <Megaphone className="h-4 w-4" /> },
-      { title: 'Ad Spaces', href: '/dashboard/ads/slots', icon: <Megaphone className="h-4 w-4" /> },
+      // { title: 'Ad Spaces', href: '/dashboard/ads/slots', icon: <Megaphone className="h-4 w-4" /> },
       { title: 'Create Ad', href: '/dashboard/ads/create', icon: <Megaphone className="h-4 w-4" /> },
     ],
   },
@@ -103,6 +103,12 @@ const sidebarItems: SidebarItem[] = [
     href: '/dashboard/newsletter',
     icon: <Mail className="h-5 w-5" />,
     module: 'NEWSLETTER',
+  },
+  {
+    title: 'Contacts',
+    href: '/dashboard/contacts',
+    icon: <MessageSquare className="h-5 w-5" />,
+    module: 'CONTACTS',
   },
   {
     title: 'Analytics',

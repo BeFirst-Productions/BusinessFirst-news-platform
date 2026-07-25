@@ -1,12 +1,24 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ChevronRight, ArrowUpRight } from 'lucide-react';
 import SectionContainer from './SectionContainer';
+import { useNewsletterSubscribe } from '@/hooks/use-newsletter';
 
 const Footer = () => {
+  const [email, setEmail] = useState('');
+  const { mutate: subscribe, isPending } = useNewsletterSubscribe();
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email) {
+      subscribe(email, {
+        onSuccess: () => setEmail(''),
+      });
+    }
+  };
   return (
     
     <footer className="bg-[#050505] text-white pt-16 pb-8 ">
@@ -85,17 +97,22 @@ const Footer = () => {
               <p className="text-white text-[13px] 2xl:text-[15px] mt-1">The Pulse of UAE Business</p>
             </div>
             
-            <form className="flex w-full mt-2 " onSubmit={(e) => e.preventDefault()}>
+            <form className="flex w-full mt-2 " onSubmit={handleSubscribe}>
               <input 
                 type="email" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email" 
+                required
+                disabled={isPending}
                 className="bg-white text-black rounded-l-2xl text-[11px] px-3 py-4 w-full focus:outline-none"
               />
               <button 
                 type="submit" 
-                className="bg-[#FF0202] hover:bg-[#d00000] rounded-r-2xl text-white text-[10px] font-bold px-3 py-2 flex items-center transition-colors shrink-0"
+                disabled={isPending}
+                className="bg-[#FF0202] hover:bg-[#d00000] rounded-r-2xl text-white text-[10px] font-bold px-3 py-2 flex items-center transition-colors shrink-0 disabled:opacity-70"
               >
-                SUBSCRIBE <ArrowUpRight size={14} className="ml-1" strokeWidth={2.5} />
+                {isPending ? 'SUBSCRIBING...' : 'SUBSCRIBE'} <ArrowUpRight size={14} className="ml-1" strokeWidth={2.5} />
               </button>
             </form>
 
