@@ -134,7 +134,14 @@ const TopHeadlines = () => {
   }
 
   if (headlines.length === 0) {
-    return null; // Don't show if there are no headlines
+    return (
+      <SectionContainer as="section" className="bg-white py-8 md:py-12" containerClassName="relative">
+        <SectionTitle title="Top Headlines" />
+        <div className="w-full py-12 flex flex-col items-center justify-center bg-gray-50/50 border border-dashed border-gray-200 rounded-lg text-center my-4">
+          <p className="text-gray-400 text-sm font-semibold">No article available</p>
+        </div>
+      </SectionContainer>
+    );
   }
 
   return (
