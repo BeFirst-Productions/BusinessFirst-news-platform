@@ -18,6 +18,7 @@ export class SearchService {
           OR: [
             { title: { contains: cleanQuery, mode: 'insensitive' } },
             { excerpt: { contains: cleanQuery, mode: 'insensitive' } },
+            { category: { name: { contains: cleanQuery, mode: 'insensitive' } } },
           ],
         },
         select: {

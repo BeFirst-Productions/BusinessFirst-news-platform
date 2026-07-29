@@ -15,7 +15,7 @@ const MediaCoverageSection = () => {
       // On mobile (screen < 640px), we show 1 card, so we scroll by 100% of clientWidth.
       // On larger screens, we show 2 cards, so we scroll by roughly 50% (card + gap).
       const isMobile = typeof window !== 'undefined' ? window.innerWidth < 640 : false;
-      const scrollAmount = isMobile ? clientWidth : clientWidth * 0.52; 
+      const scrollAmount = isMobile ? clientWidth : clientWidth * 0.52;
       ref.current.scrollTo({
         left: direction === 'left' ? scrollLeft - scrollAmount : scrollLeft + scrollAmount,
         behavior: 'smooth'
@@ -26,7 +26,7 @@ const MediaCoverageSection = () => {
   return (
     <SectionContainer className="bg-white py-8 md:py-12">
       <div className="flex flex-col lg:flex-row gap-12 lg:gap-8 items-stretch">
-        
+
         {/* Left Column: Beyond Business */}
         <div className="w-full lg:w-1/2 flex flex-col gap-6 h-full">
           {/* Header */}
@@ -39,30 +39,30 @@ const MediaCoverageSection = () => {
 
           {/* Carousel */}
           <div className="flex items-stretch gap-2 flex-1 relative">
-            <button 
+            <button
               onClick={() => scroll(beyondBusinessRef, 'left')}
               className="self-center text-black hover:text-[#FF0202] transition-colors focus:outline-none shrink-0 p-1 md:p-2 -ml-2 z-10"
               aria-label="Previous podcast"
             >
               <ChevronLeft size={36} strokeWidth={3} />
             </button>
-            
-            <div 
+
+            <div
               ref={beyondBusinessRef}
               className="flex gap-4 flex-1 overflow-x-auto scrollbar-hide snap-x snap-mandatory py-2 [&::-webkit-scrollbar]:hidden"
               style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             >
               {beyondBusinessPodcasts.map((item) => (
-                <div 
-                  key={item.id} 
+                <div
+                  key={item.id}
                   className="w-full sm:w-[calc(50%-8px)] shrink-0 flex flex-col rounded-[12px] overflow-hidden group cursor-pointer border border-gray-100 shadow-[0_2px_10px_rgba(0,0,0,0.06)] h-full snap-start"
                 >
                   {/* Top Image */}
                   <div className="relative w-full aspect-square md:aspect-[4/3] bg-gray-200 overflow-hidden shrink-0">
-                    <Image 
-                      src={item.imageUrl} 
-                      alt={item.altText} 
-                      fill 
+                    <Image
+                      src={item.imageUrl}
+                      alt={item.altText}
+                      fill
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     {/* Play Button Overlay */}
@@ -85,7 +85,7 @@ const MediaCoverageSection = () => {
               ))}
             </div>
 
-            <button 
+            <button
               onClick={() => scroll(beyondBusinessRef, 'right')}
               className="self-center text-black hover:text-[#FF0202] transition-colors focus:outline-none shrink-0 p-1 md:p-2 -mr-2 z-10"
               aria-label="Next podcast"
@@ -114,30 +114,30 @@ const MediaCoverageSection = () => {
 
           {/* Carousel */}
           <div className="flex items-stretch gap-2 flex-1 relative">
-            <button 
+            <button
               onClick={() => scroll(exclusiveRef, 'left')}
               className="self-center text-black hover:text-[#FF0202] transition-colors focus:outline-none shrink-0 p-1 md:p-2 -ml-2 z-10"
               aria-label="Previous coverage"
             >
               <ChevronLeft size={36} strokeWidth={3} />
             </button>
-            
-            <div 
+
+            <div
               ref={exclusiveRef}
               className="flex gap-4 flex-1 overflow-x-auto scrollbar-hide snap-x snap-mandatory py-2 [&::-webkit-scrollbar]:hidden"
               style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             >
               {exclusiveCoverages.map((item) => (
-                <div 
-                  key={item.id} 
+                <div
+                  key={item.id}
                   className="w-full sm:w-[calc(50%-8px)] shrink-0 flex flex-col rounded-[12px] overflow-hidden group cursor-pointer border border-gray-100 shadow-[0_2px_10px_rgba(0,0,0,0.06)] h-full snap-start"
                 >
                   {/* Top Image */}
                   <div className="relative w-full aspect-square md:aspect-[4/3] bg-gray-200 overflow-hidden shrink-0">
-                    <Image 
-                      src={item.imageUrl} 
-                      alt={item.altText} 
-                      fill 
+                    <Image
+                      src={item.imageUrl}
+                      alt={item.altText}
+                      fill
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     {/* Play Button Overlay */}
@@ -160,7 +160,7 @@ const MediaCoverageSection = () => {
               ))}
             </div>
 
-            <button 
+            <button
               onClick={() => scroll(exclusiveRef, 'right')}
               className="self-center text-black hover:text-[#FF0202] transition-colors focus:outline-none shrink-0 p-1 md:p-2 -mr-2 z-10"
               aria-label="Next coverage"

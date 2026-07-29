@@ -66,7 +66,7 @@ const BankingFinanceSection = () => {
   return (
     <SectionContainer as="section" className="bg-white py-8 md:py-12">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 w-full">
-        
+
         {/* Left Block - Banking & Finance (Spans 8/12) */}
         <div className="lg:col-span-8 flex flex-col gap-6 w-full">
           {/* Header */}
@@ -84,10 +84,10 @@ const BankingFinanceSection = () => {
               {/* Featured Article */}
               <Link href={`/news/${dummyBankingFeatured.id}`} className="flex flex-col gap-3 group cursor-pointer pb-2 border-b border-gray-100">
                 <div className="relative w-full aspect-video overflow-hidden">
-                  <Image 
-                    src={dummyBankingFeatured.imageUrl} 
-                    alt={dummyBankingFeatured.title} 
-                    fill 
+                  <Image
+                    src={dummyBankingFeatured.imageUrl}
+                    alt={dummyBankingFeatured.title}
+                    fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
@@ -104,10 +104,10 @@ const BankingFinanceSection = () => {
                 {dummyBankingSmall.map((item) => (
                   <Link href={`/news/${item.id}`} key={item.id} className="flex gap-4 group cursor-pointer items-center">
                     <div className="relative w-[35%] aspect-[16/9] shrink-0 overflow-hidden">
-                      <Image 
-                        src={item.imageUrl} 
-                        alt={item.title} 
-                        fill 
+                      <Image
+                        src={item.imageUrl}
+                        alt={item.title}
+                        fill
                         className="object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     </div>
@@ -129,10 +129,10 @@ const BankingFinanceSection = () => {
               {dummyBankingMedium.map((item) => (
                 <Link href={`/news/${item.id}`} key={item.id} className="flex flex-col gap-2 group cursor-pointer">
                   <div className="relative w-full aspect-video overflow-hidden">
-                    <Image 
-                      src={item.imageUrl} 
-                      alt={item.title} 
-                      fill 
+                    <Image
+                      src={item.imageUrl}
+                      alt={item.title}
+                      fill
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   </div>
@@ -151,8 +151,8 @@ const BankingFinanceSection = () => {
         {/* Right Block - Ad & Newsletter (Spans 4/12) */}
         <div className="lg:col-span-4 flex flex-col gap-6 w-full h-full pt-10">
           {/* Ad Banner - Takes up available space */}
-          <AdBanner 
-            imageUrl="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80" 
+          <AdBanner
+            imageUrl="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80"
             altText="Burger Ad"
             className="w-full flex-1 min-h-[300px] aspect-square lg:aspect-auto"
           />

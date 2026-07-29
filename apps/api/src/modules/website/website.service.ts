@@ -161,6 +161,7 @@ export class WebsiteService {
         { key: 'events', name: 'Events', limit: 6, matchers: ['events', 'events-coverage'] },
         { key: 'culture-lifestyle', name: 'Culture & Lifestyle', limit: 6, matchers: ['culture-lifestyle', 'lifestyle', 'culture'] },
         { key: 'media-entertainment', name: 'Media and Entertainment', limit: 4, matchers: ['media-entertainment', 'media-coverage', 'media', 'entertainment'] },
+        { key: 'daily-insights', name: 'Daily Insights', limit: 6, matchers: ['daily-insights', 'insights', 'daily'] },
       ];
 
       // Fetch all active categories to resolve matches
@@ -171,8 +172,8 @@ export class WebsiteService {
 
       const sectionResults = await Promise.all(
         categoryConfigs.map(async (config) => {
-          // Find category in DB by matching slug or name
-          const matchedCategory = dbCategories.find((cat) =>
+          // Find all matching categories in DB by slug or name
+          const matchedCategories = dbCategories.filter((cat) =>
             config.matchers.some(
               (m) =>
                 cat.slug.toLowerCase() === m.toLowerCase() ||
@@ -181,23 +182,29 @@ export class WebsiteService {
           );
 
           let articles: any[] = [];
-          if (matchedCategory) {
+          if (matchedCategories.length > 0) {
+            const categoryIds = matchedCategories.map((c) => c.id);
             articles = await prisma.article.findMany({
               where: {
                 status: 'PUBLISHED',
-                categoryId: matchedCategory.id,
+                categoryId: { in: categoryIds },
               },
               take: config.limit,
-              orderBy: { publishedAt: 'desc' },
+              orderBy: [
+                { publishedAt: 'desc' },
+                { createdAt: 'desc' },
+              ],
               select: selectFields,
             });
           }
+
+          const primaryCategory = matchedCategories[0];
 
           return {
             key: config.key,
             data: {
               categoryName: config.name,
-              categorySlug: matchedCategory ? matchedCategory.slug : config.key,
+              categorySlug: primaryCategory ? primaryCategory.slug : config.key,
               limit: config.limit,
               articles,
             },
@@ -275,6 +282,7 @@ export class WebsiteService {
         where.OR = [
           { title: { contains: query.search, mode: 'insensitive' } },
           { excerpt: { contains: query.search, mode: 'insensitive' } },
+          { category: { name: { contains: query.search, mode: 'insensitive' } } },
         ];
       }
 
@@ -345,8 +353,10 @@ export class WebsiteService {
     const cacheKey = `website:article:${slug}`;
 
     const article = await this.getCachedOrFetch(cacheKey, 60, async () => {
-      const dbArticle = await prisma.article.findUnique({
-        where: { slug },
+      const dbArticle = await prisma.article.findFirst({
+        where: {
+          OR: [{ slug }, { id: slug }],
+        },
         include: {
           category: {
             select: {

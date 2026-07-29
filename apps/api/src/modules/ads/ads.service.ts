@@ -110,10 +110,11 @@ export class AdsService {
     if (data.endDate) updateData.endDate = new Date(data.endDate);
     if (data.status) updateData.status = data.status as AdStatus;
     if (data.type) updateData.type = data.type as AdType;
-    if (data.targetPage !== undefined) updateData.targetPage = data.targetPage;
-    if (data.ratio !== undefined) updateData.ratio = data.ratio;
-    if (data.pageName !== undefined) updateData.pageName = data.pageName;
-    if (data.placementName !== undefined) updateData.placementName = data.placementName;
+    const rawData = data as any;
+    if (rawData.targetPage !== undefined) updateData.targetPage = rawData.targetPage;
+    if (rawData.ratio !== undefined) updateData.ratio = rawData.ratio;
+    if (rawData.pageName !== undefined) updateData.pageName = rawData.pageName;
+    if (rawData.placementName !== undefined) updateData.placementName = rawData.placementName;
 
     // Upload files if updated
     if (files.image) {

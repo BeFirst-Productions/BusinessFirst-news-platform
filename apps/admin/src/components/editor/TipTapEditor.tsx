@@ -22,6 +22,7 @@ import Placeholder from '@tiptap/extension-placeholder';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import Superscript from '@tiptap/extension-superscript';
 import Subscript from '@tiptap/extension-subscript';
+import { X } from 'lucide-react';
 import { common, createLowlight } from 'lowlight';
 
 import { EditorToolbar } from './EditorToolbar';
@@ -31,17 +32,9 @@ const lowlight = createLowlight(common);
 
 // ══════════════════════════════════════════════════════════════════════════════
 // ImageDuo — side-by-side 2-image layout
-//
-// WHY flat string attrs instead of JSON:
-//   • JSON stored in HTML data-attributes gets corrupted by HTML parsers,
-//     quote-escaping (&quot;), and Next.js sanitization → images lost on reload.
-//   • Simple string attrs (src1, alt1, src2, alt2) serialize to plain
-//     data-src1="..." which survives every HTML round-trip perfectly.
-//   • DOMOutputSpec spread (...figures) is unreliable in ProseMirror serializer
-//     so we build fixed figure children explicitly — no dynamic spreading.
 // ══════════════════════════════════════════════════════════════════════════════
 
-const ImageDuoView = ({ node }: any) => {
+const ImageDuoView = ({ node, updateAttributes }: any) => {
   const { src1, alt1, src2, alt2 } = node.attrs as {
     src1: string; alt1: string; src2: string; alt2: string;
   };
@@ -49,18 +42,54 @@ const ImageDuoView = ({ node }: any) => {
   if (!src1 && !src2) return <NodeViewWrapper className="image-block image-block--duo my-4" />;
 
   return (
-    <NodeViewWrapper className="image-block image-block--duo my-4" data-drag-handle>
+    <NodeViewWrapper className="image-block image-block--duo my-4 select-none" data-drag-handle>
       <div className="image-block__duo">
         {src1 && (
-          <figure className="image-block__figure">
+          <figure className="image-block__figure flex flex-col items-center">
             <img src={src1} alt={alt1 || ''} className="image-block__img" />
-            {alt1 && <figcaption className="image-block__caption">{alt1}</figcaption>}
+            <div className="flex items-center justify-center gap-1.5 w-full mt-2 group/caption">
+              <input
+                type="text"
+                value={alt1 || ''}
+                onChange={(e) => updateAttributes({ alt1: e.target.value })}
+                placeholder="Image 1 caption (leave blank to remove)..."
+                className="w-full text-center text-xs py-1 px-2.5 rounded border border-transparent hover:border-gray-300 focus:border-primary focus:bg-white text-gray-700 font-medium outline-none transition-all bg-gray-50/80"
+              />
+              {alt1 && (
+                <button
+                  type="button"
+                  onClick={() => updateAttributes({ alt1: '' })}
+                  title="Remove heading/caption"
+                  className="p-1 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
           </figure>
         )}
         {src2 && (
-          <figure className="image-block__figure">
+          <figure className="image-block__figure flex flex-col items-center">
             <img src={src2} alt={alt2 || ''} className="image-block__img" />
-            {alt2 && <figcaption className="image-block__caption">{alt2}</figcaption>}
+            <div className="flex items-center justify-center gap-1.5 w-full mt-2 group/caption">
+              <input
+                type="text"
+                value={alt2 || ''}
+                onChange={(e) => updateAttributes({ alt2: e.target.value })}
+                placeholder="Image 2 caption (leave blank to remove)..."
+                className="w-full text-center text-xs py-1 px-2.5 rounded border border-transparent hover:border-gray-300 focus:border-primary focus:bg-white text-gray-700 font-medium outline-none transition-all bg-gray-50/80"
+              />
+              {alt2 && (
+                <button
+                  type="button"
+                  onClick={() => updateAttributes({ alt2: '' })}
+                  title="Remove heading/caption"
+                  className="p-1 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
           </figure>
         )}
       </div>
@@ -79,42 +108,53 @@ const ImageDuo = Node.create({
     return {
       src1: {
         default: '',
-        // Read plain data-src1 attribute — no JSON, no corruption
-        parseHTML: (el) => el.getAttribute('data-src1') || '',
+        parseHTML: (el) =>
+          el.getAttribute('data-src1') ||
+          el.querySelectorAll('img')[0]?.getAttribute('src') ||
+          '',
         renderHTML: (attrs) => ({ 'data-src1': attrs.src1 || '' }),
       },
       alt1: {
         default: '',
-        parseHTML: (el) => el.getAttribute('data-alt1') || '',
+        parseHTML: (el) =>
+          el.getAttribute('data-alt1') ||
+          el.querySelectorAll('img')[0]?.getAttribute('alt') ||
+          '',
         renderHTML: (attrs) => ({ 'data-alt1': attrs.alt1 || '' }),
       },
       src2: {
         default: '',
-        parseHTML: (el) => el.getAttribute('data-src2') || '',
+        parseHTML: (el) =>
+          el.getAttribute('data-src2') ||
+          el.querySelectorAll('img')[1]?.getAttribute('src') ||
+          '',
         renderHTML: (attrs) => ({ 'data-src2': attrs.src2 || '' }),
       },
       alt2: {
         default: '',
-        parseHTML: (el) => el.getAttribute('data-alt2') || '',
+        parseHTML: (el) =>
+          el.getAttribute('data-alt2') ||
+          el.querySelectorAll('img')[1]?.getAttribute('alt') ||
+          '',
         renderHTML: (attrs) => ({ 'data-alt2': attrs.alt2 || '' }),
       },
     };
   },
 
   parseHTML() {
-    // Match the outer div we produce in renderHTML
-    return [{ tag: 'div[data-image-duo]' }];
+    return [
+      { tag: 'div[data-image-duo]' },
+      { tag: 'div.image-block--duo' },
+      { tag: 'div.image-block__duo' },
+    ];
   },
 
   renderHTML({ HTMLAttributes }) {
-    // HTMLAttributes already has data-src1, data-alt1, data-src2, data-alt2
-    // merged in from addAttributes.renderHTML above.
     const src1 = HTMLAttributes['data-src1'] || '';
-    const alt1 = HTMLAttributes['data-alt1'] || '';
+    const alt1 = (HTMLAttributes['data-alt1'] || '').trim();
     const src2 = HTMLAttributes['data-src2'] || '';
-    const alt2 = HTMLAttributes['data-alt2'] || '';
+    const alt2 = (HTMLAttributes['data-alt2'] || '').trim();
 
-    // Build figure specs explicitly — NO spread operator (unreliable in ProseMirror serializer)
     const fig1: any = alt1
       ? ['figure', { class: 'image-block__figure' },
           ['img', { src: src1, alt: alt1, class: 'image-block__img' }],
@@ -145,6 +185,89 @@ const ImageDuo = Node.create({
 
   addNodeView() {
     return ReactNodeViewRenderer(ImageDuoView);
+  },
+});
+
+// Single Image NodeView with interactive caption editing
+const SingleImageView = ({ node, updateAttributes }: any) => {
+  const { src, alt } = node.attrs as { src: string; alt: string };
+
+  if (!src) return <NodeViewWrapper className="image-block image-block--single my-4" />;
+
+  return (
+    <NodeViewWrapper className="image-block image-block--single my-4 flex flex-col items-center select-none" data-drag-handle>
+      <div className="relative group max-w-full">
+        <img src={src} alt={alt || ''} className="tiptap-img image-block__img max-h-[500px] object-cover rounded-lg" />
+      </div>
+      <div className="flex items-center justify-center gap-1.5 w-full max-w-md mt-2 group/caption">
+        <input
+          type="text"
+          value={alt || ''}
+          onChange={(e) => updateAttributes({ alt: e.target.value })}
+          placeholder="Add caption or image title (leave blank to remove)..."
+          className="w-full text-center text-xs py-1 px-2.5 rounded border border-transparent hover:border-gray-300 focus:border-primary focus:bg-white text-gray-700 font-medium outline-none transition-all bg-gray-50/80"
+        />
+        {alt && (
+          <button
+            type="button"
+            onClick={() => updateAttributes({ alt: '' })}
+            title="Remove heading/caption"
+            className="p-1 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
+          >
+            <X className="w-3.5 h-3.5" />
+          </button>
+        )}
+      </div>
+    </NodeViewWrapper>
+  );
+};
+
+const CustomImage = Image.extend({
+  addAttributes() {
+    return {
+      src: {
+        default: '',
+        parseHTML: (el) => el.getAttribute('src') || '',
+        renderHTML: (attrs) => ({ src: attrs.src || '' }),
+      },
+      alt: {
+        default: '',
+        parseHTML: (el) => el.getAttribute('alt') || '',
+        renderHTML: (attrs) => ({ alt: attrs.alt || '' }),
+      },
+    };
+  },
+
+  parseHTML() {
+    return [
+      { tag: 'img[src]' },
+      { tag: 'figure img[src]' },
+      { tag: 'div.image-block--single img[src]' },
+    ];
+  },
+
+  renderHTML({ HTMLAttributes }) {
+    const src = HTMLAttributes.src || '';
+    const alt = (HTMLAttributes.alt || '').trim();
+
+    if (alt) {
+      return [
+        'figure',
+        { class: 'image-block__figure image-block--single my-4' },
+        ['img', { src, alt, class: 'tiptap-img image-block__img' }],
+        ['figcaption', { class: 'image-block__caption' }, alt],
+      ];
+    }
+
+    return [
+      'figure',
+      { class: 'image-block__figure image-block--single my-4' },
+      ['img', { src, alt: '', class: 'tiptap-img image-block__img' }],
+    ];
+  },
+
+  addNodeView() {
+    return ReactNodeViewRenderer(SingleImageView);
   },
 });
 
@@ -179,11 +302,8 @@ export function TipTapEditor({
         openOnClick: false,
         HTMLAttributes: { class: 'tiptap-link', rel: 'noopener noreferrer' },
       }),
-      // Built-in Image → standard <img src="..."> tag, works everywhere
-      Image.configure({
-        inline: false,
-        HTMLAttributes: { class: 'tiptap-img' },
-      }),
+      // Custom single Image extension with inline/figure parseHTML support
+      CustomImage,
       // Custom duo node — simple flat string attrs, no JSON
       ImageDuo,
       Table.configure({ resizable: true }),
@@ -215,11 +335,13 @@ export function TipTapEditor({
 
   // Sync content from outside — needed when initialData loads on edit page
   useEffect(() => {
-    if (editor && content && editor.getHTML() !== content) {
-      editor.commands.setContent(content, false);
+    if (editor && !editor.isDestroyed && content !== undefined) {
+      const currentHTML = editor.getHTML();
+      if (currentHTML !== content) {
+        editor.commands.setContent(content, false);
+      }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [content]);
+  }, [editor, content]);
 
   const handleInsertImages = useCallback(
     (images: { src: string; alt: string }[], layout: 'single' | 'duo') => {

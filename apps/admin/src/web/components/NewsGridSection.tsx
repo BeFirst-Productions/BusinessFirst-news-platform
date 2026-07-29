@@ -186,19 +186,17 @@ const  NewsGridSection = () => {
         </div>
 
         {/* Right Column - Ads & Newsletter (Spans 4/12) */}
-        <div className="lg:col-span-4 flex flex-col gap-6 h-full">
-          <div className="flex flex-col gap-6 flex-1 min-h-[600px] lg:min-h-0">
-            <AdBanner 
-              imageUrl="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80" 
-              altText="Burger Ad 1" 
-              className="flex-[7] shadow-sm"
-            />
-            <AdBanner 
-              imageUrl="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=600&q=80" 
-              altText="Burger Ad 2" 
-              className="flex-[4] shadow-sm"
-            />
-          </div>
+        <div className="lg:col-span-4 flex flex-col justify-between gap-6 h-full min-h-0">
+          <AdBanner 
+            imageUrl="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80" 
+            altText="Burger Ad 1" 
+            className="w-full flex-1 min-h-[260px] lg:min-h-0 relative overflow-hidden shadow-sm"
+          />
+          <AdBanner 
+            imageUrl="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=600&q=80" 
+            altText="Burger Ad 2" 
+            className="w-full flex-1 min-h-[220px] lg:min-h-0 relative overflow-hidden shadow-sm"
+          />
           <NewsletterWidget />
         </div>
       </div>

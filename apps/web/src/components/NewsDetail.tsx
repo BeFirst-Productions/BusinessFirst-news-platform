@@ -38,8 +38,8 @@ const NewsDetail: React.FC<NewsDetailProps> = ({ articleId }) => {
   const title = article.title;
   const categoryName = article.category?.name || 'News';
   const imageUrl = article.featuredImage || '/placeholder-news.jpg';
-  const description = article.excerpt || article.title;
-  const contentParagraphs = article.content ? [article.content] : [];
+  const description = article.excerpt || '';
+  const content = article.content || '';
 
   return (
     <SectionContainer className="bg-white py-8 md:py-12">
@@ -55,7 +55,7 @@ const NewsDetail: React.FC<NewsDetailProps> = ({ articleId }) => {
       {/* Layout Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 w-full items-start">
         {/* Left Side: Article Content */}
-        <NewsContent imageUrl={imageUrl} title={title} contentParagraphs={contentParagraphs} />
+        <NewsContent imageUrl={imageUrl} title={title} content={content} />
 
         {/* Right Side: Sidebar */}
         <NewsSidebar />
