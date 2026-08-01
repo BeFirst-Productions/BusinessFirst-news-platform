@@ -373,7 +373,7 @@ class ApiClient {
 
 // ==================== SINGLETON INSTANCE ====================
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8083/api/v1';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8083/api/v1/website';
 
 export const apiClient = new ApiClient({
   baseUrl: API_BASE_URL,

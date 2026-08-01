@@ -21,7 +21,7 @@ export function useAdSlot(slotCode: string) {
   return useQuery({
     queryKey: adKeys.slot(slotCode),
     queryFn: async () => {
-      const ads = await apiClient.get<Ad[]>(`/website/ads/slot/${slotCode}`, {
+      const ads = await apiClient.get<Ad[]>(`/ads/slot/${slotCode}`, {
         next: {
           revalidate: 300, // Refresh ads every 5 minutes
           tags: [`ad-slot-${slotCode}`],
@@ -62,7 +62,7 @@ export function useAdImpression() {
   return {
     trackImpression: async (adId: string, slotCode: string) => {
       try {
-        await apiClient.post(`/website/ads/${adId}/impression`, {
+        await apiClient.post(`/ads/${adId}/impression`, {
           slotCode,
           timestamp: new Date().toISOString(),
         });
@@ -73,7 +73,7 @@ export function useAdImpression() {
     },
     trackClick: async (adId: string, slotCode: string) => {
       try {
-        await apiClient.post(`/website/ads/${adId}/click`, {
+        await apiClient.post(`/ads/${adId}/click`, {
           slotCode,
           timestamp: new Date().toISOString(),
         });

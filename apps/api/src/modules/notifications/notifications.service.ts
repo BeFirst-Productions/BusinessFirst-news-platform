@@ -121,6 +121,60 @@ export class NotificationsService {
     });
   }
 
+  static async createContactNotification(data: { name: string; email: string; subject: string }) {
+    // Check if notifications are enabled for the contact module
+    const setting = await prisma.siteSetting.findUnique({
+      where: { key: 'ui_notification_settings' },
+    });
+
+    if (setting) {
+      const config = setting.value as { contacts?: boolean };
+      if (config && config.contacts === false) {
+        return; // Notifications disabled for this module
+      }
+    }
+
+    const admins = await prisma.user.findMany({
+      where: {
+        role: { in: [Role.SUPERADMIN, Role.ADMIN] },
+      },
+      orderBy: { role: 'asc' }, // Prioritize SUPERADMIN
+    });
+
+    const title = 'New Contact Message';
+    const message = `New message from ${data.name || data.email}: ${data.subject}`;
+
+    const primaryAdmin = admins[0];
+
+    if (!primaryAdmin) {
+      notificationEmitter.emitNotification({
+        id: 'new-contact-' + Date.now(),
+        title,
+        message,
+        type: 'CONTACT',
+        createdAt: new Date().toISOString(),
+      });
+      return;
+    }
+
+    const createdDbNotification = await prisma.notification.create({
+      data: {
+        title,
+        message,
+        type: 'CONTACT',
+        userId: primaryAdmin.id,
+      },
+    });
+
+    notificationEmitter.emitNotification({
+      id: createdDbNotification.id,
+      title,
+      message,
+      type: 'CONTACT',
+      createdAt: new Date().toISOString(),
+    });
+  }
+
   static async deleteNotification(userId: string, notificationId: string) {
     const notification = await prisma.notification.findUnique({
       where: { id: notificationId },

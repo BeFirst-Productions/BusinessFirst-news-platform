@@ -150,6 +150,41 @@ export class WebsiteController {
     }
   }
 
+  static async getAds(req: Request, res: Response, next: NextFunction) {
+    try {
+      const query = req.query as any;
+      const result = await WebsiteService.getAds(query);
+
+      res.status(200).json({
+        success: true,
+        message: 'Ads retrieved successfully',
+        data: result.ads,
+        metadata: {
+           total: result.total,
+           page: query.page ? Number(query.page) : 1,
+           limit: query.limit ? Number(query.limit) : 10,
+        }
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async getAdById(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = req.params.id as string;
+      const ad = await WebsiteService.getAdById(id);
+
+      res.status(200).json({
+        success: true,
+        message: 'Ad retrieved successfully',
+        data: ad,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   static async getCategories(req: Request, res: Response, next: NextFunction) {
     try {
       const isActive = req.query.isActive !== 'false';
@@ -250,6 +285,21 @@ export class WebsiteController {
         success: true,
         message: 'Subscribed to newsletter successfully',
         data: result.subscriber,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async submitContactForm(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { name, email, subject, message } = req.body;
+      const result = await WebsiteService.submitContactForm({ name, email, subject, message });
+
+      res.status(200).json({
+        success: true,
+        message: 'Contact form submitted successfully',
+        data: result.contact,
       });
     } catch (error) {
       next(error);

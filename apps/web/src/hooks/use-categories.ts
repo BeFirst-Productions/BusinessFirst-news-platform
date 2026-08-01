@@ -21,7 +21,7 @@ export function useCategories() {
   return useQuery({
     queryKey: categoryKeys.lists(),
     queryFn: async () => {
-      const categories = await apiClient.get<Category[]>('/website/categories', {
+      const categories = await apiClient.get<Category[]>('/categories', {
         params: {
           isActive: true,
           sortBy: 'order',
@@ -45,7 +45,7 @@ export function useCategory(slug: string) {
   return useQuery({
     queryKey: categoryKeys.detail(slug),
     queryFn: async () => {
-      const category = await apiClient.get<Category>(`/website/categories/slug/${slug}`, {
+      const category = await apiClient.get<Category>(`/categories/slug/${slug}`, {
         next: {
           revalidate: 3600,
           tags: [`category-${slug}`],
@@ -65,7 +65,7 @@ export function useCategoryTree() {
   return useQuery({
     queryKey: [...categoryKeys.all, 'tree'],
     queryFn: async () => {
-      const categories = await apiClient.get<Category[]>('/website/categories/tree', {
+      const categories = await apiClient.get<Category[]>('/categories/tree', {
         next: {
           revalidate: 3600,
           tags: ['category-tree'],

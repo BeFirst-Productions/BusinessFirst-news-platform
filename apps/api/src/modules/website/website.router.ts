@@ -17,11 +17,36 @@ router.get('/categories/tree', WebsiteController.getCategoryTree);
 router.get('/categories/slug/:slug', WebsiteController.getCategoryBySlug);
 
 // Ad endpoints
-router.get('/ads/slot/:slotCode', WebsiteController.getAdsBySlot);
-router.post('/ads/:id/impression', WebsiteController.trackAdImpression);
-router.post('/ads/:id/click', WebsiteController.trackAdClick);
+router.get(
+  '/ads',
+  WebsiteController.getAds
+);
+
+router.get(
+  '/ads/:id',
+  WebsiteController.getAdById
+);
+
+router.get(
+  '/ads/slot/:slotCode',
+  WebsiteController.getAdsBySlot
+);
+
+router.post(
+  '/ads/:id/impression',
+  WebsiteController.trackAdImpression
+);
+
+router.post(
+  '/ads/:id/click',
+  WebsiteController.trackAdClick
+);
 
 // Newsletter subscription
+// Newsletter subscription
 router.post('/newsletter/subscribe', WebsiteController.subscribeNewsletter);
+
+// Contact form submission
+router.post('/contacts', WebsiteController.submitContactForm);
 
 export { router as websiteRouter };

@@ -31,6 +31,11 @@ export const adQuerySchema = z.object({
   targetPage: z.string().optional(),
 });
 
+export const adIdSchema = z.object({
+  id: z.string().min(1, 'Ad ID is required'),
+});
+
 export type CreateAdInput = z.infer<typeof createAdSchema>;
 export type UpdateAdInput = z.infer<typeof updateAdSchema>;
 export type AdQueryInput = z.infer<typeof adQuerySchema>;
+export type AdIdInput = z.infer<typeof adIdSchema>;
