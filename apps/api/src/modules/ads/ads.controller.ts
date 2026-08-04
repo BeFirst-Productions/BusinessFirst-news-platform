@@ -34,7 +34,7 @@ export class AdsController {
       const files = req.files as { [fieldname: string]: Express.Multer.File[] } | undefined;
       const adFiles = {
         image: files?.['image']?.[0],
-        video: files?.['video']?.[0],
+        gif: files?.['gif']?.[0],
       };
 console.log(req.body);
 
@@ -52,7 +52,7 @@ console.log(req.body);
       const files = req.files as { [fieldname: string]: Express.Multer.File[] } | undefined;
       const adFiles = {
         image: files?.['image']?.[0],
-        video: files?.['video']?.[0],
+        gif: files?.['gif']?.[0],
       };
 
       const ad = await AdsService.updateAd(id, req.body, adFiles);

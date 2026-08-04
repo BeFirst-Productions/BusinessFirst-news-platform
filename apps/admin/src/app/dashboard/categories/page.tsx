@@ -17,10 +17,12 @@ import {
 import { Plus, Edit, Trash2, FolderTree, GripVertical } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { usePermission } from '@/hooks/usePermission';
+import { useConfirmModalStore } from '@/store/confirm-modal.store';
 
 export default function CategoriesPage() {
   const queryClient = useQueryClient();
   const { hasPermission } = usePermission();
+  const confirmModal = useConfirmModalStore();
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<any>(null);
   const [formData, setFormData] = useState({
@@ -45,7 +47,10 @@ export default function CategoriesPage() {
       setIsCreateOpen(false);
       resetForm();
     },
-    onError: () => toast.error('Failed to create category'),
+    onError: (err: any) => {
+      const msg = err.response?.data?.message || 'Failed to create category';
+      toast.error(msg);
+    },
   });
 
   const updateCategory = useMutation({
@@ -57,7 +62,10 @@ export default function CategoriesPage() {
       setEditingCategory(null);
       resetForm();
     },
-    onError: () => toast.error('Failed to update category'),
+    onError: (err: any) => {
+      const msg = err.response?.data?.message || 'Failed to update category';
+      toast.error(msg);
+    },
   });
 
   const deleteCategory = useMutation({
@@ -66,7 +74,10 @@ export default function CategoriesPage() {
       queryClient.invalidateQueries({ queryKey: ['categories'] });
       toast.success('Category deleted');
     },
-    onError: () => toast.error('Failed to delete category'),
+    onError: (err: any) => {
+      const msg = err.response?.data?.message || 'Failed to delete category';
+      toast.error(msg);
+    },
   });
 
   const resetForm = () => {
@@ -145,9 +156,15 @@ export default function CategoriesPage() {
                     variant="ghost"
                     size="icon"
                     onClick={() => {
-                      if (confirm('Delete this category?')) {
-                        deleteCategory.mutate(category.id);
-                      }
+                      confirmModal.open({
+                        title: 'Delete Category',
+                        message: 'Are you sure you want to delete this category?',
+                        confirmText: 'Delete',
+                        variant: 'danger',
+                        onConfirm: async () => {
+                          deleteCategory.mutate(category.id);
+                        },
+                      });
                     }}
                   >
                     <Trash2 className="h-4 w-4 text-destructive" />

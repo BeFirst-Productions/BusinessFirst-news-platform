@@ -278,7 +278,7 @@ enum ArticleStatus {
 
 enum AdType {
   IMAGE
-  VIDEO
+  GIF
   BOTH
 }
 

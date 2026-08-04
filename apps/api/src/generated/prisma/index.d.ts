@@ -153,7 +153,7 @@ export type ArticleStatus = (typeof ArticleStatus)[keyof typeof ArticleStatus]
 
 export const AdType: {
   IMAGE: 'IMAGE',
-  VIDEO: 'VIDEO',
+  GIF: 'GIF',
   BOTH: 'BOTH'
 };
 

@@ -33,7 +33,7 @@ router.post(
   PermissionMiddleware.checkModule('ADS', 'create'),
   upload.fields([
     { name: 'image', maxCount: 1 },
-    { name: 'video', maxCount: 1 },
+    { name: 'gif', maxCount: 1 },
   ]),
   ValidationMiddleware.validate(createAdSchema),
   AdsController.createAd
@@ -44,7 +44,7 @@ router.put(
   PermissionMiddleware.checkModule('ADS', 'edit'),
   upload.fields([
     { name: 'image', maxCount: 1 },
-    { name: 'video', maxCount: 1 },
+    { name: 'gif', maxCount: 1 },
   ]),
   ValidationMiddleware.validate(updateAdSchema),
   AdsController.updateAd

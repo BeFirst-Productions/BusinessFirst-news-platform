@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { Card, CardContent } from '@/components/ui/Card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select';
-import { Plus, Eye, MousePointer, BarChart3, Trash2, Edit, Image, Video } from 'lucide-react';
+import { Plus, Eye, MousePointer, BarChart3, Trash2, Edit, Image, FileImage } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
 import toast from 'react-hot-toast';
 import { usePermission } from '@/hooks/usePermission';
@@ -61,8 +61,8 @@ export default function AdsPage() {
           <div className="w-10 h-10 rounded bg-muted flex items-center justify-center overflow-hidden">
             {item.imageUrl ? (
               <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover" />
-            ) : item.type === 'VIDEO' ? (
-              <Video className="h-5 w-5 text-blue-600" />
+            ) : item.type === 'GIF' ? (
+              <FileImage className="h-5 w-5 text-blue-600" />
             ) : (
               <Image className="h-5 w-5 text-green-600" />
             )}

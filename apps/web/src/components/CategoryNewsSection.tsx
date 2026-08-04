@@ -4,27 +4,11 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronDown } from 'lucide-react';
-import { useQuery } from '@tanstack/react-query';
 import SectionContainer from './SectionContainer';
-import { apiClient } from '@/lib/api-client';
 import type { Article, Category } from '@businessfirst/shared-types';
 import { Skeleton } from './ui/Skeleton';
 
-// ==================== TYPES ====================
 
-interface CategorySectionData {
-  leftCategory: Category | null;
-  leftArticles: Article[];
-  rightCategory: Category | null;
-  rightArticles: Article[];
-}
-
-// ==================== CONSTANTS ====================
-
-const CATEGORY_SLUGS = {
-  LEFT: 'real-estate-construction',
-  RIGHT: 'economy-policy',
-} as const;
 
 // ==================== API HOOK ====================
 

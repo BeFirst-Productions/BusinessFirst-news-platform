@@ -51,7 +51,7 @@ export class AdsService {
 
   static async createAd(
     data: CreateAdInput,
-    files: { image?: Express.Multer.File; video?: Express.Multer.File },
+    files: { image?: Express.Multer.File; gif?: Express.Multer.File },
     createdBy: string
   ) {
     let imageUrl: string | null = null;
@@ -61,8 +61,8 @@ export class AdsService {
     if (files.image) {
       imageUrl = await CloudinaryService.uploadBuffer(files.image.buffer, 'ads', 'image', files.image.mimetype);
     }
-    if (files.video) {
-      videoUrl = await CloudinaryService.uploadBuffer(files.video.buffer, 'ads', 'video', files.video.mimetype);
+    if (files.gif) {
+      videoUrl = await CloudinaryService.uploadBuffer(files.gif.buffer, 'ads', 'image', files.gif.mimetype);
     }
 
     const ad = await prisma.ad.create({
@@ -94,7 +94,7 @@ export class AdsService {
   static async updateAd(
     id: string,
     data: UpdateAdInput,
-    files: { image?: Express.Multer.File; video?: Express.Multer.File }
+    files: { image?: Express.Multer.File; gif?: Express.Multer.File }
   ) {
     const ad = await prisma.ad.findUnique({
       where: { id },
@@ -120,8 +120,8 @@ export class AdsService {
     if (files.image) {
       updateData.imageUrl = await CloudinaryService.uploadBuffer(files.image.buffer, 'ads', 'image', files.image.mimetype);
     }
-    if (files.video) {
-      updateData.videoUrl = await CloudinaryService.uploadBuffer(files.video.buffer, 'ads', 'video', files.video.mimetype);
+    if (files.gif) {
+      updateData.videoUrl = await CloudinaryService.uploadBuffer(files.gif.buffer, 'ads', 'image', files.gif.mimetype);
     }
 
     const updatedAd = await prisma.ad.update({
