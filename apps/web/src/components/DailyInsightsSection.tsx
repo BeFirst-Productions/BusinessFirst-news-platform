@@ -22,10 +22,10 @@ const DailyInsightsSection = () => {
     category: article.category?.name || 'Daily Insights',
     date: article.publishedAt
       ? new Date(article.publishedAt).toLocaleDateString('en-US', {
-          month: 'short',
-          day: 'numeric',
-          year: 'numeric',
-        })
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+      })
       : 'Recent',
     imageUrl: article.featuredImage || '/placeholder-news.jpg',
   }));
@@ -44,7 +44,7 @@ const DailyInsightsSection = () => {
   return (
     <SectionContainer as="section" className="bg-white py-8 md:py-12 overflow-hidden">
       <div className="flex flex-col items-center w-full gap-8 relative">
-        
+
         {/* Header */}
         <SectionTitle title="Daily Insights" />
 
@@ -57,7 +57,7 @@ const DailyInsightsSection = () => {
             {/* Carousel Container */}
             <div className="relative w-full flex items-center group">
               {/* Left Arrow */}
-              <button 
+              <button
                 onClick={() => scroll('left')}
                 className="absolute left-0 z-10 -ml-2 md:-ml-8 bg-white/60 hover:bg-white p-1 md:p-2 rounded-full transition-colors focus:outline-none text-black"
               >
@@ -65,7 +65,7 @@ const DailyInsightsSection = () => {
               </button>
 
               {/* Cards */}
-              <div 
+              <div
                 ref={scrollRef}
                 className="flex w-full overflow-x-auto snap-x snap-mandatory gap-4 md:gap-6 px-10 md:px-6 py-4 [&::-webkit-scrollbar]:hidden"
                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
@@ -73,12 +73,12 @@ const DailyInsightsSection = () => {
                 {insights.map((item, idx) => (
                   <Link
                     href={`/news/${item.slug || item.id}`}
-                    key={`${item.id}-${idx}`} 
+                    key={`${item.id}-${idx}`}
                     className="relative snap-center shrink-0 w-[240px] md:w-[260px] aspect-[4/5] rounded-[10px] overflow-hidden cursor-pointer group/card shadow-[0_4px_10px_rgba(0,0,0,0.1)] border border-gray-100 bg-white"
                   >
                     {/* Background Image */}
                     <div className="relative w-full h-full pb-[40px]">
-                      <Image 
+                      <Image
                         src={item.imageUrl}
                         alt={item.title || item.category}
                         fill
@@ -103,7 +103,7 @@ const DailyInsightsSection = () => {
               </div>
 
               {/* Right Arrow */}
-              <button 
+              <button
                 onClick={() => scroll('right')}
                 className="absolute right-0 z-10 -mr-2 md:-mr-8 bg-white/60 hover:bg-white p-1 md:p-2 rounded-full transition-colors focus:outline-none text-black"
               >

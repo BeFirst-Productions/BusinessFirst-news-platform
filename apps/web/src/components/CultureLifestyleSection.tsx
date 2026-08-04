@@ -26,10 +26,10 @@ const CultureLifestyleSection = () => {
   const formatDate = (dateStr?: string) =>
     dateStr
       ? new Date(dateStr).toLocaleDateString('en-US', {
-          month: 'short',
-          day: 'numeric',
-          year: 'numeric',
-        })
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+      })
       : 'Recent';
 
   return (

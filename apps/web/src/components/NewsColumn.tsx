@@ -20,13 +20,13 @@ interface NewsColumnProps {
   smallList?: NewsItem[];
 }
 
-const NewsColumn: React.FC<NewsColumnProps> = ({ 
-  title, 
-  titleColor = '#FF0202', 
+const NewsColumn: React.FC<NewsColumnProps> = ({
+  title,
+  titleColor = '#FF0202',
   articles,
-  featured: propFeatured, 
-  mediumGrid: propMediumGrid = [], 
-  smallList: propSmallList = [] 
+  featured: propFeatured,
+  mediumGrid: propMediumGrid = [],
+  smallList: propSmallList = []
 }) => {
   const featured = articles ? articles[0] : propFeatured;
   const mediumGrid = articles ? articles.slice(1, 5) : propMediumGrid;
@@ -56,16 +56,16 @@ const NewsColumn: React.FC<NewsColumnProps> = ({
           {/* Featured Large Card */}
           {featured && (
             <Link href={`/news/${featured.id}`} className="flex flex-col gap-2 group cursor-pointer w-full">
-              <div className="relative w-full aspect-[16/9] border-4 border-[#2ca4e8] overflow-hidden">
-                <Image 
-                  src={featured.imageUrl} 
-                  alt={featured.title} 
-                  fill 
+              <div className="relative w-full aspect-[16/9] overflow-hidden">
+                <Image
+                  src={featured.imageUrl}
+                  alt={featured.title}
+                  fill
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
                 />
               </div>
               <span className="text-xs text-gray-500 font-medium mt-1">
-                {featured.date}
+                {featured.category ? `${featured.category} | ` : ''}{featured.date}
               </span>
               <h3 className="text-[#24214c] font-bold text-lg leading-tight group-hover:text-[#cd2027] transition-colors">
                 {featured.title}
@@ -79,10 +79,10 @@ const NewsColumn: React.FC<NewsColumnProps> = ({
               {mediumGrid.slice(0, 4).map((item) => (
                 <Link href={`/news/${item.id}`} key={item.id} className="flex flex-col gap-2 group cursor-pointer">
                   <div className="relative w-full aspect-video overflow-hidden">
-                    <Image 
-                      src={item.imageUrl} 
-                      alt={item.title} 
-                      fill 
+                    <Image
+                      src={item.imageUrl}
+                      alt={item.title}
+                      fill
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   </div>
@@ -90,7 +90,7 @@ const NewsColumn: React.FC<NewsColumnProps> = ({
                     {item.title}
                   </h4>
                   <span className="text-[10px] text-gray-500 font-medium">
-                    {item.date}
+                    {item.category ? `${item.category} | ` : ''}{item.date}
                   </span>
                 </Link>
               ))}
@@ -103,10 +103,10 @@ const NewsColumn: React.FC<NewsColumnProps> = ({
               {smallList.slice(0, 3).map((item) => (
                 <Link href={`/news/${item.id}`} key={item.id} className="flex gap-3 group cursor-pointer items-center">
                   <div className="relative w-24 h-16 shrink-0 overflow-hidden">
-                    <Image 
-                      src={item.imageUrl} 
-                      alt={item.title} 
-                      fill 
+                    <Image
+                      src={item.imageUrl}
+                      alt={item.title}
+                      fill
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   </div>
@@ -115,7 +115,7 @@ const NewsColumn: React.FC<NewsColumnProps> = ({
                       {item.title}
                     </h4>
                     <span className="text-[10px] text-gray-500 font-medium mt-1">
-                      {item.date}
+                      {item.category ? `${item.category} | ` : ''}{item.date}
                     </span>
                   </div>
                 </Link>

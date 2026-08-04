@@ -35,7 +35,7 @@ const NewsColumn: React.FC<NewsColumnProps> = ({ title, titleColor = '#FF0202', 
 
       {/* Featured Large Card */}
       <Link href={`/news/${featured.id}`} className="flex flex-col gap-2 group cursor-pointer w-full">
-        <div className="relative w-full aspect-[16/9] border-4 border-[#2ca4e8] overflow-hidden">
+        <div className="relative w-full aspect-[16/9] overflow-hidden">
           <Image 
             src={featured.imageUrl} 
             alt={featured.title} 
@@ -44,7 +44,7 @@ const NewsColumn: React.FC<NewsColumnProps> = ({ title, titleColor = '#FF0202', 
           />
         </div>
         <span className="text-xs text-gray-500 font-medium mt-1">
-          {featured.date}
+          {featured.category ? `${featured.category} | ` : ''}{featured.date}
         </span>
         <h3 className="text-[#24214c] font-bold text-lg leading-tight group-hover:text-[#cd2027] transition-colors">
           {featured.title}
@@ -67,7 +67,7 @@ const NewsColumn: React.FC<NewsColumnProps> = ({ title, titleColor = '#FF0202', 
               {item.title}
             </h4>
             <span className="text-[10px] text-gray-500 font-medium">
-              {item.date}
+              {item.category ? `${item.category} | ` : ''}{item.date}
             </span>
           </Link>
         ))}
@@ -90,7 +90,7 @@ const NewsColumn: React.FC<NewsColumnProps> = ({ title, titleColor = '#FF0202', 
                 {item.title}
               </h4>
               <span className="text-[10px] text-gray-500 font-medium mt-1">
-                {item.date}
+                {item.category ? `${item.category} | ` : ''}{item.date}
               </span>
             </div>
           </Link>

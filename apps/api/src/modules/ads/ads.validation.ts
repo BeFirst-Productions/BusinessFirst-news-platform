@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const createAdSchema = z.object({
   name: z.string().min(2, 'Name is required'),
-  type: z.enum(['IMAGE', 'VIDEO', 'BOTH']),
+  type: z.enum(['IMAGE', 'GIF', 'BOTH']),
   redirectUrl: z.string().url('Invalid redirect URL').optional().or(z.literal('')),
   startDate: z.string().min(1, 'Start date is required'),
   endDate: z.string().min(1, 'End date is required'),
@@ -15,7 +15,7 @@ export const createAdSchema = z.object({
 
 export const updateAdSchema = z.object({
   name: z.string().min(2).optional(),
-  type: z.enum(['IMAGE', 'VIDEO', 'BOTH']).optional(),
+  type: z.enum(['IMAGE', 'GIF', 'BOTH']).optional(),
   redirectUrl: z.string().url('Invalid redirect URL').optional().or(z.literal('')),
   startDate: z.string().optional(),
   endDate: z.string().optional(),

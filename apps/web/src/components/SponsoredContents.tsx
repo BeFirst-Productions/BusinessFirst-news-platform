@@ -23,10 +23,10 @@ const SponsoredContents = () => {
     title: h.title,
     date: h.publishedAt
       ? `${h.readingTime || 5} mins / ${new Date(h.publishedAt).toLocaleDateString('en-US', {
-          month: 'short',
-          day: 'numeric',
-          year: 'numeric',
-        })}`
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+      })}`
       : '',
     image: h.featuredImage || '/placeholder-news.jpg',
     slug: `/news/${h.slug}`,
@@ -34,7 +34,7 @@ const SponsoredContents = () => {
 
   if (isLoading) {
     return (
-      <SectionContainer 
+      <SectionContainer
         as="section"
         className="bg-black py-8 md:py-12 border-t-[8px] border-black"
         containerClassName="flex flex-col"
@@ -56,14 +56,14 @@ const SponsoredContents = () => {
   }
 
   return (
-    <SectionContainer 
+    <SectionContainer
       as="section"
       className="bg-black py-8 md:py-12 border-t-[8px] border-black"
       containerClassName="flex flex-col"
     >
       {/* Title Section */}
       <SectionTitle title="Sponsored Contents" />
-     
+
       {articles.length === 0 ? (
         <div className="w-full py-12 flex flex-col items-center justify-center bg-white/5 border border-dashed border-gray-700 rounded-lg text-center my-4">
           <p className="text-gray-400 text-sm font-semibold">No article available</p>
@@ -75,12 +75,12 @@ const SponsoredContents = () => {
             {articles.map((article) => (
               <Link
                 href={article.slug}
-                key={article.id} 
+                key={article.id}
                 className="bg-[#24214c] rounded-xl overflow-hidden flex flex-col hover:transform hover:-translate-y-1 transition-transform duration-300 cursor-pointer shadow-lg group"
               >
                 <div className="relative h-48 sm:h-52 w-full">
-                  <Image 
-                    src={article.image} 
+                  <Image
+                    src={article.image}
                     alt={article.title}
                     fill
                     className="object-cover group-hover:scale-102 transition-transform duration-300"

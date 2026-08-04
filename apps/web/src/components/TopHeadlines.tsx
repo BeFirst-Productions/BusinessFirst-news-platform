@@ -26,10 +26,10 @@ const TopHeadlines = () => {
     category: h.category?.name || 'News',
     date: h.publishedAt
       ? new Date(h.publishedAt).toLocaleDateString('en-US', {
-          month: 'long',
-          day: 'numeric',
-          year: 'numeric',
-        })
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+      })
       : '',
     image: h.featuredImage || '/placeholder-news.jpg',
     slug: h.slug,
@@ -152,7 +152,7 @@ const TopHeadlines = () => {
       {/* Carousel Container */}
       <div className="relative group px-0 md:px-12">
         {/* Left Arrow */}
-        <button 
+        <button
           onClick={() => scroll('left')}
           className="hidden md:block absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-[#cd2027] hover:bg-[#a61a1f] text-white p-1.5 md:p-2 rounded-full shadow-md transition-colors"
           aria-label="Scroll left"
@@ -161,22 +161,22 @@ const TopHeadlines = () => {
         </button>
 
         {/* Scrollable Area */}
-        <div 
+        <div
           ref={scrollRef}
           onScroll={handleScroll}
           className="flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory py-2 px-4 md:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
         >
           {listToRender.map((item, index) => (
-            <Link 
+            <Link
               href={`/news/${item.slug}`}
-              key={`${item.id}-${index}`} 
+              key={`${item.id}-${index}`}
               className="flex bg-white rounded-lg border border-gray-200 overflow-hidden w-[300px] md:w-[340px] shrink-0 h-[100px] shadow-sm hover:shadow-md transition-shadow snap-start cursor-pointer"
             >
               <div className="relative w-2/5 h-full">
-                <Image 
-                  src={item.image} 
-                  alt={item.title} 
-                  fill 
+                <Image
+                  src={item.image}
+                  alt={item.title}
+                  fill
                   className="object-cover"
                   sizes="150px"
                 />
@@ -194,7 +194,7 @@ const TopHeadlines = () => {
         </div>
 
         {/* Right Arrow */}
-        <button 
+        <button
           onClick={() => scroll('right')}
           className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-[#cd2027] hover:bg-[#a61a1f] text-white p-1.5 md:p-2 rounded-full shadow-md transition-colors"
           aria-label="Scroll right"

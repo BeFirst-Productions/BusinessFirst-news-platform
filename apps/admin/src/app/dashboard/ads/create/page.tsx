@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import imageCompression from 'browser-image-compression';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiClient } from '@/lib/api-client';
 import { Button } from '@/components/ui/Button';
@@ -23,7 +24,7 @@ import toast from 'react-hot-toast';
 
 const adSchema = z.object({
   name: z.string().min(2, 'Name is required'),
-  type: z.enum(['IMAGE', 'VIDEO']),
+  type: z.enum(['IMAGE', 'GIF']),
   targetPage: z.string().min(1, 'Target page is required'),
   ratio: z.string().min(1, 'Ratio is required'),
   redirectUrl: z.string().url('Please enter a valid URL (e.g., https://example.com)').optional().or(z.literal('')),
@@ -62,10 +63,15 @@ export default function CreateAdPage() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [videoFile, setVideoFile] = useState<File | null>(null);
+  const [gifFile, setGifFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>('');
-  const [videoPreview, setVideoPreview] = useState<string>('');
+  const [gifPreview, setGifPreview] = useState<string>('');
   const [isNavigating, setIsNavigating] = useState(false);
+  const [compressionStats, setCompressionStats] = useState<{
+    originalSize: string;
+    compressedSize: string;
+    savings: string;
+  } | null>(null);
 
   const {
     register,
@@ -104,7 +110,7 @@ export default function CreateAdPage() {
         formData.append(key, value as string);
       });
       if (imageFile) formData.append('image', imageFile);
-      if (videoFile) formData.append('video', videoFile);
+      if (gifFile) formData.append('gif', gifFile);
       formData.append('priority', '0');
 
       const pageNames: Record<string, string> = {
@@ -133,19 +139,52 @@ export default function CreateAdPage() {
     onError: () => toast.error('Failed to create ad'),
   });
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setImageFile(file);
-      setImagePreview(URL.createObjectURL(file));
+      try {
+        const originalSize = (file.size / 1024 / 1024).toFixed(2);
+        
+        const options = {
+          maxSizeMB: 1,
+          maxWidthOrHeight: 1920,
+          useWebWorker: true
+        };
+        
+        const compressedFile = await imageCompression(file, options);
+        const compressedSize = (compressedFile.size / 1024 / 1024).toFixed(2);
+        const savings = (((file.size - compressedFile.size) / file.size) * 100).toFixed(0);
+        
+        setCompressionStats({
+          originalSize: `${originalSize} MB`,
+          compressedSize: `${compressedSize} MB`,
+          savings: `${savings}%`
+        });
+        
+        setImageFile(compressedFile);
+        setImagePreview(URL.createObjectURL(compressedFile));
+      } catch (error) {
+        console.error('Error compressing image:', error);
+        toast.error('Failed to compress image');
+        // Fallback to uncompressed
+        setImageFile(file);
+        setImagePreview(URL.createObjectURL(file));
+      }
     }
   };
 
-  const handleVideoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleGifChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setVideoFile(file);
-      setVideoPreview(URL.createObjectURL(file));
+      const originalSize = (file.size / 1024 / 1024).toFixed(2);
+      // We do not compress GIFs to preserve animation
+      setCompressionStats({
+        originalSize: `${originalSize} MB`,
+        compressedSize: `${originalSize} MB`,
+        savings: `0% (Animation Preserved)`
+      });
+      setGifFile(file);
+      setGifPreview(URL.createObjectURL(file));
     }
   };
 
@@ -186,7 +225,7 @@ export default function CreateAdPage() {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="IMAGE">Image Only</SelectItem>
-                      <SelectItem value="VIDEO">Video Only</SelectItem>
+                      <SelectItem value="GIF">GIF Only</SelectItem>
                     </SelectContent>
                   </Select>
                 )}
@@ -322,6 +361,7 @@ export default function CreateAdPage() {
                         onClick={() => {
                           setImageFile(null);
                           setImagePreview('');
+                          setCompressionStats(null);
                         }}
                         className="absolute top-2 right-2 bg-destructive text-white rounded-full p-1"
                       >
@@ -344,22 +384,23 @@ export default function CreateAdPage() {
               </div>
             )}
 
-            {adType === 'VIDEO' && (
+            {adType === 'GIF' && (
               <div>
-                <Label>Video</Label>
+                <Label>GIF Animation</Label>
                 <div className="mt-2 border-2 border-dashed rounded-lg p-6 text-center">
-                  {videoPreview ? (
+                  {gifPreview ? (
                     <div className="relative">
-                      <video
-                        src={videoPreview}
-                        controls
+                      <img
+                        src={gifPreview}
+                        alt="GIF Preview"
                         className="max-h-48 mx-auto rounded"
                       />
                       <button
                         type="button"
                         onClick={() => {
-                          setVideoFile(null);
-                          setVideoPreview('');
+                          setGifFile(null);
+                          setGifPreview('');
+                          setCompressionStats(null);
                         }}
                         className="absolute top-2 right-2 bg-destructive text-white rounded-full p-1"
                       >
@@ -369,16 +410,24 @@ export default function CreateAdPage() {
                   ) : (
                     <label className="cursor-pointer">
                       <Upload className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-                      <p className="text-sm text-muted-foreground">Click to upload video</p>
+                      <p className="text-sm text-muted-foreground">Click to upload GIF</p>
                       <input
                         type="file"
-                        accept="video/*"
-                        onChange={handleVideoChange}
+                        accept="image/gif"
+                        onChange={handleGifChange}
                         className="hidden"
                       />
                     </label>
                   )}
                 </div>
+              </div>
+            )}
+            
+            {compressionStats && (
+              <div className="mt-4 p-3 bg-muted/50 rounded-md flex justify-between items-center text-sm border">
+                <span className="text-muted-foreground">Original: <span className="font-semibold text-foreground">{compressionStats.originalSize}</span></span>
+                <span className="text-muted-foreground">Compressed: <span className="font-semibold text-green-600">{compressionStats.compressedSize}</span></span>
+                <span className="text-muted-foreground">Saved: <span className="font-semibold text-blue-600">{compressionStats.savings}</span></span>
               </div>
             )}
           </CardContent>

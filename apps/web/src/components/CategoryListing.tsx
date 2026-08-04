@@ -15,7 +15,7 @@ const SECTION_MAPPINGS: Record<string, string[]> = {
   'Region': ['UAE News', 'MENA', 'Economy & Policy', 'International'],
   'Key Sectors': [
     'Oil, Gas & Energy',
-    'Real Estate &Construction',
+    'Real Estate & Construction',
     'Technology & Innovation',
     'Logistics & Trade',
     'Banking & Finance'
@@ -27,10 +27,10 @@ const SECTION_MAPPINGS: Record<string, string[]> = {
     'Sustainability & CSR'
   ],
   'Lifestyle': [
-    'Media &Entertainment',
+    'Media & Entertainment',
     'Tourism & Hospitality',
     'Retail & E-commerce',
-    'Healthcare &Pharma',
+    'Healthcare & Pharma',
     'Sports & Recreation',
     'Lifestyle & Culture'
   ],
@@ -48,28 +48,38 @@ const CategoryListing: React.FC = () => {
   const categoryName = searchParams.get('category') || 'Latest News';
   const pageParam = searchParams.get('page');
   const currentPage = pageParam ? parseInt(pageParam, 10) : 1;
-  const itemsPerPage = 15;
+  const itemsPerPage = 12;
 
   // Fetch live published articles from Express API (/api/v1/website/articles)
   const { data: apiResponse, isLoading } = useArticles({
     page: currentPage,
     limit: itemsPerPage,
-    ...(categoryName !== 'Latest News' && { search: categoryName }),
+    ...(categoryName === 'UAE News'
+      ? { isUaeNews: true }
+      : categoryName !== 'Latest News'
+        ? { search: categoryName }
+        : {}),
+  });
+
+  // Fetch dedicated UAE News for the suggested section
+  const { data: uaeResponse } = useArticles({
+    isUaeNews: true,
+    limit: 4,
   });
 
   // Extract live articles from API
   const rawApiArticles = apiResponse?.data || [];
-  
+
   const displayArticles = rawApiArticles.map((item: any) => ({
     id: item.slug || item.id,
     title: item.title,
     category: item.category?.name || categoryName,
     date: item.publishedAt
       ? new Date(item.publishedAt).toLocaleDateString('en-US', {
-          month: 'short',
-          day: 'numeric',
-          year: 'numeric'
-        })
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+      })
       : '',
     imageUrl: item.featuredImage || '/placeholder-news.jpg',
     excerpt: item.excerpt || item.title,
@@ -85,10 +95,25 @@ const CategoryListing: React.FC = () => {
   };
 
   // Extract exclusive articles from API response
-  const exclusiveArticles = displayArticles.slice(0, 5);
+  const exclusiveArticles = displayArticles.slice(0, 7);
 
   // Suggested UAE News articles from API response
-  const suggestedArticles = displayArticles.slice(4, 8);
+  const suggestedArticles = (uaeResponse?.data || []).map((item: any) => ({
+    id: item.slug || item.id,
+    title: item.title,
+    category: item.category?.name || 'UAE News',
+    date: item.publishedAt
+      ? new Date(item.publishedAt).toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+      })
+      : '',
+    imageUrl: item.featuredImage || '/placeholder-news.jpg',
+    excerpt: item.excerpt || item.title,
+  }));
+
+
 
   return (
     <div className="w-full bg-white flex flex-col items-center">
@@ -109,21 +134,21 @@ const CategoryListing: React.FC = () => {
             {categoryName}
           </h1>
           <p className="text-gray-600 text-sm leading-relaxed max-w-4xl font-medium">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et odio 
-            mattis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos 
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et odio
+            mattis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos
             himenaeos. Curabitur tempus urna at turpis condimentum lobortis. Ut commodo efficitur neque.
           </p>
         </div>
 
         {/* Main Grid: Grid Listing + Sidebar */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 w-full items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 w-full items-stretch">
           {/* Left Side: News Cards Grid & Pagination */}
-          <div className="lg:col-span-8 flex flex-col gap-10">
+          <div className="lg:col-span-8 flex flex-col gap-10 min-h-[75vh]">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-8">
               {paginatedArticles.map((article) => (
-                <Link 
-                  key={article.id} 
-                  href={`/news/${article.id}`} 
+                <Link
+                  key={article.id}
+                  href={`/news/${article.id}`}
                   className="group flex flex-col gap-2.5 cursor-pointer"
                 >
                   <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-gray-100 shadow-sm">
@@ -149,38 +174,53 @@ const CategoryListing: React.FC = () => {
 
             {/* Pagination Controls */}
             {totalPages > 1 && (
-              <div className="flex justify-center items-center gap-4 mt-6">
-                {activePage > 1 ? (
-                  <Link
-                    href={getPageUrl(activePage - 1)}
-                    className="flex items-center gap-1.5 px-4 py-2 border border-gray-300 bg-white text-gray-600 text-xs font-bold rounded-md hover:bg-gray-50 transition-colors"
-                  >
-                    <ChevronLeft size={14} /> Previous
-                  </Link>
-                ) : (
-                  <button
-                    disabled
-                    className="flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 text-gray-400 text-xs font-bold rounded-md cursor-not-allowed"
-                  >
-                    <ChevronLeft size={14} /> Previous
-                  </button>
-                )}
+              <div className="sticky bottom-6 mt-auto flex justify-center z-30 pointer-events-none">
+                <div className="flex items-center gap-2 bg-white/80 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-gray-200/50 rounded-full px-2 py-2 w-max pointer-events-auto transition-all hover:shadow-[0_8px_30px_rgb(0,0,0,0.16)]">
+                  {/* Prev Button */}
+                  {activePage > 1 ? (
+                    <Link
+                      href={getPageUrl(activePage - 1)}
+                      className="group flex items-center gap-1.5 px-4 py-2 bg-white text-gray-700 text-sm font-semibold rounded-full hover:bg-gray-50 hover:text-[#cd2027] transition-all shadow-sm border border-gray-100"
+                    >
+                      <ChevronLeft size={16} className="group-hover:-translate-x-0.5 transition-transform" />
+                      <span className="hidden sm:inline">Prev</span>
+                    </Link>
+                  ) : (
+                    <button
+                      disabled
+                      className="flex items-center gap-1.5 px-4 py-2 bg-gray-50/50 text-gray-400 text-sm font-semibold rounded-full cursor-not-allowed border border-gray-100/50"
+                    >
+                      <ChevronLeft size={16} />
+                      <span className="hidden sm:inline">Prev</span>
+                    </button>
+                  )}
 
-                {activePage < totalPages ? (
-                  <Link
-                    href={getPageUrl(activePage + 1)}
-                    className="flex items-center gap-1.5 px-4 py-2 bg-black text-white text-xs font-bold rounded-md hover:bg-zinc-800 transition-colors"
-                  >
-                    Next <ChevronRight size={14} />
-                  </Link>
-                ) : (
-                  <button
-                    disabled
-                    className="flex items-center gap-1.5 px-4 py-2 bg-gray-200 text-gray-400 text-xs font-bold rounded-md cursor-not-allowed"
-                  >
-                    Next <ChevronRight size={14} />
-                  </button>
-                )}
+                  {/* Page Indicator */}
+                  <div className="flex items-center justify-center px-4 border-l border-r border-gray-200/50 h-8">
+                    <span className="text-sm font-medium text-gray-500">
+                      Page <span className="font-bold text-[#24214c]">{activePage}</span> <span className="mx-0.5">of</span> {totalPages}
+                    </span>
+                  </div>
+
+                  {/* Next Button */}
+                  {activePage < totalPages ? (
+                    <Link
+                      href={getPageUrl(activePage + 1)}
+                      className="group flex items-center gap-1.5 px-4 py-2 bg-[#24214c] text-white text-sm font-semibold rounded-full hover:bg-[#cd2027] hover:shadow-md transition-all"
+                    >
+                      <span className="hidden sm:inline">Next</span>
+                      <ChevronRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
+                    </Link>
+                  ) : (
+                    <button
+                      disabled
+                      className="flex items-center gap-1.5 px-4 py-2 bg-gray-100 text-gray-400 text-sm font-semibold rounded-full cursor-not-allowed border border-gray-200"
+                    >
+                      <span className="hidden sm:inline">Next</span>
+                      <ChevronRight size={16} />
+                    </button>
+                  )}
+                </div>
               </div>
             )}
           </div>
@@ -197,9 +237,8 @@ const CategoryListing: React.FC = () => {
                   <Link
                     key={item.id}
                     href={`/news/${item.id}`}
-                    className={`flex gap-3 hover:opacity-90 transition-opacity pb-3 ${
-                      index !== exclusiveArticles.length - 1 ? 'border-b border-white/10' : ''
-                    }`}
+                    className={`flex gap-3 hover:opacity-90 transition-opacity pb-3 ${index !== exclusiveArticles.length - 1 ? 'border-b border-white/10' : ''
+                      }`}
                   >
                     <div className="relative w-20 h-14 shrink-0 rounded overflow-hidden bg-gray-800 border border-white/10">
                       <Image
@@ -242,7 +281,7 @@ const CategoryListing: React.FC = () => {
         </div>
 
         {/* McDonald's Banner Ad Container */}
-       <div className='w-full py-8 md:py-12'>
+        <div className='w-full py-8 md:py-12'>
           <FullWidthAdBanner targetPage="news_category" ratio="nc_bottom" />
         </div>
       </SectionContainer>
@@ -255,9 +294,9 @@ const CategoryListing: React.FC = () => {
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full">
             {suggestedArticles.map((article) => (
-              <Link 
-                key={article.id} 
-                href={`/news/${article.id}`} 
+              <Link
+                key={article.id}
+                href={`/news/${article.id}`}
                 className="group bg-white border border-gray-200/70 rounded-2xl p-3 pb-5 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col gap-3.5 cursor-pointer"
               >
                 <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-gray-50 shrink-0">

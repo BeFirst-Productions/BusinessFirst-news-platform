@@ -54,6 +54,14 @@ export default function ArticlesPage() {
     },
   });
 
+  const { data: categoriesData } = useQuery({
+    queryKey: ['categories'],
+    queryFn: async () => {
+      const response = await apiClient.get('/categories?limit=100');
+      return response.data?.data || [];
+    },
+  });
+
   const pageItemIds = data?.data?.map((item: any) => item.id) || [];
   const isAllSelected = pageItemIds.length > 0 && pageItemIds.every((id: string) => selectedIds.includes(id));
 
@@ -323,6 +331,19 @@ export default function ArticlesPage() {
                 <SelectItem value="DRAFT">Draft</SelectItem>
                 {/* <SelectItem value="SCHEDULED">Scheduled</SelectItem>
                 <SelectItem value="ARCHIVED">Archived</SelectItem> */}
+              </SelectContent>
+            </Select>
+            <Select value={categoryFilter || 'all'} onValueChange={(v) => { setCategoryFilter(v === 'all' ? '' : v); setPage(1); }}>
+              <SelectTrigger className="w-full sm:w-[180px]">
+                <SelectValue placeholder="Filter by category" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Categories</SelectItem>
+                {categoriesData?.map((category: any) => (
+                  <SelectItem key={category.id} value={category.id}>
+                    {category.name}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
             <TooltipWrapper content="Reload Data">

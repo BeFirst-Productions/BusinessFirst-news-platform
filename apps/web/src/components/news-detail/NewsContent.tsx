@@ -8,7 +8,7 @@ interface NewsContentProps {
   sidebar?: React.ReactNode;
 }
 
-const NewsContent: React.FC<NewsContentProps> = ({ 
+const NewsContent: React.FC<NewsContentProps> = ({
   imageUrl = 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&h=600&q=80',
   title = 'How 5G Will Transform Class Communication',
   contentParagraphs,
@@ -44,36 +44,21 @@ const NewsContent: React.FC<NewsContentProps> = ({
 
       {/* Main Featured Image */}
       <div className="relative h-[250px] sm:h-[350px] md:h-[420px] rounded-2xl overflow-hidden shadow-sm bg-gray-100 mb-8">
-        <Image
-          src={imageUrl}
-          alt={title}
-          fill
-          priority
-          className="object-cover"
-        />
-      </div>
-
-      {/* Article Head and Body 1 */}
-      <div className="block">
-        <h2 className="text-xl md:text-2xl font-bold text-[#24214c] mb-6">
-          {title}
-        </h2>
-        {paragraphs.slice(0, 3).map((para, index) => (
-          <div
-            key={index}
-            className="text-gray-700 text-sm md:text-base leading-relaxed font-medium [&>p]:mb-4 [&>h3]:text-lg [&>h3]:font-bold [&>h3]:mt-6 [&>h3]:mb-2 [&>h3]:text-[#24214c]"
-            dangerouslySetInnerHTML={{ __html: para }}
+          <Image
+            src={imageUrl}
+            alt={title}
+            fill
+            priority
+            className="object-cover"
           />
-        ))}
-      </div>
+        </div>
 
-      {/* Article Head and Body 2 */}
-      {paragraphs.length > 3 && (
-        <div className="block mt-6">
-          <h2 className="text-xl md:text-2xl font-bold text-[#24214c] mb-4">
-            Deep Dive: {title}
+        {/* Article Head and Body 1 */}
+        <div className="block">
+          <h2 className="text-xl md:text-2xl font-bold text-[#24214c] mb-6">
+            {title}
           </h2>
-          {paragraphs.slice(3).map((para, index) => (
+          {paragraphs.slice(0, 3).map((para, index) => (
             <div
               key={index}
               className="text-gray-700 text-sm md:text-base leading-relaxed font-medium [&>p]:mb-4 [&>h3]:text-lg [&>h3]:font-bold [&>h3]:mt-6 [&>h3]:mb-2 [&>h3]:text-[#24214c]"
@@ -81,16 +66,31 @@ const NewsContent: React.FC<NewsContentProps> = ({
             />
           ))}
         </div>
-      )}
 
-      {/* Mobile Sidebar - rendered at bottom on small screens */}
-      {sidebar && (
-        <div className="block lg:hidden w-full mt-12">
-          {sidebar}
-        </div>
-      )}
-    </article>
-  );
-};
+        {/* Article Head and Body 2 */}
+        {paragraphs.length > 3 && (
+          <div className="block mt-6">
+            <h2 className="text-xl md:text-2xl font-bold text-[#24214c] mb-4">
+              Deep Dive: {title}
+            </h2>
+            {paragraphs.slice(3).map((para, index) => (
+              <div
+                key={index}
+                className="text-gray-700 text-sm md:text-base leading-relaxed font-medium [&>p]:mb-4 [&>h3]:text-lg [&>h3]:font-bold [&>h3]:mt-6 [&>h3]:mb-2 [&>h3]:text-[#24214c]"
+                dangerouslySetInnerHTML={{ __html: para }}
+              />
+            ))}
+          </div>
+        )}
 
-export default NewsContent;
+        {/* Mobile Sidebar - rendered at bottom on small screens */}
+        {sidebar && (
+          <div className="block lg:hidden w-full mt-12">
+            {sidebar}
+          </div>
+        )}
+      </article>
+    );
+  };
+
+  export default NewsContent;

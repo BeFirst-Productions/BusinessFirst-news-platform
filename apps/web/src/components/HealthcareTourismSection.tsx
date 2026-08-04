@@ -23,6 +23,8 @@ const HealthcareTourismSection = () => {
 
   const tourismData = homeCategories?.['tourism-hospitality'];
   const tourismArticles = tourismData?.articles || [];
+  const tourismFeatured = tourismArticles[0];
+  const tourismList = tourismArticles.slice(1, 5);
 
   const formatDate = (dateStr?: string) =>
     dateStr
@@ -35,9 +37,10 @@ const HealthcareTourismSection = () => {
 
   return (
     <SectionContainer className="bg-white py-8 md:py-12">
-      <div className="flex flex-col lg:flex-row gap-8">
+      <div className="flex flex-col lg:flex-row gap-8 items-start">
+        
         {/* Left Column: Healthcare & Pharma */}
-        <div className="w-full lg:w-[65%] flex flex-col gap-6">
+        <div className="w-full lg:w-[58%] flex flex-col gap-6">
           {/* Header */}
           <div className="flex justify-between items-end border-b-[1.5px] border-gray-300 pb-2">
             <h2 className="text-xl md:text-2xl font-bold text-[#FF0202] relative pb-2 -mb-[10px] border-b-[3px] border-[#FF0202]">
@@ -57,10 +60,10 @@ const HealthcareTourismSection = () => {
             <EmptyCategoryState categoryName={healthData?.categoryName || 'Healthcare & Pharma'} />
           ) : (
             <>
-              {/* Featured Article */}
+              {/* Featured Main Article */}
               {healthFeatured && (
-                <Link href={`/news/${healthFeatured.slug || healthFeatured.id}`} className="group cursor-pointer">
-                  <div className="relative w-full aspect-[16/9] mb-4 overflow-hidden bg-gray-200 rounded">
+                <Link href={`/news/${healthFeatured.slug || healthFeatured.id}`} className="group cursor-pointer flex flex-col">
+                  <div className="relative w-full aspect-[16/9] overflow-hidden bg-gray-200 rounded-md">
                     <Image
                       src={healthFeatured.featuredImage || '/placeholder-news.jpg'}
                       alt={healthFeatured.title}
@@ -68,21 +71,21 @@ const HealthcareTourismSection = () => {
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
-                  <div className="text-[11px] md:text-xs text-gray-500 font-medium mb-2 uppercase tracking-wide">
+                  <div className="text-xs text-gray-500 font-medium mt-3 mb-1">
                     {healthFeatured.category?.name || 'Healthcare & Pharma'} | {formatDate(healthFeatured.publishedAt)}
                   </div>
-                  <h3 className="text-lg md:text-2xl font-bold text-[#24214c] group-hover:text-[#FF0202] transition-colors line-clamp-2">
+                  <h3 className="text-lg md:text-2xl font-bold text-[#24214c] group-hover:text-[#FF0202] transition-colors leading-snug line-clamp-2">
                     {healthFeatured.title}
                   </h3>
                 </Link>
               )}
 
-              {/* Grid of articles */}
+              {/* 3-Column Grid of Articles */}
               {healthGrid.length > 0 && (
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-8 mt-2">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-4 gap-y-6 mt-2">
                   {healthGrid.map((item) => (
-                    <Link key={item.id} href={`/news/${item.slug || item.id}`} className="group cursor-pointer flex flex-col gap-2">
-                      <div className="relative w-full aspect-[16/10] overflow-hidden bg-gray-200 rounded">
+                    <Link key={item.id} href={`/news/${item.slug || item.id}`} className="group cursor-pointer flex flex-col">
+                      <div className="relative w-full aspect-[4/3] overflow-hidden bg-gray-200 rounded-md">
                         <Image
                           src={item.featuredImage || '/placeholder-news.jpg'}
                           alt={item.title}
@@ -90,10 +93,10 @@ const HealthcareTourismSection = () => {
                           className="object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                       </div>
-                      <h4 className="font-bold text-sm md:text-base text-[#24214c] group-hover:text-[#FF0202] transition-colors leading-tight line-clamp-2">
+                      <h4 className="font-bold text-xs md:text-sm text-[#24214c] group-hover:text-[#FF0202] transition-colors leading-snug line-clamp-2 mt-2 mb-1">
                         {item.title}
                       </h4>
-                      <div className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-auto pt-1">
+                      <div className="text-[10px] md:text-[11px] text-gray-500 font-medium">
                         {item.category?.name || 'Healthcare & Pharma'} | {formatDate(item.publishedAt)}
                       </div>
                     </Link>
@@ -104,8 +107,8 @@ const HealthcareTourismSection = () => {
           )}
         </div>
 
-        {/* Right Column: Tourism & Hospitality */}
-        <div className="w-full lg:w-[35%] flex flex-col gap-6">
+        {/* Right Column: Tourism & Hospitality (With Light Gray Background Container) */}
+        <div className="w-full lg:w-[42%] bg-[#f4f4f6] p-4 sm:p-5 rounded-xl flex flex-col gap-6">
           {/* Header */}
           <div className="flex justify-between items-end border-b-[1.5px] border-gray-300 pb-2">
             <h2 className="text-xl md:text-2xl font-bold text-[#FF0202] relative pb-2 -mb-[10px] border-b-[3px] border-[#FF0202]">
@@ -124,34 +127,60 @@ const HealthcareTourismSection = () => {
           {tourismArticles.length === 0 ? (
             <EmptyCategoryState categoryName={tourismData?.categoryName || 'Tourism & Hospitality'} />
           ) : (
-            <div className="flex flex-col divide-y divide-gray-200">
-              {tourismArticles.map((item) => (
-                <Link
-                  key={item.id}
-                  href={`/news/${item.slug || item.id}`}
-                  className="py-4 first:pt-0 last:pb-0 flex gap-4 group cursor-pointer"
-                >
-                  <div className="relative w-28 md:w-32 aspect-[4/3] shrink-0 overflow-hidden bg-gray-200 rounded">
+            <div className="flex flex-col gap-6">
+              {/* Top Featured Large Article */}
+              {tourismFeatured && (
+                <Link href={`/news/${tourismFeatured.slug || tourismFeatured.id}`} className="group cursor-pointer flex flex-col">
+                  <div className="relative w-full aspect-[16/9] overflow-hidden bg-gray-200 rounded-md">
                     <Image
-                      src={item.featuredImage || '/placeholder-news.jpg'}
-                      alt={item.title}
+                      src={tourismFeatured.featuredImage || '/placeholder-news.jpg'}
+                      alt={tourismFeatured.title}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
-                  <div className="flex flex-col justify-between py-0.5">
-                    <h4 className="font-bold text-sm text-[#24214c] group-hover:text-[#FF0202] transition-colors leading-tight line-clamp-3">
-                      {item.title}
-                    </h4>
-                    <div className="text-[10px] text-gray-500 font-medium mt-1">
-                      {item.category?.name || 'Tourism & Hospitality'} | {formatDate(item.publishedAt)}
-                    </div>
+                  <div className="text-xs text-gray-500 font-medium mt-3 mb-1">
+                    {tourismFeatured.category?.name || 'Tourism & Hospitality'} | {formatDate(tourismFeatured.publishedAt)}
                   </div>
+                  <h3 className="text-base md:text-xl font-bold text-[#24214c] group-hover:text-[#FF0202] transition-colors leading-snug line-clamp-2">
+                    {tourismFeatured.title}
+                  </h3>
                 </Link>
-              ))}
+              )}
+
+              {/* Vertical Stack of Horizontal Article Cards */}
+              {tourismList.length > 0 && (
+                <div className="flex flex-col gap-4">
+                  {tourismList.map((item) => (
+                    <Link
+                      key={item.id}
+                      href={`/news/${item.slug || item.id}`}
+                      className="flex gap-3.5 items-center group cursor-pointer"
+                    >
+                      <div className="relative w-28 md:w-36 aspect-[4/3] shrink-0 overflow-hidden bg-gray-200 rounded-md">
+                        <Image
+                          src={item.featuredImage || '/placeholder-news.jpg'}
+                          alt={item.title}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      </div>
+                      <div className="flex flex-col justify-center flex-1">
+                        <h4 className="font-bold text-xs md:text-sm text-[#24214c] group-hover:text-[#FF0202] transition-colors leading-snug line-clamp-2 mb-1">
+                          {item.title}
+                        </h4>
+                        <div className="text-[10px] md:text-[11px] text-gray-500 font-medium">
+                          {item.category?.name || 'Tourism & Hospitality'} | {formatDate(item.publishedAt)}
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </div>
+
       </div>
     </SectionContainer>
   );

@@ -51,7 +51,7 @@ export class AdsService {
 
   static async createAd(
     data: CreateAdInput,
-    files: { image?: Express.Multer.File; video?: Express.Multer.File },
+    files: { image?: Express.Multer.File; gif?: Express.Multer.File },
     createdBy: string
   ) {
     let imageUrl: string | null = null;
@@ -61,8 +61,8 @@ export class AdsService {
     if (files.image) {
       imageUrl = await CloudinaryService.uploadBuffer(files.image.buffer, 'ads', 'image', files.image.mimetype);
     }
-    if (files.video) {
-      videoUrl = await CloudinaryService.uploadBuffer(files.video.buffer, 'ads', 'video', files.video.mimetype);
+    if (files.gif) {
+      videoUrl = await CloudinaryService.uploadBuffer(files.gif.buffer, 'ads', 'image', files.gif.mimetype);
     }
 
     const ad = await prisma.ad.create({
@@ -94,7 +94,7 @@ export class AdsService {
   static async updateAd(
     id: string,
     data: UpdateAdInput,
-    files: { image?: Express.Multer.File; video?: Express.Multer.File }
+    files: { image?: Express.Multer.File; gif?: Express.Multer.File }
   ) {
     const ad = await prisma.ad.findUnique({
       where: { id },
@@ -110,17 +110,18 @@ export class AdsService {
     if (data.endDate) updateData.endDate = new Date(data.endDate);
     if (data.status) updateData.status = data.status as AdStatus;
     if (data.type) updateData.type = data.type as AdType;
-    if (data.targetPage !== undefined) updateData.targetPage = data.targetPage;
-    if (data.ratio !== undefined) updateData.ratio = data.ratio;
-    if (data.pageName !== undefined) updateData.pageName = data.pageName;
-    if (data.placementName !== undefined) updateData.placementName = data.placementName;
+    const rawData = data as any;
+    if (rawData.targetPage !== undefined) updateData.targetPage = rawData.targetPage;
+    if (rawData.ratio !== undefined) updateData.ratio = rawData.ratio;
+    if (rawData.pageName !== undefined) updateData.pageName = rawData.pageName;
+    if (rawData.placementName !== undefined) updateData.placementName = rawData.placementName;
 
     // Upload files if updated
     if (files.image) {
       updateData.imageUrl = await CloudinaryService.uploadBuffer(files.image.buffer, 'ads', 'image', files.image.mimetype);
     }
-    if (files.video) {
-      updateData.videoUrl = await CloudinaryService.uploadBuffer(files.video.buffer, 'ads', 'video', files.video.mimetype);
+    if (files.gif) {
+      updateData.videoUrl = await CloudinaryService.uploadBuffer(files.gif.buffer, 'ads', 'image', files.gif.mimetype);
     }
 
     const updatedAd = await prisma.ad.update({

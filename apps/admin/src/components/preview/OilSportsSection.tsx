@@ -75,11 +75,13 @@ const OilSportsSection = () => {
         {/* Left Column: Oil, Gas & Energy */}
         <div className="flex flex-col gap-6 w-full lg:pr-6">
           {/* Header */}
-          <div className="flex justify-between items-center border-b border-gray-300 pb-2 relative">
-            <h2 className="text-xl md:text-2xl font-bold text-[#FF0202]">Oil, Gas & Energy</h2>
-            <div className="absolute -bottom-[2px] left-0 w-24 h-[3px] bg-[#FF0202]"></div>
+          <div className="flex justify-between items-center border-b border-gray-300 pb-2">
+            <div className="relative">
+              <h2 className="text-xl md:text-2xl font-bold text-[#FF0202]">Oil, Gas & Energy</h2>
+              <div className="absolute -bottom-[9px] left-0 w-full h-[3px] bg-[#FF0202]"></div>
+            </div>
             <a href="#" className="flex items-center text-[#24214c] font-bold text-sm hover:opacity-80 transition-opacity">
-              View All <ChevronDown size={16} className="ml-1 text-[#24214c]" />
+              View All <ChevronDown size={16} className="ml-1 text-gray-500" />
             </a>
           </div>
 
@@ -129,11 +131,13 @@ const OilSportsSection = () => {
         {/* Right Column: Sports & Recreation */}
         <div className="flex flex-col gap-6 w-full lg:pl-6">
           {/* Header */}
-          <div className="flex justify-between items-center border-b border-gray-300 pb-2 relative">
-            <h2 className="text-xl md:text-2xl font-bold text-[#FF0202]">Sports & Recreation</h2>
-            <div className="absolute -bottom-[2px] left-0 w-24 h-[3px] bg-[#FF0202]"></div>
+          <div className="flex justify-between items-center border-b border-gray-300 pb-2">
+            <div className="relative">
+              <h2 className="text-xl md:text-2xl font-bold text-[#FF0202]">Sports & Recreation</h2>
+              <div className="absolute -bottom-[9px] left-0 w-full h-[3px] bg-[#FF0202]"></div>
+            </div>
             <a href="#" className="flex items-center text-[#24214c] font-bold text-sm hover:opacity-80 transition-opacity">
-              View All <ChevronDown size={16} className="ml-1 text-[#24214c]" />
+              View All <ChevronDown size={16} className="ml-1 text-gray-500" />
             </a>
           </div>
 

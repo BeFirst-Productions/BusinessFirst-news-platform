@@ -36,23 +36,25 @@ const OilSportsSection: React.FC = () => {
       : 'Recent';
 
   return (
-    <SectionContainer as="section" className="py-8 md:py-12 bg-white">
-      <div className="flex flex-col md:flex-row gap-8 lg:gap-12 w-full">
+    <SectionContainer as="section" className="py-8 md:py-12 bg-[#F5F5F7]">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 w-full">
         {/* Left Column: Oil, Gas & Energy */}
-        <div className="flex-1 bg-white border border-gray-200 p-6 md:p-8 flex flex-col gap-6 w-full">
+        <div className="flex flex-col gap-6 w-full lg:border-r border-gray-300 lg:pr-8 xl:pr-10">
           {/* Header */}
-          <div className="flex justify-between items-center border-b border-gray-300 pb-2 relative">
-            <h2 className="text-xl md:text-2xl font-bold text-[#24214c]">
-              {oilData?.categoryName || 'Oil, Gas & Energy'}
-            </h2>
-            <div className="absolute -bottom-[2px] left-0 w-1/3 h-[3px] bg-gradient-to-r from-[#FF0202] to-transparent"></div>
+          <div className="flex justify-between items-center border-b border-gray-300 pb-2">
+            <div className="relative">
+              <h2 className="text-xl md:text-2xl font-bold text-[#FF0202]">
+                {oilData?.categoryName || 'Oil, Gas & Energy'}
+              </h2>
+              <div className="absolute -bottom-[9px] left-0 w-full h-[3px] bg-[#FF0202]"></div>
+            </div>
             <Link
               href={`/news?category=${encodeURIComponent(
                 oilData?.categoryName || 'Oil, Gas & Energy'
               )}`}
               className="flex items-center text-[#24214c] font-bold text-sm hover:opacity-80 transition-opacity"
             >
-              View All <ChevronDown size={16} className="ml-1 text-[#24214c]" />
+              View All <ChevronDown size={16} className="ml-1 text-gray-500" />
             </Link>
           </div>
 
@@ -60,13 +62,13 @@ const OilSportsSection: React.FC = () => {
             <EmptyCategoryState categoryName={oilData?.categoryName || 'Oil, Gas & Energy'} />
           ) : (
             <>
-              {/* Featured Article */}
+              {/* Featured Article - Big Image on Top */}
               {oilFeatured && (
                 <Link
                   href={`/news/${oilFeatured.slug || oilFeatured.id}`}
-                  className="flex flex-col sm:flex-row gap-4 group cursor-pointer pb-2"
+                  className="flex flex-col gap-2 group cursor-pointer w-full"
                 >
-                  <div className="relative w-full sm:w-[45%] aspect-[4/3] overflow-hidden shrink-0 bg-gray-100 rounded">
+                  <div className="relative w-full aspect-[16/9] overflow-hidden bg-gray-200">
                     <Image
                       src={oilFeatured.featuredImage || '/placeholder-news.jpg'}
                       alt={oilFeatured.title}
@@ -74,27 +76,25 @@ const OilSportsSection: React.FC = () => {
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   </div>
-                  <div className="flex flex-col justify-center sm:w-[55%]">
-                    <h3 className="text-[#24214c] font-bold text-[18px] leading-[1.3] group-hover:text-[#FF0202] transition-colors line-clamp-3">
-                      {oilFeatured.title}
-                    </h3>
-                    <span className="text-xs text-gray-500 font-medium mt-3">
-                      {oilFeatured.category?.name || 'Oil, Gas & Energy'} | {formatDate(oilFeatured.publishedAt)}
-                    </span>
-                  </div>
+                  <h3 className="text-[#24214c] font-bold text-lg md:text-xl leading-snug group-hover:text-[#FF0202] transition-colors mt-1">
+                    {oilFeatured.title}
+                  </h3>
+                  <span className="text-xs text-gray-500 font-medium">
+                    {oilFeatured.category?.name || 'Oil, Gas & Energy'} | {formatDate(oilFeatured.publishedAt)}
+                  </span>
                 </Link>
               )}
 
-              {/* Small Articles */}
+              {/* Small Articles List */}
               {oilSmall.length > 0 && (
-                <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-4 mt-2">
                   {oilSmall.map((item) => (
                     <Link
                       key={item.id}
                       href={`/news/${item.slug || item.id}`}
                       className="flex gap-4 group cursor-pointer items-center"
                     >
-                      <div className="relative w-[30%] aspect-[4/3] shrink-0 overflow-hidden bg-gray-100 rounded">
+                      <div className="relative w-28 md:w-36 h-20 shrink-0 overflow-hidden bg-gray-200">
                         <Image
                           src={item.featuredImage || '/placeholder-news.jpg'}
                           alt={item.title}
@@ -102,11 +102,11 @@ const OilSportsSection: React.FC = () => {
                           className="object-cover group-hover:scale-105 transition-transform duration-300"
                         />
                       </div>
-                      <div className="flex flex-col justify-center w-[70%]">
-                        <h4 className="text-[#24214c] font-bold text-[14px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-2">
+                      <div className="flex flex-col justify-center">
+                        <h4 className="text-[#24214c] font-bold text-sm md:text-[15px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-3">
                           {item.title}
                         </h4>
-                        <span className="text-[11px] text-gray-500 font-medium mt-1.5">
+                        <span className="text-[10px] md:text-xs text-gray-500 font-medium mt-1">
                           {item.category?.name || 'Oil, Gas & Energy'} | {formatDate(item.publishedAt)}
                         </span>
                       </div>
@@ -119,20 +119,22 @@ const OilSportsSection: React.FC = () => {
         </div>
 
         {/* Right Column: Sports & Recreation */}
-        <div className="flex-1 bg-white border border-gray-200 p-6 md:p-8 flex flex-col gap-6 w-full">
+        <div className="flex flex-col gap-6 w-full lg:pl-2">
           {/* Header */}
-          <div className="flex justify-between items-center border-b border-gray-300 pb-2 relative">
-            <h2 className="text-xl md:text-2xl font-bold text-[#24214c]">
-              {sportsData?.categoryName || 'Sports & Recreation'}
-            </h2>
-            <div className="absolute -bottom-[2px] left-0 w-1/3 h-[3px] bg-gradient-to-r from-[#FF0202] to-transparent"></div>
+          <div className="flex justify-between items-center border-b border-gray-300 pb-2">
+            <div className="relative">
+              <h2 className="text-xl md:text-2xl font-bold text-[#FF0202]">
+                {sportsData?.categoryName || 'Sports & Recreation'}
+              </h2>
+              <div className="absolute -bottom-[9px] left-0 w-full h-[3px] bg-[#FF0202]"></div>
+            </div>
             <Link
               href={`/news?category=${encodeURIComponent(
                 sportsData?.categoryName || 'Sports & Recreation'
               )}`}
               className="flex items-center text-[#24214c] font-bold text-sm hover:opacity-80 transition-opacity"
             >
-              View All <ChevronDown size={16} className="ml-1 text-[#24214c]" />
+              View All <ChevronDown size={16} className="ml-1 text-gray-500" />
             </Link>
           </div>
 
@@ -140,13 +142,13 @@ const OilSportsSection: React.FC = () => {
             <EmptyCategoryState categoryName={sportsData?.categoryName || 'Sports & Recreation'} />
           ) : (
             <>
-              {/* Featured Article */}
+              {/* Featured Article - Big Image on Top */}
               {sportsFeatured && (
                 <Link
                   href={`/news/${sportsFeatured.slug || sportsFeatured.id}`}
-                  className="flex flex-col sm:flex-row gap-4 group cursor-pointer pb-2"
+                  className="flex flex-col gap-2 group cursor-pointer w-full"
                 >
-                  <div className="relative w-full sm:w-[45%] aspect-[4/3] overflow-hidden shrink-0 bg-gray-100 rounded">
+                  <div className="relative w-full aspect-[16/9] overflow-hidden bg-gray-200">
                     <Image
                       src={sportsFeatured.featuredImage || '/placeholder-news.jpg'}
                       alt={sportsFeatured.title}
@@ -154,27 +156,25 @@ const OilSportsSection: React.FC = () => {
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   </div>
-                  <div className="flex flex-col justify-center sm:w-[55%]">
-                    <h3 className="text-[#24214c] font-bold text-[18px] leading-[1.3] group-hover:text-[#FF0202] transition-colors line-clamp-3">
-                      {sportsFeatured.title}
-                    </h3>
-                    <span className="text-xs text-gray-500 font-medium mt-3">
-                      {sportsFeatured.category?.name || 'Sports & Recreation'} | {formatDate(sportsFeatured.publishedAt)}
-                    </span>
-                  </div>
+                  <h3 className="text-[#24214c] font-bold text-lg md:text-xl leading-snug group-hover:text-[#FF0202] transition-colors mt-1">
+                    {sportsFeatured.title}
+                  </h3>
+                  <span className="text-xs text-gray-500 font-medium">
+                    {sportsFeatured.category?.name || 'Sports & Recreation'} | {formatDate(sportsFeatured.publishedAt)}
+                  </span>
                 </Link>
               )}
 
-              {/* Small Articles */}
+              {/* Small Articles List */}
               {sportsSmall.length > 0 && (
-                <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-4 mt-2">
                   {sportsSmall.map((item) => (
                     <Link
                       key={item.id}
                       href={`/news/${item.slug || item.id}`}
                       className="flex gap-4 group cursor-pointer items-center"
                     >
-                      <div className="relative w-[30%] aspect-[4/3] shrink-0 overflow-hidden bg-gray-100 rounded">
+                      <div className="relative w-28 md:w-36 h-20 shrink-0 overflow-hidden bg-gray-200">
                         <Image
                           src={item.featuredImage || '/placeholder-news.jpg'}
                           alt={item.title}
@@ -182,11 +182,11 @@ const OilSportsSection: React.FC = () => {
                           className="object-cover group-hover:scale-105 transition-transform duration-300"
                         />
                       </div>
-                      <div className="flex flex-col justify-center w-[70%]">
-                        <h4 className="text-[#24214c] font-bold text-[14px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-2">
+                      <div className="flex flex-col justify-center">
+                        <h4 className="text-[#24214c] font-bold text-sm md:text-[15px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-3">
                           {item.title}
                         </h4>
-                        <span className="text-[11px] text-gray-500 font-medium mt-1.5">
+                        <span className="text-[10px] md:text-xs text-gray-500 font-medium mt-1">
                           {item.category?.name || 'Sports & Recreation'} | {formatDate(item.publishedAt)}
                         </span>
                       </div>

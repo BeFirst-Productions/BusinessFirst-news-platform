@@ -25,7 +25,7 @@ const MobileHeader = () => {
       name: 'Key Sectors', 
       items: [
         'Oil, Gas & Energy',
-        'Real Estate &Construction',
+        'Real Estate & Construction',
         'Technology & Innovation',
         'Logistics & Trade',
         'Banking & Finance'
@@ -43,10 +43,10 @@ const MobileHeader = () => {
     { 
       name: 'Lifestyle', 
       items: [
-        'Media &Entertainment',
+        'Media & Entertainment',
         'Tourism & Hospitality',
         'Retail & E-commerce',
-        'Healthcare &Pharma',
+        'Healthcare & Pharma',
         'Sports & Recreation',
         'Lifestyle & Culture'
       ] 
