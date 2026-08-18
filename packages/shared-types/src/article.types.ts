@@ -31,6 +31,7 @@ export interface Article extends BaseEntity {
   isTrending: boolean;
   isUaeNews: boolean;
   isSponsored: boolean;
+  isExclusiveNews: boolean;
   viewCount: number;
   readingTime?: number;
   scheduledAt?: string;
@@ -57,8 +58,8 @@ export interface ArticleFilters {
   isTrending?: boolean;
   isUaeNews?: boolean;
   isSponsored?: boolean;
+  isExclusiveNews?: boolean;
   status?: ArticleStatus;
   sortBy?: string;
   sortOrder?: 'asc' | 'desc';
 }
-

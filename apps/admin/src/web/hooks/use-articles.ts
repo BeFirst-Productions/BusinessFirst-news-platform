@@ -41,6 +41,7 @@ export function useArticles(filters: ArticleFilters = {}) {
           ...(filters.isTrending !== undefined && { isTrending: filters.isTrending }),
           ...(filters.isUaeNews !== undefined && { isUaeNews: filters.isUaeNews }),
           ...(filters.isSponsored !== undefined && { isSponsored: filters.isSponsored }),
+          ...(filters.isExclusiveNews !== undefined && { isExclusiveNews: filters.isExclusiveNews }),
           sortBy: filters.sortBy || 'publishedAt',
           sortOrder: filters.sortOrder || 'desc',
         },

@@ -11,31 +11,31 @@ const BottomNav = () => {
 
   const menuItems = [
     { name: 'Latest News', path: '/' },
-    { 
-      name: 'Region', 
-      items: ['UAE News', 'MENA', 'Economy & Policy', 'International'] 
+    {
+      name: 'Region',
+      items: ['UAE News', 'MENA', 'Economy & Policy', 'International']
     },
-    { 
-      name: 'Key Sectors', 
+    {
+      name: 'Key Sectors',
       items: [
         'Oil, Gas & Energy',
         'Real Estate & Construction',
         'Technology & Innovation',
         'Logistics & Trade',
         'Banking & Finance'
-      ] 
+      ]
     },
-    { 
-      name: 'Other Sectors', 
+    {
+      name: 'Other Sectors',
       items: [
         'Education & Training',
         'Aviation & Aerospace',
         'Manufacturing & Industrial',
         'Sustainability & CSR'
-      ] 
+      ]
     },
-    { 
-      name: 'Lifestyle', 
+    {
+      name: 'Lifestyle',
       items: [
         'Media & Entertainment',
         'Tourism & Hospitality',
@@ -43,26 +43,26 @@ const BottomNav = () => {
         'Healthcare & Pharma',
         'Sports & Recreation',
         'Lifestyle & Culture'
-      ] 
+      ]
     },
-    { 
-      name: 'Exclusive Segments', 
+    {
+      name: 'Exclusive Segments',
       items: [
         'Sponsored Contents',
-        'Events & Coverage',
-        'Business & Beyond',
+        // 'Events & Coverage',
+        // 'Business & Beyond',
         'Daily Insights',
-        'Careers'
-      ] 
+        // 'Careers'
+      ]
     },
-    { 
-      name: 'Contact Us', 
-      items: ['Get in Touch', 'Submit an enquiry', 'Advertise with Us'] 
+    {
+      name: 'Contact Us',
+      items: ['Get in Touch', 'Submit an enquiry', 'Advertise with Us']
     }
   ];
 
   return (
-    <SectionContainer 
+    <SectionContainer
       as="div"
       className="bg-[#24214c] text-white"
       containerClassName="py-3 flex justify-between items-center"
@@ -73,13 +73,13 @@ const BottomNav = () => {
           if (item.items) {
             const isOpen = activeMenu === item.name;
             return (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="relative shrink-0 py-1 flex items-center"
                 onMouseEnter={() => setActiveMenu(item.name)}
                 onMouseLeave={() => setActiveMenu(null)}
               >
-                <Link 
+                <Link
                   href={item.name === 'Contact Us' ? '/contact' : `/news?category=${encodeURIComponent(item.name)}`}
                   className="flex items-center hover:text-gray-300 font-medium transition cursor-pointer"
                 >
@@ -90,12 +90,12 @@ const BottomNav = () => {
                   <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50">
                     <div className="bg-[#24214c] border border-white/20 rounded-xl py-4 px-6 shadow-2xl min-w-[200px] flex flex-col items-center gap-2">
                       {item.items.map((subItem, idx) => {
-                        const href = item.name === 'Contact Us' 
-                          ? '/contact' 
+                        const href = item.name === 'Contact Us'
+                          ? '/contact'
                           : `/news?category=${encodeURIComponent(subItem)}`;
                         return (
-                          <Link 
-                            key={idx} 
+                          <Link
+                            key={idx}
                             href={href}
                             className="text-white hover:text-red-500 font-medium text-sm transition-colors duration-200 w-full text-center block py-1"
                           >
@@ -110,8 +110,8 @@ const BottomNav = () => {
             );
           } else {
             return (
-              <Link 
-                key={index} 
+              <Link
+                key={index}
                 href={item.path || '#'}
                 className="flex items-center hover:text-gray-300 font-medium transition shrink-0 py-1"
               >
@@ -121,12 +121,12 @@ const BottomNav = () => {
           }
         })}
       </nav>
-      
+
       <div className="relative shrink-0 flex items-center group">
         <Search size={16} className="text-[#24214c] absolute left-3 pointer-events-none" />
-        <input 
-          type="text" 
-          placeholder="Search..." 
+        <input
+          type="text"
+          placeholder="Search..."
           className="bg-white text-[#24214c] text-sm rounded-full pl-9 pr-4 py-1.5 focus:outline-none w-[140px] md:w-[110px] lg:w-[130px] xl:w-[240px] focus:ring-2 focus:ring-[#FF0202]/50 transition-all placeholder:text-gray-400"
         />
       </div>

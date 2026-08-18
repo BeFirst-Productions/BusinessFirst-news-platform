@@ -59,7 +59,9 @@ export default function AdsPage() {
       cell: (item: any) => (
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded bg-muted flex items-center justify-center overflow-hidden">
-            {item.imageUrl ? (
+            {item.type === 'GIF' && item.videoUrl ? (
+              <video src={item.videoUrl} autoPlay loop muted playsInline className="w-full h-full object-cover" />
+            ) : item.imageUrl ? (
               <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover" />
             ) : item.type === 'GIF' ? (
               <FileImage className="h-5 w-5 text-blue-600" />

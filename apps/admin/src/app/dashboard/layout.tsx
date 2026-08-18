@@ -45,6 +45,7 @@ const ROUTE_MODULE_MAP: Record<string, string | null> = {
   '/dashboard/newsletter': 'NEWSLETTER',
   '/dashboard/seo': 'SEO',
   '/dashboard/settings': 'SETTINGS',
+  '/dashboard/events': 'EVENTS',
 };
 
 function DashboardLayoutContent({

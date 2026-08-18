@@ -19,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/Select';
-import { ArrowLeft, Save, Upload } from 'lucide-react';
+import { ArrowLeft, Save, Upload, Eye } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const adSchema = z.object({
@@ -126,6 +126,35 @@ export default function EditAdPage() {
 
   const selectedPage = watch('targetPage');
   const adType = watch('type');
+
+  React.useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      // Respond to any window that sends PREVIEW_READY
+      if (event.data?.type === 'PREVIEW_READY' && event.source) {
+        const currentData = watch();
+        (event.source as Window).postMessage({
+          type: 'PREVIEW_UNSAVED_AD',
+          ad: {
+            name: currentData.name,
+            type: currentData.type,
+            targetPage: currentData.targetPage,
+            ratio: currentData.ratio,
+            imageUrl: imagePreview,
+            videoUrl: gifPreview,
+          }
+        }, '*');
+      }
+    };
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, [imagePreview, gifPreview, watch]);
+
+  const handlePreview = () => {
+    if (selectedPage) {
+      window.open(`/ads-preview?page=${selectedPage}`, '_blank');
+    }
+  };
+
   const currentRatioOptions = selectedPage ? RATIO_OPTIONS_BY_PAGE[selectedPage] || [] : [];
 
   const { data: activeAdsResponse } = useQuery({
@@ -163,6 +192,7 @@ export default function EditAdPage() {
 
       return apiClient.put(`/ads/${adId}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
+        timeout: 120000, // 2 minutes for video uploads
       });
     },
     onSuccess: () => {
@@ -263,7 +293,7 @@ export default function EditAdPage() {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="IMAGE">Image Only</SelectItem>
-                      <SelectItem value="GIF">GIF Only</SelectItem>
+                      <SelectItem value="GIF">GIF or Video</SelectItem>
                     </SelectContent>
                   </Select>
                 )}
@@ -424,15 +454,15 @@ export default function EditAdPage() {
 
             {adType === 'GIF' && (
               <div>
-                <Label>GIF Animation</Label>
+                <Label>GIF or Video Animation</Label>
                 <div className="mt-2 border-2 border-dashed rounded-lg p-6 text-center">
                   {gifPreview ? (
                     <div className="relative">
-                      <img
-                        src={gifPreview}
-                        alt="GIF Preview"
-                        className="max-h-48 mx-auto rounded"
-                      />
+                      {gifFile?.type.startsWith('video/') || (gifPreview && !gifPreview.includes('blob:') && !gifPreview.toLowerCase().endsWith('.gif')) ? (
+                        <video src={gifPreview} autoPlay loop muted playsInline className="max-h-48 mx-auto rounded" />
+                      ) : (
+                        <img src={gifPreview} alt="GIF Preview" className="max-h-48 mx-auto rounded" />
+                      )}
                       <button
                         type="button"
                         onClick={() => {
@@ -448,10 +478,10 @@ export default function EditAdPage() {
                   ) : (
                     <label className="cursor-pointer">
                       <Upload className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-                      <p className="text-sm text-muted-foreground">Click to upload GIF</p>
+                      <p className="text-sm text-muted-foreground">Click to upload GIF or MP4</p>
                       <input
                         type="file"
-                        accept="image/gif"
+                        accept="image/gif,video/mp4,video/webm"
                         onChange={handleGifChange}
                         className="hidden"
                       />
@@ -472,11 +502,20 @@ export default function EditAdPage() {
         </Card>
 
         <div className="flex justify-end gap-3">
-          <Button type="button" variant="outline" onClick={() => router.back()} disabled={isNavigating || updateAd.isPending}>
+          <Button type="button" variant="outline" onClick={() => router.back()} disabled={isNavigating || updateAd.isPending || (updateAd as any).isLoading}>
             Cancel
           </Button>
-          <Button type="submit" loading={isNavigating || updateAd.isPending} leftIcon={<Save className="h-4 w-4" />}>
-            Update Ad
+          <Button 
+            type="button" 
+            variant="secondary" 
+            onClick={handlePreview} 
+            disabled={!selectedPage || !watch('ratio') || (!imagePreview && !gifPreview)}
+            leftIcon={<Eye className="h-4 w-4" />}
+          >
+            Preview
+          </Button>
+          <Button type="submit" loading={isNavigating || updateAd.isPending || (updateAd as any).isLoading} leftIcon={<Save className="h-4 w-4" />}>
+            Save Changes
           </Button>
         </div>
       </form>

@@ -151,7 +151,7 @@ export class NotificationsService {
         id: 'new-contact-' + Date.now(),
         title,
         message,
-        type: 'CONTACT',
+        type: 'INFO',
         createdAt: new Date().toISOString(),
       });
       return;
@@ -161,7 +161,7 @@ export class NotificationsService {
       data: {
         title,
         message,
-        type: 'CONTACT',
+        type: 'INFO',
         userId: primaryAdmin.id,
       },
     });
@@ -170,7 +170,7 @@ export class NotificationsService {
       id: createdDbNotification.id,
       title,
       message,
-      type: 'CONTACT',
+      type: 'INFO',
       createdAt: new Date().toISOString(),
     });
   }

@@ -197,6 +197,7 @@ exports.Prisma.ArticleScalarFieldEnum = {
   isTrending: 'isTrending',
   isUaeNews: 'isUaeNews',
   isSponsored: 'isSponsored',
+  isExclusiveNews: 'isExclusiveNews',
   viewCount: 'viewCount',
   scheduledAt: 'scheduledAt',
   publishedAt: 'publishedAt',
@@ -273,6 +274,19 @@ exports.Prisma.ContactMessageScalarFieldEnum = {
   repliedAt: 'repliedAt',
   repliedBy: 'repliedBy',
   notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.EventScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  badge: 'badge',
+  image: 'image',
+  linkUrl: 'linkUrl',
+  linkText: 'linkText',
+  isActive: 'isActive',
+  order: 'order',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -439,6 +453,7 @@ exports.Prisma.JsonNullValueFilter = {
 };
 exports.AdType = exports.$Enums.AdType = {
   IMAGE: 'IMAGE',
+  VIDEO: 'VIDEO',
   GIF: 'GIF',
   BOTH: 'BOTH'
 };
@@ -523,6 +538,7 @@ exports.Prisma.ModelName = {
   Comment: 'Comment',
   Category: 'Category',
   ContactMessage: 'ContactMessage',
+  Event: 'Event',
   Media: 'Media',
   Newsletter: 'Newsletter',
   NewsletterCampaign: 'NewsletterCampaign',

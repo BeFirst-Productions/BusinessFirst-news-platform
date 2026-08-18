@@ -1,190 +1,54 @@
 import React from 'react';
-import Image from 'next/image';
-import { ChevronDown } from 'lucide-react';
 import SectionContainer from './SectionContainer';
 import FullWidthAdBanner from './FullWidthAdBanner';
-
-const dummyLogisticsFeatured = {
-  id: 'log-f1',
-  title: 'How 5G Will Transform Class Communication ac aliquet Class putate libero',
-  category: 'Oil, Gas & Energy',
-  date: 'July 23, 2024',
-  imageUrl: 'https://images.unsplash.com/photo-1586528116311-ad8ed7c80a30?auto=format&fit=crop&w=800&q=80'
-};
-
-const dummyLogisticsSmall = [
-  {
-    id: 'log-s1',
-    title: 'Borem ipsum dolor sit amet, adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad litora',
-    category: 'Oil, Gas & Energy',
-    date: 'July 23, 2024',
-    imageUrl: 'https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=400&q=80'
-  },
-  {
-    id: 'log-s2',
-    title: 'Borem ipsum dolor sit amet, adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad litora',
-    category: 'Oil, Gas & Energy',
-    date: 'July 23, 2024',
-    imageUrl: 'https://images.unsplash.com/photo-1551281622-d7b3010b9a69?auto=format&fit=crop&w=400&q=80'
-  },
-  {
-    id: 'log-s3',
-    title: 'Borem ipsum dolor sit amet, adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad litora',
-    category: 'Oil, Gas & Energy',
-    date: 'July 23, 2024',
-    imageUrl: 'https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?auto=format&fit=crop&w=400&q=80'
-  }
-];
-
-const dummyAviationFeatured = {
-  id: 'av-f1',
-  title: 'How 5G Will Transform Class Communication ac aliquet Class putate libero',
-  category: 'Oil, Gas & Energy',
-  date: 'July 23, 2024',
-  imageUrl: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=800&q=80'
-};
-
-const dummyAviationSmall = [
-  {
-    id: 'av-s1',
-    title: 'Borem ipsum dolor sit amet, adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad litora',
-    category: 'Oil, Gas & Energy',
-    date: 'July 23, 2024',
-    imageUrl: 'https://images.unsplash.com/photo-1569154941061-e231b4725ef1?auto=format&fit=crop&w=400&q=80'
-  },
-  {
-    id: 'av-s2',
-    title: 'Borem ipsum dolor sit amet, adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad litora',
-    category: 'Oil, Gas & Energy',
-    date: 'July 23, 2024',
-    imageUrl: 'https://images.unsplash.com/photo-1544377193-33dcf4d68fb5?auto=format&fit=crop&w=400&q=80'
-  },
-  {
-    id: 'av-s3',
-    title: 'Borem ipsum dolor sit amet, adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad litora',
-    category: 'Oil, Gas & Energy',
-    date: 'July 23, 2024',
-    imageUrl: 'https://images.unsplash.com/photo-1559060017-445fb9722f2a?auto=format&fit=crop&w=400&q=80'
-  }
-];
+import { Skeleton } from '@/components/ui/Skeleton';
 
 const LogisticsAviationSection = () => {
   return (
     <SectionContainer as="section" className="bg-white py-8 md:py-12">
       <div className="flex flex-col md:flex-row gap-8 lg:gap-12 w-full">
-        {/* Left Column: Logistics & Trade */}
         <div className="flex-1 bg-[#F5F5F7] p-6 md:p-8 flex flex-col gap-6 w-full">
-          {/* Header */}
-          <div className="flex justify-between items-center border-b border-gray-300 pb-2">
-            <div className="relative">
-              <h2 className="text-xl md:text-2xl font-bold text-[#FF0202]">Logistics & Trade</h2>
-              <div className="absolute -bottom-[9px] left-0 w-full h-[3px] bg-[#FF0202]"></div>
-            </div>
-            <a href="#" className="flex items-center text-[#24214c] font-bold text-sm hover:opacity-80 transition-opacity">
-              View All <ChevronDown size={16} className="ml-1 text-gray-500" />
-            </a>
+          <Skeleton className="h-8 w-48 mb-4" />
+          <div className="flex gap-4">
+             <Skeleton className="w-[45%] aspect-[4/3] shrink-0" />
+             <div className="w-[55%] space-y-3 py-2">
+                <Skeleton className="h-5 w-full" />
+                <Skeleton className="h-5 w-4/5" />
+                <Skeleton className="h-4 w-24" />
+             </div>
           </div>
-
-          {/* Featured Article */}
-          <div className="flex flex-col sm:flex-row gap-4 group cursor-pointer pb-2">
-            <div className="relative w-full sm:w-[45%] aspect-[4/3] overflow-hidden shrink-0 bg-gray-200">
-              <Image 
-                src={dummyLogisticsFeatured.imageUrl} 
-                alt={dummyLogisticsFeatured.title} 
-                fill 
-                className="object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <div className="flex flex-col justify-center sm:w-[55%]">
-              <h3 className="text-[#24214c] font-bold text-lg md:text-xl leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-3">
-                {dummyLogisticsFeatured.title}
-              </h3>
-              <span className="text-xs text-gray-500 font-medium mt-3">
-                {dummyLogisticsFeatured.category} | {dummyLogisticsFeatured.date}
-              </span>
-            </div>
-          </div>
-
-          {/* Small Articles */}
-          <div className="flex flex-col gap-6">
-            {dummyLogisticsSmall.map((item) => (
-              <div key={item.id} className="flex gap-4 group cursor-pointer items-center">
-                <div className="relative w-[30%] aspect-[4/3] shrink-0 overflow-hidden bg-gray-200">
-                  <Image 
-                    src={item.imageUrl} 
-                    alt={item.title} 
-                    fill 
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
+          <div className="space-y-4">
+             {[1,2,3].map(i => (
+                <div key={i} className="flex gap-4 items-center">
+                   <Skeleton className="w-[30%] aspect-[4/3] shrink-0" />
+                   <div className="w-[70%] space-y-2">
+                      <Skeleton className="h-4 w-full" />
+                      <Skeleton className="h-4 w-4/5" />
+                   </div>
                 </div>
-                <div className="flex flex-col justify-center w-[70%]">
-                  <h4 className="text-[#24214c] font-bold text-sm md:text-[15px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-3">
-                    {item.title}
-                  </h4>
-                  <span className="text-[11px] text-gray-500 font-medium mt-1.5">
-                    {item.category} | {item.date}
-                  </span>
-                </div>
-              </div>
-            ))}
+             ))}
           </div>
         </div>
-
-        {/* Right Column: Aviation & Aerospace */}
         <div className="flex-1 bg-[#1E194E] p-6 md:p-8 flex flex-col gap-6 w-full">
-          {/* Header */}
-          <div className="flex justify-between items-center border-b border-gray-600/60 pb-2">
-            <div className="relative">
-              <h2 className="text-xl md:text-2xl font-bold text-[#FF0202]">Aviation & Aerospace</h2>
-              <div className="absolute -bottom-[9px] left-0 w-full h-[3px] bg-[#FF0202]"></div>
-            </div>
-            <a href="#" className="flex items-center text-[#FBB03B] font-bold text-sm hover:opacity-80 transition-opacity">
-              View All <ChevronDown size={16} className="ml-1 text-[#FBB03B]" />
-            </a>
+          <Skeleton className="h-8 w-64 mb-4 bg-gray-600" />
+          <div className="flex gap-4">
+             <Skeleton className="w-[45%] aspect-[4/3] shrink-0 bg-gray-600" />
+             <div className="w-[55%] space-y-3 py-2">
+                <Skeleton className="h-5 w-full bg-gray-600" />
+                <Skeleton className="h-5 w-4/5 bg-gray-600" />
+                <Skeleton className="h-4 w-24 bg-gray-600" />
+             </div>
           </div>
-
-          {/* Featured Article */}
-          <div className="flex flex-col sm:flex-row gap-4 group cursor-pointer pb-2">
-            <div className="relative w-full sm:w-[45%] aspect-[4/3] overflow-hidden shrink-0 bg-gray-800">
-              <Image 
-                src={dummyAviationFeatured.imageUrl} 
-                alt={dummyAviationFeatured.title} 
-                fill 
-                className="object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <div className="flex flex-col justify-center sm:w-[55%]">
-              <h3 className="text-white font-bold text-lg md:text-xl leading-snug group-hover:text-[#FBB03B] transition-colors line-clamp-3">
-                {dummyAviationFeatured.title}
-              </h3>
-              <span className="text-xs text-[#FBB03B] font-medium mt-3">
-                {dummyAviationFeatured.category} | {dummyAviationFeatured.date}
-              </span>
-            </div>
-          </div>
-
-          {/* Small Articles */}
-          <div className="flex flex-col gap-6">
-            {dummyAviationSmall.map((item) => (
-              <div key={item.id} className="flex gap-4 group cursor-pointer items-center">
-                <div className="relative w-[30%] aspect-[4/3] shrink-0 overflow-hidden bg-gray-800">
-                  <Image 
-                    src={item.imageUrl} 
-                    alt={item.title} 
-                    fill 
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
+          <div className="space-y-4">
+             {[1,2,3].map(i => (
+                <div key={i} className="flex gap-4 items-center">
+                   <Skeleton className="w-[30%] aspect-[4/3] shrink-0 bg-gray-600" />
+                   <div className="w-[70%] space-y-2">
+                      <Skeleton className="h-4 w-full bg-gray-600" />
+                      <Skeleton className="h-4 w-4/5 bg-gray-600" />
+                   </div>
                 </div>
-                <div className="flex flex-col justify-center w-[70%]">
-                  <h4 className="text-white font-bold text-sm md:text-[15px] leading-snug group-hover:text-[#FBB03B] transition-colors line-clamp-3">
-                    {item.title}
-                  </h4>
-                  <span className="text-[11px] text-[#FBB03B] font-medium mt-1.5">
-                    {item.category} | {item.date}
-                  </span>
-                </div>
-              </div>
-            ))}
+             ))}
           </div>
         </div>
       </div>

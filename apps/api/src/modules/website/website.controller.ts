@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { WebsiteService } from './website.service';
+import { EventsService } from '../events/events.service';
 
 export class WebsiteController {
   static async getHomeContent(req: Request, res: Response, next: NextFunction) {
@@ -67,6 +68,11 @@ export class WebsiteController {
         isSponsored = req.query.isSponsored === 'true';
       }
 
+      let isExclusiveNews: boolean | undefined = undefined;
+      if (req.query.isExclusiveNews !== undefined) {
+        isExclusiveNews = req.query.isExclusiveNews === 'true';
+      }
+
       const result = await WebsiteService.getArticles({
         page,
         limit,
@@ -78,6 +84,7 @@ export class WebsiteController {
         isTrending,
         isUaeNews,
         isSponsored,
+        isExclusiveNews,
         sortBy,
         sortOrder,
       });
@@ -300,6 +307,20 @@ export class WebsiteController {
         success: true,
         message: 'Contact form submitted successfully',
         data: result.contact,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async getActiveEvents(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result = await EventsService.getAll({ isActive: true, limit: 10 });
+
+      res.status(200).json({
+        success: true,
+        message: 'Active events retrieved successfully',
+        data: result.data,
       });
     } catch (error) {
       next(error);

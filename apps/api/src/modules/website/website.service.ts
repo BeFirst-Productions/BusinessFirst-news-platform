@@ -160,7 +160,7 @@ export class WebsiteService {
         { key: 'tourism-hospitality', name: 'Tourism & Hospitality', limit: 5, matchers: ['tourism-hospitality', 'tourism', 'hospitality'] },
         { key: 'events', name: 'Events', limit: 6, matchers: ['events', 'events-coverage'] },
         { key: 'culture-lifestyle', name: 'Culture & Lifestyle', limit: 6, matchers: ['culture-lifestyle', 'lifestyle', 'culture'] },
-        { key: 'media-entertainment', name: 'Media and Entertainment', limit: 4, matchers: ['media-entertainment', 'media-coverage', 'media', 'entertainment'] },
+        { key: 'media-entertainment', name: 'Media and Entertainment', limit: 6, matchers: ['media-entertainment', 'media-coverage', 'media', 'entertainment'] },
         { key: 'daily-insights', name: 'Daily Insights', limit: 6, matchers: ['daily-insights', 'insights', 'daily'] },
       ];
 
@@ -233,6 +233,7 @@ export class WebsiteService {
     isTrending?: boolean;
     isUaeNews?: boolean;
     isSponsored?: boolean;
+    isExclusiveNews?: boolean;
     sortBy?: string;
     sortOrder?: 'asc' | 'desc';
   }) {
@@ -278,6 +279,10 @@ export class WebsiteService {
         where.isSponsored = false;
       }
 
+      if (query.isExclusiveNews !== undefined) {
+        where.isExclusiveNews = query.isExclusiveNews;
+      }
+
       if (query.search) {
         where.OR = [
           { title: { contains: query.search, mode: 'insensitive' } },
@@ -306,6 +311,7 @@ export class WebsiteService {
         isTrending: true,
         isUaeNews: true,
         isSponsored: true,
+        isExclusiveNews: true,
         viewCount: true,
         readingTime: true,
         publishedAt: true,
@@ -692,6 +698,7 @@ export class WebsiteService {
           isTrending: true,
           isUaeNews: true,
           isSponsored: true,
+          isExclusiveNews: true,
           viewCount: true,
           readingTime: true,
           publishedAt: true,

@@ -20,6 +20,7 @@ export const createArticleSchema = z.object({
   isTrending: z.boolean().default(false),
   isUaeNews: z.boolean().default(false),
   isSponsored: z.boolean().default(false),
+  isExclusiveNews: z.boolean().default(false),
   metaTitle: z.string().optional().nullable().or(z.literal('')),
   metaDescription: z.string().max(160).optional().nullable().or(z.literal('')),
   metaKeywords: z.string().optional().nullable().or(z.literal('')),
@@ -71,6 +72,7 @@ export const updateArticleSchema = z.object({
   isTrending: z.boolean().optional(),
   isUaeNews: z.boolean().optional(),
   isSponsored: z.boolean().optional(),
+  isExclusiveNews: z.boolean().optional(),
   metaTitle: z.string().optional().nullable().or(z.literal('')),
   metaDescription: z.string().max(160).optional().nullable().or(z.literal('')),
   metaKeywords: z.string().optional().nullable().or(z.literal('')),
@@ -88,6 +90,7 @@ export const articleQuerySchema = z.object({
   isTrending: z.preprocess((val) => val === 'true' || val === true ? true : val === 'false' || val === false ? false : undefined, z.boolean().optional()),
   isUaeNews: z.preprocess((val) => val === 'true' || val === true ? true : val === 'false' || val === false ? false : undefined, z.boolean().optional()),
   isSponsored: z.preprocess((val) => val === 'true' || val === true ? true : val === 'false' || val === false ? false : undefined, z.boolean().optional()),
+  isExclusiveNews: z.preprocess((val) => val === 'true' || val === true ? true : val === 'false' || val === false ? false : undefined, z.boolean().optional()),
   sortBy: z.enum(['title', 'createdAt', 'publishedAt', 'viewCount']).default('createdAt'),
   sortOrder: z.enum(['asc', 'desc']).default('desc'),
 });

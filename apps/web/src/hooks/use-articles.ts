@@ -41,6 +41,7 @@ export function useArticles(filters: ArticleFilters = {}) {
           ...(filters.isTrending !== undefined && { isTrending: filters.isTrending }),
           ...(filters.isUaeNews !== undefined && { isUaeNews: filters.isUaeNews }),
           ...(filters.isSponsored !== undefined && { isSponsored: filters.isSponsored }),
+          ...(filters.isExclusiveNews !== undefined && { isExclusiveNews: filters.isExclusiveNews }),
           sortBy: filters.sortBy || 'publishedAt',
           sortOrder: filters.sortOrder || 'desc',
         },
@@ -269,7 +270,7 @@ export function useHomeCategories() {
     queryFn: async () => {
       const data = await apiClient.get<HomeCategoriesData>('/website/home-categories', {
         next: {
-          revalidate: 300,
+          revalidate: 0,
           tags: ['home-categories'],
         },
       });

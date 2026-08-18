@@ -63,7 +63,7 @@ const HealthcareTourismSection = () => {
               {/* Featured Main Article */}
               {healthFeatured && (
                 <Link href={`/news/${healthFeatured.slug || healthFeatured.id}`} className="group cursor-pointer flex flex-col">
-                  <div className="relative w-full aspect-[16/9] overflow-hidden bg-gray-200 rounded-md">
+                  <div className="relative w-full aspect-[2/1] overflow-hidden bg-gray-200 rounded-md">
                     <Image
                       src={healthFeatured.featuredImage || '/placeholder-news.jpg'}
                       alt={healthFeatured.title}
@@ -82,10 +82,10 @@ const HealthcareTourismSection = () => {
 
               {/* 3-Column Grid of Articles */}
               {healthGrid.length > 0 && (
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-4 gap-y-6 mt-2">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-4 gap-y-5 mt-2">
                   {healthGrid.map((item) => (
                     <Link key={item.id} href={`/news/${item.slug || item.id}`} className="group cursor-pointer flex flex-col">
-                      <div className="relative w-full aspect-[4/3] overflow-hidden bg-gray-200 rounded-md">
+                      <div className="relative w-full aspect-[16/9] overflow-hidden bg-gray-200 rounded-md">
                         <Image
                           src={item.featuredImage || '/placeholder-news.jpg'}
                           alt={item.title}
@@ -151,11 +151,13 @@ const HealthcareTourismSection = () => {
               {/* Vertical Stack of Horizontal Article Cards */}
               {tourismList.length > 0 && (
                 <div className="flex flex-col gap-4">
-                  {tourismList.map((item) => (
+                  {tourismList.map((item, index) => (
                     <Link
                       key={item.id}
                       href={`/news/${item.slug || item.id}`}
-                      className="flex gap-3.5 items-center group cursor-pointer"
+                      className={`flex gap-3.5 items-center group cursor-pointer ${
+                        index === 3 ? 'lg:hidden xl:flex' : ''
+                      }`}
                     >
                       <div className="relative w-28 md:w-36 aspect-[4/3] shrink-0 overflow-hidden bg-gray-200 rounded-md">
                         <Image

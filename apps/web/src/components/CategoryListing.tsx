@@ -9,6 +9,7 @@ import SectionContainer from './SectionContainer';
 import FullWidthAdBanner from './FullWidthAdBanner';
 import { DynamicAd } from './ads/DynamicAd';
 import { useArticles } from '@/hooks/use-articles';
+import { useCategories } from '@/hooks/use-categories';
 
 // Normalized categorization mappings to handle section clicks
 const SECTION_MAPPINGS: Record<string, string[]> = {
@@ -36,16 +37,18 @@ const SECTION_MAPPINGS: Record<string, string[]> = {
   ],
   'Exclusive Segments': [
     'Sponsored Contents',
-    'Events & Coverage',
-    'Business & Beyond',
+    // 'Events & Coverage',
+    // 'Business & Beyond',
     'Daily Insights',
-    'Careers'
+    // 'Careers'
   ]
 };
 
 const CategoryListing: React.FC = () => {
   const searchParams = useSearchParams();
-  const categoryName = searchParams.get('category') || 'Latest News';
+  const isSponsoredParam = searchParams.get('isSponsored') === 'true';
+  const rawCategoryName = searchParams.get('category');
+  const categoryName = isSponsoredParam ? 'Sponsored Contents' : (rawCategoryName || 'Latest News');
   const pageParam = searchParams.get('page');
   const currentPage = pageParam ? parseInt(pageParam, 10) : 1;
   const itemsPerPage = 12;
@@ -54,11 +57,13 @@ const CategoryListing: React.FC = () => {
   const { data: apiResponse, isLoading } = useArticles({
     page: currentPage,
     limit: itemsPerPage,
-    ...(categoryName === 'UAE News'
-      ? { isUaeNews: true }
-      : categoryName !== 'Latest News'
-        ? { search: categoryName }
-        : {}),
+    ...(isSponsoredParam || categoryName === 'Sponsored Contents'
+      ? { isSponsored: true }
+      : categoryName === 'UAE News'
+        ? { isUaeNews: true }
+        : categoryName !== 'Latest News'
+          ? { search: categoryName }
+          : {}),
   });
 
   // Fetch dedicated UAE News for the suggested section
@@ -66,6 +71,11 @@ const CategoryListing: React.FC = () => {
     isUaeNews: true,
     limit: 4,
   });
+
+  // Fetch all categories to get the description
+  const { data: categories } = useCategories();
+  const matchedCategory = categories?.find((c: any) => c.name === categoryName);
+  const categoryDescription = matchedCategory?.description || `Explore the latest news, insights, and expert analysis on ${categoryName}.`;
 
   // Extract live articles from API
   const rawApiArticles = apiResponse?.data || [];
@@ -94,8 +104,26 @@ const CategoryListing: React.FC = () => {
     return `/news?category=${encodeURIComponent(categoryName)}&page=${pageNum}`;
   };
 
-  // Extract exclusive articles from API response
-  const exclusiveArticles = displayArticles.slice(0, 7);
+  // Fetch dedicated Exclusive News
+  const { data: exclusiveResponse } = useArticles({
+    isExclusiveNews: true,
+    limit: 7,
+  });
+
+  const exclusiveArticles = (exclusiveResponse?.data || []).map((item: any) => ({
+    id: item.slug || item.id,
+    title: item.title,
+    category: item.category?.name || 'Exclusive News',
+    date: item.publishedAt
+      ? new Date(item.publishedAt).toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+      })
+      : '',
+    imageUrl: item.featuredImage || '/placeholder-news.jpg',
+    excerpt: item.excerpt || item.title,
+  }));
 
   // Suggested UAE News articles from API response
   const suggestedArticles = (uaeResponse?.data || []).map((item: any) => ({
@@ -134,9 +162,7 @@ const CategoryListing: React.FC = () => {
             {categoryName}
           </h1>
           <p className="text-gray-600 text-sm leading-relaxed max-w-4xl font-medium">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et odio
-            mattis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos
-            himenaeos. Curabitur tempus urna at turpis condimentum lobortis. Ut commodo efficitur neque.
+            {categoryDescription}
           </p>
         </div>
 
@@ -251,7 +277,7 @@ const CategoryListing: React.FC = () => {
                     </div>
                     <div className="flex flex-col justify-between flex-1 py-0.5">
                       <h4 className="text-[11px] text-white line-clamp-2 leading-snug font-semibold hover:text-[#cd2027] transition-colors">
-                        Yorem ipsum dolor sit amet, Nunc vulputate libero et vel interdum, ac aliquet nisl.
+                        {item.title}
                       </h4>
                       <span className="text-[9px] text-amber-400 font-extrabold uppercase mt-1 tracking-wider">
                         {item.category} | {item.date}

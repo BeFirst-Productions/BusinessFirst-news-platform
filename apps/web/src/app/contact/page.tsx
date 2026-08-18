@@ -25,7 +25,7 @@ export default function ContactPage() {
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-start lg:items-center w-full">
           {/* Left Column: Heading and Text */}
           <ContactNewsroom />
-          
+
           {/* Right Column: Social Media Card */}
           <ContactSocials />
         </div>
@@ -34,7 +34,7 @@ export default function ContactPage() {
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-stretch w-full mt-16">
           {/* Contact Form */}
           <ContactForm />
-          
+
           {/* Map Section */}
           <ContactMap />
 

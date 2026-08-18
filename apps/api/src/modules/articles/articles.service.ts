@@ -17,6 +17,7 @@ export class ArticlesService {
       isTrending,
       isUaeNews,
       isSponsored,
+      isExclusiveNews,
       sortBy,
       sortOrder,
     } = query;
@@ -48,6 +49,10 @@ export class ArticlesService {
 
     if (isSponsored !== undefined) {
       where.isSponsored = isSponsored;
+    }
+
+    if (isExclusiveNews !== undefined) {
+      where.isExclusiveNews = isExclusiveNews;
     }
 
     if (search) {
@@ -182,6 +187,7 @@ export class ArticlesService {
         isTrending: data.isTrending || false,
         isUaeNews: data.isUaeNews || false,
         isSponsored: data.isSponsored || false,
+        isExclusiveNews: data.isExclusiveNews || false,
         metaTitle: data.metaTitle || null,
         metaDescription: data.metaDescription || null,
         metaKeywords: data.metaKeywords || null,
@@ -344,6 +350,10 @@ export class ArticlesService {
 
     if (data.isSponsored !== undefined) {
       updateData.isSponsored = data.isSponsored;
+    }
+
+    if (data.isExclusiveNews !== undefined) {
+      updateData.isExclusiveNews = data.isExclusiveNews;
     }
 
     if (data.metaTitle !== undefined) {

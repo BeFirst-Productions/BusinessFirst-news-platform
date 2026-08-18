@@ -15,6 +15,7 @@ model Article {
   isTrending      Boolean       @default(false)
   isUaeNews       Boolean       @default(false)
   isSponsored     Boolean       @default(false)
+  isExclusiveNews Boolean       @default(false)
   viewCount       Int           @default(0)
   scheduledAt     DateTime?
   publishedAt     DateTime?

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { CloudinaryService } from '../../shared/services/cloudinary.service';
+import { BunnyService } from '../../shared/services/bunny.service';
 import { ResponseUtil } from '../../shared/utils/response.util';
 import { AppError } from '../../shared/errors/AppError';
 import { SlugUtil } from '../../shared/utils/slug.util';
@@ -9,7 +9,7 @@ export class MediaController {
     try {
       const files = req.files as Express.Multer.File[] | undefined;
       const customName = req.query.customName as string | undefined;
-      
+
       if (!files || files.length === 0) {
         throw new AppError('No files uploaded', 400);
       }
@@ -27,7 +27,7 @@ export class MediaController {
           slugifiedName = SlugUtil.generate(customName, false);
         }
 
-        const url = await CloudinaryService.uploadBuffer(
+        const url = await BunnyService.uploadBuffer(
           file.buffer,
           'editor',
           resourceType,

@@ -49,4 +49,7 @@ router.post('/newsletter/subscribe', WebsiteController.subscribeNewsletter);
 // Contact form submission
 router.post('/contacts', WebsiteController.submitContactForm);
 
+// Events
+router.get('/events/active', WebsiteController.getActiveEvents);
+
 export { router as websiteRouter };
