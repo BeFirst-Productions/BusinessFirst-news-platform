@@ -23,9 +23,10 @@ const NewsContent: React.FC<NewsContentProps> = ({
   let paragraphs = contentParagraphs || defaultParagraphs;
 
   // If the backend sent a single HTML string with multiple paragraphs, split it up
-  if (paragraphs.length === 1 && paragraphs[0].includes('<p>')) {
+  const firstPara = paragraphs[0];
+  if (paragraphs.length === 1 && firstPara && firstPara.includes('<p>')) {
     // Split by </p> to break the HTML string into an array of paragraph strings
-    const parts = paragraphs[0].split('</p>');
+    const parts = firstPara.split('</p>');
     // Filter out empty strings and append </p> back
     paragraphs = parts
       .map(p => p.trim())
