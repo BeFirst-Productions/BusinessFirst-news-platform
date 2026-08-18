@@ -45,7 +45,7 @@ const NewsDetail: React.FC<NewsDetailProps> = ({ articleId }) => {
       {/* Main Title Header */}
       <NewsHeader
         title={article.title}
-        description={article.summary || article.seoDescription || ""}
+        description={article.metaDescription || ""}
       />
 
       {/* Layout - Changed to flow layout for text wrapping */}
