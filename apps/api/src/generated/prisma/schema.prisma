@@ -112,6 +112,7 @@ model Article {
   isTrending         Boolean       @default(false)
   isUaeNews          Boolean       @default(false)
   isSponsored        Boolean       @default(false)
+  isExclusiveNews    Boolean       @default(false)
   viewCount          Int           @default(0)
   scheduledAt        DateTime?
   publishedAt        DateTime?
@@ -278,6 +279,7 @@ enum ArticleStatus {
 
 enum AdType {
   IMAGE
+  VIDEO
   GIF
   BOTH
 }
@@ -328,6 +330,24 @@ enum PageType {
   POLICY
   CATEGORY
   CUSTOM
+}
+
+// Event model for Events Coverage Section
+
+model Event {
+  id        String   @id @default(uuid())
+  title     String
+  badge     String? // e.g., "LIVE COVERAGE"
+  image     String?
+  linkUrl   String? // e.g., "/news?category=Events"
+  linkText  String? // e.g., "Explore Events"
+  isActive  Boolean  @default(true)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isActive])
+  @@index([order])
 }
 
 generator client {

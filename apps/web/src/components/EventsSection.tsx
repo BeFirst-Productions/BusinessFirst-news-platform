@@ -1,12 +1,14 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import SectionContainer from './SectionContainer';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronDown, ArrowUpRight } from 'lucide-react';
 import FullWidthAdBanner from './FullWidthAdBanner';
 import { useHomeCategories } from '@/hooks/use-articles';
+import { useQuery } from '@tanstack/react-query';
+import { apiClient } from '@/lib/api-client';
 
 const EmptyCategoryState = ({ categoryName }: { categoryName: string }) => (
   <div className="w-full py-12 flex flex-col items-center justify-center bg-gray-50/50 border border-dashed border-gray-200 rounded-lg text-center my-4">
@@ -16,6 +18,32 @@ const EmptyCategoryState = ({ categoryName }: { categoryName: string }) => (
 
 const EventsSection = () => {
   const { data: homeCategories } = useHomeCategories();
+
+  const { data: activeEvents } = useQuery({
+    queryKey: ['website', 'events', 'active'],
+    queryFn: async () => {
+      try {
+        const res = await apiClient.get<any[]>('/events/active');
+        return Array.isArray(res) ? res : res ? [res] : [];
+      } catch (e) {
+        const res = await apiClient.get<any[]>('/website/events/active');
+        return Array.isArray(res) ? res : res ? [res] : [];
+      }
+    }
+  });
+
+  const eventsList = activeEvents && activeEvents.length > 0 ? activeEvents : null;
+  const [currentEventIndex, setCurrentEventIndex] = useState(0);
+
+  useEffect(() => {
+    if (!eventsList || eventsList.length <= 1) return;
+
+    const timer = setInterval(() => {
+      setCurrentEventIndex((prev) => (prev + 1) % eventsList.length);
+    }, 5000); // Change slide every 5 seconds
+
+    return () => clearInterval(timer);
+  }, [eventsList]);
 
   const eventsData = homeCategories?.['events'];
   const eventsArticles = eventsData?.articles || [];
@@ -141,30 +169,64 @@ const EventsSection = () => {
             </h2>
           </div>
 
-          <Link href="/news?category=Events" className="relative w-full aspect-[4/5] overflow-hidden group cursor-pointer rounded block">
-            <Image
-              src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=800&q=80"
-              alt="Live Stage Event"
-              fill
-              className="object-cover group-hover:scale-105 transition-transform duration-500"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex flex-col justify-end p-6">
-              <span className="text-[#FF0202] font-bold text-xs uppercase tracking-wider mb-2">
-                Live Coverage
-              </span>
-              <h3 className="text-white text-xl md:text-2xl font-bold leading-snug mb-4">
-                Exclusive Media & Event Partnerships
-              </h3>
-              <div className="flex items-center text-white text-sm font-semibold group-hover:text-[#FF0202] transition-colors">
-                Explore Events <ArrowUpRight className="ml-1" size={18} />
-              </div>
+          {eventsList ? (
+            <div className="relative w-full flex-1 min-h-[400px] rounded block overflow-hidden group">
+              {eventsList.map((event: any, index: number) => (
+                <Link
+                  key={event.id || index}
+                  href={event.linkUrl || "/news?category=Events"}
+                  className={`absolute inset-0 cursor-pointer transition-opacity duration-1000 ${
+                    index === currentEventIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                  }`}
+                >
+                  <Image
+                    src={event.image || "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=800&q=80"}
+                    alt={event.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex flex-col justify-end p-6">
+                    {event.badge && (
+                      <span className="text-[#FF0202] font-bold text-xs uppercase tracking-wider mb-2">
+                        {event.badge}
+                      </span>
+                    )}
+                    <h3 className="text-white text-xl md:text-2xl font-bold leading-snug mb-4">
+                      {event.title}
+                    </h3>
+                    <div className="flex items-center text-white text-sm font-semibold group-hover:text-[#FF0202] transition-colors">
+                      {event.linkText || "Explore Events"} <ArrowUpRight className="ml-1" size={18} />
+                    </div>
+                  </div>
+                </Link>
+              ))}
+
+              {/* Slider dots for multiple events */}
+              {eventsList.length > 1 && (
+                <div className="absolute bottom-4 right-4 z-20 flex gap-2">
+                  {eventsList.map((_: any, idx: number) => (
+                    <button
+                      key={idx}
+                      onClick={(e) => { e.preventDefault(); setCurrentEventIndex(idx); }}
+                      className={`h-2 rounded-full transition-all duration-300 ${
+                        idx === currentEventIndex ? 'bg-[#FF0202] w-6' : 'bg-white/50 hover:bg-white w-2'
+                      }`}
+                      aria-label={`Go to slide ${idx + 1}`}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
-          </Link>
+          ) : (
+            <div className="relative w-full flex-1 min-h-[400px] bg-gray-100 border border-dashed border-gray-300 rounded flex flex-col items-center justify-center p-6 text-center">
+              <span className="text-gray-400 font-medium">No event coverage available.</span>
+            </div>
+          )}
         </div>
       </div>
 
       <div className="mt-12 w-full">
-        <FullWidthAdBanner ratio="ad_6" />
+        <FullWidthAdBanner ratio="ad_8" />
       </div>
     </SectionContainer>
   );

@@ -3,46 +3,23 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { DynamicAd } from '../ads/DynamicAd';
 
-interface RecentPost {
-  id: number;
-  title: string;
-  category: string;
-  date: string;
-  image: string;
-}
-
-const recentPosts: RecentPost[] = [
-  {
-    id: 1,
-    title: 'Yorem ipsum dolor sit amet, adipiscing elit. Nunc vulputate libero vel',
-    category: 'Oil, Gas & Energy',
-    date: 'July 23, 2024',
-    image: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=150&h=150&q=80'
-  },
-  {
-    id: 2,
-    title: 'Yorem ipsum dolor sit amet, adipiscing elit. Nunc vulputate libero vel',
-    category: 'Oil, Gas & Energy',
-    date: 'July 23, 2024',
-    image: 'https://images.unsplash.com/photo-1574328405096-7fcfa4a9b583?auto=format&fit=crop&w=150&h=150&q=80'
-  },
-  {
-    id: 3,
-    title: 'Yorem ipsum dolor sit amet, adipiscing elit. Nunc vulputate libero vel',
-    category: 'Oil, Gas & Energy',
-    date: 'July 23, 2024',
-    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=150&h=150&q=80'
-  },
-  {
-    id: 4,
-    title: 'Yorem ipsum dolor sit amet, adipiscing elit. Nunc vulputate libero vel',
-    category: 'Oil, Gas & Energy',
-    date: 'July 23, 2024',
-    image: 'https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=150&h=150&q=80'
-  }
-];
+import { useArticles } from '@/hooks/use-articles';
 
 const NewsSidebar = () => {
+  const { data: recentResponse } = useArticles({
+    limit: 4,
+    sortBy: 'publishedAt',
+    sortOrder: 'desc'
+  });
+
+  const recentPosts = (recentResponse?.data || []).map((item: any) => ({
+    id: item.slug || item.id,
+    title: item.title,
+    category: item.category?.name || 'News',
+    date: item.publishedAt ? new Date(item.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '',
+    image: item.featuredImage || 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=150&h=150&q=80'
+  }));
+
   return (
     <aside className="flex flex-col gap-8 w-full">
       {/* Recent Posts Section */}
@@ -54,7 +31,7 @@ const NewsSidebar = () => {
         <div className="flex flex-col divide-y divide-gray-100">
           {recentPosts.map((post) => (
             <Link
-              href="#"
+              href={`/news/${post.id}`}
               key={post.id}
               className="flex gap-4 p-4 hover:bg-gray-50 transition-all duration-300 group"
             >

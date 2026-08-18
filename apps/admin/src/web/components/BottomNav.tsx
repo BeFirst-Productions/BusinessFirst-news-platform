@@ -49,8 +49,8 @@ const BottomNav = () => {
       name: 'Exclusive Segments', 
       items: [
         'Sponsored Contents',
-        'Events & Coverage',
-        'Business & Beyond',
+        // 'Events & Coverage',
+        // 'Business & Beyond',
         'Daily Insights',
         'Careers'
       ] 

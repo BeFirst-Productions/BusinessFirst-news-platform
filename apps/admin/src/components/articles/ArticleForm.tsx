@@ -73,6 +73,7 @@ const articleSchema = z.object({
   isTrending: z.boolean().default(false),
   isUaeNews: z.boolean().default(false),
   isSponsored: z.boolean().default(false),
+  isExclusiveNews: z.boolean().default(false),
   metaTitle: z.string().optional().nullable(),
   metaDescription: z.string().max(160).optional().nullable(),
   metaKeywords: z.string().optional().nullable(),
@@ -156,6 +157,7 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
       isTrending: !!initialData?.isTrending,
       isUaeNews: !!initialData?.isUaeNews,
       isSponsored: !!initialData?.isSponsored,
+      isExclusiveNews: !!initialData?.isExclusiveNews,
       metaTitle: initialData?.metaTitle || '',
       metaDescription: initialData?.metaDescription || '',
       metaKeywords: initialData?.metaKeywords || '',
@@ -201,6 +203,7 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
         isTrending: !!initialData.isTrending,
         isUaeNews: !!initialData.isUaeNews,
         isSponsored: !!initialData.isSponsored,
+        isExclusiveNews: !!initialData.isExclusiveNews,
         metaTitle: initialData.metaTitle || '',
         metaDescription: initialData.metaDescription || '',
         metaKeywords: initialData.metaKeywords || '',
@@ -674,6 +677,19 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
                 <Label>Sponsered Contents</Label>
                 <Controller
                   name="isSponsored"
+                  control={control}
+                  render={({ field }) => (
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  )}
+                />
+              </div>
+              <div className="flex items-center justify-between">
+                <Label>Exclusive News</Label>
+                <Controller
+                  name="isExclusiveNews"
                   control={control}
                   render={({ field }) => (
                     <Switch

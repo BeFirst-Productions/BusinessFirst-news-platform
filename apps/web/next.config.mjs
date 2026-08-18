@@ -12,6 +12,14 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'res.cloudinary.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'businessfirst-storage.b-cdn.net',
+      },
+      {
+        protocol: 'https',
+        hostname: 'business-first.b-cdn.net',
+      },
     ],
   },
 };

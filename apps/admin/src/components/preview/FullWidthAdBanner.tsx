@@ -4,6 +4,7 @@ import React from 'react';
 import AdBanner from './AdBanner';
 import { useQuery } from '@tanstack/react-query';
 import { apiClient } from '@/lib/api-client';
+import { useSearchParams } from 'next/navigation';
 
 interface FullWidthAdBannerProps {
   containerClassName?: string;
@@ -13,6 +14,7 @@ interface FullWidthAdBannerProps {
   type?: 'IMAGE' | 'VIDEO' | string;
   altText?: string;
   ratio?: string;
+  targetPage?: string;
 }
 
 const FullWidthAdBanner: React.FC<FullWidthAdBannerProps> = ({
@@ -22,21 +24,46 @@ const FullWidthAdBanner: React.FC<FullWidthAdBannerProps> = ({
   videoUrl,
   type,
   altText,
-  ratio = "ad_1"
+  ratio = "ad_1",
+  targetPage
 }) => {
+  const searchParams = useSearchParams();
+  const page = targetPage || searchParams?.get('page') || 'home';
+
+  const [unsavedAd, setUnsavedAd] = React.useState<any>(null);
+
+  React.useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (event.data?.type === 'PREVIEW_UNSAVED_AD') {
+        const ad = event.data.ad;
+        if (ad && ad.ratio === ratio && ad.targetPage === page) {
+          setUnsavedAd(ad);
+        }
+      }
+    };
+    window.addEventListener('message', handleMessage);
+    // Tell parent or opener we are ready to receive the ad data
+    if (window.opener) {
+      window.opener.postMessage({ type: 'PREVIEW_READY' }, '*');
+    } else if (window.parent && window.parent !== window) {
+      window.parent.postMessage({ type: 'PREVIEW_READY' }, '*');
+    }
+    return () => window.removeEventListener('message', handleMessage);
+  }, [ratio, page]);
+
   const { data: adsResponse } = useQuery({
-    queryKey: ['preview-ads'],
+    queryKey: ['preview-ads', page],
     queryFn: async () => {
-      const response = await apiClient.get('/ads?status=ACTIVE&limit=50');
+      const response = await apiClient.get(`/ads?targetPage=${page}&limit=50`);
       return response.data;
     },
     staleTime: 5 * 60 * 1000,
   });
 
-  const activeAds = adsResponse?.data || [];
+  const allAds = adsResponse?.data || [];
 
   // Choose ad by ratio
-  const ad = activeAds.find((a: any) => a.ratio === ratio);
+  const ad = unsavedAd || allAds.find((a: any) => a.ratio === ratio);
   const finalType = type || ad?.type || (ad?.videoUrl ? 'VIDEO' : 'IMAGE');
   const finalImageUrl = imageUrl || ad?.imageUrl || (finalType === 'IMAGE' ? (ratio === 'nd_sidebar' ? "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=500&h=500&q=80" : "https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=1600&h=300&q=80") : undefined);
   const finalVideoUrl = videoUrl || ad?.videoUrl;

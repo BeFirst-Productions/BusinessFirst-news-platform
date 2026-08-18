@@ -1,7 +1,7 @@
 import { prisma } from '../../config/database';
 import { NotFoundError } from '../../shared/errors/AppError';
 import { CreateAdInput, UpdateAdInput, AdQueryInput } from './ads.validation';
-import { CloudinaryService } from '../../shared/services/cloudinary.service';
+import { BunnyService } from '../../shared/services/bunny.service';
 import { Prisma, AdType, AdStatus } from '../../generated/prisma';
 import { WebsiteService } from '../website/website.service';
 
@@ -57,12 +57,13 @@ export class AdsService {
     let imageUrl: string | null = null;
     let videoUrl: string | null = null;
 
-    // Upload files to Cloudinary if they exist
+    // Upload files to Bunny.net if they exist
     if (files.image) {
-      imageUrl = await CloudinaryService.uploadBuffer(files.image.buffer, 'ads', 'image', files.image.mimetype);
+      imageUrl = await BunnyService.uploadBuffer(files.image.buffer, 'ads', 'image', files.image.mimetype);
     }
     if (files.gif) {
-      videoUrl = await CloudinaryService.uploadBuffer(files.gif.buffer, 'ads', 'image', files.gif.mimetype);
+      const resourceType = files.gif.mimetype.startsWith('video/') ? 'video' : 'image';
+      videoUrl = await BunnyService.uploadBuffer(files.gif.buffer, 'ads', resourceType, files.gif.mimetype);
     }
 
     const ad = await prisma.ad.create({
@@ -118,10 +119,11 @@ export class AdsService {
 
     // Upload files if updated
     if (files.image) {
-      updateData.imageUrl = await CloudinaryService.uploadBuffer(files.image.buffer, 'ads', 'image', files.image.mimetype);
+      updateData.imageUrl = await BunnyService.uploadBuffer(files.image.buffer, 'ads', 'image', files.image.mimetype);
     }
     if (files.gif) {
-      updateData.videoUrl = await CloudinaryService.uploadBuffer(files.gif.buffer, 'ads', 'image', files.gif.mimetype);
+      const resourceType = files.gif.mimetype.startsWith('video/') ? 'video' : 'image';
+      updateData.videoUrl = await BunnyService.uploadBuffer(files.gif.buffer, 'ads', resourceType, files.gif.mimetype);
     }
 
     const updatedAd = await prisma.ad.update({

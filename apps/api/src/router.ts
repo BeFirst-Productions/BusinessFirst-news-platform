@@ -15,6 +15,7 @@ import { websiteRouter } from './modules/website/website.router';
 import { notificationsRouter } from './modules/notifications/notifications.router';
 import { searchRouter } from './modules/search/search.router';
 import { contactsRouter } from './modules/contacts/contacts.router';
+import { eventsRouter } from './modules/events/events.router';
 
 const router:Router = Router();
 
@@ -46,5 +47,6 @@ router.use('/website', websiteRouter);
 router.use('/notifications', notificationsRouter);
 router.use('/search', searchRouter);
 router.use('/contacts', contactsRouter);
+router.use('/events', eventsRouter);
 
 export { router };

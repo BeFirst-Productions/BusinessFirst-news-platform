@@ -1,52 +1,38 @@
 import React from 'react';
 import SectionContainer from './SectionContainer';
 import Image from 'next/image';
+import AutoScroller from './AutoScroller';
+import apiClient from '@/lib/api-client';
 
-const SocialMediaSection = () => {
-  const cards = [
-    {
-      id: 1,
-      image: 'https://images.unsplash.com/photo-1548625361-ecce8760924e?auto=format&fit=crop&w=600&q=80',
-      title: 'Ajman Sets Guinness Record With 603-Vehicle Eid Al Etihad Formation',
-      description: 'The recent spelling event showcased precise coordination led by Ajman Transportation Authority, Ajman Holding, and Ruya. Guinness judges praised the logistical execution, awarding certificates to organizers for highlighting UAE pride during Eid Al Etihad celebrations.',
-      dateText: '10 Dec 2024 | National / Government | Culture / Heritage | UAE National Day',
-    },
-    {
-      id: 2,
-      image: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=600&q=80',
-      title: 'UAE Commits $1 Billion to Strengthen Yemen\'s Energy and Electricity Sector',
-      description: 'Officials said the initiative reflects continued support for Yemen\'s development and stability. Yemen leaders praised UAE efforts to improve daily life and accelerate investment in clean, reliable energy systems.',
-      dateText: '10 Dec 2024 | Development Aid | Regional Support | UAE Foreign Policy',
-    },
-    {
-      id: 3,
-      image: 'https://images.unsplash.com/photo-1582650893043-4e4b518bb1fb?auto=format&fit=crop&w=600&q=80',
-      title: 'UAE President names seven Abu Dhabi mosques after emirates for National Day',
-      description: 'The mosques, opening in January with capacity for 6,000 worshippers, were developed by the Presidential Court and key government entities. Officials say the initiative promotes Union values, blending Islamic art with modern design and strengthening community spirit during National Day celebrations.',
-      dateText: '10 Dec 2024 | National / Government | Culture / Heritage | UAE National Day',
-    },
-    {
-      id: 4,
-      image: 'https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?auto=format&fit=crop&w=600&q=80',
-      title: 'UAE and Kazakhstan Expand Strategic Cooperation on AI, Space and Energy Sectors',
-      description: 'Officials highlighted deepening ties and robust non-oil trade exceeding $3.6 billion in 2024. Discussions included new partnerships, SME engagement, and follow-up on projects supporting sustainable economic growth and technological innovation.',
-      dateText: '10 Dec 2024 | Diplomacy | International Cooperation | AI & Technology',
-    },
-    {
-      id: 5,
-      image: 'https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?auto=format&fit=crop&w=600&q=80',
-      title: 'UAE and Kazakhstan Expand Strategic Cooperation on AI, Space and Energy Sectors',
-      description: 'Officials highlighted deepening ties and robust non-oil trade exceeding $3.6 billion in 2024. Discussions included new partnerships, SME engagement, and follow-up on projects supporting sustainable economic growth and technological innovation.',
-      dateText: '10 Dec 2024 | Diplomacy | International Cooperation | AI & Technology',
-    },
-    {
-      id: 6,
-      image: 'https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?auto=format&fit=crop&w=600&q=80',
-      title: 'UAE and Kazakhstan Expand Strategic Cooperation on AI, Space and Energy Sectors',
-      description: 'Officials highlighted deepening ties and robust non-oil trade exceeding $3.6 billion in 2024. Discussions included new partnerships, SME engagement, and follow-up on projects supporting sustainable economic growth and technological innovation.',
-      dateText: '10 Dec 2024 | Diplomacy | International Cooperation | AI & Technology',
+import SocialImage from './SocialImage';
+
+const SocialMediaSection = async () => {
+  let fetchedCards = [];
+  
+  try {
+    const res = await apiClient.get<any[]>('/instagram-posts', {
+      next: { revalidate: 3600 }
+    });
+    
+    if (res && Array.isArray(res)) {
+      fetchedCards = res;
     }
-  ];
+  } catch (error) {
+    console.error('Failed to fetch Instagram posts from backend:', error);
+  }
+
+
+  // Fallback to placeholder cards if API fails or no token
+  const defaultCards = Array.from({ length: 10 }, (_, i) => ({
+    id: i + 1,
+    image: `/Instagram/insta-${i + 1}.jpg`,
+    title: `Business First Instagram Post ${i + 1}`,
+    description: 'Catch the latest updates and exclusive insights from Business First on our official Instagram page.',
+    dateText: 'Latest News | Business First',
+    permalink: 'https://www.instagram.com/'
+  }));
+
+  const cards = fetchedCards.length > 0 ? fetchedCards : defaultCards;
 
   return (
     <SectionContainer className="bg-white py-8 md:py-12">
@@ -60,36 +46,30 @@ const SocialMediaSection = () => {
         </div>
 
         {/* Cards Slider */}
-        <div className="w-full overflow-hidden mt-4 relative">
-          <style>{`
-            @keyframes infinite-slider {
-              0% { transform: translateX(0); }
-              100% { transform: translateX(-50%); }
-            }
-            .animate-infinite-slider {
-              animation: infinite-slider 40s linear infinite;
-            }
-            .animate-infinite-slider:hover {
-              animation-play-state: paused;
-            }
-          `}</style>
-
-          <div className="flex gap-6 w-max animate-infinite-slider">
+        <div className="w-full mt-4 relative">
+          <AutoScroller speed={0.5}>
             {[...cards, ...cards].map((card, index) => (
-              <div key={`${index}-${card.id}`} className="w-[280px] md:w-[320px] lg:w-[350px] shrink-0 flex flex-col rounded-[20px] overflow-hidden shadow-[0_8px_20px_rgba(0,0,0,0.15)] group cursor-pointer bg-black h-auto">
+              <a 
+                href={card.permalink}
+                target="_blank"
+                rel="noopener noreferrer"
+                key={`${index}-${card.id}`} 
+                draggable={false}
+                className="w-[280px] md:w-[320px] lg:w-[350px] shrink-0 flex flex-col rounded-[20px] overflow-hidden shadow-[0_8px_20px_rgba(0,0,0,0.15)] group cursor-pointer bg-black h-auto"
+              >
 
                 {/* Gradient Top Part */}
-                <div className="bg-gradient-to-b from-[#0a1b4d] to-[#020514] flex flex-col flex-1 p-3 pb-6">
+                <div className="bg-gradient-to-b from-[#0a1b4d] to-[#020514] flex flex-col flex-1 p-3 pb-3">
 
                   {/* Image and Banner Wrapper */}
                   <div className="flex flex-col w-full rounded-t-xl rounded-b-md overflow-hidden">
                     {/* Image Container */}
-                    <div className="relative w-full aspect-[4/3] bg-gray-200">
-                      <Image
-                        src={card.image}
-                        alt={card.title}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-700"
+                    <div className="relative w-full aspect-square bg-gray-200 overflow-hidden">
+                      <SocialImage
+                        src={card.image || `/Instagram/insta-${(index % 10) + 1}.jpg`}
+                        alt={card.title || 'Instagram Post'}
+                        fallbackSrc={`/Instagram/insta-${(index % 10) + 1}.jpg`}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       />
 
                       {/* Top Left Tag */}
@@ -111,25 +91,15 @@ const SocialMediaSection = () => {
                       </span>
                     </div>
                   </div>
-
-                  {/* Text Content */}
-                  <div className="flex flex-col gap-2 mt-4 items-center text-center px-2">
-                    <h3 className="text-white font-bold text-[13px] md:text-[14px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-3">
-                      {card.title}
-                    </h3>
-                    <p className="text-gray-300/80 text-[9px] md:text-[10px] leading-[1.6] line-clamp-4 mt-1">
-                      {card.description}
-                    </p>
-                  </div>
                 </div>
 
                 {/* Bottom Black Area */}
                 <div className="bg-black p-4 text-[#a3a3a3] text-[12px] md:text-[13px] leading-snug border-t border-gray-800/50">
-                  ipsum dolor sit amet, elit adipiscing. Nunc vulputate libero velit interdum, acaliquet
+                  Click to view full post on Instagram
                 </div>
-              </div>
+              </a>
             ))}
-          </div>
+          </AutoScroller>
         </div>
 
       </div>

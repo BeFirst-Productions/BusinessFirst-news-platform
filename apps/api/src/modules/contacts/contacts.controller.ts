@@ -22,7 +22,7 @@ export class ContactsController {
   static async getContactById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const contact = await ContactsService.getContactById(id);
+      const contact = await ContactsService.getContactById(id as string);
 
       res.status(200).json({
         success: true,
@@ -37,7 +37,7 @@ export class ContactsController {
   static async markAsRead(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const contact = await ContactsService.markAsRead(id);
+      const contact = await ContactsService.markAsRead(id as string);
 
       res.status(200).json({
         success: true,
@@ -52,7 +52,7 @@ export class ContactsController {
   static async deleteContact(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      await ContactsService.deleteContact(id);
+      await ContactsService.deleteContact(id as string);
 
       res.status(200).json({
         success: true,

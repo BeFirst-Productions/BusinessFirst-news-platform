@@ -22,6 +22,7 @@ import {
   Shield,
   Menu,
   X,
+  Calendar,
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { useUIStore } from '@/store/ui.store';
@@ -44,6 +45,7 @@ const iconMap: Record<string, React.ReactNode> = {
   BarChart3: <BarChart3 className="h-5 w-5" />,
   Search: <Search className="h-5 w-5" />,
   Settings: <Settings className="h-5 w-5" />,
+  Calendar: <Calendar className="h-5 w-5" />,
 };
 
 interface SidebarItem {
@@ -91,6 +93,12 @@ const sidebarItems: SidebarItem[] = [
       // { title: 'Ad Spaces', href: '/dashboard/ads/slots', icon: <Megaphone className="h-4 w-4" /> },
       { title: 'Create Ad', href: '/dashboard/ads/create', icon: <Megaphone className="h-4 w-4" /> },
     ],
+  },
+  {
+    title: 'Events',
+    href: '/dashboard/events',
+    icon: <Calendar className="h-5 w-5" />,
+    module: 'EVENTS',
   },
   {
     title: 'Users',

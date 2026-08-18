@@ -1,0 +1,17 @@
+// Event model for Events Coverage Section
+
+model Event {
+  id          String   @id @default(uuid())
+  title       String
+  badge       String?  // e.g., "LIVE COVERAGE"
+  image       String?
+  linkUrl     String?  // e.g., "/news?category=Events"
+  linkText    String?  // e.g., "Explore Events"
+  isActive    Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([isActive])
+  @@index([order])
+}

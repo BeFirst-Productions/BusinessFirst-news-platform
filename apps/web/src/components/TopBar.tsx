@@ -4,7 +4,29 @@ import { FaFacebookF, FaLinkedinIn, FaInstagram, FaXTwitter } from 'react-icons/
 
 import SectionContainer from './SectionContainer';
 
-const TopBar = () => {
+const TopBar = async () => {
+  // Fetch Dubai weather (revalidate every 1 hour)
+  let temperature = '31'; // Fallback
+  try {
+    const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=25.2048&longitude=55.2708&current_weather=true', { 
+      next: { revalidate: 3600 } 
+    });
+    if (res.ok) {
+      const data = await res.json();
+      temperature = Math.round(data.current_weather.temperature).toString();
+    }
+  } catch (error) {
+    console.error("Failed to fetch weather", error);
+  }
+
+  // Format current date: e.g., "Tuesday, 23 Sep 2025"
+  const today = new Date();
+  const dayName = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(today);
+  const day = today.getDate();
+  const month = new Intl.DateTimeFormat('en-US', { month: 'short' }).format(today);
+  const year = today.getFullYear();
+  const formattedDateString = `${dayName}, ${day} ${month} ${year}`;
+
   return (
     <SectionContainer 
       as="div"
@@ -14,11 +36,11 @@ const TopBar = () => {
       <div className="flex items-center gap-4 sm:gap-6">
         <div className="flex items-center gap-2 font-medium">
           <CloudSun size={16} className="text-gray-800" />
-          <span>31 C | Dubai</span>
+          <span>{temperature} C | Dubai</span>
         </div>
         <div className="flex items-center gap-2 font-medium">
           <Calendar size={16} className="text-gray-600" />
-          <span>Tuesday, 23 Sep 2025</span>
+          <span>{formattedDateString}</span>
         </div>
       </div>
       
@@ -37,13 +59,15 @@ const TopBar = () => {
             <FaInstagram size={14} />
           </div>
         </div>
-        
-        <button className="bg-[#24214c] hover:bg-[#1a183d] text-white px-4 py-1.5 rounded-full font-bold text-xs uppercase tracking-wider transition">
+        <a 
+          href="#newsletter-section"
+          className="bg-[#24214c] hover:bg-[#1a183d] text-white px-8 py-1.5 rounded-full font-bold text-xs uppercase tracking-wider transition text-center min-w-[120px]"
+        >
           Subscribe
-        </button>
-        <button className="bg-[#cd2027] hover:bg-[#a61a1f] text-white px-6 py-1.5 rounded-full font-bold text-xs uppercase tracking-wider transition">
+        </a>
+        {/* <button className="bg-[#cd2027] hover:bg-[#a61a1f] text-white px-6 py-1.5 rounded-full font-bold text-xs uppercase tracking-wider transition">
           Login
-        </button>
+        </button> */}
       </div>
     </SectionContainer>
   );

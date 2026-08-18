@@ -6,6 +6,7 @@ import { createQueryClient } from '@/lib/query-client';
 import { apiClient } from '@/lib/api-client';
 import { articleKeys, categoryKeys, adKeys } from '@/lib/query-keys';
 import type { Article, Category, Ad } from '@businessfirst/shared-types';
+import ServerSeo from '@/components/seo/ServerSeo';
 
 // Import components
 import TopHeadlines from '@/components/TopHeadlines';
@@ -107,7 +108,7 @@ export default async function HomePage() {
     queryClient.prefetchQuery({
       queryKey: [...articleKeys.all, 'home-categories'],
       queryFn: async () => {
-        return await apiClient.get('/website/home-categories', {
+        return await apiClient.get('/home-categories', {
           next: {
             revalidate: 300,
             tags: ['home-categories'],
@@ -119,6 +120,7 @@ export default async function HomePage() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
+      <ServerSeo slug="" />
       <main className="min-h-screen bg-white flex flex-col items-center w-full">
         {/* Breaking News Ticker */}
         <Suspense fallback={<Skeleton className="h-12 w-full bg-red-100" />}>
@@ -175,9 +177,9 @@ export default async function HomePage() {
           <BankingFinanceSection />
         </Suspense>
 
-        <Suspense fallback={<SectionSkeleton />}>
+        {/* <Suspense fallback={<SectionSkeleton />}>
           <DailyInsightsSection />
-        </Suspense>
+        </Suspense> */}
 
         <Suspense fallback={<SectionSkeleton />}>
           <HealthcareTourismSection />
@@ -186,10 +188,10 @@ export default async function HomePage() {
         <Suspense fallback={<SectionSkeleton />}>
           <EventsSection />
         </Suspense>
-
+{/* 
         <Suspense fallback={<SectionSkeleton />}>
           <MediaCoverageSection />
-        </Suspense>
+        </Suspense> */}
 
         <Suspense fallback={<SectionSkeleton />}>
           <CultureLifestyleSection />

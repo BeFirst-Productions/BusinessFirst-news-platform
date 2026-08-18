@@ -35,8 +35,8 @@ const SECTION_MAPPINGS: Record<string, string[]> = {
   ],
   'Exclusive Segments': [
     'Sponsored Contents',
-    'Events & Coverage',
-    'Business & Beyond',
+    // 'Events & Coverage',
+    // 'Business & Beyond',
     'Daily Insights',
     'Careers'
   ]
@@ -62,9 +62,15 @@ const getFilteredArticles = (categoryName: string) => {
   const normTargets = targetCategories.map(normalize);
   
   // Filter all articles
-  const filtered = allNewsArticles.filter(art => 
-    normTargets.includes(normalize(art.category))
-  );
+  let filtered = [];
+  
+  if (categoryName === 'Sponsored Contents') {
+    filtered = allNewsArticles.slice(8, 16); // Just return some mock data for sponsored
+  } else {
+    filtered = allNewsArticles.filter(art => 
+      normTargets.includes(normalize(art.category))
+    );
+  }
 
   if (filtered.length > 0) {
     return filtered;
@@ -100,8 +106,8 @@ const CategoryListing: React.FC = () => {
     return `/news?category=${encodeURIComponent(categoryName)}&page=${pageNum}`;
   };
 
-  // Extract exclusive articles (using first 5 articles as mock exclusives)
-  const exclusiveArticles = allNewsArticles.slice(0, 5);
+  // Extract exclusive articles (using first 7 articles as mock exclusives)
+  const exclusiveArticles = allNewsArticles.slice(0, 7);
 
   // Suggested UAE News articles (using 4 distinct articles)
   const suggestedArticles = allNewsArticles.slice(4, 8);
@@ -125,9 +131,7 @@ const CategoryListing: React.FC = () => {
             {categoryName}
           </h1>
           <p className="text-gray-600 text-sm leading-relaxed max-w-4xl font-medium">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et odio 
-            mattis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos 
-            himenaeos. Curabitur tempus urna at turpis condimentum lobortis. Ut commodo efficitur neque.
+            Explore the latest news, insights, and expert analysis on {categoryName}.
           </p>
         </div>
 
@@ -228,7 +232,7 @@ const CategoryListing: React.FC = () => {
                     </div>
                     <div className="flex flex-col justify-between flex-1 py-0.5">
                       <h4 className="text-[11px] text-white line-clamp-2 leading-snug font-semibold hover:text-[#cd2027] transition-colors">
-                        Yorem ipsum dolor sit amet, Nunc vulputate libero et vel interdum, ac aliquet nisl.
+                        {item.title}
                       </h4>
                       <span className="text-[9px] text-amber-400 font-extrabold uppercase mt-1 tracking-wider">
                         {item.category} | {item.date}

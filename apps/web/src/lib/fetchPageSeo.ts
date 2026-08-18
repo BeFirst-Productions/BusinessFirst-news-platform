@@ -8,7 +8,8 @@
 
 import { PageSeoData, mapPageSeoToHeadProps, SeoHeadProps } from '@/components/seo/seo.types';
 
-const API_BASE = process.env.API_URL ?? process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8083/api/v1';
+const RAW_API_URL = process.env.API_URL ?? process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8083/api/v1';
+const API_BASE = RAW_API_URL.replace(/\/website\/?$/, '');
 
 /**
  * Fetch SEO data for a given page slug.
@@ -21,8 +22,7 @@ export async function fetchPageSeo(slug: string): Promise<PageSeoData | null> {
   const encodedSlug = encodeURIComponent(slug);
   try {
     const res = await fetch(`${API_BASE}/seo/public/by-slug/${encodedSlug}`, {
-      // Revalidate every 5 minutes in production
-      next: { revalidate: 300 },
+      cache: 'no-store', // Always fetch fresh data
     });
 
     if (!res.ok) return null;
@@ -30,7 +30,7 @@ export async function fetchPageSeo(slug: string): Promise<PageSeoData | null> {
     const json = await res.json();
     const data = json?.data as PageSeoData | undefined;
     return data?.isActive ? data : null;
-  } catch {
+  } catch (error) {
     return null;
   }
 }

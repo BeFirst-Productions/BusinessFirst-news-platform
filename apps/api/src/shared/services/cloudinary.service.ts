@@ -1,3 +1,10 @@
+// export class CloudinaryService { ... }
+
+/* 
+ * This service is deprecated and has been replaced by BunnyService.
+ * Retained for reference only.
+ *
+
 import { v2 as cloudinary } from 'cloudinary';
 import { env } from '../../config/env';
 import { AppError } from '../errors/AppError';
@@ -121,3 +128,4 @@ export class CloudinaryService {
     }
   }
 }
+*/

@@ -29,10 +29,10 @@ const NewsGridSection = () => {
     category: article.category?.name || 'News',
     date: article.publishedAt
       ? new Date(article.publishedAt).toLocaleDateString('en-US', {
-          month: 'long',
-          day: 'numeric',
-          year: 'numeric',
-        })
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+      })
       : '',
     imageUrl: article.featuredImage || '/placeholder-news.jpg',
   });
@@ -73,11 +73,11 @@ const NewsGridSection = () => {
   return (
     <SectionContainer as="section" className="bg-white py-8 md:py-12">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 w-full">
-        
+
         {/* Left Column - Trending News (Spans 4/12) */}
         <div className="lg:col-span-4 border-r-0 lg:border-r border-gray-200 lg:pr-4 xl:pr-6">
-          <NewsColumn 
-            title="Trending News" 
+          <NewsColumn
+            title="Trending News"
             titleColor="#FF0202"
             articles={trendingList}
           />
@@ -85,8 +85,8 @@ const NewsGridSection = () => {
 
         {/* Center Column - UAE News (Spans 4/12) */}
         <div className="lg:col-span-4 border-r-0 lg:border-r border-gray-200 lg:pr-4 xl:pr-6">
-          <NewsColumn 
-            title="UAE News" 
+          <NewsColumn
+            title="UAE News"
             titleColor="#cd2027"
             articles={uaeList}
           />
@@ -98,9 +98,9 @@ const NewsGridSection = () => {
             ratio="ad_2"
             className="w-full flex-1 min-h-[260px] lg:min-h-0 relative overflow-hidden shadow-sm"
             fallback={
-              <Image 
-                src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80" 
-                alt="Burger Ad 1" 
+              <Image
+                src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80"
+                alt="Burger Ad 1"
                 fill
                 className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
               />
@@ -110,9 +110,9 @@ const NewsGridSection = () => {
             ratio="ad_3"
             className="w-full flex-1 min-h-[220px] lg:min-h-0 relative overflow-hidden shadow-sm"
             fallback={
-              <Image 
-                src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=600&q=80" 
-                alt="Burger Ad 2" 
+              <Image
+                src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=600&q=80"
+                alt="Burger Ad 2"
                 fill
                 className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
               />

@@ -63,7 +63,7 @@ const Footer = () => {
           <div className="lg:col-span-2 flex flex-col gap-2">
             <h3 className="text-[#fbbf24] font-bold text-[15px] 2xl:text-[18px]">About the Company</h3>
             <ul className="flex flex-col gap-2 mt-2">
-              {['About us', 'Careers', 'Partner with us', 'Advertise with us', 'Contact us', 'Submit a complaint'].map((item) => {
+              {['About us', /*'Careers',*/ 'Partner with us', 'Advertise with us', 'Contact us', 'Submit a complaint'].map((item) => {
                 const href = item.toLowerCase() === 'contact us' ? '/contact' : '#';
                 return (
                   <li key={item}>
@@ -91,7 +91,7 @@ const Footer = () => {
           </div>
 
           {/* Column 5: Newsletter & Map */}
-          <div className="lg:col-span-2 flex flex-col gap-2">
+          <div id="newsletter-section" className="lg:col-span-2 flex flex-col gap-2 scroll-mt-24">
             <div className="flex flex-col gap-1">
               <h3 className="text-[#fbbf24] font-bold text-[15px] 2xl:text-[18px] leading-tight">Subscribe to our<br/>Weekly Newsletter</h3>
               <p className="text-white text-[13px] 2xl:text-[15px] mt-1">The Pulse of UAE Business</p>
@@ -1195,9 +1195,11 @@ const Footer = () => {
           <div className="flex flex-wrap justify-center gap-x-2 gap-y-2 text-white text-[13px] 2xl:text-[15px]">
             <Link href="#" className="hover:text-white transition-colors">Disclaimer</Link>
             <span>|</span>
-            <Link href="/policy/terms" className="hover:text-white transition-colors">Terms and Conditions</Link>
+            <Link href="/terms" className="hover:text-white transition-colors">Terms and Conditions</Link>
             <span>|</span>
             <Link href="/policy/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <span>|</span>
+            <Link href="/cookie-policy" className="hover:text-white transition-colors">Cookie Policy</Link>
             <span>|</span>
             <Link href="#" className="hover:text-white transition-colors">Sitemap</Link>
           </div>
