@@ -46,8 +46,12 @@ async function bootstrap() {
   }));
 
   // CORS configuration
+  const allowedOrigins = [env.WEB_URL, env.ADMIN_URL];
+  if (env.TEST_WEB_URL) allowedOrigins.push(env.TEST_WEB_URL);
+  if (env.TEST_ADMIN_URL) allowedOrigins.push(env.TEST_ADMIN_URL);
+
   app.use(cors({
-    origin: [env.WEB_URL, env.ADMIN_URL],
+    origin: allowedOrigins,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],

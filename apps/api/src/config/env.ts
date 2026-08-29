@@ -25,6 +25,8 @@ const envSchema = z.object({
   // URLs
   WEB_URL: z.string().url().default('http://localhost:3000'),
   ADMIN_URL: z.string().url().default('http://localhost:3001'),
+  TEST_WEB_URL: z.string().url().optional(),
+  TEST_ADMIN_URL: z.string().url().optional(),
   API_URL: z.string().url().default('http://localhost:8083'),
 
   // SMTP
