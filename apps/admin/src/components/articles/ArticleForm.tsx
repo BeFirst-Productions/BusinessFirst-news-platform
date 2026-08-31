@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import imageCompression from 'browser-image-compression';
 import { TipTapEditor } from '@/components/editor/TipTapEditor';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -130,6 +131,12 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
   const [content, setContent] = useState('');
   const [activeTab, setActiveTab] = useState('content');
   const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const [compressionStats, setCompressionStats] = useState<{
+    originalSize: string;
+    compressedSize: string;
+    savings: string;
+  } | null>(null);
+  const [pendingImageFile, setPendingImageFile] = useState<File | null>(null);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   const [isSlugCustomized, setIsSlugCustomized] = useState(() => !!initialData?.slug);
@@ -254,25 +261,38 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
     }
 
     setIsUploadingImage(true);
+    setCompressionStats(null);
     try {
-      const formData = new FormData();
-      formData.append('files', file);
-
-      const response = await apiClient.post(`/media/upload?customName=${encodeURIComponent(imageTitle.trim())}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-
-      if (response.data.success && response.data.data?.[0]?.url) {
-        setValue('featuredImage', response.data.data[0].url);
-        toast.success('Image uploaded successfully');
-      } else {
-        throw new Error('Upload failed');
+      let uploadFile = file;
+      if (file.type.startsWith('image/') && !file.type.includes('gif')) {
+        try {
+          const options = {
+            maxSizeMB: 1,
+            maxWidthOrHeight: 1920,
+            useWebWorker: true,
+          };
+          uploadFile = await imageCompression(file, options);
+          const originalSize = (file.size / 1024 / 1024).toFixed(2);
+          const compressedSize = (uploadFile.size / 1024 / 1024).toFixed(2);
+          const savings = (((file.size - uploadFile.size) / file.size) * 100).toFixed(0);
+          
+          setCompressionStats({
+            originalSize: `${originalSize} MB`,
+            compressedSize: `${compressedSize} MB`,
+            savings: `${savings}%`,
+          });
+        } catch (err) {
+          console.error('Error compressing image:', err);
+          toast.error('Failed to compress image, using original');
+        }
       }
+
+      setPendingImageFile(uploadFile);
+      setValue('featuredImage', URL.createObjectURL(uploadFile));
+      
     } catch (error) {
-      toast.error('Failed to upload image');
-      console.error('Featured image upload error:', error);
+      toast.error('Failed to process image');
+      console.error('Featured image process error:', error);
     } finally {
       setIsUploadingImage(false);
     }
@@ -283,9 +303,41 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
       toast.error('Content is required');
       return;
     }
+    
+    let finalImageUrl = formData.featuredImage;
+
+    if (pendingImageFile) {
+      try {
+        setIsUploadingImage(true);
+        const imageTitle = watch('featuredImageTitle') || formData.title || 'article-image';
+        const uploadFormData = new FormData();
+        uploadFormData.append('files', pendingImageFile);
+
+        const response = await apiClient.post(`/media/upload?folder=articles&customName=${encodeURIComponent(imageTitle.trim())}`, uploadFormData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+
+        if (response.data.success && response.data.data?.[0]?.url) {
+          finalImageUrl = response.data.data[0].url;
+        } else {
+          throw new Error('Upload failed');
+        }
+      } catch (error) {
+        toast.error('Failed to upload image. Please try again.');
+        console.error('Featured image upload error:', error);
+        setIsUploadingImage(false);
+        return; // Prevent submission if upload fails
+      } finally {
+        setIsUploadingImage(false);
+      }
+    }
+
     // Clean scheduledAt if status is not SCHEDULED
     const submissionData = {
       ...formData,
+      featuredImage: finalImageUrl,
       content,
       scheduledAt: null,
     };
@@ -722,23 +774,28 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
                     alt="Featured Image Preview"
                     className="w-full h-48 object-cover"
                   />
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-4 backdrop-blur-[2px]">
                     <Button
                       type="button"
-                      variant="outline"
-                      className="text-white border-white hover:bg-white/20"
+                      variant="secondary"
+                      className="bg-white/90 hover:bg-white text-black font-medium shadow-xl hover:scale-105 transition-transform"
                       onClick={() => fileInputRef.current?.click()}
                       disabled={isUploadingImage}
                     >
-                      Change
+                      Change Image
                     </Button>
                     <Button
                       type="button"
                       variant="destructive"
-                      onClick={() => setValue('featuredImage', null)}
+                      className="shadow-xl hover:scale-105 transition-transform"
+                      onClick={() => {
+                        setValue('featuredImage', null);
+                        setPendingImageFile(null);
+                        setCompressionStats(null);
+                      }}
                       disabled={isUploadingImage}
                     >
-                      Remove
+                      Remove Image
                     </Button>
                   </div>
                 </div>
@@ -759,6 +816,13 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
                       <p className="text-xs text-muted-foreground mt-1">PNG, JPG, GIF up to 10MB</p>
                     </>
                   )}
+                </div>
+              )}
+              {compressionStats && (
+                <div className="mt-2 text-xs flex gap-4 p-2 bg-muted/50 rounded-md">
+                  <span className="text-muted-foreground">Original: <span className="font-semibold text-foreground">{compressionStats.originalSize}</span></span>
+                  <span className="text-muted-foreground">Compressed: <span className="font-semibold text-green-600">{compressionStats.compressedSize}</span></span>
+                  <span className="text-muted-foreground">Saved: <span className="font-semibold text-blue-600">{compressionStats.savings}</span></span>
                 </div>
               )}
               {errors.featuredImage && (
