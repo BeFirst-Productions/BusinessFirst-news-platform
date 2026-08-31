@@ -4,6 +4,7 @@ import { CreateArticleInput, UpdateArticleInput, ArticleQueryInput } from './art
 import { SlugUtil } from '../../shared/utils/slug.util';
 import { Prisma, ArticleStatus } from '../../generated/prisma';
 import { WebsiteService } from '../website/website.service';
+import { BunnyService } from '../../shared/services/bunny.service';
 
 export class ArticlesService {
   static async getArticles(query: ArticleQueryInput) {
@@ -430,6 +431,12 @@ export class ArticlesService {
       where: { id },
     });
 
+    if (article.featuredImage) {
+      BunnyService.deleteFile(article.featuredImage).catch((err) =>
+        console.error('Failed to delete article featured image:', err)
+      );
+    }
+
     // Invalidate website cache asynchronously
     WebsiteService.invalidateCache().catch((err) =>
       console.error('Failed to invalidate website cache on article deletion:', err)
@@ -439,11 +446,24 @@ export class ArticlesService {
   }
 
   static async bulkDeleteArticles(ids: string[]) {
+    const articles = await prisma.article.findMany({
+      where: { id: { in: ids } },
+      select: { featuredImage: true },
+    });
+
     await prisma.article.deleteMany({
       where: {
         id: { in: ids },
       },
     });
+
+    for (const article of articles) {
+      if (article.featuredImage) {
+        BunnyService.deleteFile(article.featuredImage).catch((err) =>
+          console.error('Failed to delete article featured image:', err)
+        );
+      }
+    }
 
     // Invalidate website cache asynchronously
     WebsiteService.invalidateCache().catch((err) =>

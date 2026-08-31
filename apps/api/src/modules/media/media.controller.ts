@@ -9,6 +9,7 @@ export class MediaController {
     try {
       const files = req.files as Express.Multer.File[] | undefined;
       const customName = req.query.customName as string | undefined;
+      const folder = (req.query.folder as string) || 'editor';
 
       if (!files || files.length === 0) {
         throw new AppError('No files uploaded', 400);
@@ -29,7 +30,7 @@ export class MediaController {
 
         const url = await BunnyService.uploadBuffer(
           file.buffer,
-          'editor',
+          folder,
           resourceType,
           file.mimetype,
           slugifiedName

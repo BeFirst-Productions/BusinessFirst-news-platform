@@ -131,4 +131,48 @@ export class BunnyService {
       throw new AppError('Failed to upload file locally', 500);
     }
   }
+
+  static async deleteFile(fileUrl: string): Promise<void> {
+    if (!fileUrl) return;
+
+    if (env.BUNNY_STORAGE_ZONE && env.BUNNY_STORAGE_API_KEY && env.BUNNY_PULL_ZONE_URL) {
+      if (fileUrl.startsWith(env.BUNNY_PULL_ZONE_URL)) {
+        try {
+          const storagePath = fileUrl.replace(`${env.BUNNY_PULL_ZONE_URL}/`, '');
+          let regionPrefix = '';
+          if (env.BUNNY_STORAGE_REGION) {
+            const region = env.BUNNY_STORAGE_REGION.toLowerCase();
+            if (['ny', 'la', 'sg', 'syd', 'uk'].includes(region)) {
+              regionPrefix = `${region}.`;
+            }
+          }
+          const url = `https://${regionPrefix}storage.bunnycdn.com/${env.BUNNY_STORAGE_ZONE}/${storagePath}`;
+          
+          await fetch(url, {
+            method: 'DELETE',
+            headers: {
+              'AccessKey': env.BUNNY_STORAGE_API_KEY,
+            },
+          });
+          console.log(`[BunnyService] Deleted file from CDN: ${fileUrl}`);
+        } catch (error) {
+          console.error('[BunnyService] Failed to delete file from Bunny CDN:', error);
+        }
+      }
+    } else {
+      // Local deletion
+      if (fileUrl.startsWith(`${env.API_URL}/uploads/`)) {
+        try {
+          const fileName = fileUrl.split('/uploads/')[1];
+          if (fileName) {
+            const filePath = path.resolve(__dirname, '../../../uploads', fileName);
+            await fs.unlink(filePath).catch(() => {});
+            console.log(`[BunnyService] Deleted local file: ${fileName}`);
+          }
+        } catch (error) {
+          console.error('[BunnyService] Failed to delete local file:', error);
+        }
+      }
+    }
+  }
 }
