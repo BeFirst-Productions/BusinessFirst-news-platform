@@ -13,7 +13,7 @@ const MiddleSection = () => {
       containerClassName="py-6 flex flex-col md:flex-row justify-between items-center"
     >
       {/* Logo area */}
-      <Link href="/" className="flex flex-col mb-4 md:mb-0 cursor-pointer">
+      <Link href="/" className="hidden md:flex flex-col mb-4 md:mb-0 cursor-pointer">
         <Image
           src="/logo/logo.svg"
           alt="Business First Logo"

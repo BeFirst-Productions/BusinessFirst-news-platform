@@ -204,17 +204,14 @@ export class AuthService {
       };
 
       const accessToken = JwtUtil.generateAccessToken(tokenPayload);
-      const refreshToken = JwtUtil.generateRefreshToken(tokenPayload);
-
-      // Update refresh token
-      await prisma.user.update({
-        where: { id: user.id },
-        data: { refreshToken },
-      });
+      
+      // We do not rotate the refresh token here to prevent multi-tab race conditions
+      // where Tab A refreshes and invalidates Tab B's token, causing sudden logouts.
+      // The refresh token will naturally expire based on its lifespan.
 
       return {
         accessToken,
-        refreshToken,
+        refreshToken: token,
       };
     } catch (error) {
       if (error instanceof UnauthorizedError) throw error;
