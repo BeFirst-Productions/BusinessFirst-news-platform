@@ -85,12 +85,14 @@ const MobileHeader = () => {
           </div>
 
           <Link href="/" className="flex flex-col items-center justify-center cursor-pointer">
-            <div className="text-white font-semibold text-[22px] leading-[1] tracking-wide">
-              BUSINESS
-            </div>
-            <div className="bg-[#cd2027] text-white text-[12px] font-semibold px-[16px] py-[1px] tracking-[0.3em] uppercase mt-[3px]">
-              First
-            </div>
+            <Image
+              src="/logo/logo.svg"
+              alt="Business First Logo"
+              width={160}
+              height={48}
+              priority
+              className="object-contain"
+            />
           </Link>
 
           <div className="flex items-center gap-3">
