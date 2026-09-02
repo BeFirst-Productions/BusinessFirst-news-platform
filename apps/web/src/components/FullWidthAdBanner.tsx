@@ -27,13 +27,14 @@ const FullWidthAdBanner: React.FC<FullWidthAdBannerProps> = ({
           ratio={ratio}
           targetPage={targetPage}
           className={adClassName}
+          objectFit="fill"
           fallback={
             <div className={`relative overflow-hidden w-full h-full`}>
               <Image 
                 src={imageUrl} 
                 alt={altText} 
                 fill 
-                className="object-cover object-center"
+                className="object-fill object-center"
               />
             </div>
           }

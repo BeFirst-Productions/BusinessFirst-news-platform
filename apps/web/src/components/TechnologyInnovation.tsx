@@ -124,12 +124,13 @@ const TechnologyInnovation = () => {
             <DynamicAd
               ratio="ad_5"
               className="w-full aspect-square md:aspect-[4/3] lg:aspect-auto lg:flex-grow overflow-hidden mt-2"
+              objectFit="fill"
               fallback={
                 <Image
                   src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80"
                   alt="Advertisement Banner"
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="object-fill group-hover:scale-105 transition-transform duration-500"
                 />
               }
             />

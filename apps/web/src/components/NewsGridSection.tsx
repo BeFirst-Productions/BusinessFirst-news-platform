@@ -92,14 +92,14 @@ const NewsGridSection = () => {
           />
         </div>
 
-        {/* Right Column - Ads & Newsletter (Spans 4/12) */}
-        <div className="lg:col-span-4 flex flex-col justify-between gap-6 h-full min-h-0">
+        <div className="lg:col-span-4 flex flex-col gap-6">
           <DynamicAd
             ratio="ad_2"
-            className="w-full flex-1 min-h-[260px] lg:min-h-0 relative overflow-hidden shadow-sm"
+            className="w-full aspect-[6/5] relative overflow-hidden shadow-sm bg-gray-100"
+            objectFit="cover"
             fallback={
               <Image
-                src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80"
+                src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&h=500&q=80"
                 alt="Burger Ad 1"
                 fill
                 className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
@@ -108,10 +108,11 @@ const NewsGridSection = () => {
           />
           <DynamicAd
             ratio="ad_3"
-            className="w-full flex-1 min-h-[220px] lg:min-h-0 relative overflow-hidden shadow-sm"
+            className="w-full aspect-[6/5] relative overflow-hidden shadow-sm bg-gray-100"
+            objectFit="cover"
             fallback={
               <Image
-                src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=600&q=80"
+                src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=600&h=500&q=80"
                 alt="Burger Ad 2"
                 fill
                 className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
