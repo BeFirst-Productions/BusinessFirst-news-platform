@@ -42,12 +42,6 @@ const NewsDetail: React.FC<NewsDetailProps> = ({ articleId }) => {
       {/* Breadcrumbs */}
       <NewsBreadcrumbs category={article.category?.name || 'News'} />
 
-      {/* Main Title Header */}
-      <NewsHeader
-        title={article.title}
-        description={article.metaDescription || ""}
-      />
-
       {/* Layout - Changed to flow layout for text wrapping */}
       <div className="w-full items-start">
         {/* Article Content with embedded Sidebar for text wrapping */}
@@ -56,6 +50,12 @@ const NewsDetail: React.FC<NewsDetailProps> = ({ articleId }) => {
           title={article.title}
           contentParagraphs={article.content ? [article.content] : []}
           sidebar={<NewsSidebar />}
+          header={
+            <NewsHeader
+              title={article.title}
+              description={article.metaDescription || ""}
+            />
+          }
         />
       </div>
 

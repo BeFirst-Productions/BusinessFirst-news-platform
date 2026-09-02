@@ -36,13 +36,13 @@ type AdFormData = z.infer<typeof adSchema>;
 
 const RATIO_OPTIONS_BY_PAGE: Record<string, any[]> = {
   home: [
-    { value: 'ad_1', label: 'Ad 1', ratio: 'Hero Banner', aspectClass: 'aspect-[4/1] w-full max-w-[100px]', desc: 'Header Section', dimensions: '1200 × 300 px' },
-    { value: 'ad_2', label: 'Ad 2', ratio: 'Vertical', aspectClass: 'aspect-[1/2] h-12', desc: 'Sidebar Top', dimensions: '300 × 600 px' },
-    { value: 'ad_3', label: 'Ad 3', ratio: 'Square', aspectClass: 'aspect-square h-12', desc: 'Sidebar Bottom', dimensions: '300 × 250 px' },
+    { value: 'ad_1', label: 'Ad 1', ratio: 'Hero Banner', aspectClass: 'aspect-[4/1] w-full max-w-[100px]', desc: 'Header Section', dimensions: '1600 × 224 px' },
+    { value: 'ad_2', label: 'Ad 2', ratio: 'Medium Rectangle', aspectClass: 'aspect-[6/5] h-12', desc: 'Sidebar Top', dimensions: '600 × 500 px' },
+    { value: 'ad_3', label: 'Ad 3', ratio: 'Medium Rectangle', aspectClass: 'aspect-[6/5] h-12', desc: 'Sidebar Bottom', dimensions: '600 × 500 px' },
     { value: 'ad_4', label: 'Ad 4', ratio: 'Billboard', aspectClass: 'aspect-[16/3] w-full max-w-[120px]', desc: 'Middle Page', dimensions: '1600 × 300 px' },
-    { value: 'ad_5', label: 'Ad 5', ratio: 'Square', aspectClass: 'aspect-square h-12', desc: 'Technology Section', dimensions: '300 × 250 px' },
+    { value: 'ad_5', label: 'Ad 5', ratio: 'Medium Rectangle', aspectClass: 'aspect-square h-12', desc: 'Technology Section', dimensions: '600 × 500 px' },
     { value: 'ad_6', label: 'Ad 6', ratio: 'Billboard', aspectClass: 'aspect-[16/3] w-full max-w-[120px]', desc: 'Logistics Section', dimensions: '1600 × 300 px' },
-    { value: 'ad_7', label: 'Ad 7', ratio: 'Square', aspectClass: 'aspect-square h-12', desc: 'Banking Section', dimensions: '300 × 250 px' },
+    { value: 'ad_7', label: 'Ad 7', ratio: 'Portrait', aspectClass: 'aspect-[4/5] h-12', desc: 'Banking Section', dimensions: '800 × 1000 px' },
     { value: 'ad_8', label: 'Ad 8', ratio: 'Billboard', aspectClass: 'aspect-[16/3] w-full max-w-[120px]', desc: 'Events Section', dimensions: '1600 × 300 px' },
     { value: 'ad_9', label: 'Ad 9', ratio: 'Billboard', aspectClass: 'aspect-[16/3] w-full max-w-[120px]', desc: 'Culture Section', dimensions: '1600 × 300 px' },
   ],

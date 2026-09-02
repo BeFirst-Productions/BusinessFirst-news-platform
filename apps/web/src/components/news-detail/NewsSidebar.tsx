@@ -69,12 +69,7 @@ const NewsSidebar = () => {
               fill
               className="object-cover group-hover:scale-105 transition-transform duration-500"
             />
-            {/* Styled overlay ad text */}
-            <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/90 to-transparent p-6 text-white flex flex-col gap-1">
-              <span className="text-amber-400 font-extrabold text-xs tracking-widest uppercase">Special Deal</span>
-              <h4 className="font-extrabold text-base leading-tight">Crispy Double Beef Burger</h4>
-              <p className="text-white/70 text-xs mt-1 font-medium">Order now for free home delivery inside Dubai</p>
-            </div>
+          
           </>
         }
       />

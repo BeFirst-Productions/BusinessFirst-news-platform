@@ -10,6 +10,7 @@ interface DynamicAdProps {
   ratio: string;
   targetPage?: string;
   className?: string;
+  objectFit?: 'cover' | 'contain' | 'fill';
   fallback?: React.ReactNode;
 }
 
@@ -17,6 +18,7 @@ export function DynamicAd({
   ratio,
   targetPage = 'home',
   className = '',
+  objectFit = 'cover',
   fallback,
 }: DynamicAdProps) {
   const { data: ads, isLoading } = usePageAds(targetPage);
@@ -110,7 +112,7 @@ export function DynamicAd({
           alt={ad.name || 'Advertisement'}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover group-hover:scale-105 transition-transform duration-500"
+          className={`object-${objectFit} object-center group-hover:scale-105 transition-transform duration-500`}
           priority={ratio === 'ad_1'} // Prioritize above-the-fold header ad
         />
       ) : null}

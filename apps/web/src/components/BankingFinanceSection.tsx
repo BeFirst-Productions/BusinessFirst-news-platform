@@ -157,12 +157,13 @@ const BankingFinanceSection: React.FC = () => {
           <DynamicAd
             ratio="ad_7"
             className="relative w-full aspect-[4/5] rounded overflow-hidden"
+            objectFit="fill"
             fallback={
               <Image
                 src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80"
                 alt="Ad Banner"
                 fill
-                className="object-cover"
+                className="object-fill"
               />
             }
           />
