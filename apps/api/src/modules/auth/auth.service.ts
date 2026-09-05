@@ -1,11 +1,11 @@
 import { prisma } from '../../config/database';
 import { PasswordUtil } from '../../shared/utils/password.util';
 import { JwtUtil, TokenPayload } from '../../shared/utils/jwt.util';
-import { 
-  UnauthorizedError, 
-  BadRequestError, 
+import {
+  UnauthorizedError,
+  BadRequestError,
   NotFoundError,
-  ConflictError 
+  ConflictError
 } from '../../shared/errors/AppError';
 import RedisClient from '../../config/redis';
 import { UserStatus, Role } from '../../generated/prisma';
@@ -204,7 +204,7 @@ export class AuthService {
       };
 
       const accessToken = JwtUtil.generateAccessToken(tokenPayload);
-      
+
       // We do not rotate the refresh token here to prevent multi-tab race conditions
       // where Tab A refreshes and invalidates Tab B's token, causing sudden logouts.
       // The refresh token will naturally expire based on its lifespan.

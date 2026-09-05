@@ -30,6 +30,14 @@ const adSchema = z.object({
   redirectUrl: z.string().url('Please enter a valid URL (e.g., https://example.com)').optional().or(z.literal('')),
   startDate: z.string().min(1, 'Start date is required'),
   endDate: z.string().min(1, 'End date is required'),
+}).refine(data => {
+  if (data.startDate && data.endDate) {
+    return new Date(data.endDate) >= new Date(data.startDate);
+  }
+  return true;
+}, {
+  message: "End date cannot be earlier than start date",
+  path: ["endDate"],
 });
 
 type AdFormData = z.infer<typeof adSchema>;
@@ -92,6 +100,7 @@ export default function EditAdPage() {
     formState: { errors, isSubmitting },
   } = useForm<AdFormData>({
     resolver: zodResolver(adSchema),
+    mode: 'onChange',
     defaultValues: {
       type: 'IMAGE',
       targetPage: 'home',
@@ -210,23 +219,23 @@ export default function EditAdPage() {
     if (file) {
       try {
         const originalSize = (file.size / 1024 / 1024).toFixed(2);
-        
+
         const options = {
           maxSizeMB: 1,
           maxWidthOrHeight: 1920,
           useWebWorker: true
         };
-        
+
         const compressedFile = await imageCompression(file, options);
         const compressedSize = (compressedFile.size / 1024 / 1024).toFixed(2);
         const savings = (((file.size - compressedFile.size) / file.size) * 100).toFixed(0);
-        
+
         setCompressionStats({
           originalSize: `${originalSize} MB`,
           compressedSize: `${compressedSize} MB`,
           savings: `${savings}%`
         });
-        
+
         setImageFile(compressedFile);
         setImagePreview(URL.createObjectURL(compressedFile));
       } catch (error) {
@@ -490,7 +499,7 @@ export default function EditAdPage() {
                 </div>
               </div>
             )}
-            
+
             {compressionStats && (
               <div className="mt-4 p-3 bg-muted/50 rounded-md flex justify-between items-center text-sm border">
                 <span className="text-muted-foreground">Original: <span className="font-semibold text-foreground">{compressionStats.originalSize}</span></span>
@@ -505,10 +514,10 @@ export default function EditAdPage() {
           <Button type="button" variant="outline" onClick={() => router.back()} disabled={isNavigating || updateAd.isPending || (updateAd as any).isLoading}>
             Cancel
           </Button>
-          <Button 
-            type="button" 
-            variant="secondary" 
-            onClick={handlePreview} 
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={handlePreview}
             disabled={!selectedPage || !watch('ratio') || (!imagePreview && !gifPreview)}
             leftIcon={<Eye className="h-4 w-4" />}
           >

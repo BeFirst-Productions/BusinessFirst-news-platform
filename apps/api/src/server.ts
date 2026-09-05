@@ -14,6 +14,7 @@ import { errorHandler } from './middleware/error.middleware';
 import { requestLogger } from './middleware/logger.middleware';
 import { activityLogger } from './middleware/activity.middleware';
 import path from 'path';
+import { initAdsCron } from './modules/ads/ads.cron';
 
 async function bootstrap() {
   const app = express();
@@ -89,6 +90,9 @@ async function bootstrap() {
 
   // Error handler
   app.use(errorHandler);
+
+  // Initialize cron jobs
+  initAdsCron();
 
   // Start server
   const server = app.listen(env.PORT, () => {
