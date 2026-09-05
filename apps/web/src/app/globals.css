@@ -20,6 +20,10 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+h1, .prose h1, .tiptap-content h1 {
+  font-family: var(--font-noto-sans-display), sans-serif;
+}
+
 /* ═══════════════════════════════════════════════════
    TIPTAP PROSE CONTENT & IMAGE LAYOUT STYLING
 ═══════════════════════════════════════════════════ */

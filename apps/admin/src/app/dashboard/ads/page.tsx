@@ -110,7 +110,7 @@ export default function AdsPage() {
       className: 'text-right',
       cell: (item: any) => (
         <div className="flex items-center justify-end gap-2">
-        
+
           {hasPermission('ADS', 'edit') && (
             <Button
               variant="ghost"
