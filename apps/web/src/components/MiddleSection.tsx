@@ -30,12 +30,14 @@ const MiddleSection = () => {
         className="w-full md:w-2/3 h-24 md:h-28 bg-gray-200"
         objectFit="fill"
         fallback={
-          <Image
-            src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1200&h=300&q=80"
-            alt="Advertisement"
-            fill
-            className="object-fill group-hover:scale-105 transition-transform duration-500"
-          />
+          <Link href="https://nextmedia.ae" target="_blank" rel="noopener noreferrer" className="block w-full h-full relative">
+            <Image
+              src="/ads/next 1600x224.png"
+              alt="Advertisement"
+              fill
+              className="object-fill group-hover:scale-105 transition-transform duration-500"
+            />
+          </Link>
         }
       />
     </SectionContainer>

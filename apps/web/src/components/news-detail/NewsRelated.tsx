@@ -16,7 +16,7 @@ const NewsRelated: React.FC<NewsRelatedProps> = ({ articleId }) => {
   if (!articleId || (!isLoading && (!relatedRes || relatedRes.data.length === 0))) {
     return null; // Return nothing if no related articles
   }
-
+ 
   const articles = relatedRes?.data || [];
 
   return (

@@ -99,7 +99,7 @@ const NewsGridSection = () => {
             objectFit="cover"
             fallback={
               <Image
-                src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&h=500&q=80"
+                src="/ads/next 600x500.png"
                 alt="Burger Ad 1"
                 fill
                 className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
@@ -112,7 +112,7 @@ const NewsGridSection = () => {
             objectFit="cover"
             fallback={
               <Image
-                src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=600&h=500&q=80"
+                src="/ads/invest 600x500.png"
                 alt="Burger Ad 2"
                 fill
                 className="object-cover object-center group-hover:scale-105 transition-transform duration-500"

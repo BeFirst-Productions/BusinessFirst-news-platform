@@ -205,7 +205,7 @@ const LogisticsAviationSection: React.FC = () => {
       </div>
 
       <div className="mt-16 w-full">
-        <FullWidthAdBanner ratio="ad_6" />
+        <FullWidthAdBanner ratio="ad_6" imageUrl="/ads/invest 1600x300.png" linkUrl="https://investfirst.ae" />
       </div>
     </SectionContainer>
   );

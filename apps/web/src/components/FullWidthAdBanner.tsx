@@ -2,6 +2,7 @@ import React from 'react';
 import AdBanner from './AdBanner';
 import { DynamicAd } from './ads/DynamicAd';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface FullWidthAdBannerProps {
   containerClassName?: string;
@@ -10,17 +11,30 @@ interface FullWidthAdBannerProps {
   altText?: string;
   ratio?: string;
   targetPage?: string;
+  linkUrl?: string;
 }
 
 const FullWidthAdBanner: React.FC<FullWidthAdBannerProps> = ({ 
   containerClassName = "w-full", 
   adClassName = "h-[120px] md:h-[200px] xl:h-[250px] shadow-sm",
-  imageUrl = "https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=1600&h=300&q=80",
+  imageUrl = "/ads/next 1600x300.png",
   altText = "Free Home Delivery Ad",
   ratio,
-  targetPage = "home"
+  targetPage = "home",
+  linkUrl
 }) => {
   if (ratio) {
+    const fallbackContent = (
+      <div className={`relative overflow-hidden w-full h-full`}>
+        <Image 
+          src={imageUrl} 
+          alt={altText} 
+          fill 
+          className="object-fill object-center"
+        />
+      </div>
+    );
+
     return (
       <div className={containerClassName}>
         <DynamicAd 
@@ -29,14 +43,11 @@ const FullWidthAdBanner: React.FC<FullWidthAdBannerProps> = ({
           className={adClassName}
           objectFit="fill"
           fallback={
-            <div className={`relative overflow-hidden w-full h-full`}>
-              <Image 
-                src={imageUrl} 
-                alt={altText} 
-                fill 
-                className="object-fill object-center"
-              />
-            </div>
+            linkUrl ? (
+              <Link href={linkUrl} target="_blank" rel="noopener noreferrer" className="block w-full h-full">
+                {fallbackContent}
+              </Link>
+            ) : fallbackContent
           }
         />
       </div>
@@ -49,6 +60,7 @@ const FullWidthAdBanner: React.FC<FullWidthAdBannerProps> = ({
         imageUrl={imageUrl} 
         altText={altText} 
         className={adClassName}
+        linkUrl={linkUrl}
       />
     </div>
   );

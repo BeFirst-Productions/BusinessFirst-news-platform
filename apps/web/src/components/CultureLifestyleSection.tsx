@@ -137,7 +137,7 @@ const CultureLifestyleSection = () => {
       </div>
 
       <div className="mt-12 w-full">
-        <FullWidthAdBanner ratio="ad_9" />
+        <FullWidthAdBanner ratio="ad_9" imageUrl="/ads/investt 1600x300.png" linkUrl="https://investfirst.ae" />
       </div>
     </SectionContainer>
   );
