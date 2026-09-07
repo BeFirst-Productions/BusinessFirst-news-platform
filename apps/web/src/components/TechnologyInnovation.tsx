@@ -127,7 +127,7 @@ const TechnologyInnovation = () => {
               objectFit="fill"
               fallback={
                 <Image
-                  src="/ads/nextt 600x500.png"
+                  src="/ads/nextt_600x500.png"
                   alt="Advertisement Banner"
                   fill
                   className="object-fill group-hover:scale-105 transition-transform duration-500"

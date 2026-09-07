@@ -160,7 +160,7 @@ const BankingFinanceSection: React.FC = () => {
             objectFit="fill"
             fallback={
               <Image
-                src="/ads/next 600x500.png"
+                src="/ads/next_600x500.png"
                 alt="Ad Banner"
                 fill
                 className="object-fill"

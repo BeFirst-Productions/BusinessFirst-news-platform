@@ -52,6 +52,7 @@ export function usePageAds(targetPage: string) {
     },
     staleTime: STALE_TIMES.FREQUENT,
     enabled: !!targetPage,
+    retry: 1, // Fail fast so fallback shows quickly when API is unreachable
   });
 }
 
