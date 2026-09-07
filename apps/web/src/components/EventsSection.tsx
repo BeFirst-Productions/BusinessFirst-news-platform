@@ -226,7 +226,7 @@ const EventsSection = () => {
       </div>
 
       <div className="mt-12 w-full">
-        <FullWidthAdBanner ratio="ad_8" imageUrl="/ads/invest_1600x300.png" linkUrl="https://investfirst.ae" />
+        <FullWidthAdBanner ratio="ad_8" imageUrl="/ads/next_1600x224.png" linkUrl="https://investfirst.ae" />
       </div>
     </SectionContainer>
   );

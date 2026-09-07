@@ -62,15 +62,19 @@ const NewsSidebar = () => {
         targetPage="news_detail"
         className="order-1 lg:order-2 w-full aspect-square rounded-2xl shadow-sm border border-gray-100 bg-gray-900"
         fallback={
-          <>
+          <Link
+            href="https://investfirst.ae"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block w-full h-full relative"
+          >
             <Image
               src="/ads/invest_500x500.png"
-              alt="Burger Sidebar Ad"
+              alt="InvestFirst - Investment & Finance Platform"
               fill
               className="object-cover group-hover:scale-105 transition-transform duration-500"
             />
-          
-          </>
+          </Link>
         }
       />
     </aside>

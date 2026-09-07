@@ -126,12 +126,14 @@ const TechnologyInnovation = () => {
               className="w-full aspect-square md:aspect-[4/3] lg:aspect-auto lg:flex-grow overflow-hidden mt-2"
               objectFit="fill"
               fallback={
-                <Image
-                  src="/ads/nextt_600x500.png"
-                  alt="Advertisement Banner"
-                  fill
-                  className="object-fill group-hover:scale-105 transition-transform duration-500"
-                />
+                <Link href="https://nextmedia.ae" target="_blank" rel="noopener noreferrer" className="block w-full h-full relative">
+                  <Image
+                    src="/ads/nextt_600x500.png"
+                    alt="Next Media - Branding & Marketing Solutions"
+                    fill
+                    className="object-fill group-hover:scale-105 transition-transform duration-500"
+                  />
+                </Link>
               }
             />
           </div>

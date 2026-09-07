@@ -1,8 +1,10 @@
-'use client';
+ 'use client';
 
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import axios from 'axios';
 import { apiClient } from '@/lib/api-client';
+import { API_URL } from '@/lib/constants';
 
 export interface UserModulePermission {
   id: string;
@@ -38,11 +40,12 @@ interface AuthState {
   logout: () => void;
   setTokens: (access: string, refresh: string) => void;
   refreshProfile: () => Promise<void>;
+  refreshAccessToken: () => Promise<string | null>;
 }
 
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       user: null,
       accessToken: null,
       refreshToken: null,
@@ -96,11 +99,54 @@ export const useAuthStore = create<AuthState>()(
           console.error('Failed to refresh profile:', error);
         }
       },
+
+      refreshAccessToken: async () => {
+        const storedRefreshToken =
+          (typeof window !== 'undefined' ? localStorage.getItem('refreshToken') : null) ||
+          get().refreshToken;
+
+        if (!storedRefreshToken) {
+          return null;
+        }
+
+        try {
+          const { data } = await axios.post(`${API_URL}/auth/refresh-token`, {
+            refreshToken: storedRefreshToken,
+          });
+
+          const { accessToken: newAccessToken, refreshToken: newRefreshToken } = data.data || {};
+
+          if (newAccessToken) {
+            localStorage.setItem('accessToken', newAccessToken);
+            if (newRefreshToken) {
+              localStorage.setItem('refreshToken', newRefreshToken);
+            }
+            set({
+              accessToken: newAccessToken,
+              refreshToken: newRefreshToken || storedRefreshToken,
+              isAuthenticated: true,
+            });
+            return newAccessToken;
+          }
+          return null;
+        } catch (error: any) {
+          // If refresh token is explicitly rejected (401/403), logout
+          if (error.response?.status === 401 || error.response?.status === 403) {
+            get().logout();
+            if (typeof window !== 'undefined') {
+              window.location.href = '/login';
+            }
+          }
+          // On network errors or server issues, do not log out
+          return null;
+        }
+      },
     }),
     {
       name: 'auth-storage',
       partialize: (state) => ({
         user: state.user,
+        accessToken: state.accessToken,
         refreshToken: state.refreshToken,
         isAuthenticated: state.isAuthenticated,
       }),

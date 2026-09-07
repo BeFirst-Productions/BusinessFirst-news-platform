@@ -159,12 +159,14 @@ const BankingFinanceSection: React.FC = () => {
             className="relative w-full aspect-[4/5] rounded overflow-hidden"
             objectFit="fill"
             fallback={
-              <Image
-                src="/ads/next_600x500.png"
-                alt="Ad Banner"
-                fill
-                className="object-fill"
-              />
+              <Link href="https://nextmedia.ae" target="_blank" rel="noopener noreferrer" className="block w-full h-full relative">
+                <Image
+                  src="/ads/next_800x1000.png"
+                  alt="Next Media - Branding & Marketing Solutions"
+                  fill
+                  className="object-fill group-hover:scale-105 transition-transform duration-500"
+                />
+              </Link>
             }
           />
           <NewsletterWidget />

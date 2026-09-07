@@ -183,17 +183,21 @@ export class AuthService {
     try {
       const decoded = JwtUtil.verifyRefreshToken(token);
 
-      // Verify user exists and token matches
+      // Verify user exists and is active
       const user = await prisma.user.findFirst({
         where: {
           id: decoded.userId,
-          refreshToken: token,
           status: UserStatus.ACTIVE,
         },
       });
 
       if (!user) {
-        throw new UnauthorizedError('Invalid refresh token');
+        throw new UnauthorizedError('User account not found or inactive');
+      }
+
+      // If user explicitly logged out, refreshToken is set to null
+      if (user.refreshToken === null) {
+        throw new UnauthorizedError('Session has expired. Please log in again.');
       }
 
       // Generate new tokens

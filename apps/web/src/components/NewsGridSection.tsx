@@ -7,6 +7,7 @@ import AdBanner from './AdBanner';
 import { DynamicAd } from './ads/DynamicAd';
 import NewsletterWidget from './NewsletterWidget';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useArticles } from '../hooks/use-articles';
 import { Skeleton } from './ui/Skeleton';
 
@@ -98,12 +99,14 @@ const NewsGridSection = () => {
             className="w-full aspect-[6/5] relative overflow-hidden shadow-sm bg-gray-100"
             objectFit="cover"
             fallback={
-              <Image
-                src="/ads/next_600x500.png"
-                alt="Burger Ad 1"
-                fill
-                className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
-              />
+              <Link href="https://investfirst.ae" target="_blank" rel="noopener noreferrer" className="block w-full h-full relative">
+                <Image
+                  src="/ads/invest_600x500.png"
+                  alt="InvestFirst - Investment & Finance Platform"
+                  fill
+                  className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                />
+              </Link>
             }
           />
           <DynamicAd
@@ -111,12 +114,14 @@ const NewsGridSection = () => {
             className="w-full aspect-[6/5] relative overflow-hidden shadow-sm bg-gray-100"
             objectFit="cover"
             fallback={
-              <Image
-                src="/ads/invest_600x500.png"
-                alt="Burger Ad 2"
-                fill
-                className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
-              />
+              <Link href="https://nextmedia.ae" target="_blank" rel="noopener noreferrer" className="block w-full h-full relative">
+                <Image
+                  src="/ads/next_600x500.png"
+                  alt="Next Media - Leading Media Solutions"
+                  fill
+                  className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                />
+              </Link>
             }
           />
           <NewsletterWidget />
