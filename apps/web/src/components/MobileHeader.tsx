@@ -207,12 +207,19 @@ const MobileHeader = () => {
           className="w-full h-20 sm:h-24 bg-gray-200 shadow-sm"
           objectFit="fill"
           fallback={
-            <Image
-              src="/ads/next_1600x224.png"
-              alt="Advertisement"
-              fill
-              className="object-fill"
-            />
+            <Link
+              href="https://nextmedia.ae"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block w-full h-full relative"
+            >
+              <Image
+                src="/ads/next_1600x224.png"
+                alt="Advertisement"
+                fill
+                className="object-fill"
+              />
+            </Link>
           }
         />
       </SectionContainer>

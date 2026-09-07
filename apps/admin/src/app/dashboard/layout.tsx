@@ -54,7 +54,7 @@ function DashboardLayoutContent({
   children: React.ReactNode;
 }) {
   const [mounted, setMounted] = React.useState(false);
-  const { user, isAuthenticated, refreshProfile } = useAuthStore();
+  const { user, isAuthenticated, refreshProfile, refreshAccessToken } = useAuthStore();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -90,6 +90,35 @@ function DashboardLayoutContent({
       refreshProfile();
     }
   }, [pathname, isAuthenticated, refreshProfile]);
+
+  // Proactive background token refresh: ensures admin session stays alive using the refresh token
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    // 1. Silently refresh token on initial mount
+    refreshAccessToken();
+
+    // 2. Periodic silent refresh every 10 minutes (well before token expiration)
+    const interval = setInterval(() => {
+      refreshAccessToken();
+    }, 10 * 60 * 1000);
+
+    // 3. Immediately refresh when tab becomes visible or user focuses window after being away
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        refreshAccessToken();
+      }
+    };
+
+    window.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('focus', handleVisibilityChange);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('focus', handleVisibilityChange);
+    };
+  }, [isAuthenticated, refreshAccessToken]);
 
   useEffect(() => {
     if (!customCode?.customJs) return;
