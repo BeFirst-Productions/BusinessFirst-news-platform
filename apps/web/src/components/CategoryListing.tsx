@@ -295,7 +295,7 @@ const CategoryListing: React.FC = () => {
               className="relative w-full aspect-square rounded-2xl overflow-hidden shadow-lg border border-gray-100 bg-gray-900 group cursor-pointer"
               fallback={
                 <Image
-                  src="/ads/invest 500x500.png"
+                  src="/ads/invest_500x500.png"
                   alt="Burger Sidebar Ad"
                   fill
                   className="object-cover group-hover:scale-103 transition-transform duration-500"
@@ -308,7 +308,7 @@ const CategoryListing: React.FC = () => {
 
         {/* McDonald's Banner Ad Container */}
         <div className='w-full py-8 md:py-12'>
-          <FullWidthAdBanner targetPage="news_category" ratio="nc_bottom" imageUrl="/ads/invest 1600x300.png" />
+          <FullWidthAdBanner targetPage="news_category" ratio="nc_bottom" imageUrl="/ads/invest_1600x300.png" />
         </div>
       </SectionContainer>
 

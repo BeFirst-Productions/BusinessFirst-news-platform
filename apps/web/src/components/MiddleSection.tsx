@@ -32,7 +32,7 @@ const MiddleSection = () => {
         fallback={
           <Link href="https://nextmedia.ae" target="_blank" rel="noopener noreferrer" className="block w-full h-full relative">
             <Image
-              src="/ads/next 1600x224.png"
+              src="/ads/next_1600x224.png"
               alt="Advertisement"
               fill
               className="object-fill group-hover:scale-105 transition-transform duration-500"

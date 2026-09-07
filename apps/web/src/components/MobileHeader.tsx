@@ -208,7 +208,7 @@ const MobileHeader = () => {
           objectFit="fill"
           fallback={
             <Image
-              src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1200&h=300&q=80"
+              src="/ads/next_1600x224.png"
               alt="Advertisement"
               fill
               className="object-fill"

@@ -99,7 +99,7 @@ const NewsGridSection = () => {
             objectFit="cover"
             fallback={
               <Image
-                src="/ads/next 600x500.png"
+                src="/ads/next_600x500.png"
                 alt="Burger Ad 1"
                 fill
                 className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
@@ -112,7 +112,7 @@ const NewsGridSection = () => {
             objectFit="cover"
             fallback={
               <Image
-                src="/ads/invest 600x500.png"
+                src="/ads/invest_600x500.png"
                 alt="Burger Ad 2"
                 fill
                 className="object-cover object-center group-hover:scale-105 transition-transform duration-500"

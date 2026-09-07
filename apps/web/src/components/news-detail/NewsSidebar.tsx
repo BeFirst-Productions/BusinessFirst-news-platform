@@ -64,7 +64,7 @@ const NewsSidebar = () => {
         fallback={
           <>
             <Image
-              src="/ads/invest 500x500.png"
+              src="/ads/invest_500x500.png"
               alt="Burger Sidebar Ad"
               fill
               className="object-cover group-hover:scale-105 transition-transform duration-500"

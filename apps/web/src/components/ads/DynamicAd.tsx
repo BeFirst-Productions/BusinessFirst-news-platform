@@ -21,7 +21,7 @@ export function DynamicAd({
   objectFit = 'cover',
   fallback,
 }: DynamicAdProps) {
-  const { data: ads, isLoading } = usePageAds(targetPage);
+  const { data: ads, isLoading, isError } = usePageAds(targetPage);
   const { trackImpression, trackClick } = useAdImpression();
   
   const [isIntersecting, setIsIntersecting] = useState(false);
@@ -80,6 +80,18 @@ export function DynamicAd({
       );
     }
     return <AdBannerSkeleton />;
+  }
+
+  // If the API request failed (e.g. backend unreachable on Vercel), show fallback
+  if (isError) {
+    if (fallback) {
+      return (
+        <div className={`relative overflow-hidden group cursor-pointer ${className}`}>
+          {fallback}
+        </div>
+      );
+    }
+    return null;
   }
 
   if (!ad) {
