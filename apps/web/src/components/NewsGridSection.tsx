@@ -88,12 +88,12 @@ const NewsGridSection = () => {
         <div className="lg:col-span-4 border-r-0 lg:border-r border-gray-200 lg:pr-4 xl:pr-6">
           <NewsColumn
             title="UAE News"
-            titleColor="#cd2027"
+            titleColor="#FF0202"
             articles={uaeList}
           />
         </div>
 
-        <div className="lg:col-span-4 flex flex-col gap-6">
+        <div className="lg:col-span-4 flex flex-col gap-4 xl:gap-6">
           <DynamicAd
             ratio="ad_2"
             className="w-full aspect-[6/5] relative overflow-hidden shadow-sm bg-gray-100"

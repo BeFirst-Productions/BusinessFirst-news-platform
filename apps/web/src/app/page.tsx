@@ -137,16 +137,16 @@ export default async function HomePage() {
 
           {/* Full Width Ad Banner */}
           <div className="order-3 lg:order-2 w-full">
-            <SectionContainer containerClassName="py-8 md:py-12">
+            <SectionContainer containerClassName="">
               <Suspense fallback={<AdBannerSkeleton />}>
-                <FullWidthAdBanner containerClassName="w-full" ratio="ad_4" imageUrl="/ads/investt_1600x300.png" linkUrl="https://investfirst.ae" />
+                <FullWidthAdBanner containerClassName="w-full" adClassName="h-[120px] md:h-[160px] lg:h-[200px] shadow-sm" ratio="ad_4" imageUrl="/ads/invest_1600x200.jpeg" linkUrl="https://investfirst.ae" />
               </Suspense>
             </SectionContainer>
           </div>
 
           {/* Category News Section */}
           <div className="order-2 lg:order-3 w-full">
-            <Suspense fallback={<NewsGridSkeleton />}>
+            <Suspense fallback={<NewsGridSkeleton />}>    
               <CategoryNewsSection />
             </Suspense>
           </div>

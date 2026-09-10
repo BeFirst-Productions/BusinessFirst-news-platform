@@ -34,7 +34,7 @@ const TechnologyInnovation = () => {
       {/* Header Section */}
       <div className="flex justify-between items-end mb-6 relative pb-2 border-b border-gray-300">
         <div className="absolute left-0 bottom-[-1px] h-[2px] w-full max-w-[300px] bg-gradient-to-r from-[#cd2027] via-[#24214c] to-transparent"></div>
-        <h2 className="text-[#cd2027] text-2xl md:text-3xl font-bold">
+        <h2 className="text-[#FF0202] text-2xl md:text-3xl font-bold">
           {categoryName}
         </h2>
         <Link href={`/news?category=${encodeURIComponent(categoryName)}`} className="text-[#24214c] font-bold text-sm flex items-center gap-1 hover:text-[#cd2027] transition">

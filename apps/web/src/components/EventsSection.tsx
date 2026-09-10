@@ -175,9 +175,8 @@ const EventsSection = () => {
                 <Link
                   key={event.id || index}
                   href={event.linkUrl || "/news?category=Events"}
-                  className={`absolute inset-0 cursor-pointer transition-opacity duration-1000 ${
-                    index === currentEventIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
-                  }`}
+                  className={`absolute inset-0 cursor-pointer transition-opacity duration-1000 ${index === currentEventIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                    }`}
                 >
                   <Image
                     src={event.image || "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=800&q=80"}
@@ -208,9 +207,8 @@ const EventsSection = () => {
                     <button
                       key={idx}
                       onClick={(e) => { e.preventDefault(); setCurrentEventIndex(idx); }}
-                      className={`h-2 rounded-full transition-all duration-300 ${
-                        idx === currentEventIndex ? 'bg-[#FF0202] w-6' : 'bg-white/50 hover:bg-white w-2'
-                      }`}
+                      className={`h-2 rounded-full transition-all duration-300 ${idx === currentEventIndex ? 'bg-[#FF0202] w-6' : 'bg-white/50 hover:bg-white w-2'
+                        }`}
                       aria-label={`Go to slide ${idx + 1}`}
                     />
                   ))}

@@ -300,7 +300,11 @@ class ApiClient {
     endpoint: string,
     params?: Record<string, string | number | boolean | undefined>
   ): string {
-    const url = new URL(`${this.baseUrl}${endpoint}`);
+    let cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+    if (this.baseUrl.endsWith('/website') && cleanEndpoint.startsWith('/website/')) {
+      cleanEndpoint = cleanEndpoint.replace(/^\/website/, '');
+    }
+    const url = new URL(`${this.baseUrl}${cleanEndpoint}`);
 
     if (params) {
       Object.entries(params).forEach(([key, value]) => {

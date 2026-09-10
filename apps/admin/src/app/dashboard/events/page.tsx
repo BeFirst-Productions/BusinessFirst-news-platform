@@ -287,7 +287,10 @@ export default function EventsPage() {
             </div>
             
             <div>
-              <label className="block text-sm font-medium mb-1.5">Image</label>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="block text-sm font-medium">Image</label>
+                <span className="text-xs text-muted-foreground">Recommended: 1000 × 1500 px (2:3)</span>
+              </div>
               <div className="mt-2 border-2 border-dashed rounded-lg p-6 text-center">
                 {formData.image ? (
                   <div className="relative">
