@@ -180,47 +180,48 @@ export class AuthService {
   }
 
   static async refreshToken(token: string) {
+    let decoded: TokenPayload;
     try {
-      const decoded = JwtUtil.verifyRefreshToken(token);
-
-      // Verify user exists and is active
-      const user = await prisma.user.findFirst({
-        where: {
-          id: decoded.userId,
-          status: UserStatus.ACTIVE,
-        },
-      });
-
-      if (!user) {
-        throw new UnauthorizedError('User account not found or inactive');
-      }
-
-      // If user explicitly logged out, refreshToken is set to null
-      if (user.refreshToken === null) {
-        throw new UnauthorizedError('Session has expired. Please log in again.');
-      }
-
-      // Generate new tokens
-      const tokenPayload: TokenPayload = {
-        userId: user.id,
-        email: user.email,
-        role: user.role,
-      };
-
-      const accessToken = JwtUtil.generateAccessToken(tokenPayload);
-
-      // We do not rotate the refresh token here to prevent multi-tab race conditions
-      // where Tab A refreshes and invalidates Tab B's token, causing sudden logouts.
-      // The refresh token will naturally expire based on its lifespan.
-
-      return {
-        accessToken,
-        refreshToken: token,
-      };
-    } catch (error) {
-      if (error instanceof UnauthorizedError) throw error;
-      throw new UnauthorizedError('Invalid refresh token');
+      decoded = JwtUtil.verifyRefreshToken(token);
+    } catch (jwtError) {
+      throw new UnauthorizedError('Invalid or expired refresh token');
     }
+
+    // Verify user exists and is active in DB
+    // If DB query fails, DB error bubbles up (500), preventing false logouts
+    const user = await prisma.user.findFirst({
+      where: {
+        id: decoded.userId,
+        status: UserStatus.ACTIVE,
+      },
+    });
+
+    if (!user) {
+      throw new UnauthorizedError('User account not found or inactive');
+    }
+
+    // If user explicitly logged out, refreshToken is set to null
+    if (user.refreshToken === null) {
+      throw new UnauthorizedError('Session has expired. Please log in again.');
+    }
+
+    // Generate new tokens
+    const tokenPayload: TokenPayload = {
+      userId: user.id,
+      email: user.email,
+      role: user.role,
+    };
+
+    const accessToken = JwtUtil.generateAccessToken(tokenPayload);
+
+    // We do not rotate the refresh token here to prevent multi-tab race conditions
+    // where Tab A refreshes and invalidates Tab B's token, causing sudden logouts.
+    // The refresh token will naturally expire based on its lifespan.
+
+    return {
+      accessToken,
+      refreshToken: token,
+    };
   }
 
   static async logout(userId: string) {
