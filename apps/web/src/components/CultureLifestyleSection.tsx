@@ -33,7 +33,7 @@ const CultureLifestyleSection = () => {
       : 'Recent';
 
   return (
-    <SectionContainer className="bg-white py-8 md:py-12">
+    <SectionContainer className="bg-white py-6 md:py-8">
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Left Column: Culture & Lifestyle */}
         <div className="w-full lg:w-[60%] flex flex-col gap-6">

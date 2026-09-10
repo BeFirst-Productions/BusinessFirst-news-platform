@@ -36,7 +36,7 @@ const HealthcareTourismSection = () => {
       : 'Recent';
 
   return (
-    <SectionContainer className="bg-white py-8 md:py-12">
+    <SectionContainer className="bg-white py-6 md:py-8">
       <div className="flex flex-col lg:flex-row gap-8 items-start">
         
         {/* Left Column: Healthcare & Pharma */}

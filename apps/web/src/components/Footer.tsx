@@ -40,8 +40,7 @@ const Footer = () => {
               />
             </Link>
             <p className="text-gray-300 text-[14px] 2xl:text-[16px] leading-relaxed">
-              Corem ipsum dolor sit amet, adipiscing elit. Nunc vulputate libero velit interdum, acaliquet odio mattis.
-            </p>
+Your daily source for business, markets, trends & success stories. Where business meets opportunity, insights, trends & ideas that matter.            </p>
           </div>
 
           {/* Column 2: Top Stories */}

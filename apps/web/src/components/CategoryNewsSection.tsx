@@ -105,9 +105,8 @@ function HorizontalArticleItem({ article, isSidebar = false }: HorizontalArticle
       href={`/news/${article.slug}`}
       className={`group cursor-pointer py-2 flex items-center ${isSidebar ? 'gap-3 xl:gap-5' : 'gap-5'}`}
     >
-      <div className={`relative shrink-0 overflow-hidden rounded-md ${
-        isSidebar ? 'w-[90px] h-[65px] xl:w-[160px] xl:h-[110px]' : 'w-[160px] h-[110px]'
-      }`}>
+      <div className={`relative shrink-0 overflow-hidden rounded-md ${isSidebar ? 'w-[90px] h-[65px] xl:w-[160px] xl:h-[110px]' : 'w-[160px] h-[110px]'
+        }`}>
         {article.featuredImage ? (
           <Image
             src={article.featuredImage}
@@ -171,7 +170,7 @@ function VerticalArticleItem({ article, isFirst = false }: VerticalArticleItemPr
 
 function CategorySectionSkeleton() {
   return (
-    <SectionContainer as="section" className="bg-white py-8 md:py-12">
+    <SectionContainer as="section" className="bg-white py-6 md:py-8">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 w-full">
         {/* Left Block Skeleton */}
         <div className="lg:col-span-8 flex flex-col gap-6 w-full">
@@ -252,7 +251,7 @@ const CategoryNewsSection = () => {
   // Error state - show empty sections gracefully
   if (error || !data) {
     return (
-      <SectionContainer as="section" className="bg-white py-8 md:py-12">
+      <SectionContainer as="section" className="bg-white py-6 md:py-8">
         <div className="text-center py-8">
           <p className="text-red-500 text-sm">
             Unable to load category news. Please try again later.
@@ -273,7 +272,7 @@ const CategoryNewsSection = () => {
   const rightSmall = rightArticles.slice(1, 6);
 
   return (
-    <SectionContainer as="section" className="bg-white py-8 md:py-12">
+    <SectionContainer as="section" className="bg-white py-6 md:py-8">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 w-full">
         {/* Left Block - Spans 8/12 */}
         <div className="lg:col-span-8 flex flex-col gap-6 w-full">

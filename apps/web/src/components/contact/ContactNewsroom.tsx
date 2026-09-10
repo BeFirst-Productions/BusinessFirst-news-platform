@@ -11,7 +11,7 @@ const ContactNewsroom = () => {
       </div>
       
       <p className="text-gray-600 text-sm md:text-base leading-relaxed font-medium">
-        Yorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel bibendum lorem. Morbi convallis convallis diam sit amet lacinia. Aliquam in elementum tellus.
+Have a news tip, business story, press release, event announcement or media enquiry? The Business First newsroom is always open to hearing from businesses, organisations, industry professionals and readers. Whether you want to share a breaking development, submit a press release, suggest a story or explore a media opportunity, our team is ready to connect with you. Got a story that deserves attention? Send us the details, including relevant information, images or supporting materials, and our editorial team will review your submission. 
       </p>
     </div>
   );

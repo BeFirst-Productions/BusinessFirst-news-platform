@@ -28,7 +28,7 @@ const TechnologyInnovation = () => {
   return (
     <SectionContainer
       as="section"
-      className="bg-white py-8 md:py-12 "
+      className="bg-white py-6 md:py-8 "
       containerClassName="flex flex-col"
     >
       {/* Header Section */}
