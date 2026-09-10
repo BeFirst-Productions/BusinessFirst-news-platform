@@ -11,7 +11,17 @@ export class Database {
 
   public static getInstance(): PrismaClient {
     if (!Database.instance) {
-      const pool = new Pool({ connectionString: env.DATABASE_URL });
+      const pool = new Pool({
+        connectionString: env.DATABASE_URL,
+        max: 20,
+        idleTimeoutMillis: 30000,
+        connectionTimeoutMillis: 10000,
+      });
+
+      pool.on('error', (err) => {
+        console.warn('⚠️ Idle PostgreSQL pool client connection error (reconnecting):', err.message);
+      });
+
       const adapter = new PrismaPg(pool);
 
       Database.instance = new PrismaClient({

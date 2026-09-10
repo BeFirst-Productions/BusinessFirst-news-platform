@@ -33,16 +33,22 @@ export class AuthMiddleware {
       const decoded = JwtUtil.verifyAccessToken(token);
 
       // Verify user exists and is active
-      const user = await prisma.user.findUnique({
-        where: { id: decoded.userId },
-        select: {
-          id: true,
-          email: true,
-          role: true,
-          status: true,
-          canCreateUsers: true,
-        },
-      });
+      let user;
+      try {
+        user = await prisma.user.findUnique({
+          where: { id: decoded.userId },
+          select: {
+            id: true,
+            email: true,
+            role: true,
+            status: true,
+            canCreateUsers: true,
+          },
+        });
+      } catch (dbError) {
+        // Pass DB errors to central error handler (500), DO NOT return false 401
+        return next(dbError);
+      }
 
       if (!user) {
         throw new UnauthorizedError('User not found');

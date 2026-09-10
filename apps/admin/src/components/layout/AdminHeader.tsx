@@ -61,16 +61,18 @@ export function AdminHeader() {
   }, []);
 
   // Fetch user notifications
-  const { data: notificationsRes } = useQuery<ApiResponseData<NotificationItem[]>>({
+  const { data: notificationsData } = useQuery<NotificationItem[]>({
     queryKey: ['notifications'],
     queryFn: async () => {
       const response = await apiClient.get('/notifications?page=1&limit=20');
-      return response.data;
+      // Handle both response shapes: response.data or response.data.data
+      return (response as any)?.data?.data ?? (response as any)?.data ?? [];
     },
     enabled: !!user,
+    staleTime: 30 * 1000,
   });
 
-  const notifications = notificationsRes?.data || [];
+  const notifications: NotificationItem[] = Array.isArray(notificationsData) ? notificationsData : [];
   const unreadCount = notifications.filter((n) => !n.isRead).length;
 
   const [searchQuery, setSearchQuery] = React.useState('');
@@ -121,51 +123,90 @@ export function AdminHeader() {
       searchResults.tags.length > 0);
 
   // Set up real-time SSE Connection
+  // CRITICAL: Always reads fresh token from localStorage on every (re)connect
+  // so that token refreshes are picked up automatically without logout.
+  const sseRetryRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const eventSourceRef = React.useRef<EventSource | null>(null);
+
   React.useEffect(() => {
     if (!user) return;
 
-    const token = localStorage.getItem('accessToken');
-    if (!token) return;
+    let destroyed = false;
 
-    const eventSource = new EventSource(`${API_URL}/notifications/stream?token=${token}`);
+    const connect = () => {
+      if (destroyed) return;
 
-    eventSource.onmessage = (event) => {
-      try {
-        const notification = JSON.parse(event.data) as NotificationItem;
+      // Always re-read the latest token from localStorage at connection time
+      const token = localStorage.getItem('accessToken');
+      if (!token) return;
 
-        // 1. Invalidate react-query notifications cache to pull the latest list
-        queryClient.invalidateQueries({ queryKey: ['notifications'] });
-
-        // 2. Invalidate newsletter page caches if a new subscription arrives
-        if (notification.title === 'New Newsletter Subscriber') {
-          queryClient.invalidateQueries({ queryKey: ['newsletter-subscribers'] });
-          queryClient.invalidateQueries({ queryKey: ['newsletter-stats'] });
-        }
-
-        // 2. Show in-app Toast notification
-        toast.success(`${notification.title}: ${notification.message}`, {
-          duration: 6000,
-          position: 'top-right',
-        });
-
-        // 3. Trigger native browser/OS-level system notification
-        if (typeof window !== 'undefined' && 'Notification' in window && Notification.permission === 'granted') {
-          new Notification(notification.title, {
-            body: notification.message,
-            icon: '/favicon.ico',
-          });
-        }
-      } catch (err) {
-        console.error('Error parsing SSE event data:', err);
+      // Close any existing connection before reopening
+      if (eventSourceRef.current) {
+        eventSourceRef.current.close();
+        eventSourceRef.current = null;
       }
+
+      const es = new EventSource(`${API_URL}/notifications/stream?token=${encodeURIComponent(token)}`);
+      eventSourceRef.current = es;
+
+      es.onopen = () => {
+        // Connection established successfully — clear any retry timer
+        if (sseRetryRef.current) {
+          clearTimeout(sseRetryRef.current);
+          sseRetryRef.current = null;
+        }
+      };
+
+      es.onmessage = (event) => {
+        try {
+          const notification = JSON.parse(event.data) as NotificationItem;
+
+          // Refresh notifications list
+          queryClient.invalidateQueries({ queryKey: ['notifications'] });
+
+          if (notification.title === 'New Newsletter Subscriber') {
+            queryClient.invalidateQueries({ queryKey: ['newsletter-subscribers'] });
+            queryClient.invalidateQueries({ queryKey: ['newsletter-stats'] });
+          }
+
+          toast.success(`${notification.title}: ${notification.message}`, {
+            duration: 6000,
+            position: 'top-right',
+          });
+
+          if (typeof window !== 'undefined' && 'Notification' in window && Notification.permission === 'granted') {
+            new Notification(notification.title, {
+              body: notification.message,
+              icon: '/favicon.ico',
+            });
+          }
+        } catch (err) {
+          console.error('Error parsing SSE event data:', err);
+        }
+      };
+
+      es.onerror = () => {
+        // On any SSE error, close and reconnect with the LATEST token after a delay.
+        // This handles: expired tokens, server restarts, network hiccups.
+        // DO NOT call logout() here — SSE errors are NOT auth failures.
+        es.close();
+        eventSourceRef.current = null;
+        if (!destroyed) {
+          // Reconnect after 5 seconds with fresh token
+          sseRetryRef.current = setTimeout(() => connect(), 5000);
+        }
+      };
     };
 
-    eventSource.onerror = (err) => {
-      console.error('SSE connection error:', err);
-    };
+    connect();
 
     return () => {
-      eventSource.close();
+      destroyed = true;
+      if (sseRetryRef.current) clearTimeout(sseRetryRef.current);
+      if (eventSourceRef.current) {
+        eventSourceRef.current.close();
+        eventSourceRef.current = null;
+      }
     };
   }, [user, queryClient]);
 
