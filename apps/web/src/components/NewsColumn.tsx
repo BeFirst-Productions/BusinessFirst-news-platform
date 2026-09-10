@@ -100,8 +100,12 @@ const NewsColumn: React.FC<NewsColumnProps> = ({
           {/* Small Horizontal List */}
           {smallList.length > 0 && (
             <div className="flex flex-col gap-4">
-              {smallList.slice(0, 3).map((item) => (
-                <Link href={`/news/${item.id}`} key={item.id} className="flex gap-3 group cursor-pointer items-center">
+              {smallList.slice(0, 3).map((item, index) => (
+                <Link
+                  href={`/news/${item.id}`}
+                  key={item.id}
+                  className={`gap-3 group cursor-pointer items-center ${index > 0 ? 'hidden xl:flex' : 'flex'}`}
+                >
                   <div className="relative w-24 h-16 shrink-0 overflow-hidden">
                     <Image
                       src={item.imageUrl}

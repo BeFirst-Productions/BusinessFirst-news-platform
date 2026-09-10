@@ -240,7 +240,7 @@ export function useHomeContent() {
         topHeadlines: Article[];
         breakingNews: Article[];
         latest: Article[];
-      }>('/website/home-content', {
+      }>('/home-content', {
         next: {
           revalidate: 300,
           tags: ['home-content'],
@@ -268,7 +268,7 @@ export function useHomeCategories() {
   return useQuery<HomeCategoriesData>({
     queryKey: [...articleKeys.all, 'home-categories'],
     queryFn: async () => {
-      const data = await apiClient.get<HomeCategoriesData>('/website/home-categories', {
+      const data = await apiClient.get<HomeCategoriesData>('/home-categories', {
         next: {
           revalidate: 0,
           tags: ['home-categories'],
