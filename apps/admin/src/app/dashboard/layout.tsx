@@ -79,11 +79,23 @@ function DashboardLayoutContent({
     setMounted(true);
   }, []);
 
+  // Grace period before redirecting: gives the axios interceptor time to
+  // silently refresh the access token before we trigger a logout redirect.
+  const [authCheckReady, setAuthCheckReady] = React.useState(false);
   useEffect(() => {
-    if (mounted && !isAuthenticated && pathname !== '/login') {
+    if (!mounted) return;
+    // Wait 2s after mount before evaluating isAuthenticated.
+    // This prevents a race where the token is being refreshed in the background
+    // and isAuthenticated transiently reads as false.
+    const timer = setTimeout(() => setAuthCheckReady(true), 2000);
+    return () => clearTimeout(timer);
+  }, [mounted]);
+
+  useEffect(() => {
+    if (authCheckReady && !isAuthenticated && pathname !== '/login') {
       router.push('/login');
     }
-  }, [mounted, isAuthenticated, pathname, router]);
+  }, [authCheckReady, isAuthenticated, pathname, router]);
 
   useEffect(() => {
     if (isAuthenticated) {

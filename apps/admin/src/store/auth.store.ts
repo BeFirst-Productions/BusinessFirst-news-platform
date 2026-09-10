@@ -95,10 +95,17 @@ export const useAuthStore = create<AuthState>()(
 
       refreshProfile: async () => {
         try {
-          const { data } = await apiClient.get('/auth/profile');
-          set({ user: data.data });
+          const response = await apiClient.get('/auth/profile');
+          // Handle both response shapes from apiClient
+          const userData = (response as any)?.data?.data ?? (response as any)?.data;
+          if (userData?.id) {
+            set({ user: userData });
+          }
         } catch (error: any) {
-          console.error('Failed to refresh profile:', error);
+          // Profile fetch failure should NEVER cause a logout.
+          // The Axios interceptor handles token refresh. If it fails with
+          // a 401/403, the interceptor itself will handle the logout.
+          console.warn('Profile refresh failed (will retry):', error?.response?.status || error?.message);
         }
       },
 
