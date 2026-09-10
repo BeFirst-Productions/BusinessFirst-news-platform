@@ -37,7 +37,7 @@ const BankingFinanceSection: React.FC = () => {
       : 'Recent';
 
   return (
-    <SectionContainer as="section" className="py-8 md:py-12 bg-white">
+    <SectionContainer as="section" className="py-6 md:py-8 bg-white">
       <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 w-full items-start">
         {/* Left 8 Cols */}
         <div className="w-full lg:w-2/3 flex flex-col gap-6">

@@ -20,7 +20,7 @@ const ContactSocials = () => {
         {/* Info Items List */}
         <div className="flex flex-col gap-6">
           {/* Address */}
-          <div className="flex items-start gap-4">
+          {/* <div className="flex items-start gap-4">
             <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center shrink-0 mt-0.5">
               <MapPin size={20} className="text-white" />
             </div>
@@ -30,10 +30,10 @@ const ContactSocials = () => {
                 Office 402, Floor 4, Media One Tower, Dubai Media City, Dubai, UAE
               </span>
             </div>
-          </div>
+          </div> */}
 
           {/* Phone Number */}
-          <div className="flex items-start gap-4">
+          {/* <div className="flex items-start gap-4">
             <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center shrink-0 mt-0.5">
               <Phone size={20} className="text-white" />
             </div>
@@ -43,7 +43,7 @@ const ContactSocials = () => {
                 +971 4 123 4567
               </a>
             </div>
-          </div>
+          </div> */}
 
           {/* Email */}
           <div className="flex items-start gap-4">

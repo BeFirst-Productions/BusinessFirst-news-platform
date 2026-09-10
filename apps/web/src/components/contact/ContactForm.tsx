@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { useContactForm } from '@/hooks/use-contact';
 
-const ContactForm = () => {
+const ContactForm = ({ className = '' }: { className?: string } = {}) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -81,7 +81,7 @@ const ContactForm = () => {
 
   if (isSubmitted) {
     return (
-      <div className="w-full lg:flex-1 bg-[#f8f9fa] rounded-[24px] p-8 md:p-12 shadow-sm border border-gray-100 flex flex-col items-center justify-center text-center gap-6 min-h-[500px] transition-all duration-300">
+      <div className={`w-full max-w-7xl mx-auto bg-[#f8f9fa] rounded-[24px] p-8 md:p-12 shadow-sm border border-gray-100 flex flex-col items-center justify-center text-center gap-6 min-h-[500px] transition-all duration-300 ${className}`}>
         <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center text-green-600 animate-bounce">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-8 h-8">
             <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
@@ -104,52 +104,55 @@ const ContactForm = () => {
   }
 
   return (
-    <div className="w-full lg:flex-1 bg-[#f8f9fa] rounded-[24px] p-8 md:p-12 shadow-sm border border-gray-100 flex flex-col justify-between">
+    <div className={`w-full max-w-7xl mx-auto bg-[#f8f9fa] rounded-[24px] p-8 md:p-12 shadow-sm border border-gray-100 flex flex-col justify-between ${className}`}>
       <form onSubmit={handleFormSubmit} noValidate className="flex flex-col gap-6">
-        {/* Name Input */}
-        <div className="flex flex-col gap-2">
-          <label htmlFor="name" className="text-[#24214c] font-bold text-sm md:text-base">
-            Name
-          </label>
-          <input 
-            type="text" 
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            placeholder="Enter your name" 
-            className={`bg-white text-[#24214c] text-sm md:text-base border rounded-xl px-5 py-4 focus:outline-none focus:ring-2 transition-all placeholder:text-gray-400 shadow-sm ${
-              errors.name 
-                ? 'border-red-500 focus:ring-red-500/50' 
-                : 'border-gray-200 focus:ring-[#FF0202]/50'
-            }`}
-          />
-          {errors.name && (
-            <p className="text-red-500 text-xs font-semibold mt-1 pl-1">{errors.name}</p>
-          )}
-        </div>
+        {/* Name and Email Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Name Input */}
+          <div className="flex flex-col gap-2">
+            <label htmlFor="name" className="text-[#24214c] font-bold text-sm md:text-base">
+              Name
+            </label>
+            <input 
+              type="text" 
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Enter your name" 
+              className={`bg-white text-[#24214c] text-sm md:text-base border rounded-xl px-5 py-4 focus:outline-none focus:ring-2 transition-all placeholder:text-gray-400 shadow-sm ${
+                errors.name 
+                  ? 'border-red-500 focus:ring-red-500/50' 
+                  : 'border-gray-200 focus:ring-[#FF0202]/50'
+              }`}
+            />
+            {errors.name && (
+              <p className="text-red-500 text-xs font-semibold mt-1 pl-1">{errors.name}</p>
+            )}
+          </div>
 
-        {/* Email Input */}
-        <div className="flex flex-col gap-2">
-          <label htmlFor="email" className="text-[#24214c] font-bold text-sm md:text-base">
-            Email
-          </label>
-          <input 
-            type="email" 
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="Enter your email" 
-            className={`bg-white text-[#24214c] text-sm md:text-base border rounded-xl px-5 py-4 focus:outline-none focus:ring-2 transition-all placeholder:text-gray-400 shadow-sm ${
-              errors.email 
-                ? 'border-red-500 focus:ring-red-500/50' 
-                : 'border-gray-200 focus:ring-[#FF0202]/50'
-            }`}
-          />
-          {errors.email && (
-            <p className="text-red-500 text-xs font-semibold mt-1 pl-1">{errors.email}</p>
-          )}
+          {/* Email Input */}
+          <div className="flex flex-col gap-2">
+            <label htmlFor="email" className="text-[#24214c] font-bold text-sm md:text-base">
+              Email
+            </label>
+            <input 
+              type="email" 
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Enter your email" 
+              className={`bg-white text-[#24214c] text-sm md:text-base border rounded-xl px-5 py-4 focus:outline-none focus:ring-2 transition-all placeholder:text-gray-400 shadow-sm ${
+                errors.email 
+                  ? 'border-red-500 focus:ring-red-500/50' 
+                  : 'border-gray-200 focus:ring-[#FF0202]/50'
+              }`}
+            />
+            {errors.email && (
+              <p className="text-red-500 text-xs font-semibold mt-1 pl-1">{errors.email}</p>
+            )}
+          </div>
         </div>
 
         {/* Subject Input */}

@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { useNewsletterSubscribe } from '@/hooks/use-newsletter';
 
-const NewsletterWidget = () => {
+const NewsletterWidget = ({ className = '' }: { className?: string } = {}) => {
   const [email, setEmail] = useState('');
   const { mutate: subscribe, isPending } = useNewsletterSubscribe();
 
@@ -17,7 +17,7 @@ const NewsletterWidget = () => {
     }
   };
   return (
-    <div className="bg-[#1F194E] rounded-3xl p-5 sm:p-6 xl:p-8 relative overflow-hidden min-h-[230px] xl:min-h-[270px] flex flex-col justify-center shadow-lg">
+    <div className={`bg-[#1F194E] rounded-3xl p-5 sm:p-6 xl:p-7 relative overflow-hidden min-h-[300px] sm:min-h-[320px] lg:min-h-[340px] xl:min-h-[350px] 2xl:min-h-[350px] flex flex-col justify-start pt-6 sm:pt-7 xl:pt-8 shadow-lg shrink-0 ${className}`}>
       {/* Background desert silhouette illustration */}
       <img
         src="/shapes/shape01.svg"
@@ -26,8 +26,8 @@ const NewsletterWidget = () => {
         className="absolute inset-0 w-full h-full object-cover object-left-bottom pointer-events-none select-none"
       />
 
-      <div className="relative z-10 w-full flex flex-col pl-[14%] sm:pl-[16%] xl:pl-[20%] pr-1 sm:pr-2">
-        <h3 className="text-[#fcb827] font-bold text-lg sm:text-xl xl:text-[24px] leading-[1.2] mb-3 sm:mb-4 tracking-tight text-left">
+      <div className="relative z-10 w-full flex flex-col pl-[12%] sm:pl-[14%] xl:pl-[16%] pr-1 sm:pr-2">
+        <h3 className="text-[#fcb827] font-bold text-lg sm:text-xl xl:text-[23px] leading-[1.2] mb-3 sm:mb-4 tracking-tight text-left">
           Subscribe to our<br />Weekly Newsletter
         </h3>
 
@@ -45,7 +45,7 @@ const NewsletterWidget = () => {
             <button
               type="submit"
               disabled={isPending}
-              className="bg-[#FF0202] hover:bg-[#d80000] active:scale-95 text-white text-xs sm:text-sm font-bold tracking-wider uppercase py-2 sm:py-2.5 px-5 sm:px-6 rounded-xl sm:rounded-2xl transition-all flex items-center justify-center gap-1.5 shadow-md disabled:opacity-70 group"
+              className="bg-[#FF0202] hover:bg-[#d80000] active:scale-95 text-white text-xs sm:text-sm font-bold tracking-wider uppercase py-2 sm:py-2.5 px-4 sm:px-5 rounded-xl sm:rounded-2xl transition-all flex items-center justify-center gap-1.5 shadow-md disabled:opacity-70 group whitespace-nowrap"
             >
               <span>{isPending ? 'SUBSCRIBING...' : 'SUBSCRIBE'}</span>
               <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

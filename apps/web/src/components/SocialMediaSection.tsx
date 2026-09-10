@@ -35,7 +35,7 @@ const SocialMediaSection = async () => {
   const cards = fetchedCards.length > 0 ? fetchedCards : defaultCards;
 
   return (
-    <SectionContainer className="bg-white py-8 md:py-12">
+    <SectionContainer className="bg-white py-6 md:py-8">
       <div className="flex flex-col gap-6">
 
         {/* Header */}

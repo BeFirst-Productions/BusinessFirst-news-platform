@@ -36,7 +36,7 @@ const OilSportsSection: React.FC = () => {
       : 'Recent';
 
   return (
-    <SectionContainer as="section" className="py-8 md:py-12 bg-[#F5F5F7]">
+    <SectionContainer as="section" className="py-6 md:py-8 bg-[#F5F5F7]">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 w-full">
         {/* Left Column: Oil, Gas & Energy */}
         <div className="flex flex-col gap-6 w-full lg:border-r border-gray-300 lg:pr-8 xl:pr-10">

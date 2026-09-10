@@ -36,7 +36,7 @@ const SponsoredContents = () => {
     return (
       <SectionContainer
         as="section"
-        className="bg-black py-8 md:py-12 border-t-[8px] border-black"
+        className="bg-black py-6 md:py-8 border-t-[8px] border-black"
         containerClassName="flex flex-col"
       >
         <SectionTitle title="Sponsored Contents" />
@@ -58,7 +58,7 @@ const SponsoredContents = () => {
   return (
     <SectionContainer
       as="section"
-      className="bg-black py-8 md:py-12 border-t-[8px] border-black"
+      className="bg-black py-6 md:py-8 border-t-[8px] border-black"
       containerClassName="flex flex-col"
     >
       {/* Title Section */}

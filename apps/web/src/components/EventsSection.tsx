@@ -62,7 +62,7 @@ const EventsSection = () => {
       : 'Recent';
 
   return (
-    <SectionContainer className="bg-white py-8 md:py-12">
+    <SectionContainer className="bg-white py-6 md:py-8">
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Left Column: Events */}
         <div className="w-full lg:w-[65%] flex flex-col gap-6">

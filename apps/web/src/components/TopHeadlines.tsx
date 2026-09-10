@@ -115,7 +115,7 @@ const TopHeadlines = () => {
 
   if (isLoading) {
     return (
-      <SectionContainer as="section" className="bg-white py-8 md:py-12">
+      <SectionContainer as="section" className="bg-white py-6 md:py-8">
         <SectionTitle title="Top Headlines" />
         <div className="flex gap-4 overflow-x-auto scrollbar-hide py-2 px-4 md:px-0">
           {Array.from({ length: 4 }).map((_, i) => (
@@ -135,7 +135,7 @@ const TopHeadlines = () => {
 
   if (headlines.length === 0) {
     return (
-      <SectionContainer as="section" className="bg-white py-8 md:py-12" containerClassName="relative">
+      <SectionContainer as="section" className="bg-white py-6 md:py-8" containerClassName="relative">
         <SectionTitle title="Top Headlines" />
         <div className="w-full py-12 flex flex-col items-center justify-center bg-gray-50/50 border border-dashed border-gray-200 rounded-lg text-center my-4">
           <p className="text-gray-400 text-sm font-semibold">No article available</p>
@@ -145,7 +145,7 @@ const TopHeadlines = () => {
   }
 
   return (
-    <SectionContainer as="section" className="bg-white py-8 md:py-12" containerClassName="relative">
+    <SectionContainer as="section" className="bg-white py-6 md:py-8" containerClassName="relative">
       {/* Title */}
       <SectionTitle title="Top Headlines" />
 
