@@ -95,15 +95,12 @@ function DashboardLayoutContent({
   useEffect(() => {
     if (!isAuthenticated) return;
 
-    // 1. Silently refresh token on initial mount
-    refreshAccessToken();
-
-    // 2. Periodic silent refresh every 10 minutes (well before token expiration)
+    // 1. Periodic silent refresh every 15 minutes (well before token expiration)
     const interval = setInterval(() => {
       refreshAccessToken();
-    }, 10 * 60 * 1000);
+    }, 15 * 60 * 1000);
 
-    // 3. Immediately refresh when tab becomes visible or user focuses window after being away
+    // 2. Refresh when tab transitions from hidden to visible
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
         refreshAccessToken();
@@ -111,12 +108,10 @@ function DashboardLayoutContent({
     };
 
     window.addEventListener('visibilitychange', handleVisibilityChange);
-    window.addEventListener('focus', handleVisibilityChange);
 
     return () => {
       clearInterval(interval);
       window.removeEventListener('visibilitychange', handleVisibilityChange);
-      window.removeEventListener('focus', handleVisibilityChange);
     };
   }, [isAuthenticated, refreshAccessToken]);
 

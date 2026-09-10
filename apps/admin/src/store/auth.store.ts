@@ -43,6 +43,8 @@ interface AuthState {
   refreshAccessToken: () => Promise<string | null>;
 }
 
+let activeRefreshPromise: Promise<string | null> | null = null;
+
 export const useAuthStore = create<AuthState>()(
   persist(
     (set, get) => ({
@@ -101,6 +103,10 @@ export const useAuthStore = create<AuthState>()(
       },
 
       refreshAccessToken: async () => {
+        if (activeRefreshPromise) {
+          return activeRefreshPromise;
+        }
+
         const storedRefreshToken =
           (typeof window !== 'undefined' ? localStorage.getItem('refreshToken') : null) ||
           get().refreshToken;
@@ -109,37 +115,43 @@ export const useAuthStore = create<AuthState>()(
           return null;
         }
 
-        try {
-          const { data } = await axios.post(`${API_URL}/auth/refresh-token`, {
-            refreshToken: storedRefreshToken,
-          });
-
-          const { accessToken: newAccessToken, refreshToken: newRefreshToken } = data.data || {};
-
-          if (newAccessToken) {
-            localStorage.setItem('accessToken', newAccessToken);
-            if (newRefreshToken) {
-              localStorage.setItem('refreshToken', newRefreshToken);
-            }
-            set({
-              accessToken: newAccessToken,
-              refreshToken: newRefreshToken || storedRefreshToken,
-              isAuthenticated: true,
+        activeRefreshPromise = (async () => {
+          try {
+            const { data } = await axios.post(`${API_URL}/auth/refresh-token`, {
+              refreshToken: storedRefreshToken,
             });
-            return newAccessToken;
-          }
-          return null;
-        } catch (error: any) {
-          // If refresh token is explicitly rejected (401/403), logout
-          if (error.response?.status === 401 || error.response?.status === 403) {
-            get().logout();
-            if (typeof window !== 'undefined') {
-              window.location.href = '/login';
+
+            const { accessToken: newAccessToken, refreshToken: newRefreshToken } = data.data || {};
+
+            if (newAccessToken) {
+              localStorage.setItem('accessToken', newAccessToken);
+              if (newRefreshToken) {
+                localStorage.setItem('refreshToken', newRefreshToken);
+              }
+              set({
+                accessToken: newAccessToken,
+                refreshToken: newRefreshToken || storedRefreshToken,
+                isAuthenticated: true,
+              });
+              return newAccessToken;
             }
+            return null;
+          } catch (error: any) {
+            // If refresh token is explicitly rejected (401/403), logout
+            if (error.response?.status === 401 || error.response?.status === 403) {
+              get().logout();
+              if (typeof window !== 'undefined') {
+                window.location.href = '/login';
+              }
+            }
+            // On network errors or server issues, do not log out
+            return null;
+          } finally {
+            activeRefreshPromise = null;
           }
-          // On network errors or server issues, do not log out
-          return null;
-        }
+        })();
+
+        return activeRefreshPromise;
       },
     }),
     {
