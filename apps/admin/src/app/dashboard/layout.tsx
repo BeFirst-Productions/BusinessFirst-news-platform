@@ -79,11 +79,23 @@ function DashboardLayoutContent({
     setMounted(true);
   }, []);
 
+  // Grace period before redirecting: gives the axios interceptor time to
+  // silently refresh the access token before we trigger a logout redirect.
+  const [authCheckReady, setAuthCheckReady] = React.useState(false);
   useEffect(() => {
-    if (mounted && !isAuthenticated && pathname !== '/login') {
+    if (!mounted) return;
+    // Wait 2s after mount before evaluating isAuthenticated.
+    // This prevents a race where the token is being refreshed in the background
+    // and isAuthenticated transiently reads as false.
+    const timer = setTimeout(() => setAuthCheckReady(true), 2000);
+    return () => clearTimeout(timer);
+  }, [mounted]);
+
+  useEffect(() => {
+    if (authCheckReady && !isAuthenticated && pathname !== '/login') {
       router.push('/login');
     }
-  }, [mounted, isAuthenticated, pathname, router]);
+  }, [authCheckReady, isAuthenticated, pathname, router]);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -95,15 +107,12 @@ function DashboardLayoutContent({
   useEffect(() => {
     if (!isAuthenticated) return;
 
-    // 1. Silently refresh token on initial mount
-    refreshAccessToken();
-
-    // 2. Periodic silent refresh every 10 minutes (well before token expiration)
+    // 1. Periodic silent refresh every 15 minutes (well before token expiration)
     const interval = setInterval(() => {
       refreshAccessToken();
-    }, 10 * 60 * 1000);
+    }, 15 * 60 * 1000);
 
-    // 3. Immediately refresh when tab becomes visible or user focuses window after being away
+    // 2. Refresh when tab transitions from hidden to visible
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
         refreshAccessToken();
@@ -111,12 +120,10 @@ function DashboardLayoutContent({
     };
 
     window.addEventListener('visibilitychange', handleVisibilityChange);
-    window.addEventListener('focus', handleVisibilityChange);
 
     return () => {
       clearInterval(interval);
       window.removeEventListener('visibilitychange', handleVisibilityChange);
-      window.removeEventListener('focus', handleVisibilityChange);
     };
   }, [isAuthenticated, refreshAccessToken]);
 

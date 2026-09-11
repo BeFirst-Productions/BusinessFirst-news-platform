@@ -5,8 +5,26 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ChevronRight, ArrowUpRight } from 'lucide-react';
 import SectionContainer from './SectionContainer';
+import { useArticles } from '@/hooks/use-articles';
+
+const FALLBACK_STORIES = [
+  { title: 'UAE Economy Grows 4.3% in 2025, Driven by Non-Oil Sectors', href: '/news?category=UAE%20News' },
+  { title: 'Dubai Tops MENA Region in Global Business Competitiveness Index', href: '/news?category=MENA' },
+  { title: 'Abu Dhabi Launches $2B Fund to Boost Tech Startups Across the Gulf', href: '/news?category=Finance' },
+];
 
 const Footer = () => {
+  const { data: articlesData, isLoading: storiesLoading, isError: storiesError } = useArticles({
+    limit: 3,
+    sortBy: 'publishedAt',
+    sortOrder: 'desc',
+  });
+
+  const topStories = articlesData?.data?.slice(0, 3).map((article) => ({
+    title: article.title,
+    href: `/news/${article.slug}`,
+  })) ?? FALLBACK_STORIES;
+
   return (
     
     <footer className="bg-[#050505] text-white pt-16 pb-8 ">
@@ -36,14 +54,38 @@ const Footer = () => {
           <div className="lg:col-span-3 flex flex-col gap-2">
             <h3 className="text-[#fbbf24] font-bold text-[15px] 2xl:text-[18px]">Top Stories</h3>
             <ul className="flex flex-col gap-2 mt-2">
-              {[1, 2, 3].map((item) => (
-                <li key={item} className="flex items-start gap-2 group cursor-pointer">
-                  <ChevronRight size={16} className="text-[#fbbf24] shrink-0 mt-0.5 group-hover:translate-x-1 transition-transform" strokeWidth={3} />
-                  <span className="text-gray-300 text-[13px] 2xl:text-[15px] leading-snug group-hover:text-white transition-colors">
-                    Advances in Predicting and Monitoring Atmospheric Conditions
-                  </span>
-                </li>
-              ))}
+              {storiesLoading
+                ? Array.from({ length: 3 }).map((_, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <div className="w-4 h-4 rounded bg-gray-700 shrink-0 mt-0.5 animate-pulse" />
+                      <div className="flex flex-col gap-1.5 w-full">
+                        <div className="h-2.5 bg-gray-700 rounded animate-pulse w-full" />
+                        <div className="h-2.5 bg-gray-700 rounded animate-pulse w-4/5" />
+                      </div>
+                    </li>
+                  ))
+                : storiesError
+                ? (
+                    <>
+                      {FALLBACK_STORIES.map((story) => (
+                        <li key={story.href} className="flex items-start gap-2 group">
+                          <ChevronRight size={16} className="text-[#fbbf24] shrink-0 mt-0.5 group-hover:translate-x-1 transition-transform" strokeWidth={3} />
+                          <Link href={story.href} className="text-gray-300 text-[13px] 2xl:text-[15px] leading-snug group-hover:text-white transition-colors">
+                            {story.title}
+                          </Link>
+                        </li>
+                      ))}
+                    </>
+                  )
+                : topStories.map((story) => (
+                    <li key={story.href} className="flex items-start gap-2 group">
+                      <ChevronRight size={16} className="text-[#fbbf24] shrink-0 mt-0.5 group-hover:translate-x-1 transition-transform" strokeWidth={3} />
+                      <Link href={story.href} className="text-gray-300 text-[13px] 2xl:text-[15px] leading-snug group-hover:text-white transition-colors">
+                        {story.title}
+                      </Link>
+                    </li>
+                  ))
+              }
             </ul>
           </div>
 
@@ -51,16 +93,36 @@ const Footer = () => {
           <div className="lg:col-span-2 flex flex-col gap-2">
             <h3 className="text-[#fbbf24] font-bold text-[15px] 2xl:text-[18px]">About the Company</h3>
             <ul className="flex flex-col gap-2 mt-2">
-              {['About us', 'Careers', 'Partner with us', 'Advertise with us', 'Contact us', 'Submit a complaint'].map((item) => {
-                const href = item.toLowerCase() === 'contact us' ? '/contact' : '#';
-                return (
-                  <li key={item}>
-                    <Link href={href} className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
-                      {item}
-                    </Link>
-                  </li>
-                );
-              })}
+              <li>
+                <Link href="/news?category=UAE%20News" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
+                 Latest News
+                </Link>
+              </li>
+              <li>
+                <Link href="/news?category=MENA" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
+                  MENA
+                </Link>
+              </li>
+              <li>
+                <Link href="/news?category=International" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
+                  International
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
+                  Contact us
+                </Link>
+              </li>
+              <li>
+                <Link href="/advertise" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
+                  Advertise with us
+                </Link>
+              </li>
+              <li>
+                <Link href="/complaint" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
+                  Submit a complaint
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -68,13 +130,36 @@ const Footer = () => {
           <div className="lg:col-span-2 flex flex-col gap-2">
             <h3 className="text-[#fbbf24] font-bold text-[15px] 2xl:text-[18px]">Other Categories</h3>
             <ul className="flex flex-col gap-2 mt-2">
-              {['Retail & E-commerce', 'Telecom & Digital', 'Education & Training', 'Sports & Recreation', 'Defense & Security', 'Manufacturing & Industrial'].map((item) => (
-                <li key={item}>
-                  <Link href="#" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
-                    {item}
-                  </Link>
-                </li>
-              ))}
+              <li>
+                <Link href="/news?category=Retail%20%26%20E-commerce" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
+                  Retail &amp; E-commerce
+                </Link>
+              </li>
+              <li>
+                <Link href="/news?category=Telecom%20%26%20Digital" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
+                  Telecom &amp; Digital
+                </Link>
+              </li>
+              <li>
+                <Link href="/news?category=Education%20%26%20Training" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
+                  Education &amp; Training
+                </Link>
+              </li>
+              <li>
+                <Link href="/news?category=Sports%20%26%20Recreation" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
+                  Sports &amp; Recreation
+                </Link>
+              </li>
+              <li>
+                <Link href="/news?category=Defense%20%26%20Security" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
+                  Defense &amp; Security
+                </Link>
+              </li>
+              <li>
+                <Link href="/news?category=Manufacturing%20%26%20Industrial" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
+                  Manufacturing &amp; Industrial
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -1181,23 +1266,23 @@ const Footer = () => {
             <Link href="/policy/terms" className="hover:text-white transition-colors">Terms and Conditions</Link>
             <span>|</span>
             <Link href="/policy/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
-            <span>|</span>
-            <Link href="#" className="hover:text-white transition-colors">Sitemap</Link>
+            {/* <span>|</span> */}
+            {/* <Link href="#" className="hover:text-white transition-colors">Sitemap</Link> */}
           </div>
 
           <div className="flex items-center gap-6">
             {/* Simple SVGs for Social Icons */}
-            <a href="#" className="text-white hover:text-white transition-colors">
+            <a href="https://x.com/businessfirstuae" target="_blank" rel="noopener noreferrer" className="text-white hover:text-[#fbbf24] hover:scale-110 transition-all duration-200">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
             </a>
-            <a href="#" className="text-white hover:text-white transition-colors">
+            <a href="https://www.linkedin.com/company/109375094/" target="_blank" rel="noopener noreferrer" className="text-white hover:text-[#fbbf24] hover:scale-110 transition-all duration-200">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
             </a>
-            <a href="#" className="text-white hover:text-white transition-colors">
+            <a href="https://www.facebook.com/businessfirstuae" target="_blank" rel="noopener noreferrer" className="text-white hover:text-[#fbbf24] hover:scale-110 transition-all duration-200">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
             </a>
-            <a href="#" className="text-white hover:text-white transition-colors">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+            <a href="https://www.instagram.com/businessfirstuae" target="_blank" rel="noopener noreferrer" className="text-white hover:text-[#fbbf24] hover:scale-110 transition-all duration-200">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" fillRule="evenodd" clipRule="evenodd"><path d="M12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
             </a>
           </div>
 

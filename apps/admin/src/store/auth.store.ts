@@ -43,6 +43,8 @@ interface AuthState {
   refreshAccessToken: () => Promise<string | null>;
 }
 
+let activeRefreshPromise: Promise<string | null> | null = null;
+
 export const useAuthStore = create<AuthState>()(
   persist(
     (set, get) => ({
@@ -93,14 +95,25 @@ export const useAuthStore = create<AuthState>()(
 
       refreshProfile: async () => {
         try {
-          const { data } = await apiClient.get('/auth/profile');
-          set({ user: data.data });
+          const response = await apiClient.get('/auth/profile');
+          // Handle both response shapes from apiClient
+          const userData = (response as any)?.data?.data ?? (response as any)?.data;
+          if (userData?.id) {
+            set({ user: userData });
+          }
         } catch (error: any) {
-          console.error('Failed to refresh profile:', error);
+          // Profile fetch failure should NEVER cause a logout.
+          // The Axios interceptor handles token refresh. If it fails with
+          // a 401/403, the interceptor itself will handle the logout.
+          console.warn('Profile refresh failed (will retry):', error?.response?.status || error?.message);
         }
       },
 
       refreshAccessToken: async () => {
+        if (activeRefreshPromise) {
+          return activeRefreshPromise;
+        }
+
         const storedRefreshToken =
           (typeof window !== 'undefined' ? localStorage.getItem('refreshToken') : null) ||
           get().refreshToken;
@@ -109,37 +122,43 @@ export const useAuthStore = create<AuthState>()(
           return null;
         }
 
-        try {
-          const { data } = await axios.post(`${API_URL}/auth/refresh-token`, {
-            refreshToken: storedRefreshToken,
-          });
-
-          const { accessToken: newAccessToken, refreshToken: newRefreshToken } = data.data || {};
-
-          if (newAccessToken) {
-            localStorage.setItem('accessToken', newAccessToken);
-            if (newRefreshToken) {
-              localStorage.setItem('refreshToken', newRefreshToken);
-            }
-            set({
-              accessToken: newAccessToken,
-              refreshToken: newRefreshToken || storedRefreshToken,
-              isAuthenticated: true,
+        activeRefreshPromise = (async () => {
+          try {
+            const { data } = await axios.post(`${API_URL}/auth/refresh-token`, {
+              refreshToken: storedRefreshToken,
             });
-            return newAccessToken;
-          }
-          return null;
-        } catch (error: any) {
-          // If refresh token is explicitly rejected (401/403), logout
-          if (error.response?.status === 401 || error.response?.status === 403) {
-            get().logout();
-            if (typeof window !== 'undefined') {
-              window.location.href = '/login';
+
+            const { accessToken: newAccessToken, refreshToken: newRefreshToken } = data.data || {};
+
+            if (newAccessToken) {
+              localStorage.setItem('accessToken', newAccessToken);
+              if (newRefreshToken) {
+                localStorage.setItem('refreshToken', newRefreshToken);
+              }
+              set({
+                accessToken: newAccessToken,
+                refreshToken: newRefreshToken || storedRefreshToken,
+                isAuthenticated: true,
+              });
+              return newAccessToken;
             }
+            return null;
+          } catch (error: any) {
+            // If refresh token is explicitly rejected (401/403), logout
+            if (error.response?.status === 401 || error.response?.status === 403) {
+              get().logout();
+              if (typeof window !== 'undefined') {
+                window.location.href = '/login';
+              }
+            }
+            // On network errors or server issues, do not log out
+            return null;
+          } finally {
+            activeRefreshPromise = null;
           }
-          // On network errors or server issues, do not log out
-          return null;
-        }
+        })();
+
+        return activeRefreshPromise;
       },
     }),
     {
