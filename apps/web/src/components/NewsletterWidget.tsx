@@ -17,7 +17,7 @@ const NewsletterWidget = ({ className = '' }: { className?: string } = {}) => {
     }
   };
   return (
-    <div className={`bg-[#1F194E] rounded-3xl p-5 sm:p-6 xl:p-7 relative overflow-hidden min-h-[300px] sm:min-h-[320px] lg:min-h-[340px] xl:min-h-[350px] 2xl:min-h-[350px] flex flex-col justify-start pt-6 sm:pt-7 xl:pt-8 shadow-lg shrink-0 ${className}`}>
+    <div className={`bg-[#1F194E] rounded-3xl p-4 sm:p-5 xl:p-6 relative overflow-hidden min-h-[250px] sm:min-h-[270px] lg:min-h-[280px] xl:min-h-[300px] flex flex-col justify-start pt-5 sm:pt-6 xl:pt-7 shadow-lg shrink-0 ${className}`}>
       {/* Background desert silhouette illustration */}
       <img
         src="/shapes/shape01.svg"
@@ -26,8 +26,8 @@ const NewsletterWidget = ({ className = '' }: { className?: string } = {}) => {
         className="absolute inset-0 w-full h-full object-cover object-left-bottom pointer-events-none select-none"
       />
 
-      <div className="relative z-10 w-full flex flex-col pl-[12%] sm:pl-[14%] xl:pl-[16%] pr-1 sm:pr-2">
-        <h3 className="text-[#fcb827] font-bold text-lg sm:text-xl xl:text-[23px] leading-[1.2] mb-3 sm:mb-4 tracking-tight text-left">
+      <div className="relative z-10 w-full flex flex-col pl-[10%] sm:pl-[12%] xl:pl-[14%] pr-1 sm:pr-2">
+        <h3 className="text-[#fcb827] font-bold text-base sm:text-lg xl:text-[21px] leading-[1.2] mb-2.5 sm:mb-3.5 tracking-tight text-left">
           Subscribe to our<br />Weekly Newsletter
         </h3>
 
@@ -37,7 +37,7 @@ const NewsletterWidget = ({ className = '' }: { className?: string } = {}) => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter your email address"
-            className="w-full px-3.5 sm:px-4 py-2 sm:py-2.5 xl:py-3 text-xs sm:text-sm text-gray-800 placeholder:text-gray-500 bg-[#F4F4F6] rounded-xl sm:rounded-2xl outline-none focus:ring-2 focus:ring-[#fcb827]/70 transition-all shadow-sm"
+            className="w-full px-3 sm:px-3.5 xl:px-4 py-2 sm:py-2.5 xl:py-3 text-xs sm:text-sm text-gray-800 placeholder:text-gray-500 bg-[#F4F4F6] rounded-xl sm:rounded-2xl outline-none focus:ring-2 focus:ring-[#fcb827]/70 transition-all shadow-sm"
             required
             disabled={isPending}
           />
