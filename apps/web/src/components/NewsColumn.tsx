@@ -56,7 +56,7 @@ const NewsColumn: React.FC<NewsColumnProps> = ({
           {/* Featured Large Card */}
           {featured && (
             <Link href={`/news/${featured.id}`} className="flex flex-col gap-2 group cursor-pointer w-full">
-              <div className="relative w-full aspect-[16/9] overflow-hidden">
+              <div className="relative w-full aspect-[16/9] overflow-hidden rounded">
                 <Image
                   src={featured.imageUrl}
                   alt={featured.title}
@@ -67,7 +67,7 @@ const NewsColumn: React.FC<NewsColumnProps> = ({
               <span className="text-xs text-gray-500 font-medium mt-1">
                 {featured.category ? `${featured.category} | ` : ''}{featured.date}
               </span>
-              <h3 className="text-[#24214c] font-bold text-lg leading-tight group-hover:text-[#cd2027] transition-colors line-clamp-2 min-h-[45px]">
+              <h3 className="text-[#24214c] font-bold text-lg xl:text-xl leading-tight group-hover:text-[#cd2027] transition-colors line-clamp-2 min-h-[45px]">
                 {featured.title}
               </h3>
             </Link>
@@ -75,10 +75,10 @@ const NewsColumn: React.FC<NewsColumnProps> = ({
 
           {/* Medium 2-Column Grid */}
           {mediumGrid.length > 0 && (
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-3 xl:gap-4">
               {mediumGrid.slice(0, 4).map((item) => (
                 <Link href={`/news/${item.id}`} key={item.id} className="flex flex-col group cursor-pointer h-full">
-                  <div className="relative w-full aspect-video overflow-hidden mb-2">
+                  <div className="relative w-full aspect-video overflow-hidden rounded mb-2">
                     <Image
                       src={item.imageUrl}
                       alt={item.title}
@@ -87,7 +87,7 @@ const NewsColumn: React.FC<NewsColumnProps> = ({
                     />
                   </div>
                   <div className="flex flex-col flex-1 justify-between gap-1.5">
-                    <h4 className="text-[#24214c] font-bold text-sm leading-snug group-hover:text-[#cd2027] transition-colors line-clamp-2 min-h-[2.5rem]">
+                    <h4 className="text-[#24214c] font-bold text-xs sm:text-sm leading-snug group-hover:text-[#cd2027] transition-colors line-clamp-2 min-h-[2.4rem]">
                       {item.title}
                     </h4>
                     <span className="text-[10px] text-gray-500 font-medium mt-auto">
@@ -101,14 +101,14 @@ const NewsColumn: React.FC<NewsColumnProps> = ({
 
           {/* Small Horizontal List */}
           {smallList.length > 0 && (
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-3 xl:gap-4">
               {smallList.slice(0, 3).map((item, index) => (
                 <Link
                   href={`/news/${item.id}`}
                   key={item.id}
                   className="flex gap-2.5 sm:gap-3 group cursor-pointer items-center"
                 >
-                  <div className="relative w-20 xl:w-24 h-16 shrink-0 overflow-hidden">
+                  <div className="relative w-20 xl:w-24 h-14 xl:h-16 shrink-0 overflow-hidden rounded">
                     <Image
                       src={item.imageUrl}
                       alt={item.title}
@@ -116,8 +116,8 @@ const NewsColumn: React.FC<NewsColumnProps> = ({
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   </div>
-                  <div className="flex flex-col justify-center min-h-[4rem] min-w-0 flex-1 gap-1">
-                    <h4 className="text-[#24214c] font-bold text-sm leading-snug group-hover:text-[#cd2027] transition-colors line-clamp-2">
+                  <div className="flex flex-col justify-center min-h-[3.5rem] xl:min-h-[4rem] min-w-0 flex-1 gap-1">
+                    <h4 className="text-[#24214c] font-bold text-xs sm:text-sm leading-snug group-hover:text-[#cd2027] transition-colors line-clamp-2">
                       {item.title}
                     </h4>
                     <span className="text-[10px] text-gray-500 font-medium leading-tight">
