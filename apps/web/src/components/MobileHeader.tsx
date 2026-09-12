@@ -17,7 +17,7 @@ const MobileHeader = () => {
   };
 
   const menuItems = [
-    { name: 'Latest News', path: '/' },
+    { name: 'Home', path: '/' },
     {
       name: 'Region',
       items: ['UAE News', 'MENA', 'Economy & Policy', 'International']

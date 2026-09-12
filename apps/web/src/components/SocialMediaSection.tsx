@@ -29,7 +29,7 @@ const SocialMediaSection = async () => {
     title: `Business First Instagram Post ${i + 1}`,
     description: 'Catch the latest updates and exclusive insights from Business First on our official Instagram page.',
     dateText: 'Latest News | Business First',
-    permalink: 'https://www.instagram.com/'
+    permalink: 'https://www.instagram.com/businessfirstuae'
   }));
 
   const cards = fetchedCards.length > 0 ? fetchedCards : defaultCards;

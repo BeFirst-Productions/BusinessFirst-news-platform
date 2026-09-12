@@ -37,14 +37,7 @@ const NewsContent: React.FC<NewsContentProps> = ({
   }
 
   return (
-    <article className="w-full block">
-      {/* Desktop Sidebar Floated Right */}
-      {sidebar && (
-        <div className="hidden lg:block float-right w-[32%] ml-12 mb-8 clear-right">
-          {sidebar}
-        </div>
-      )}
-
+    <article className="w-full flex flex-col gap-6">
       {/* Header if provided */}
       {header && (
         <div className="block">
@@ -53,7 +46,8 @@ const NewsContent: React.FC<NewsContentProps> = ({
       )}
 
       {/* Main Featured Image */}
-      <div className="relative h-[250px] sm:h-[350px] md:h-[420px] rounded-2xl overflow-hidden shadow-sm bg-gray-100 mb-8">
+      {imageUrl && (
+        <div className="relative w-full h-[250px] sm:h-[350px] md:h-[420px] rounded-2xl overflow-hidden shadow-sm bg-gray-100">
           <Image
             src={imageUrl}
             alt={title}
@@ -62,10 +56,26 @@ const NewsContent: React.FC<NewsContentProps> = ({
             className="object-cover"
           />
         </div>
+      )}
 
-        {/* Article Head and Body 1 */}
-        <div className="block">
-          {paragraphs.slice(0, 3).map((para, index) => (
+      {/* Article Head and Body 1 */}
+      <div className="block">
+        {paragraphs.slice(0, 3).map((para, index) => (
+          <div
+            key={index}
+            className="text-gray-700 text-sm md:text-base leading-relaxed font-medium [&>p]:mb-4 [&>h3]:text-lg [&>h3]:font-bold [&>h3]:mt-6 [&>h3]:mb-2 [&>h3]:text-[#24214c]"
+            dangerouslySetInnerHTML={{ __html: para }}
+          />
+        ))}
+      </div>
+
+      {/* Article Head and Body 2 */}
+      {paragraphs.length > 3 && (
+        <div className="block mt-4">
+          <h2 className="text-xl md:text-2xl font-bold text-[#24214c] mb-4">
+            {title}
+          </h2>
+          {paragraphs.slice(3).map((para, index) => (
             <div
               key={index}
               className="text-gray-700 text-sm md:text-base leading-relaxed font-medium [&>p]:mb-4 [&>h3]:text-lg [&>h3]:font-bold [&>h3]:mt-6 [&>h3]:mb-2 [&>h3]:text-[#24214c]"
@@ -73,31 +83,16 @@ const NewsContent: React.FC<NewsContentProps> = ({
             />
           ))}
         </div>
+      )}
 
-        {/* Article Head and Body 2 */}
-        {paragraphs.length > 3 && (
-          <div className="block mt-6">
-            <h2 className="text-xl md:text-2xl font-bold text-[#24214c] mb-4">
-              {title}
-            </h2>
-            {paragraphs.slice(3).map((para, index) => (
-              <div
-                key={index}
-                className="text-gray-700 text-sm md:text-base leading-relaxed font-medium [&>p]:mb-4 [&>h3]:text-lg [&>h3]:font-bold [&>h3]:mt-6 [&>h3]:mb-2 [&>h3]:text-[#24214c]"
-                dangerouslySetInnerHTML={{ __html: para }}
-              />
-            ))}
-          </div>
-        )}
+      {/* Fallback Mobile Sidebar if passed directly */}
+      {sidebar && (
+        <div className="block lg:hidden w-full mt-8">
+          {sidebar}
+        </div>
+      )}
+    </article>
+  );
+};
 
-        {/* Mobile Sidebar - rendered at bottom on small screens */}
-        {sidebar && (
-          <div className="block lg:hidden w-full mt-12">
-            {sidebar}
-          </div>
-        )}
-      </article>
-    );
-  };
-
-  export default NewsContent;
+export default NewsContent;

@@ -25,7 +25,7 @@ const NewsSidebar = () => {
       {/* Recent Posts Section */}
       <div className="order-2 lg:order-1 border border-gray-200 rounded-2xl overflow-hidden shadow-sm bg-white">
         <div className="bg-[#FF0202] text-white text-center py-3.5 font-bold text-sm tracking-wider uppercase">
-          Recent Posts
+          Latest News
         </div>
 
         <div className="flex flex-col divide-y divide-gray-100">

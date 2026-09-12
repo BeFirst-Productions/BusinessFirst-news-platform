@@ -8,6 +8,7 @@ import NewsContent from './news-detail/NewsContent';
 import NewsSidebar from './news-detail/NewsSidebar';
 import NewsRelated from './news-detail/NewsRelated';
 import FullWidthAdBanner from './FullWidthAdBanner';
+import ArticleLayoutWithStickySidebar from './news-detail/ArticleLayoutWithStickySidebar';
 import { useArticle } from '@/hooks/use-articles';
 import { Skeleton } from './ui/Skeleton';
 
@@ -42,32 +43,39 @@ const NewsDetail: React.FC<NewsDetailProps> = ({ articleId }) => {
       {/* Breadcrumbs */}
       <NewsBreadcrumbs category={article.category?.name || 'News'} />
 
-      {/* Layout - Changed to flow layout for text wrapping */}
-      <div className="w-full items-start">
-        {/* Article Content with embedded Sidebar for text wrapping */}
-        <NewsContent
-          imageUrl={article.featuredImage || ''}
-          title={article.title}
-          contentParagraphs={article.content ? [article.content] : []}
-          sidebar={<NewsSidebar />}
-          header={
+      {/* 2-Column Layout with JS-driven sticky sidebar scroll behavior */}
+      <ArticleLayoutWithStickySidebar
+        leftContent={
+          <>
             <NewsHeader
               title={article.title}
               description={article.metaDescription || ""}
             />
-          }
-        />
-      </div>
+            <NewsContent
+              imageUrl={article.featuredImage || ''}
+              title={article.title}
+              contentParagraphs={article.content ? [article.content] : []}
+            />
+          </>
+        }
+        rightSidebar={<NewsSidebar />}
+      />
 
-      {/* Full-width Ad Banner under the grid layout */}
-      <div className="clear-both pt-8">
-        <FullWidthAdBanner containerClassName="w-full" ratio="nd_bottom" targetPage="news_detail" imageUrl="/ads/invest_1600x300.png" linkUrl="https://investfirst.ae" />
+      {/* Full-width Ad Banner — sentinel in ArticleLayoutWithStickySidebar is placed just before this */}
+      <div className="pt-6">
+        <FullWidthAdBanner
+          containerClassName="w-full"
+          ratio="nd_bottom"
+          targetPage="news_detail"
+          imageUrl="/ads/invest_1600x300.png"
+          linkUrl="https://investfirst.ae"
+        />
       </div>
 
       {/* Divider */}
       <div className="h-[1px] w-full bg-gray-200 my-12"></div>
 
-      {/* Related Articles Footer Grid */}
+      {/* Related Articles */}
       <NewsRelated articleId={article.id} />
     </SectionContainer>
   );

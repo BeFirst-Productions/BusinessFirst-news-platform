@@ -46,18 +46,42 @@ const TopBar = async () => {
       
       <div className="flex flex-wrap justify-center items-center gap-3 sm:gap-4">
         <div className="flex items-center gap-2">
-          <div className="bg-black text-white p-1.5 rounded-sm cursor-pointer hover:bg-gray-800 transition">
+          <a 
+            href="https://x.com/businessfirstuae" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            aria-label="X (Twitter)"
+            className="bg-black text-white p-1.5 rounded-sm cursor-pointer hover:bg-gray-800 transition inline-flex items-center justify-center"
+          >
             <FaXTwitter size={14} />
-          </div>
-          <div className="bg-black text-white p-1.5 rounded-sm cursor-pointer hover:bg-gray-800 transition">
+          </a>
+          <a 
+            href="https://www.linkedin.com/company/109375094/" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            aria-label="LinkedIn"
+            className="bg-black text-white p-1.5 rounded-sm cursor-pointer hover:bg-gray-800 transition inline-flex items-center justify-center"
+          >
             <FaLinkedinIn size={14} />
-          </div>
-          <div className="bg-black text-white p-1.5 rounded-sm cursor-pointer hover:bg-gray-800 transition">
+          </a>
+          <a 
+            href="https://www.facebook.com/businessfirstuae" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            aria-label="Facebook"
+            className="bg-black text-white p-1.5 rounded-sm cursor-pointer hover:bg-gray-800 transition inline-flex items-center justify-center"
+          >
             <FaFacebookF size={14} />
-          </div>
-          <div className="bg-black text-white p-1.5 rounded-sm cursor-pointer hover:bg-gray-800 transition">
+          </a>
+          <a 
+            href="https://www.instagram.com/businessfirstuae" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            aria-label="Instagram"
+            className="bg-black text-white p-1.5 rounded-sm cursor-pointer hover:bg-gray-800 transition inline-flex items-center justify-center"
+          >
             <FaInstagram size={14} />
-          </div>
+          </a>
         </div>
         <a 
           href="#newsletter-section"

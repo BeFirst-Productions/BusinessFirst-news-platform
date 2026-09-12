@@ -21,18 +21,24 @@ const NewsDetail: React.FC<NewsDetailProps> = ({ articleId }) => {
       <NewsBreadcrumbs category={article.category} />
 
       {/* Main Title Header */}
-      <NewsHeader 
+      <NewsHeader
         title={article.title}
         description={article.description || "Yorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et odio mattis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos."}
       />
 
       {/* Layout Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 w-full items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 w-full relative">
         {/* Left Side: Article Content */}
-        <NewsContent imageUrl={article.imageUrl} title={article.title} contentParagraphs={article.contentParagraphs} />
+        <div className="lg:col-span-8 w-full">
+          <NewsContent imageUrl={article.imageUrl} title={article.title} contentParagraphs={article.contentParagraphs} />
+        </div>
 
-        {/* Right Side: Sidebar */}
-        <NewsSidebar />
+        {/* Right Side: Sticky Bottom Sidebar at 20% Screen Height (20vh) */}
+        <div className="lg:col-span-4 w-full">
+          <div className="lg:sticky lg:bottom-[20vh] w-full transition-all duration-300 ease-out will-change-transform">
+            <NewsSidebar />
+          </div>
+        </div>
       </div>
 
       {/* Full-width Ad Banner under the grid layout */}

@@ -12,7 +12,7 @@ export async function generateMetadata(
   { params }: PageProps
 ): Promise<Metadata> {
   const { id } = await params;
-  
+
   try {
     const article = await apiClient.get<Article>(`/articles/slug/${id}`);
     

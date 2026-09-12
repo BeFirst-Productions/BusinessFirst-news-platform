@@ -6,7 +6,7 @@ const ContactSocials = () => {
   return (
     <div className="w-full lg:w-[35%] shrink-0">
       <div className="bg-[#24214c] rounded-[24px] p-8 flex flex-col gap-8 shadow-xl text-white">
-        
+
         {/* Contact Info Header */}
         <div className="flex flex-col gap-2">
           <h3 className="text-xl font-bold text-white tracking-wide">
@@ -67,8 +67,8 @@ const ContactSocials = () => {
           <span className="text-white/60 text-xs font-semibold uppercase tracking-wider">Follow Us</span>
           <div className="flex items-center gap-4">
             {/* Instagram */}
-            <a 
-              href="#" 
+            <a
+              href="#"
               aria-label="Instagram"
               className="w-11 h-11 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-[#FF0202] hover:scale-105 transition-all duration-300 shadow-md"
             >
@@ -76,8 +76,8 @@ const ContactSocials = () => {
             </a>
 
             {/* X (Twitter) */}
-            <a 
-              href="#" 
+            <a
+              href="#"
               aria-label="X (Twitter)"
               className="w-11 h-11 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-black hover:scale-105 transition-all duration-300 shadow-md"
             >
@@ -85,8 +85,8 @@ const ContactSocials = () => {
             </a>
 
             {/* LinkedIn */}
-            <a 
-              href="#" 
+            <a
+              href="#"
               aria-label="LinkedIn"
               className="w-11 h-11 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-[#0077b5] hover:scale-105 transition-all duration-300 shadow-md"
             >
@@ -94,8 +94,8 @@ const ContactSocials = () => {
             </a>
 
             {/* Facebook */}
-            <a 
-              href="#" 
+            <a
+              href="#"
               aria-label="Facebook"
               className="w-11 h-11 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-[#1877f2] hover:scale-105 transition-all duration-300 shadow-md"
             >
