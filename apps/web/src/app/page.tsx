@@ -139,7 +139,7 @@ export default async function HomePage() {
           <div className="order-3 lg:order-2 w-full">
             <SectionContainer containerClassName="">
               <Suspense fallback={<AdBannerSkeleton />}>
-                <FullWidthAdBanner containerClassName="w-full" adClassName="h-[120px] md:h-[160px] lg:h-[200px] shadow-sm" ratio="ad_4" imageUrl="/ads/invest_1600x200.jpeg" linkUrl="https://investfirst.ae" />
+                <FullWidthAdBanner containerClassName="w-full" adClassName="h-[120px]  lg:h-[140px] shadow-sm" ratio="ad_4" imageUrl="/ads/ad-banner-1600x140.jpeg" linkUrl="" />
               </Suspense>
             </SectionContainer>
           </div>

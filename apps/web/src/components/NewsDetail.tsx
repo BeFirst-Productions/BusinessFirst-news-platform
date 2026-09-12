@@ -61,11 +61,11 @@ const NewsDetail: React.FC<NewsDetailProps> = ({ articleId }) => {
 
       {/* Full-width Ad Banner under the grid layout */}
       <div className="clear-both pt-8">
-        <FullWidthAdBanner containerClassName="w-full" ratio="nd_bottom" targetPage="news_detail" imageUrl="/ads/invest_1600x300.png" linkUrl="https://investfirst.ae" />
+        <FullWidthAdBanner containerClassName="w-full" ratio="nd_bottom" targetPage="news_detail" imageUrl="/ads/ad-banner-1600x140.jpeg" linkUrl="https://investfirst.ae" />
       </div>
 
       {/* Divider */}
-      <div className="h-[1px] w-full bg-gray-200 my-12"></div>
+      <div className="h-[1px] w-full bg-gray-200 my-2"></div>
 
       {/* Related Articles Footer Grid */}
       <NewsRelated articleId={article.id} />

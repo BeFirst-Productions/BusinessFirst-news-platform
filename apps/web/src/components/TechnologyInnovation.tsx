@@ -6,7 +6,7 @@ import Link from 'next/link';
 import SectionContainer from './SectionContainer';
 import { ChevronDown } from 'lucide-react';
 import { DynamicAd } from './ads/DynamicAd';
-import { useHomeCategories } from '@/hooks/use-articles';
+import { useHomeCategories, useArticles } from '@/hooks/use-articles';
 
 const EmptyCategoryState = ({ categoryName }: { categoryName: string }) => (
   <div className="w-full py-12 flex flex-col items-center justify-center bg-gray-50/50 border border-dashed border-gray-200 rounded-lg text-center my-4">
@@ -17,11 +17,27 @@ const EmptyCategoryState = ({ categoryName }: { categoryName: string }) => (
 const TechnologyInnovation = () => {
   const { data: homeCategories } = useHomeCategories();
   const sectionData = homeCategories?.['technology-innovation'];
-  const articles = sectionData?.articles || [];
+  const initialArticles = sectionData?.articles || [];
+
+  const categoryId = initialArticles[0]?.category?.id || '5dd42c29-4bd4-4e79-b6a6-909c9cf2b14e';
+
+  // If homeCategories returns fewer than 9 articles, fetch all 9 articles for this category
+  const { data: fullArticlesResponse } = useArticles(
+    {
+      categoryId,
+      limit: 9,
+    },
+    { enabled: initialArticles.length < 9 }
+  );
+
+  const articles =
+    fullArticlesResponse?.data && fullArticlesResponse.data.length >= 9
+      ? fullArticlesResponse.data
+      : initialArticles;
 
   const mainArticle = articles[0];
   const bottomArticles = articles.slice(1, 3);
-  const sidebarArticles = articles.slice(3, 6);
+  const sidebarArticles = articles.slice(3, 9);
 
   const categoryName = sectionData?.categoryName || 'Technology & Innovation';
 
@@ -45,7 +61,7 @@ const TechnologyInnovation = () => {
       {articles.length === 0 ? (
         <EmptyCategoryState categoryName={categoryName} />
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-start">
           {/* Left Column (Main Content) - Spans 7 cols on lg */}
           <div className="lg:col-span-7 flex flex-col gap-6">
             {/* Main Top Article */}
@@ -94,12 +110,12 @@ const TechnologyInnovation = () => {
           </div>
 
           {/* Right Column (Sidebar) */}
-          <div className="lg:col-span-5 flex flex-col gap-6">
+          <div className="lg:col-span-5 flex flex-col gap-3.5 xl:gap-4 2xl:gap-5">
             {sidebarArticles.length > 0 && (
-              <div className="flex flex-col gap-5">
+              <div className="flex flex-col gap-2.5 sm:gap-3 lg:gap-3 xl:gap-3.5 2xl:gap-4">
                 {sidebarArticles.map((article) => (
-                  <Link key={article.id} href={`/news/${article.slug || article.id}`} className="flex gap-3 group cursor-pointer">
-                    <div className="relative w-[110px] md:w-[130px] shrink-0 aspect-[4/3] overflow-hidden rounded bg-gray-100">
+                  <Link key={article.id} href={`/news/${article.slug || article.id}`} className="flex gap-2.5 lg:gap-3 xl:gap-3.5 group cursor-pointer items-start">
+                    <div className="relative w-[85px] sm:w-[95px] lg:w-[88px] xl:w-[110px] 2xl:w-[135px] shrink-0 aspect-[4/3] overflow-hidden rounded-md lg:rounded-lg bg-gray-100">
                       <Image
                         src={article.featuredImage || '/placeholder-news.jpg'}
                         alt={article.title}
@@ -107,11 +123,11 @@ const TechnologyInnovation = () => {
                         className="object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     </div>
-                    <div className="flex flex-col justify-start py-0.5">
-                      <h4 className="text-[#24214c] font-bold text-sm md:text-[15px] leading-tight mb-2 group-hover:text-[#cd2027] transition-colors line-clamp-3">
+                    <div className="flex flex-col justify-start min-w-0 flex-1 py-0.5">
+                      <h4 className="text-xs lg:text-[12.5px] xl:text-[14px] 2xl:text-[15.5px] font-bold text-[#24214c] leading-snug group-hover:text-[#cd2027] transition-colors line-clamp-2">
                         {article.title}
                       </h4>
-                      <div className="text-gray-500 text-[9px] md:text-[10px] font-medium uppercase tracking-wider">
+                      <div className="text-gray-500 text-[9px] xl:text-[10px] 2xl:text-[11px] font-medium uppercase tracking-wider mt-1">
                         {article.category?.name || categoryName} | {article.publishedAt ? new Date(article.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : ''}
                       </div>
                     </div>
@@ -120,18 +136,18 @@ const TechnologyInnovation = () => {
               </div>
             )}
 
-            {/* Ad Banner */}
+            {/* Ad Banner - Proportional 12/5 aspect ratio matching 600x250 */}
             <DynamicAd
               ratio="ad_5"
-              className="w-full aspect-square md:aspect-[4/3] lg:aspect-auto lg:flex-grow overflow-hidden mt-2"
-              objectFit="fill"
+              className="w-full aspect-[12/5] rounded-lg overflow-hidden"
+              objectFit="cover"
               fallback={
                 <Link href="https://nextmedia.ae" target="_blank" rel="noopener noreferrer" className="block w-full h-full relative">
                   <Image
-                    src="/ads/nextt_600x500.png"
+                    src="/ads/Business_First_600X250.jpeg"
                     alt="Next Media - Branding & Marketing Solutions"
                     fill
-                    className="object-fill group-hover:scale-105 transition-transform duration-500"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                 </Link>
               }

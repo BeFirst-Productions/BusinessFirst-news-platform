@@ -113,7 +113,7 @@ export class WebsiteService {
 
   // Single Aggregated Home Category Sections Endpoint
   static async getHomeCategories() {
-    const cacheKey = 'website:home-categories';
+    const cacheKey = 'website:home-categories:v2';
 
     return this.getCachedOrFetch(cacheKey, 300, async () => {
       const selectFields = {
@@ -150,9 +150,9 @@ export class WebsiteService {
       const categoryConfigs = [
         { key: 'real-estate-construction', name: 'Real Estate & Construction', limit: 7, matchers: ['real-estate-construction', 'real-estate', 'construction'] },
         { key: 'economy-policy', name: 'Economy & Policy', limit: 4, matchers: ['economy-policy', 'economy', 'policy'] },
-        { key: 'technology-innovation', name: 'Technology & Innovation', limit: 6, matchers: ['technology-innovation', 'technology', 'innovation'] },
-        { key: 'logistics-trade', name: 'Logistics & Trade', limit: 4, matchers: ['logistics-trade', 'logistics', 'trade'] },
-        { key: 'aviation-aerospace', name: 'Aviation & Aerospace', limit: 4, matchers: ['aviation-aerospace', 'aviation', 'aerospace'] },
+        { key: 'technology-innovation', name: 'Technology & Innovation', limit: 9, matchers: ['technology-innovation', 'technology', 'innovation'] },
+        { key: 'logistics-trade', name: 'Logistics & Trade', limit: 6, matchers: ['logistics-trade', 'logistics', 'trade'] },
+        { key: 'aviation-aerospace', name: 'Aviation & Aerospace', limit: 6, matchers: ['aviation-aerospace', 'aviation', 'aerospace'] },
         { key: 'oil-gas-energy', name: 'Oil, Gas & Energy', limit: 4, matchers: ['oil-gas-energy', 'oil-gas', 'energy'] },
         { key: 'sports-recreation', name: 'Sports & Recreation', limit: 4, matchers: ['sports-recreation', 'sports', 'recreation'] },
         { key: 'banking-finance', name: 'Banking & Finance', limit: 7, matchers: ['banking-finance', 'banking', 'finance'] },

@@ -88,7 +88,7 @@ const BottomNav = () => {
                 {/* Dropdown Box */}
                 {isOpen && (
                   <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50">
-                    <div className="bg-[#24214c] border border-white/20 rounded-xl py-4 px-6 shadow-2xl min-w-[200px] flex flex-col items-center gap-2">
+                    <div className="bg-[#24214c] border border-white/20 rounded-xl py-4 px-6 shadow-2xl min-w-[200px] flex flex-col items-start gap-2">
                       {item.items.map((subItem, idx) => {
                         const href = item.name === 'Contact Us'
                           ? '/contact'
@@ -97,7 +97,7 @@ const BottomNav = () => {
                           <Link
                             key={idx}
                             href={href}
-                            className="text-white hover:text-red-500 font-medium text-sm transition-colors duration-200 w-full text-center block py-1"
+                            className="text-white hover:text-red-500 font-medium text-sm transition-colors duration-200 w-full text-left block py-1"
                           >
                             {subItem}
                           </Link>
