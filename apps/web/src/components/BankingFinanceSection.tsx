@@ -153,7 +153,7 @@ const BankingFinanceSection: React.FC = () => {
         </div>
 
         {/* Right 4 Cols: Ad Banner & Newsletter */}
-        <div className="w-full lg:w-1/3 flex flex-col gap-6 pb-2 h-full justify-between">
+        <div className="w-full lg:w-1/3 flex flex-col gap-4 pb-2 h-full justify-between">
           <DynamicAd
             ratio="ad_7"
             className="relative w-full aspect-[4/5] rounded overflow-hidden"

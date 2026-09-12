@@ -67,8 +67,15 @@ const ContactSocials = () => {
           <span className="text-white/60 text-xs font-semibold uppercase tracking-wider">Follow Us</span>
           <div className="flex items-center gap-4">
             {/* Instagram */}
+<<<<<<< HEAD
             <a
               href="#"
+=======
+            <a 
+              href="https://www.instagram.com/businessfirstuae" 
+              target="_blank"
+              rel="noopener noreferrer"
+>>>>>>> d400fff3221202e26679b202f9daa634278cdd69
               aria-label="Instagram"
               className="w-11 h-11 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-[#FF0202] hover:scale-105 transition-all duration-300 shadow-md"
             >
@@ -76,8 +83,15 @@ const ContactSocials = () => {
             </a>
 
             {/* X (Twitter) */}
+<<<<<<< HEAD
             <a
               href="#"
+=======
+            <a 
+              href="https://x.com" 
+              target="_blank"
+              rel="noopener noreferrer"
+>>>>>>> d400fff3221202e26679b202f9daa634278cdd69
               aria-label="X (Twitter)"
               className="w-11 h-11 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-black hover:scale-105 transition-all duration-300 shadow-md"
             >
@@ -85,8 +99,15 @@ const ContactSocials = () => {
             </a>
 
             {/* LinkedIn */}
+<<<<<<< HEAD
             <a
               href="#"
+=======
+            <a 
+              href="https://www.linkedin.com/company/109375094" 
+              target="_blank"
+              rel="noopener noreferrer"
+>>>>>>> d400fff3221202e26679b202f9daa634278cdd69
               aria-label="LinkedIn"
               className="w-11 h-11 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-[#0077b5] hover:scale-105 transition-all duration-300 shadow-md"
             >
@@ -94,8 +115,15 @@ const ContactSocials = () => {
             </a>
 
             {/* Facebook */}
+<<<<<<< HEAD
             <a
               href="#"
+=======
+            <a 
+              href="https://www.facebook.com/businessfirstuae" 
+              target="_blank"
+              rel="noopener noreferrer"
+>>>>>>> d400fff3221202e26679b202f9daa634278cdd69
               aria-label="Facebook"
               className="w-11 h-11 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-[#1877f2] hover:scale-105 transition-all duration-300 shadow-md"
             >

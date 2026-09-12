@@ -217,6 +217,20 @@ export function AdminSidebar() {
       });
     }
 
+    // Append any original standard items that are not in the dynamic configuration yet (e.g. EVENTS)
+    for (const originalItem of sidebarItems) {
+      if (originalItem.module && !sidebarNav.some((nav) => nav.code === originalItem.module)) {
+        if (featureFlags) {
+          const flagKey = originalItem.module.toLowerCase();
+          const flagValue = featureFlags[flagKey as keyof typeof featureFlags];
+          if (flagValue === false) {
+            continue;
+          }
+        }
+        items.push(originalItem);
+      }
+    }
+
     return items;
   }, [sidebarNav, featureFlags, translationKeys]);
 

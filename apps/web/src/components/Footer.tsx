@@ -58,7 +58,7 @@ const Footer = () => {
               />
             </Link>
             <p className="text-gray-300 text-[14px] 2xl:text-[16px] leading-relaxed">
-Your daily source for business, markets, trends & success stories. Where business meets opportunity, insights, trends & ideas that matter.            </p>
+Business First is a UAE-focused digital business news and media platform built for entrepreneurs, executives, investors, professionals and companies that need to stay ahead in a fast-moving market. </p>
           </div>
 
           {/* Column 2: Top Stories */}
@@ -1290,7 +1290,7 @@ Your daily source for business, markets, trends & success stories. Where busines
 
           <div className="flex items-center gap-6">
             {/* Simple SVGs for Social Icons */}
-            <a href="https://x.com/businessfirstuae" target="_blank" rel="noopener noreferrer" className="text-white hover:text-[#fbbf24] hover:scale-110 transition-all duration-200">
+            <a href="https://x.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-[#fbbf24] hover:scale-110 transition-all duration-200">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
             </a>
             <a href="https://www.linkedin.com/company/109375094/" target="_blank" rel="noopener noreferrer" className="text-white hover:text-[#fbbf24] hover:scale-110 transition-all duration-200">

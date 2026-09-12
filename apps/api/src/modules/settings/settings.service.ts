@@ -24,6 +24,7 @@ const DEFAULT_SETTINGS = [
       { code: 'DASHBOARD', title: 'Dashboard', icon: 'LayoutDashboard', visible: true },
       { code: 'ARTICLES', title: 'Articles', icon: 'FileText', visible: true },
       { code: 'CATEGORIES', title: 'Categories', icon: 'FolderTree', visible: true },
+      { code: 'EVENTS', title: 'Events', icon: 'Calendar', visible: true },
       { code: 'TAGS', title: 'Tags', icon: 'Tags', visible: true },
       { code: 'ADS', title: 'Ads Management', icon: 'Megaphone', visible: true },
       { code: 'MEDIA', title: 'Media Library', icon: 'ImageIcon', visible: true },
@@ -58,6 +59,7 @@ const DEFAULT_SETTINGS = [
       comments: true,
       categories: true,
       newsletter: true,
+      events: true,
       media: true,
       seo: true,
     },
@@ -131,6 +133,22 @@ export class SettingsService {
           await prisma.siteSetting.update({
             where: { key: setting.key },
             data: { value: setting.value },
+          });
+        }
+      } else if (setting.key === 'ui_sidebar_navigation') {
+        const nav = existing.value as any[];
+        if (Array.isArray(nav) && !nav.some(item => item.code === 'EVENTS')) {
+          const catIndex = nav.findIndex(item => item.code === 'CATEGORIES');
+          const insertIndex = catIndex !== -1 ? catIndex + 1 : nav.length;
+          nav.splice(insertIndex, 0, {
+            code: 'EVENTS',
+            title: 'Events',
+            icon: 'Calendar',
+            visible: true,
+          });
+          await prisma.siteSetting.update({
+            where: { key: setting.key },
+            data: { value: nav },
           });
         }
       }

@@ -37,7 +37,7 @@ const TechnologyInnovation = () => {
 
         <div className="lg:col-span-5 flex flex-col gap-6">
           <div className="flex flex-col gap-5">
-            {[1, 2, 3].map((item) => (
+            {[1, 2, 3, 4, 5, 6].map((item) => (
               <div key={item} className="flex gap-3">
                 <Skeleton className="w-[110px] md:w-[130px] shrink-0 aspect-[4/3]" />
                 <div className="flex flex-col justify-start py-0.5 w-full">
@@ -50,7 +50,7 @@ const TechnologyInnovation = () => {
           </div>
           <FullWidthAdBanner
             ratio="ad_5"
-            containerClassName="relative w-full aspect-square md:aspect-[4/3] lg:aspect-auto lg:flex-grow overflow-hidden mt-2 group cursor-pointer"
+            containerClassName="relative w-full h-[250px] overflow-hidden mt-2 group cursor-pointer rounded-lg"
             adClassName="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
         </div>

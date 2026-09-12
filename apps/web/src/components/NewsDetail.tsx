@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React from 'react';
 import SectionContainer from './SectionContainer';
@@ -61,19 +61,13 @@ const NewsDetail: React.FC<NewsDetailProps> = ({ articleId }) => {
         rightSidebar={<NewsSidebar />}
       />
 
-      {/* Full-width Ad Banner — sentinel in ArticleLayoutWithStickySidebar is placed just before this */}
-      <div className="pt-6">
-        <FullWidthAdBanner
-          containerClassName="w-full"
-          ratio="nd_bottom"
-          targetPage="news_detail"
-          imageUrl="/ads/invest_1600x300.png"
-          linkUrl="https://investfirst.ae"
-        />
+      {/* Full-width Ad Banner under the grid layout */}
+      <div className="clear-both pt-8">
+        <FullWidthAdBanner containerClassName="w-full" ratio="nd_bottom" targetPage="news_detail" imageUrl="/ads/ad-banner-1600x140.jpeg" linkUrl="https://investfirst.ae" />
       </div>
 
       {/* Divider */}
-      <div className="h-[1px] w-full bg-gray-200 my-12"></div>
+      <div className="h-[1px] w-full bg-gray-200 my-2"></div>
 
       {/* Related Articles */}
       <NewsRelated articleId={article.id} />

@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { ChevronDown } from 'lucide-react';
 import SectionContainer from './SectionContainer';
 import FullWidthAdBanner from './FullWidthAdBanner';
-import { useHomeCategories } from '@/hooks/use-articles';
+import { useHomeCategories, useArticles } from '@/hooks/use-articles';
 
 const EmptyCategoryState = ({ categoryName, isDark = false }: { categoryName: string; isDark?: boolean }) => (
   <div className={`w-full py-12 flex flex-col items-center justify-center border border-dashed rounded-lg text-center my-4 ${isDark ? 'bg-white/5 border-gray-700 text-gray-400' : 'bg-gray-50/50 border-gray-200 text-gray-400'}`}>
@@ -18,14 +18,46 @@ const LogisticsAviationSection: React.FC = () => {
   const { data: homeCategories } = useHomeCategories();
 
   const logisticsData = homeCategories?.['logistics-trade'];
-  const logisticsArticles = logisticsData?.articles || [];
+  const initialLogisticsArticles = logisticsData?.articles || [];
+  const logisticsCategoryId = initialLogisticsArticles[0]?.category?.id || '84ef6ad2-dc4b-4a96-92b1-43bf3919bc23';
+
+  // Fallback to fetch 5 articles if homeCategories aggregate returned fewer
+  const { data: fullLogisticsResponse } = useArticles(
+    {
+      categoryId: logisticsCategoryId,
+      limit: 5,
+    },
+    { enabled: initialLogisticsArticles.length < 5 }
+  );
+
+  const logisticsArticles =
+    fullLogisticsResponse?.data && fullLogisticsResponse.data.length >= 5
+      ? fullLogisticsResponse.data
+      : initialLogisticsArticles;
+
   const logisticsFeatured = logisticsArticles[0];
-  const logisticsSmall = logisticsArticles.slice(1, 4);
+  const logisticsSmall = logisticsArticles.slice(1, 5);
 
   const aviationData = homeCategories?.['aviation-aerospace'];
-  const aviationArticles = aviationData?.articles || [];
+  const initialAviationArticles = aviationData?.articles || [];
+  const aviationCategoryId = initialAviationArticles[0]?.category?.id || '2c22a2c3-08bc-48bb-8774-8b88217be351';
+
+  // Fallback to fetch 5 articles if homeCategories aggregate returned fewer
+  const { data: fullAviationResponse } = useArticles(
+    {
+      categoryId: aviationCategoryId,
+      limit: 5,
+    },
+    { enabled: initialAviationArticles.length < 5 }
+  );
+
+  const aviationArticles =
+    fullAviationResponse?.data && fullAviationResponse.data.length >= 5
+      ? fullAviationResponse.data
+      : initialAviationArticles;
+
   const aviationFeatured = aviationArticles[0];
-  const aviationSmall = aviationArticles.slice(1, 4);
+  const aviationSmall = aviationArticles.slice(1, 5);
 
   const formatDate = (dateStr?: string) =>
     dateStr
@@ -69,7 +101,7 @@ const LogisticsAviationSection: React.FC = () => {
                   href={`/news/${logisticsFeatured.slug || logisticsFeatured.id}`}
                   className="flex flex-col sm:flex-row gap-4 group cursor-pointer pb-2"
                 >
-                  <div className="relative w-full sm:w-[45%] aspect-[4/3] overflow-hidden shrink-0 bg-gray-200">
+                  <div className="relative w-full sm:w-[45%] aspect-[4/3] overflow-hidden shrink-0 bg-gray-200 rounded">
                     <Image
                       src={logisticsFeatured.featuredImage || '/placeholder-news.jpg'}
                       alt={logisticsFeatured.title}
@@ -88,16 +120,16 @@ const LogisticsAviationSection: React.FC = () => {
                 </Link>
               )}
 
-              {/* Small Articles */}
+              {/* Small Articles - 2 columns x 2 rows (4 items) */}
               {logisticsSmall.length > 0 && (
-                <div className="flex flex-col gap-6">
+                <div className="grid grid-cols-2 gap-3 sm:gap-4 pt-2 border-t border-gray-200">
                   {logisticsSmall.map((item) => (
                     <Link
                       key={item.id}
                       href={`/news/${item.slug || item.id}`}
-                      className="flex gap-4 group cursor-pointer items-center"
+                      className="flex flex-col group cursor-pointer h-full"
                     >
-                      <div className="relative w-[30%] aspect-[4/3] shrink-0 overflow-hidden bg-gray-200">
+                      <div className="relative w-full aspect-[16/10] shrink-0 overflow-hidden bg-gray-200 rounded mb-2">
                         <Image
                           src={item.featuredImage || '/placeholder-news.jpg'}
                           alt={item.title}
@@ -105,11 +137,11 @@ const LogisticsAviationSection: React.FC = () => {
                           className="object-cover group-hover:scale-105 transition-transform duration-300"
                         />
                       </div>
-                      <div className="flex flex-col justify-center w-[70%]">
-                        <h4 className="text-[#24214c] font-bold text-sm md:text-[15px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-3">
+                      <div className="flex flex-col flex-1 justify-between">
+                        <h4 className="text-[#24214c] font-bold text-xs sm:text-[13px] md:text-[15px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-2">
                           {item.title}
                         </h4>
-                        <span className="text-[11px] text-gray-500 font-medium mt-1.5">
+                        <span className="text-[10px] sm:text-[11px] text-gray-500 font-medium mt-1.5">
                           {item.category?.name || 'Logistics & Trade'} | {formatDate(item.publishedAt)}
                         </span>
                       </div>
@@ -151,7 +183,7 @@ const LogisticsAviationSection: React.FC = () => {
                   href={`/news/${aviationFeatured.slug || aviationFeatured.id}`}
                   className="flex flex-col sm:flex-row gap-4 group cursor-pointer pb-2"
                 >
-                  <div className="relative w-full sm:w-[45%] aspect-[4/3] overflow-hidden shrink-0 bg-gray-800">
+                  <div className="relative w-full sm:w-[45%] aspect-[4/3] overflow-hidden shrink-0 bg-gray-800 rounded">
                     <Image
                       src={aviationFeatured.featuredImage || '/placeholder-news.jpg'}
                       alt={aviationFeatured.title}
@@ -170,16 +202,16 @@ const LogisticsAviationSection: React.FC = () => {
                 </Link>
               )}
 
-              {/* Small Articles */}
+              {/* Small Articles - 2 columns x 2 rows (4 items) */}
               {aviationSmall.length > 0 && (
-                <div className="flex flex-col gap-6">
+                <div className="grid grid-cols-2 gap-3 sm:gap-4 pt-2 border-t border-gray-700/60">
                   {aviationSmall.map((item) => (
                     <Link
                       key={item.id}
                       href={`/news/${item.slug || item.id}`}
-                      className="flex gap-4 group cursor-pointer items-center"
+                      className="flex flex-col group cursor-pointer h-full"
                     >
-                      <div className="relative w-[30%] aspect-[4/3] shrink-0 overflow-hidden bg-gray-800">
+                      <div className="relative w-full aspect-[16/10] shrink-0 overflow-hidden bg-gray-800 rounded mb-2">
                         <Image
                           src={item.featuredImage || '/placeholder-news.jpg'}
                           alt={item.title}
@@ -187,11 +219,11 @@ const LogisticsAviationSection: React.FC = () => {
                           className="object-cover group-hover:scale-105 transition-transform duration-300"
                         />
                       </div>
-                      <div className="flex flex-col justify-center w-[70%]">
-                        <h4 className="text-white font-bold text-sm md:text-[15px] leading-snug group-hover:text-[#FBB03B] transition-colors line-clamp-3">
+                      <div className="flex flex-col flex-1 justify-between">
+                        <h4 className="text-white font-bold text-xs sm:text-[13px] md:text-[15px] leading-snug group-hover:text-[#FBB03B] transition-colors line-clamp-2">
                           {item.title}
                         </h4>
-                        <span className="text-[11px] text-[#FBB03B] font-medium mt-1.5">
+                        <span className="text-[10px] sm:text-[11px] text-[#FBB03B] font-medium mt-1.5">
                           {item.category?.name || 'Aviation & Aerospace'} | {formatDate(item.publishedAt)}
                         </span>
                       </div>
@@ -205,7 +237,7 @@ const LogisticsAviationSection: React.FC = () => {
       </div>
 
       <div className="mt-16 w-full">
-        <FullWidthAdBanner ratio="ad_6" imageUrl="/ads/invest_1600x300.png" linkUrl="https://investfirst.ae" />
+        <FullWidthAdBanner ratio="ad_6" imageUrl="/ads/invest-first_1600x140.jpeg" linkUrl="https://investfirst.ae" />
       </div>
     </SectionContainer>
   );
