@@ -32,7 +32,18 @@ const EventsSection = () => {
     }
   });
 
-  const eventsList = activeEvents && activeEvents.length > 0 ? activeEvents : null;
+  const fallbackEvents = [
+    {
+      id: 'default-uae-event-1',
+      title: 'Global Business Forum Dubai 2026',
+      badge: 'FEATURED EVENT',
+      image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=80',
+      linkUrl: '/news?category=Events',
+      linkText: 'Explore Events',
+    },
+  ];
+
+  const eventsList = (activeEvents && activeEvents.length > 0) ? activeEvents : fallbackEvents;
   const [currentEventIndex, setCurrentEventIndex] = useState(0);
 
   useEffect(() => {
@@ -224,7 +235,7 @@ const EventsSection = () => {
       </div>
 
       <div className="mt-12 w-full">
-        <FullWidthAdBanner ratio="ad_8" imageUrl="/ads/next_1600x224.png" linkUrl="https://investfirst.ae" />
+        <FullWidthAdBanner ratio="ad_8" imageUrl="/ads/next_1600x140.jpeg" linkUrl="https://nextmedia.ae" />
       </div>
     </SectionContainer>
   );

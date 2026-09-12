@@ -117,6 +117,7 @@ const ICON_LIST = [
   'BarChart3',
   'Search',
   'Settings',
+  'Calendar',
 ];
 
 interface ImageUploadFieldProps {
@@ -381,7 +382,23 @@ export default function SettingsPage() {
       if (brandVal) setBranding(prev => ({ ...prev, ...brandVal }));
 
       const navVal = getVal('ui_sidebar_navigation');
-      if (navVal) setSidebarNav(navVal);
+      if (navVal && Array.isArray(navVal)) {
+        const hasEvents = navVal.some((item: any) => item.code === 'EVENTS');
+        if (!hasEvents) {
+          const catIndex = navVal.findIndex((item: any) => item.code === 'CATEGORIES');
+          const insertIndex = catIndex !== -1 ? catIndex + 1 : navVal.length;
+          const merged = [...navVal];
+          merged.splice(insertIndex, 0, {
+            code: 'EVENTS',
+            title: 'Events',
+            icon: 'Calendar',
+            visible: true,
+          });
+          setSidebarNav(merged);
+        } else {
+          setSidebarNav(navVal);
+        }
+      }
 
       const widgetsVal = getVal('ui_dashboard_widgets');
       if (widgetsVal) setDashboardWidgets(widgetsVal);
@@ -517,11 +534,13 @@ export default function SettingsPage() {
       { code: 'DASHBOARD', title: 'Dashboard', icon: 'LayoutDashboard', visible: true },
       { code: 'ARTICLES', title: 'Articles', icon: 'FileText', visible: true },
       { code: 'CATEGORIES', title: 'Categories', icon: 'FolderTree', visible: true },
+      { code: 'EVENTS', title: 'Events', icon: 'Calendar', visible: true },
       { code: 'TAGS', title: 'Tags', icon: 'Tags', visible: true },
       { code: 'ADS', title: 'Ads Management', icon: 'Megaphone', visible: true },
       { code: 'MEDIA', title: 'Media Library', icon: 'ImageIcon', visible: true },
       { code: 'USERS', title: 'Users', icon: 'Users', visible: true },
       { code: 'NEWSLETTER', title: 'Newsletter', icon: 'Mail', visible: true },
+      { code: 'CONTACTS', title: 'Contacts', icon: 'MessageSquare', visible: true },
       { code: 'COMMENTS', title: 'Comments', icon: 'MessageSquare', visible: true },
       { code: 'ANALYTICS', title: 'Analytics', icon: 'BarChart3', visible: true },
       { code: 'SEO', title: 'SEO', icon: 'Search', visible: true },

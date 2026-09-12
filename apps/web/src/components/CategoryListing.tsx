@@ -314,13 +314,13 @@ const CategoryListing: React.FC = () => {
         </div>
 
         {/* McDonald's Banner Ad Container */}
-        <div className='w-full py-8 md:py-12'>
-          <FullWidthAdBanner targetPage="news_category" ratio="nc_bottom" imageUrl="/ads/invest_1600x300.png" linkUrl="https://investfirst.ae" />
+        <div className='w-full pt-8 md:pt-10'>
+          <FullWidthAdBanner targetPage="news_category" ratio="nc_bottom" imageUrl="/ads/ad-banner-1600x140.jpeg" linkUrl="https://investfirst.ae" />
         </div>
       </SectionContainer>
 
       {/* Suggested UAE News Section (Light grey background, breaks out of content spacing) */}
-      <div className="w-full bg-[#f9f9fb] py-12 border-t border-gray-200/50 flex justify-center">
+      <div className="w-full bg-[#f9f9fb] pb-12 border-t border-gray-200/50 flex justify-center">
         <SectionContainer className="bg-transparent py-0">
           <h2 className="text-[#cd2027] font-extrabold text-2xl mb-8 tracking-tight">
             Suggested UAE News

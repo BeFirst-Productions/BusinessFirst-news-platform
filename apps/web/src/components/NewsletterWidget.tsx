@@ -17,7 +17,7 @@ const NewsletterWidget = ({ className = '' }: { className?: string } = {}) => {
     }
   };
   return (
-    <div className={`bg-[#1F194E] rounded-3xl p-4 sm:p-5 xl:p-6 relative overflow-hidden min-h-[250px] sm:min-h-[270px] lg:min-h-[280px] xl:min-h-[300px] flex flex-col justify-start pt-5 sm:pt-6 xl:pt-7 shadow-lg shrink-0 ${className}`}>
+    <div className={`bg-[#1F194E] rounded-3xl p-4 sm:p-5 xl:p-6 relative overflow-hidden min-h-[180px] sm:min-h-[270px] lg:min-h-[250px] xl:min-h-[240px] flex flex-col justify-start pt-5 sm:pt-6 xl:pt-7 shadow-lg shrink-0 ${className}`}>
       {/* Background desert silhouette illustration */}
       <img
         src="/shapes/shape01.svg"

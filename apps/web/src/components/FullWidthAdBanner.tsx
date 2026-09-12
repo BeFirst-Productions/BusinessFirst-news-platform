@@ -16,7 +16,7 @@ interface FullWidthAdBannerProps {
 
 const FullWidthAdBanner: React.FC<FullWidthAdBannerProps> = ({ 
   containerClassName = "w-full", 
-  adClassName = "h-[120px] md:h-[160px] lg:h-[200px] shadow-sm",
+  adClassName = "h-[120px] md:h-[140px] lg:h-[140px] shadow-sm",
   imageUrl = "/ads/next_1600x224.png",
   altText = "Free Home Delivery Ad",
   ratio,

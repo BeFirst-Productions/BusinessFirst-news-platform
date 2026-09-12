@@ -68,7 +68,9 @@ const ContactSocials = () => {
           <div className="flex items-center gap-4">
             {/* Instagram */}
             <a 
-              href="#" 
+              href="https://www.instagram.com/businessfirstuae" 
+              target="_blank"
+              rel="noopener noreferrer"
               aria-label="Instagram"
               className="w-11 h-11 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-[#FF0202] hover:scale-105 transition-all duration-300 shadow-md"
             >
@@ -77,7 +79,9 @@ const ContactSocials = () => {
 
             {/* X (Twitter) */}
             <a 
-              href="#" 
+              href="https://x.com" 
+              target="_blank"
+              rel="noopener noreferrer"
               aria-label="X (Twitter)"
               className="w-11 h-11 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-black hover:scale-105 transition-all duration-300 shadow-md"
             >
@@ -86,7 +90,9 @@ const ContactSocials = () => {
 
             {/* LinkedIn */}
             <a 
-              href="#" 
+              href="https://www.linkedin.com/company/109375094" 
+              target="_blank"
+              rel="noopener noreferrer"
               aria-label="LinkedIn"
               className="w-11 h-11 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-[#0077b5] hover:scale-105 transition-all duration-300 shadow-md"
             >
@@ -95,7 +101,9 @@ const ContactSocials = () => {
 
             {/* Facebook */}
             <a 
-              href="#" 
+              href="https://www.facebook.com/businessfirstuae" 
+              target="_blank"
+              rel="noopener noreferrer"
               aria-label="Facebook"
               className="w-11 h-11 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-[#1877f2] hover:scale-105 transition-all duration-300 shadow-md"
             >

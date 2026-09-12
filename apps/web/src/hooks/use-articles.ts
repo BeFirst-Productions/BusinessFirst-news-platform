@@ -24,7 +24,10 @@ import type {
 /**
  * Fetch paginated articles with filters
  */
-export function useArticles(filters: ArticleFilters = {}) {
+export function useArticles(
+  filters: ArticleFilters = {},
+  options: { enabled?: boolean } = {}
+) {
   return useQuery({
     queryKey: articleKeys.list(filters),
     queryFn: async () => {
@@ -52,6 +55,7 @@ export function useArticles(filters: ArticleFilters = {}) {
       });
       return response;
     },
+    enabled: options.enabled !== undefined ? options.enabled : true,
     staleTime: STALE_TIMES.FREQUENT,
     placeholderData: (previousData) => previousData, // Keep previous data while loading
   });
