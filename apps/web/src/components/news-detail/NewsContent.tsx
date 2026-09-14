@@ -58,32 +58,16 @@ const NewsContent: React.FC<NewsContentProps> = ({
         </div>
       )}
 
-      {/* Article Head and Body 1 */}
+      {/* Article Body */}
       <div className="block">
-        {paragraphs.slice(0, 3).map((para, index) => (
+        {paragraphs.map((para, index) => (
           <div
             key={index}
-            className="text-gray-700 text-sm md:text-base leading-relaxed font-medium [&>p]:mb-4 [&>h3]:text-lg [&>h3]:font-bold [&>h3]:mt-6 [&>h3]:mb-2 [&>h3]:text-[#24214c]"
+            className="text-gray-700 text-sm md:text-base leading-relaxed font-medium [&>p]:mb-4 [&>h2]:text-xl [&>h2]:font-bold [&>h2]:mt-6 [&>h2]:mb-2 [&>h2]:text-[#24214c] [&>h3]:text-lg [&>h3]:font-bold [&>h3]:mt-6 [&>h3]:mb-2 [&>h3]:text-[#24214c]"
             dangerouslySetInnerHTML={{ __html: para }}
           />
         ))}
       </div>
-
-      {/* Article Head and Body 2 */}
-      {paragraphs.length > 3 && (
-        <div className="block mt-4">
-          <h2 className="text-xl md:text-2xl font-bold text-[#24214c] mb-4">
-            {title}
-          </h2>
-          {paragraphs.slice(3).map((para, index) => (
-            <div
-              key={index}
-              className="text-gray-700 text-sm md:text-base leading-relaxed font-medium [&>p]:mb-4 [&>h3]:text-lg [&>h3]:font-bold [&>h3]:mt-6 [&>h3]:mb-2 [&>h3]:text-[#24214c]"
-              dangerouslySetInnerHTML={{ __html: para }}
-            />
-          ))}
-        </div>
-      )}
 
       {/* Fallback Mobile Sidebar if passed directly */}
       {sidebar && (
