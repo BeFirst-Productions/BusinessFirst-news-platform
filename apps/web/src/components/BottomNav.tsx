@@ -57,7 +57,7 @@ const BottomNav = () => {
     },
     {
       name: 'Contact Us',
-      items: ['Get in Touch', 'Submit an enquiry', 'Advertise with Us']
+      items: ['Get in Touch', 'Advertise with Us']
     }
   ];
 

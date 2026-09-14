@@ -2,29 +2,31 @@ import React from 'react';
 
 interface SectionTitleProps {
   title: string;
+  titleColor?: string;
   className?: string;
+  showBorder?: boolean;
 }
 
-const SectionTitle: React.FC<SectionTitleProps> = ({ title, className = "" }) => {
+const SectionTitle: React.FC<SectionTitleProps> = ({ 
+  title, 
+  titleColor = '#FF0202',
+  className = "",
+  showBorder = true,
+}) => {
   return (
-    <div className={`flex items-center justify-center mb-8 w-full ${className}`}>
-      <div 
-        className="h-[6px] w-16 md:flex-1 md:max-w-96 rounded-full"
-        style={{
-          backgroundImage:'linear-gradient(270deg, #FF0202 0%, rgba(36,31,82,1.00) 5%, rgba(36,31,82,0) 78%)',
-          backgroundPosition: 'center center'
-        }}
-      ></div>
-      <h2 className="text-[#FF0202] text-xl xl:text-2xl 2xl:text-3xl font-bold px-4 tracking-tight whitespace-nowrap shrink-0">
-        {title}
-      </h2>
-      <div 
-        className="h-[6px] w-16 md:flex-1 md:max-w-96 rounded-full"
-        style={{
-          backgroundImage: 'linear-gradient(90deg, #FF0202 0%, rgba(36,31,82,1.00) 5%, rgba(36,31,82,0) 78%)',
-          backgroundPosition: 'center center'
-        }}
-      ></div>
+    <div className={`flex items-center w-full ${showBorder ? 'border-b border-gray-300' : 'border-b border-transparent'} pb-2 mb-6 md:mb-8 ${className}`}>
+      <div className="relative">
+        <h2 
+          className="text-xl xl:text-2xl 2xl:text-3xl font-bold tracking-tight whitespace-nowrap" 
+          style={{ color: titleColor }}
+        >
+          {title}
+        </h2>
+        <div 
+          className="absolute -bottom-[9px] left-0 w-full h-[3px]" 
+          style={{ backgroundColor: titleColor }}
+        ></div>
+      </div>
     </div>
   );
 };

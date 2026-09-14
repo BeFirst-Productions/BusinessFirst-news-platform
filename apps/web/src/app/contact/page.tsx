@@ -34,7 +34,7 @@ export default function ContactPage() {
           <ContactForm />
         </div>
         <div className='w-full py-8 md:py-12'>
-          <FullWidthAdBanner ratio="contact_bottom" targetPage="contact" imageUrl="/ads/invest_1600x300.png" />
+          <FullWidthAdBanner ratio="contact_bottom" targetPage="contact" imageUrl="/ads/invest-first_1600x140.jpeg" />
         </div>
       </SectionContainer>
     </main>

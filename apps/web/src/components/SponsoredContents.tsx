@@ -39,7 +39,7 @@ const SponsoredContents = () => {
         className="bg-black py-6 md:py-8 border-t-[8px] border-black"
         containerClassName="flex flex-col"
       >
-        <SectionTitle title="Sponsored Contents" />
+        <SectionTitle title="Featured Analysis | Sponsored Content" showBorder={false} />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {Array.from({ length: 4 }).map((_, i) => (
             <div key={i} className="bg-[#24214c] rounded-xl overflow-hidden flex flex-col h-72">
@@ -62,7 +62,7 @@ const SponsoredContents = () => {
       containerClassName="flex flex-col"
     >
       {/* Title Section */}
-      <SectionTitle title="Sponsored Contents" />
+      <SectionTitle title="Featured Analysis | Sponsored Content" showBorder={false} />
 
       {articles.length === 0 ? (
         <div className="w-full py-12 flex flex-col items-center justify-center bg-white/5 border border-dashed border-gray-700 rounded-lg text-center my-4">

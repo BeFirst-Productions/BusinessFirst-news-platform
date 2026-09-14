@@ -33,31 +33,14 @@ const NewsContent: React.FC<NewsContentProps> = ({
         />
       </div>
 
-      {/* Article Head and Body 1 */}
+      {/* Article Body */}
       <div className="flex flex-col gap-4">
-        <h2 className="text-xl md:text-2xl font-bold text-[#24214c]">
-          {title}
-        </h2>
-        {paragraphs.slice(0, 3).map((para, index) => (
+        {paragraphs.map((para, index) => (
           <p key={index} className="text-gray-700 text-sm md:text-base leading-relaxed font-medium">
             {para}
           </p>
         ))}
       </div>
-
-      {/* Article Head and Body 2 */}
-      {paragraphs.length > 3 && (
-        <div className="flex flex-col gap-4">
-          <h2 className="text-xl md:text-2xl font-bold text-[#24214c]">
-            Deep Dive: {title}
-          </h2>
-          {paragraphs.slice(3).map((para, index) => (
-            <p key={index} className="text-gray-700 text-sm md:text-base leading-relaxed font-medium">
-              {para}
-            </p>
-          ))}
-        </div>
-      )}
     </article>
   );
 };
