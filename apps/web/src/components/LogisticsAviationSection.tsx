@@ -68,6 +68,9 @@ const LogisticsAviationSection: React.FC = () => {
       })
       : 'Recent';
 
+  const getExcerpt = (article?: any) =>
+    article?.excerpt || article?.content?.replace(/<[^>]*>/g, '').trim();
+
   return (
     <SectionContainer as="section" className="py-6 md:py-8 bg-white">
       <div className="flex flex-col md:flex-row gap-8 lg:gap-12 w-full">
@@ -113,9 +116,14 @@ const LogisticsAviationSection: React.FC = () => {
                     <h3 className="text-[#24214c] font-bold text-lg xl:text-[22px] leading-tight group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-[45px] font-newsreader">
                       {logisticsFeatured.title}
                     </h3>
-                    <span className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-auto">
+                    <span className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-1">
                       {logisticsFeatured.category?.name || 'Logistics & Trade'} | {formatDate(logisticsFeatured.publishedAt)}
                     </span>
+                    {getExcerpt(logisticsFeatured) && (
+                      <p className="hidden lg:line-clamp-2 xl:line-clamp-3 text-gray-600 text-xs sm:text-[13px] leading-relaxed mt-2 font-normal">
+                        {getExcerpt(logisticsFeatured)}
+                      </p>
+                    )}
                   </div>
                 </Link>
               )}
@@ -195,9 +203,14 @@ const LogisticsAviationSection: React.FC = () => {
                     <h3 className="text-white font-bold text-lg xl:text-[22px] leading-tight group-hover:text-[#FBB03B] transition-colors line-clamp-2 min-h-[45px] font-newsreader">
                       {aviationFeatured.title}
                     </h3>
-                    <span className="text-[10px] md:text-[11px] text-[#FBB03B] font-medium mt-auto">
+                    <span className="text-[10px] md:text-[11px] text-[#FBB03B] font-medium mt-1">
                       {aviationFeatured.category?.name || 'Aviation & Aerospace'} | {formatDate(aviationFeatured.publishedAt)}
                     </span>
+                    {getExcerpt(aviationFeatured) && (
+                      <p className="hidden lg:line-clamp-2 xl:line-clamp-3 text-gray-300 text-xs sm:text-[13px] leading-relaxed mt-2 font-normal">
+                        {getExcerpt(aviationFeatured)}
+                      </p>
+                    )}
                   </div>
                 </Link>
               )}

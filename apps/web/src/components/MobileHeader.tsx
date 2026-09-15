@@ -96,8 +96,8 @@ const MobileHeader = () => {
           </Link>
 
           <div className="flex items-center gap-3">
-            <div 
-              className="bg-white rounded-full p-1.5 cursor-pointer hover:bg-gray-200 transition flex items-center justify-center" 
+            <div
+              className="bg-white rounded-full p-1.5 cursor-pointer hover:bg-gray-200 transition flex items-center justify-center"
               style={{ width: '32px', height: '32px' }}
               onClick={() => { setIsSearchOpen(!isSearchOpen); setIsMenuOpen(false); }}
             >
