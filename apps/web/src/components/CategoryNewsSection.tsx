@@ -106,21 +106,19 @@ interface HorizontalArticleItemProps {
   article: Article;
   isSidebar?: boolean;
   showExcerpt?: boolean;
-  className?: string;
 }
 
 function HorizontalArticleItem({
   article,
   isSidebar = false,
   showExcerpt = false,
-  className,
 }: HorizontalArticleItemProps) {
   const excerptText = article.excerpt || (article as any).content?.replace(/<[^>]*>/g, '').trim();
 
   return (
     <Link
       href={`/news/${article.slug}`}
-      className={`group cursor-pointer py-1 items-start ${isSidebar ? 'gap-3 xl:gap-4' : 'gap-4 sm:gap-5'} ${className ?? 'flex'}`}
+      className={`group cursor-pointer py-1 flex items-start ${isSidebar ? 'gap-3 xl:gap-4' : 'gap-4 sm:gap-5'}`}
     >
       <div
         className={`relative shrink-0 overflow-hidden rounded-md ${
@@ -143,7 +141,15 @@ function HorizontalArticleItem({
           </div>
         )}
       </div>
-      <div className={`flex flex-col min-w-0 flex-1 ${showExcerpt && !isSidebar ? 'min-h-[95px] sm:min-h-[110px] 2xl:min-h-[115px]' : ''}`}>
+      <div
+        className={`flex flex-col min-w-0 flex-1 ${
+          showExcerpt
+            ? isSidebar
+              ? 'min-h-[72px] sm:min-h-[80px] xl:min-h-[95px] 2xl:min-h-[105px]'
+              : 'min-h-[95px] sm:min-h-[110px] 2xl:min-h-[115px]'
+            : ''
+        }`}
+      >
         <h4 className="text-[#24214c] font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#cd2027] transition-colors line-clamp-2 font-newsreader">
           {article.title}
         </h4>
@@ -297,13 +303,8 @@ const CategoryNewsSection = () => {
 
   // Get featured article and split remaining
   const leftFeatured = leftArticles[0];
-  // On 2xl screens, leftSmall displays 4 articles (the 4th is hidden below 2xl) to fill vertical space
-  const leftSmall = leftArticles.length >= 8
-    ? leftArticles.slice(1, 5)
-    : leftArticles.slice(1, 4);
-  const leftMedium = leftArticles.length >= 8
-    ? leftArticles.slice(5, 8)
-    : leftArticles.slice(4, 7);
+  const leftSmall = leftArticles.slice(1, 4);
+  const leftMedium = leftArticles.slice(4, 8);
 
   const rightFeatured = rightArticles[0];
   const rightSmall = rightArticles.slice(1, 6);
@@ -337,7 +338,7 @@ const CategoryNewsSection = () => {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8 items-stretch flex-1">
               {/* Left Sub-column */}
-              <div className="md:col-span-8 flex flex-col justify-between h-full">
+              <div className="md:col-span-8 flex flex-col h-full">
                 {/* Featured Article */}
                 {leftFeatured && (
                   <FeaturedArticle
@@ -347,15 +348,14 @@ const CategoryNewsSection = () => {
                   />
                 )}
 
-                {/* Small Horizontal List - 4th article displays on 2xl screens to fill vertical space */}
+                {/* Small Horizontal List - distributes evenly down to the bottom baseline */}
                 {leftSmall.length > 0 && (
-                  <div className="flex flex-col gap-4 sm:gap-5 2xl:gap-4 mt-4 sm:mt-5">
-                    {leftSmall.map((article, index) => (
+                  <div className="flex flex-col justify-between flex-1 gap-3 xl:gap-4 mt-4 sm:mt-5 pt-3 sm:pt-4 border-t border-gray-100">
+                    {leftSmall.map((article) => (
                       <HorizontalArticleItem
                         key={article.id}
                         article={article}
                         showExcerpt={true}
-                        className={index >= 3 ? 'hidden 2xl:flex' : 'flex'}
                       />
                     ))}
                   </div>
@@ -378,7 +378,7 @@ const CategoryNewsSection = () => {
 
         {/* Right Block - Spans 4/12 */}
         <div className="lg:col-span-4 flex flex-col w-full h-full">
-          <div className="bg-[#F5F5F5] p-5 lg:p-6 xl:p-7 2xl:p-8 flex flex-col justify-between flex-1 border border-gray-100 rounded">
+          <div className="bg-[#F5F5F5] p-5 lg:p-6 xl:p-7 2xl:p-8 flex flex-col h-full border border-gray-100 rounded">
             <div>
               {/* Header */}
               <div className="flex flex-wrap lg:flex-col xl:flex-row justify-between items-start xl:items-center border-b border-gray-300 pb-2 gap-2 xl:gap-0">
@@ -407,7 +407,7 @@ const CategoryNewsSection = () => {
                   {rightFeatured && (
                     <FeaturedArticle
                       article={rightFeatured}
-                      imageClassName="aspect-[16/9] mt-3"
+                      imageClassName="aspect-[16/9] 2xl:aspect-[16/10] mt-3"
                       showExcerpt={true}
                     />
                   )}
@@ -417,7 +417,7 @@ const CategoryNewsSection = () => {
 
             {/* Small Horizontal List - evenly distributed to fill available height on 2xl */}
             {rightSmall.length > 0 && (
-              <div className="flex flex-col justify-between flex-1 gap-4 xl:gap-5 2xl:gap-6 mt-4 2xl:mt-6 pt-3 2xl:pt-4 border-t border-gray-200/60">
+              <div className="flex flex-col justify-between flex-1 gap-3 xl:gap-4 mt-4 2xl:mt-5 pt-3 2xl:pt-4 border-t border-gray-200/60">
                 {rightSmall.map((article) => (
                   <HorizontalArticleItem
                     key={article.id}
