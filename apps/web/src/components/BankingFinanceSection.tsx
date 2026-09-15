@@ -77,10 +77,10 @@ const BankingFinanceSection: React.FC = () => {
                         />
                       </div>
                       <div className="flex flex-col mt-4">
-                        <h3 className="text-[#24214c] font-bold text-[18px] md:text-[22px] leading-[1.3] group-hover:text-[#FF0202] transition-colors line-clamp-3">
+                        <h3 className="text-[#24214c] font-bold text-lg xl:text-[22px] leading-tight group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-[45px] font-newsreader">
                           {mainFeatured.title}
                         </h3>
-                        <span className="text-[11px] text-gray-500 font-medium mt-2">
+                        <span className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-auto">
                           {mainFeatured.category?.name || categoryName} | {formatDate(mainFeatured.publishedAt)}
                         </span>
                       </div>
@@ -105,10 +105,10 @@ const BankingFinanceSection: React.FC = () => {
                             />
                           </div>
                           <div className="flex flex-col justify-center flex-grow w-[65%]">
-                            <h4 className="text-[#24214c] font-bold text-[14px] md:text-[15px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-2">
+                            <h4 className="text-[#24214c] font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-[2.4rem] font-newsreader">
                               {item.title}
                             </h4>
-                            <span className="text-[11px] text-gray-500 font-medium mt-1">
+                            <span className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-auto">
                               {item.category?.name || categoryName} | {formatDate(item.publishedAt)}
                             </span>
                           </div>
@@ -136,10 +136,10 @@ const BankingFinanceSection: React.FC = () => {
                           />
                         </div>
                         <div className="flex flex-col shrink-0">
-                          <h4 className="text-[#24214c] font-bold text-[13px] md:text-[14px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-2">
+                          <h4 className="text-[#24214c] font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-[2.4rem] font-newsreader">
                             {item.title}
                           </h4>
-                          <span className="text-[10px] text-gray-500 font-medium mt-1">
+                          <span className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-auto">
                             {item.category?.name || categoryName} | {formatDate(item.publishedAt)}
                           </span>
                         </div>

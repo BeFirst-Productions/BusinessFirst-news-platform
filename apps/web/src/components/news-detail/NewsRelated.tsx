@@ -56,7 +56,7 @@ const NewsRelated: React.FC<NewsRelatedProps> = ({ articleId }) => {
                   <span className="text-[10px] text-amber-500 font-bold uppercase tracking-wider block mb-1">
                     {article.category?.name || 'News'} | {article.publishedAt ? new Date(article.publishedAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'Unknown Date'}
                   </span>
-                  <h4 className="text-sm font-bold text-[#24214c] leading-snug line-clamp-2 group-hover:text-[#FF0202] transition-colors">
+                  <h4 className="text-sm font-bold text-[#24214c] leading-snug line-clamp-2 group-hover:text-[#FF0202] transition-colors font-newsreader">
                     {article.title}
                   </h4>
                 </div>

@@ -76,7 +76,7 @@ const LogisticsAviationSection: React.FC = () => {
           {/* Header */}
           <div className="flex justify-between items-center border-b border-gray-300 pb-2">
             <div className="relative">
-              <h2 className="text-xl md:text-2xl font-bold text-[#FF0202]">
+              <h2 className="text-xl md:text-2xl font-bold text-[#FF0202] font-newsreader">
                 {logisticsData?.categoryName || 'Logistics & Trade'}
               </h2>
               <div className="absolute -bottom-[9px] left-0 w-full h-[3px] bg-[#FF0202]"></div>
@@ -110,10 +110,10 @@ const LogisticsAviationSection: React.FC = () => {
                     />
                   </div>
                   <div className="flex flex-col justify-center sm:w-[55%]">
-                    <h3 className="text-[#24214c] font-bold text-lg md:text-xl leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-3">
+                    <h3 className="text-[#24214c] font-bold text-lg xl:text-[22px] leading-tight group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-[45px] font-newsreader">
                       {logisticsFeatured.title}
                     </h3>
-                    <span className="text-xs text-gray-500 font-medium mt-3">
+                    <span className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-auto">
                       {logisticsFeatured.category?.name || 'Logistics & Trade'} | {formatDate(logisticsFeatured.publishedAt)}
                     </span>
                   </div>
@@ -138,10 +138,10 @@ const LogisticsAviationSection: React.FC = () => {
                         />
                       </div>
                       <div className="flex flex-col flex-1 justify-between">
-                        <h4 className="text-[#24214c] font-bold text-xs sm:text-[13px] md:text-[15px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-2">
+                        <h4 className="text-[#24214c] font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-[2.4rem] font-newsreader">
                           {item.title}
                         </h4>
-                        <span className="text-[10px] sm:text-[11px] text-gray-500 font-medium mt-1.5">
+                        <span className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-auto">
                           {item.category?.name || 'Logistics & Trade'} | {formatDate(item.publishedAt)}
                         </span>
                       </div>
@@ -158,7 +158,7 @@ const LogisticsAviationSection: React.FC = () => {
           {/* Header */}
           <div className="flex justify-between items-center border-b border-gray-600/60 pb-2">
             <div className="relative">
-              <h2 className="text-xl md:text-2xl font-bold text-[#FF0202]">
+              <h2 className="text-xl md:text-2xl font-bold text-[#FF0202] font-newsreader">
                 {aviationData?.categoryName || 'Aviation & Aerospace'}
               </h2>
               <div className="absolute -bottom-[9px] left-0 w-full h-[3px] bg-[#FF0202]"></div>
@@ -192,10 +192,10 @@ const LogisticsAviationSection: React.FC = () => {
                     />
                   </div>
                   <div className="flex flex-col justify-center sm:w-[55%]">
-                    <h3 className="text-white font-bold text-lg md:text-xl leading-snug group-hover:text-[#FBB03B] transition-colors line-clamp-3">
+                    <h3 className="text-white font-bold text-lg xl:text-[22px] leading-tight group-hover:text-[#FBB03B] transition-colors line-clamp-2 min-h-[45px] font-newsreader">
                       {aviationFeatured.title}
                     </h3>
-                    <span className="text-xs text-[#FBB03B] font-medium mt-3">
+                    <span className="text-[10px] md:text-[11px] text-[#FBB03B] font-medium mt-auto">
                       {aviationFeatured.category?.name || 'Aviation & Aerospace'} | {formatDate(aviationFeatured.publishedAt)}
                     </span>
                   </div>
@@ -220,10 +220,10 @@ const LogisticsAviationSection: React.FC = () => {
                         />
                       </div>
                       <div className="flex flex-col flex-1 justify-between">
-                        <h4 className="text-white font-bold text-xs sm:text-[13px] md:text-[15px] leading-snug group-hover:text-[#FBB03B] transition-colors line-clamp-2">
+                        <h4 className="text-white font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#FBB03B] transition-colors line-clamp-2 min-h-[2.4rem] font-newsreader">
                           {item.title}
                         </h4>
-                        <span className="text-[10px] sm:text-[11px] text-[#FBB03B] font-medium mt-1.5">
+                        <span className="text-[10px] md:text-[11px] text-[#FBB03B] font-medium mt-auto">
                           {item.category?.name || 'Aviation & Aerospace'} | {formatDate(item.publishedAt)}
                         </span>
                       </div>

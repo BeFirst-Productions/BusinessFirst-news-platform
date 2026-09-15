@@ -148,7 +148,7 @@ export class WebsiteService {
       };
 
       const categoryConfigs = [
-        { key: 'real-estate-construction', name: 'Real Estate & Construction', limit: 7, matchers: ['real-estate-construction', 'real-estate', 'construction'] },
+        { key: 'real-estate-construction', name: 'Real Estate & Construction', limit: 10, matchers: ['real-estate-construction', 'real-estate', 'construction'] },
         { key: 'economy-policy', name: 'Economy & Policy', limit: 4, matchers: ['economy-policy', 'economy', 'policy'] },
         { key: 'technology-innovation', name: 'Technology & Innovation', limit: 9, matchers: ['technology-innovation', 'technology', 'innovation'] },
         { key: 'logistics-trade', name: 'Logistics & Trade', limit: 6, matchers: ['logistics-trade', 'logistics', 'trade'] },

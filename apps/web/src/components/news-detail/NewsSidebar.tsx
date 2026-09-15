@@ -44,7 +44,7 @@ const NewsSidebar = () => {
                 />
               </div>
               <div className="flex-1 flex flex-col justify-between">
-                <h4 className="text-[#24214c] font-bold text-xs leading-snug line-clamp-2 group-hover:text-[#FF0202] transition-colors">
+                <h4 className="text-[#24214c] font-bold text-xs leading-snug line-clamp-2 group-hover:text-[#FF0202] transition-colors font-newsreader">
                   {post.title}
                 </h4>
                 <span className="text-[10px] text-amber-500 font-bold mt-1 uppercase tracking-wide">

@@ -81,7 +81,7 @@ Business First is a UAE-focused digital business news and media platform built f
                       {FALLBACK_STORIES.map((story) => (
                         <li key={story.href} className="flex items-start gap-2 group">
                           <ChevronRight size={16} className="text-[#fbbf24] shrink-0 mt-0.5 group-hover:translate-x-1 transition-transform" strokeWidth={3} />
-                          <Link href={story.href} className="text-gray-300 text-[13px] 2xl:text-[15px] leading-snug group-hover:text-white transition-colors">
+                          <Link href={story.href} className="text-gray-300 text-[13px] 2xl:text-[15px] leading-snug group-hover:text-white transition-colors font-newsreader">
                             {story.title}
                           </Link>
                         </li>
@@ -91,7 +91,7 @@ Business First is a UAE-focused digital business news and media platform built f
                 : topStories.map((story) => (
                     <li key={story.href} className="flex items-start gap-2 group">
                       <ChevronRight size={16} className="text-[#fbbf24] shrink-0 mt-0.5 group-hover:translate-x-1 transition-transform" strokeWidth={3} />
-                      <Link href={story.href} className="text-gray-300 text-[13px] 2xl:text-[15px] leading-snug group-hover:text-white transition-colors">
+                      <Link href={story.href} className="text-gray-300 text-[13px] 2xl:text-[15px] leading-snug group-hover:text-white transition-colors font-newsreader">
                         {story.title}
                       </Link>
                     </li>

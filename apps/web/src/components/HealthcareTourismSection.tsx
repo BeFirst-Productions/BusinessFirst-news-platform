@@ -43,7 +43,7 @@ const HealthcareTourismSection = () => {
         <div className="w-full lg:w-[58%] flex flex-col gap-6">
           {/* Header */}
           <div className="flex justify-between items-end border-b-[1.5px] border-gray-300 pb-2">
-            <h2 className="text-xl md:text-2xl font-bold text-[#FF0202] relative pb-2 -mb-[10px] border-b-[3px] border-[#FF0202]">
+            <h2 className="text-xl md:text-2xl font-bold text-[#FF0202] relative pb-2 -mb-[10px] border-b-[3px] border-[#FF0202] font-newsreader">
               {healthData?.categoryName || 'Healthcare & Pharma'}
             </h2>
             <Link
@@ -71,12 +71,12 @@ const HealthcareTourismSection = () => {
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
-                  <div className="text-xs text-gray-500 font-medium mt-3 mb-1">
-                    {healthFeatured.category?.name || 'Healthcare & Pharma'} | {formatDate(healthFeatured.publishedAt)}
-                  </div>
-                  <h3 className="text-lg md:text-2xl font-bold text-[#24214c] group-hover:text-[#FF0202] transition-colors leading-snug line-clamp-2">
+                  <h3 className="text-[#24214c] font-bold text-lg xl:text-[22px] leading-tight group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-[45px] font-newsreader">
                     {healthFeatured.title}
                   </h3>
+                  <span className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-auto">
+                    {healthFeatured.category?.name || 'Healthcare & Pharma'} | {formatDate(healthFeatured.publishedAt)}
+                  </span>
                 </Link>
               )}
 
@@ -93,12 +93,12 @@ const HealthcareTourismSection = () => {
                           className="object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                       </div>
-                      <h4 className="font-bold text-xs md:text-sm text-[#24214c] group-hover:text-[#FF0202] transition-colors leading-snug line-clamp-2 mt-2 mb-1">
+                      <h4 className="text-[#24214c] font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-[2.4rem] font-newsreader mt-2">
                         {item.title}
                       </h4>
-                      <div className="text-[10px] md:text-[11px] text-gray-500 font-medium">
+                      <span className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-auto">
                         {item.category?.name || 'Healthcare & Pharma'} | {formatDate(item.publishedAt)}
-                      </div>
+                      </span>
                     </Link>
                   ))}
                 </div>
@@ -111,7 +111,7 @@ const HealthcareTourismSection = () => {
         <div className="w-full lg:w-[42%] bg-[#f4f4f6] p-4 sm:p-5 rounded-xl flex flex-col gap-6">
           {/* Header */}
           <div className="flex justify-between items-end border-b-[1.5px] border-gray-300 pb-2">
-            <h2 className="text-xl md:text-2xl font-bold text-[#FF0202] relative pb-2 -mb-[10px] border-b-[3px] border-[#FF0202]">
+            <h2 className="text-xl md:text-2xl font-bold text-[#FF0202] relative pb-2 -mb-[10px] border-b-[3px] border-[#FF0202] font-newsreader">
               {tourismData?.categoryName || 'Tourism & Hospitality'}
             </h2>
             <Link
@@ -139,12 +139,12 @@ const HealthcareTourismSection = () => {
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
-                  <div className="text-xs text-gray-500 font-medium mt-3 mb-1">
-                    {tourismFeatured.category?.name || 'Tourism & Hospitality'} | {formatDate(tourismFeatured.publishedAt)}
-                  </div>
-                  <h3 className="text-base md:text-xl font-bold text-[#24214c] group-hover:text-[#FF0202] transition-colors leading-snug line-clamp-2">
+                  <h3 className="text-[#24214c] font-bold text-lg xl:text-[22px] leading-tight group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-[45px] font-newsreader">
                     {tourismFeatured.title}
                   </h3>
+                  <span className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-auto">
+                    {tourismFeatured.category?.name || 'Tourism & Hospitality'} | {formatDate(tourismFeatured.publishedAt)}
+                  </span>
                 </Link>
               )}
 
@@ -168,12 +168,12 @@ const HealthcareTourismSection = () => {
                         />
                       </div>
                       <div className="flex flex-col justify-center flex-1">
-                        <h4 className="font-bold text-xs md:text-sm text-[#24214c] group-hover:text-[#FF0202] transition-colors leading-snug line-clamp-2 mb-1">
+                        <h4 className="text-[#24214c] font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-[2.4rem] font-newsreader">
                           {item.title}
                         </h4>
-                        <div className="text-[10px] md:text-[11px] text-gray-500 font-medium">
+                        <span className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-auto">
                           {item.category?.name || 'Tourism & Hospitality'} | {formatDate(item.publishedAt)}
-                        </div>
+                        </span>
                       </div>
                     </Link>
                   ))}

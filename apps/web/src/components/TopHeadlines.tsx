@@ -182,10 +182,10 @@ const TopHeadlines = () => {
                 />
               </div>
               <div className="w-3/5 p-3 flex flex-col justify-between bg-white">
-                <h3 className="text-[#24214c] font-bold text-xs leading-snug line-clamp-3 hover:text-[#cd2027] transition-colors">
+                <h3 className="text-[#24214c] font-bold text-xs sm:text-sm md:text-[16px] leading-snug line-clamp-2 hover:text-[#cd2027] transition-colors font-newsreader">
                   {item.title}
                 </h3>
-                <span className="text-[10px] text-gray-500 font-medium">
+                <span className="text-[10px] md:text-[11px] text-gray-500 font-medium">
                   {item.category} | {item.date}
                 </span>
               </div>

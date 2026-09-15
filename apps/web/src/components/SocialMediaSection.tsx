@@ -40,7 +40,7 @@ const SocialMediaSection = async () => {
 
         {/* Header */}
         <div className="flex items-center w-full border-b-[1.5px] border-gray-300 pb-2">
-          <h2 className="text-2xl md:text-[28px] font-bold text-[#FF0202] relative pb-2 -mb-[10px] border-b-[3px] border-[#FF0202]">
+          <h2 className="text-2xl md:text-[28px] font-bold text-[#FF0202] relative pb-2 -mb-[10px] border-b-[3px] border-[#FF0202] font-newsreader">
             Social Media
           </h2>
         </div>
