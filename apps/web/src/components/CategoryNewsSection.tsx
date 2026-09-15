@@ -64,12 +64,15 @@ function formatDate(dateString?: string): string {
 interface FeaturedArticleProps {
   article: Article;
   imageClassName?: string;
+  showExcerpt?: boolean;
 }
 
-function FeaturedArticle({ article, imageClassName }: FeaturedArticleProps) {
+function FeaturedArticle({ article, imageClassName, showExcerpt = false }: FeaturedArticleProps) {
+  const excerptText = article.excerpt || (article as any).content?.replace(/<[^>]*>/g, '').trim();
+
   return (
-    <Link href={`/news/${article.slug}`} className="flex flex-col gap-2 group cursor-pointer">
-      <div className={`relative w-full overflow-hidden ${imageClassName || 'aspect-[16/9]'}`}>
+    <Link href={`/news/${article.slug}`} className="flex flex-col gap-1.5 group cursor-pointer">
+      <div className={`relative w-full overflow-hidden rounded ${imageClassName || 'aspect-[16/9]'}`}>
         {article.featuredImage ? (
           <Image
             src={article.featuredImage}
@@ -84,12 +87,17 @@ function FeaturedArticle({ article, imageClassName }: FeaturedArticleProps) {
           </div>
         )}
       </div>
-      <span className="text-xs text-gray-500 font-medium mt-2">
-        {article.category?.name || 'News'} | {formatDate(article.publishedAt)}
-      </span>
-      <h3 className="text-[#24214c] font-bold text-lg md:text-xl leading-tight group-hover:text-[#cd2027] transition-colors line-clamp-2">
+      <h3 className="text-[#24214c] font-bold text-lg xl:text-[22px] leading-tight group-hover:text-[#cd2027] transition-colors line-clamp-2 min-h-[45px] font-newsreader mt-1.5">
         {article.title}
       </h3>
+      <span className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-0.5">
+        {article.category?.name || 'News'} | {formatDate(article.publishedAt)}
+      </span>
+      {showExcerpt && excerptText && (
+        <p className="text-gray-600 text-xs sm:text-[13px] leading-relaxed line-clamp-2 2xl:line-clamp-3 mt-1 font-normal">
+          {excerptText}
+        </p>
+      )}
     </Link>
   );
 }
@@ -97,23 +105,37 @@ function FeaturedArticle({ article, imageClassName }: FeaturedArticleProps) {
 interface HorizontalArticleItemProps {
   article: Article;
   isSidebar?: boolean;
+  showExcerpt?: boolean;
+  className?: string;
 }
 
-function HorizontalArticleItem({ article, isSidebar = false }: HorizontalArticleItemProps) {
+function HorizontalArticleItem({
+  article,
+  isSidebar = false,
+  showExcerpt = false,
+  className,
+}: HorizontalArticleItemProps) {
+  const excerptText = article.excerpt || (article as any).content?.replace(/<[^>]*>/g, '').trim();
+
   return (
     <Link
       href={`/news/${article.slug}`}
-      className={`group cursor-pointer py-2 flex items-center ${isSidebar ? 'gap-3 xl:gap-5' : 'gap-5'}`}
+      className={`group cursor-pointer py-1 items-start ${isSidebar ? 'gap-3 xl:gap-4' : 'gap-4 sm:gap-5'} ${className ?? 'flex'}`}
     >
-      <div className={`relative shrink-0 overflow-hidden rounded-md ${isSidebar ? 'w-[90px] h-[65px] xl:w-[160px] xl:h-[110px]' : 'w-[160px] h-[110px]'
-        }`}>
+      <div
+        className={`relative shrink-0 overflow-hidden rounded-md ${
+          isSidebar
+            ? 'w-[95px] h-[72px] sm:w-[105px] sm:h-[80px] xl:w-[135px] xl:h-[95px] 2xl:w-[155px] 2xl:h-[105px]'
+            : 'w-[130px] sm:w-[160px] h-[95px] sm:h-[110px] 2xl:w-[170px] 2xl:h-[115px]'
+        }`}
+      >
         {article.featuredImage ? (
           <Image
             src={article.featuredImage}
             alt={article.title}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-300"
-            sizes="140px"
+            sizes={isSidebar ? '(max-width: 1280px) 105px, 155px' : '170px'}
           />
         ) : (
           <div className="w-full h-full bg-gray-200 flex items-center justify-center">
@@ -121,13 +143,18 @@ function HorizontalArticleItem({ article, isSidebar = false }: HorizontalArticle
           </div>
         )}
       </div>
-      <div className="flex flex-col justify-center min-w-0">
-        <h4 className="text-[#24214c] font-bold text-sm leading-snug group-hover:text-[#cd2027] transition-colors line-clamp-2">
+      <div className={`flex flex-col min-w-0 flex-1 ${showExcerpt && !isSidebar ? 'min-h-[95px] sm:min-h-[110px] 2xl:min-h-[115px]' : ''}`}>
+        <h4 className="text-[#24214c] font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#cd2027] transition-colors line-clamp-2 font-newsreader">
           {article.title}
         </h4>
-        <span className="text-[10px] text-gray-500 font-medium mt-1">
+        <span className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-1">
           {article.category?.name || 'News'} | {formatDate(article.publishedAt)}
         </span>
+        {showExcerpt && excerptText && (
+          <p className="text-gray-600 text-xs sm:text-[13px] leading-relaxed line-clamp-2 2xl:line-clamp-3 mt-1 font-normal">
+            {excerptText}
+          </p>
+        )}
       </div>
     </Link>
   );
@@ -139,9 +166,11 @@ interface VerticalArticleItemProps {
 }
 
 function VerticalArticleItem({ article, isFirst = false }: VerticalArticleItemProps) {
+  const excerptText = article.excerpt || (article as any).content?.replace(/<[^>]*>/g, '').trim();
+
   return (
-    <Link href={`/news/${article.slug}`} className="flex flex-col gap-2 group cursor-pointer">
-      <div className={`relative w-full overflow-hidden ${isFirst ? 'aspect-[4/3]' : 'aspect-video'}`}>
+    <Link href={`/news/${article.slug}`} className="flex flex-col gap-1.5 group cursor-pointer flex-1">
+      <div className={`relative w-full overflow-hidden rounded ${isFirst ? 'aspect-[4/3]' : 'aspect-video'}`}>
         {article.featuredImage ? (
           <Image
             src={article.featuredImage}
@@ -156,12 +185,17 @@ function VerticalArticleItem({ article, isFirst = false }: VerticalArticleItemPr
           </div>
         )}
       </div>
-      <h4 className="text-[#24214c] font-bold text-base leading-snug group-hover:text-[#cd2027] transition-colors line-clamp-2">
+      <h4 className="text-[#24214c] font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#cd2027] transition-colors line-clamp-2 font-newsreader mt-0.5">
         {article.title}
       </h4>
-      <span className="text-xs text-gray-500 font-medium">
+      <span className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-0.5">
         {article.category?.name || 'News'} | {formatDate(article.publishedAt)}
       </span>
+      {excerptText && (
+        <p className="text-gray-600 text-xs leading-relaxed line-clamp-2 2xl:line-clamp-3 mt-1 font-normal">
+          {excerptText}
+        </p>
+      )}
     </Link>
   );
 }
@@ -179,28 +213,26 @@ function CategorySectionSkeleton() {
             <Skeleton className="h-4 w-20" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-            <div className="md:col-span-8 flex flex-col gap-6">
+            <div className="md:col-span-8 space-y-6">
               <Skeleton className="aspect-[16/9] w-full rounded-lg" />
-              <div className="space-y-4">
-                {Array.from({ length: 4 }).map((_, i) => (
+              <Skeleton className="h-6 w-3/4" />
+              <div className="space-y-4 pt-4">
+                {Array.from({ length: 3 }).map((_, i) => (
                   <div key={i} className="flex gap-4">
-                    <Skeleton className="w-28 h-16 rounded" />
+                    <Skeleton className="w-40 h-28 rounded-lg shrink-0" />
                     <div className="flex-1 space-y-2">
                       <Skeleton className="h-4 w-full" />
                       <Skeleton className="h-3 w-1/2" />
+                      <Skeleton className="h-3 w-3/4" />
                     </div>
                   </div>
                 ))}
               </div>
             </div>
-            <div className="md:col-span-4 flex flex-col gap-6">
-              {Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="space-y-2">
-                  <Skeleton className={i === 0 ? 'aspect-[4/3] w-full' : 'aspect-video w-full'} />
-                  <Skeleton className="h-4 w-full" />
-                  <Skeleton className="h-3 w-1/2" />
-                </div>
-              ))}
+            <div className="md:col-span-4 space-y-6">
+              <Skeleton className="aspect-[4/3] w-full rounded-lg" />
+              <Skeleton className="aspect-video w-full rounded-lg" />
+              <Skeleton className="aspect-video w-full rounded-lg" />
             </div>
           </div>
         </div>
@@ -265,15 +297,20 @@ const CategoryNewsSection = () => {
 
   // Get featured article and split remaining
   const leftFeatured = leftArticles[0];
-  const leftSmall = leftArticles.slice(1, 4);
-  const leftMedium = leftArticles.slice(4, 8);
+  // On 2xl screens, leftSmall displays 4 articles (the 4th is hidden below 2xl) to fill vertical space
+  const leftSmall = leftArticles.length >= 8
+    ? leftArticles.slice(1, 5)
+    : leftArticles.slice(1, 4);
+  const leftMedium = leftArticles.length >= 8
+    ? leftArticles.slice(5, 8)
+    : leftArticles.slice(4, 7);
 
   const rightFeatured = rightArticles[0];
   const rightSmall = rightArticles.slice(1, 6);
 
   return (
     <SectionContainer as="section" className="bg-white py-6 md:py-8">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 w-full">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 w-full items-stretch">
         {/* Left Block - Spans 8/12 */}
         <div className="lg:col-span-8 flex flex-col gap-6 w-full">
           {/* Header */}
@@ -298,24 +335,27 @@ const CategoryNewsSection = () => {
           {leftArticles.length === 0 ? (
             <EmptyState categoryName={leftCategory?.name || 'this category'} />
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8 items-stretch flex-1">
               {/* Left Sub-column */}
-              <div className="md:col-span-8 flex flex-col h-full">
+              <div className="md:col-span-8 flex flex-col justify-between h-full">
                 {/* Featured Article */}
                 {leftFeatured && (
                   <FeaturedArticle
                     article={leftFeatured}
                     imageClassName="aspect-[16/9]"
+                    showExcerpt={true}
                   />
                 )}
 
-                {/* Small Horizontal List */}
+                {/* Small Horizontal List - 4th article displays on 2xl screens to fill vertical space */}
                 {leftSmall.length > 0 && (
-                  <div className="flex flex-col gap-8 mt-6">
-                    {leftSmall.map((article) => (
+                  <div className="flex flex-col gap-4 sm:gap-5 2xl:gap-4 mt-4 sm:mt-5">
+                    {leftSmall.map((article, index) => (
                       <HorizontalArticleItem
                         key={article.id}
                         article={article}
+                        showExcerpt={true}
+                        className={index >= 3 ? 'hidden 2xl:flex' : 'flex'}
                       />
                     ))}
                   </div>
@@ -323,7 +363,7 @@ const CategoryNewsSection = () => {
               </div>
 
               {/* Right Sub-column */}
-              <div className="md:col-span-4 flex flex-col gap-6">
+              <div className="md:col-span-4 flex flex-col justify-between h-full gap-4 lg:gap-5">
                 {leftMedium.map((article, index) => (
                   <VerticalArticleItem
                     key={article.id}
@@ -338,50 +378,54 @@ const CategoryNewsSection = () => {
 
         {/* Right Block - Spans 4/12 */}
         <div className="lg:col-span-4 flex flex-col w-full h-full">
-          <div className="bg-[#F5F5F5] p-6 lg:p-8 flex flex-col gap-6 flex-1 border border-gray-100">
-            {/* Header */}
-            <div className="flex flex-wrap lg:flex-col xl:flex-row justify-between items-start xl:items-center border-b border-gray-300 pb-2 gap-2 xl:gap-0">
-              <div className="relative">
-                <h2 className="text-xl md:text-2xl font-bold text-[#FF0202]">
-                  {rightCategory?.name || 'Economy & Policy'}
-                </h2>
-                <div className="absolute -bottom-[9px] left-0 w-full h-[3px] bg-[#FF0202] hidden xl:block" />
+          <div className="bg-[#F5F5F5] p-5 lg:p-6 xl:p-7 2xl:p-8 flex flex-col justify-between flex-1 border border-gray-100 rounded">
+            <div>
+              {/* Header */}
+              <div className="flex flex-wrap lg:flex-col xl:flex-row justify-between items-start xl:items-center border-b border-gray-300 pb-2 gap-2 xl:gap-0">
+                <div className="relative">
+                  <h2 className="text-xl md:text-2xl font-bold text-[#FF0202]">
+                    {rightCategory?.name || 'Economy & Policy'}
+                  </h2>
+                  <div className="absolute -bottom-[9px] left-0 w-full h-[3px] bg-[#FF0202] hidden xl:block" />
+                </div>
+                {rightCategory && (
+                  <Link
+                    href={`/news/category/${rightCategory.slug}`}
+                    className="flex items-center text-[#24214c] font-bold text-sm hover:opacity-80 transition-opacity whitespace-nowrap lg:mt-1 xl:mt-0"
+                  >
+                    View All{' '}
+                    <ChevronDown size={16} className="ml-1 text-gray-500" />
+                  </Link>
+                )}
               </div>
-              {rightCategory && (
-                <Link
-                  href={`/news/category/${rightCategory.slug}`}
-                  className="flex items-center text-[#24214c] font-bold text-sm hover:opacity-80 transition-opacity whitespace-nowrap lg:mt-1 xl:mt-0"
-                >
-                  View All{' '}
-                  <ChevronDown size={16} className="ml-1 text-gray-500" />
-                </Link>
+
+              {rightArticles.length === 0 ? (
+                <EmptyState categoryName={rightCategory?.name || 'this category'} />
+              ) : (
+                <>
+                  {/* Featured Article */}
+                  {rightFeatured && (
+                    <FeaturedArticle
+                      article={rightFeatured}
+                      imageClassName="aspect-[16/9] mt-3"
+                      showExcerpt={true}
+                    />
+                  )}
+                </>
               )}
             </div>
 
-            {rightArticles.length === 0 ? (
-              <EmptyState categoryName={rightCategory?.name || 'this category'} />
-            ) : (
-              <div className="flex flex-col h-full">
-                {/* Featured Article */}
-                {rightFeatured && (
-                  <FeaturedArticle
-                    article={rightFeatured}
-                    imageClassName="aspect-[16/9] mt-2"
+            {/* Small Horizontal List - evenly distributed to fill available height on 2xl */}
+            {rightSmall.length > 0 && (
+              <div className="flex flex-col justify-between flex-1 gap-4 xl:gap-5 2xl:gap-6 mt-4 2xl:mt-6 pt-3 2xl:pt-4 border-t border-gray-200/60">
+                {rightSmall.map((article) => (
+                  <HorizontalArticleItem
+                    key={article.id}
+                    article={article}
+                    isSidebar={true}
+                    showExcerpt={true}
                   />
-                )}
-
-                {/* Small Horizontal List */}
-                {rightSmall.length > 0 && (
-                  <div className="flex flex-col gap-8 mt-6">
-                    {rightSmall.map((article) => (
-                      <HorizontalArticleItem
-                        key={article.id}
-                        article={article}
-                        isSidebar={true}
-                      />
-                    ))}
-                  </div>
-                )}
+                ))}
               </div>
             )}
           </div>

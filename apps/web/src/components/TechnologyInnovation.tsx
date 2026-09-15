@@ -50,7 +50,7 @@ const TechnologyInnovation = () => {
       {/* Header Section */}
       <div className="flex justify-between items-end mb-6 relative pb-2 border-b border-gray-300">
         <div className="absolute left-0 bottom-[-1px] h-[2px] w-full max-w-[300px] bg-gradient-to-r from-[#cd2027] via-[#24214c] to-transparent"></div>
-        <h2 className="text-[#FF0202] text-2xl md:text-3xl font-bold">
+        <h2 className="text-[#FF0202] text-2xl md:text-3xl font-bold font-newsreader">
           {categoryName}
         </h2>
         <Link href={`/news?category=${encodeURIComponent(categoryName)}`} className="text-[#24214c] font-bold text-sm flex items-center gap-1 hover:text-[#cd2027] transition">
@@ -75,12 +75,12 @@ const TechnologyInnovation = () => {
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
-                <div className="text-gray-500 text-xs font-medium mb-1 uppercase tracking-wider">
-                  {mainArticle.category?.name || categoryName} | {mainArticle.publishedAt ? new Date(mainArticle.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : ''}
-                </div>
-                <h3 className="text-[#24214c] text-2xl md:text-3xl font-bold leading-tight group-hover:text-[#cd2027] transition-colors line-clamp-2">
+                <h3 className="text-[#24214c] font-bold text-lg xl:text-[22px] leading-tight group-hover:text-[#cd2027] transition-colors line-clamp-2 min-h-[45px] font-newsreader">
                   {mainArticle.title}
                 </h3>
+                <span className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-1">
+                  {mainArticle.category?.name || categoryName} | {mainArticle.publishedAt ? new Date(mainArticle.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : ''}
+                </span>
               </Link>
             )}
 
@@ -97,12 +97,12 @@ const TechnologyInnovation = () => {
                         className="object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     </div>
-                    <h4 className="text-[#24214c] font-bold text-base leading-tight mb-2 group-hover:text-[#cd2027] transition-colors line-clamp-2">
+                    <h4 className="text-[#24214c] font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#cd2027] transition-colors line-clamp-2 min-h-[2.4rem] font-newsreader">
                       {article.title}
                     </h4>
-                    <div className="text-gray-500 text-[10px] md:text-xs font-medium uppercase tracking-wider">
+                    <span className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-auto">
                       {article.category?.name || categoryName} | {article.publishedAt ? new Date(article.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : ''}
-                    </div>
+                    </span>
                   </Link>
                 ))}
               </div>
@@ -124,12 +124,12 @@ const TechnologyInnovation = () => {
                       />
                     </div>
                     <div className="flex flex-col justify-start min-w-0 flex-1 py-0.5">
-                      <h4 className="text-xs lg:text-[12.5px] xl:text-[14px] 2xl:text-[15.5px] font-bold text-[#24214c] leading-snug group-hover:text-[#cd2027] transition-colors line-clamp-2">
+                      <h4 className="text-[#24214c] font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#cd2027] transition-colors line-clamp-2 min-h-[2.4rem] font-newsreader">
                         {article.title}
                       </h4>
-                      <div className="text-gray-500 text-[9px] xl:text-[10px] 2xl:text-[11px] font-medium uppercase tracking-wider mt-1">
+                      <span className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-auto">
                         {article.category?.name || categoryName} | {article.publishedAt ? new Date(article.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : ''}
-                      </div>
+                      </span>
                     </div>
                   </Link>
                 ))}

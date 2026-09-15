@@ -17,7 +17,7 @@ const SectionTitle: React.FC<SectionTitleProps> = ({
     <div className={`flex items-center w-full ${showBorder ? 'border-b border-gray-300' : 'border-b border-transparent'} pb-2 mb-6 md:mb-8 ${className}`}>
       <div className="relative">
         <h2 
-          className="text-xl xl:text-2xl 2xl:text-3xl font-bold tracking-tight whitespace-nowrap" 
+          className="text-xl xl:text-2xl 2xl:text-3xl font-bold tracking-tight whitespace-nowrap font-newsreader" 
           style={{ color: titleColor }}
         >
           {title}

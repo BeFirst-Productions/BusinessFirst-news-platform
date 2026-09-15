@@ -1103,7 +1103,7 @@ const NewsletterBanner = () => {
 
       {/* Left Content: Text */}
       <div className="flex flex-col relative z-10 text-center md:text-left w-full md:w-1/2">
-        <h2 className="text-[#f1b434] text-2xl md:text-3xl lg:text-4xl font-bold leading-tight mb-2">
+        <h2 className="text-[#f1b434] text-2xl md:text-3xl lg:text-4xl font-bold leading-tight mb-2 font-newsreader">
           Subscribe to our <br className="hidden md:block" /> Weekly Newsletter
         </h2>
         <p className="text-gray-300 text-sm md:text-base font-light">

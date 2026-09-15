@@ -158,7 +158,7 @@ const CategoryListing: React.FC = () => {
 
         {/* Category Header */}
         <div className="border-b border-gray-200 pb-5 mb-8">
-          <h1 className="text-3xl font-extrabold text-[#cd2027] mb-3 tracking-tight">
+          <h1 className="text-3xl font-extrabold text-[#cd2027] mb-3 tracking-tight font-newsreader">
             {categoryName}
           </h1>
           <p className="text-gray-600 text-sm leading-relaxed max-w-4xl font-medium">
@@ -187,7 +187,7 @@ const CategoryListing: React.FC = () => {
                     />
                   </div>
                   <div className="flex flex-col gap-1.5 px-1">
-                    <h3 className="font-bold text-sm text-[#24214c] line-clamp-2 leading-snug group-hover:text-[#cd2027] transition-colors duration-200">
+                    <h3 className="font-bold text-sm text-[#24214c] line-clamp-2 leading-snug group-hover:text-[#cd2027] transition-colors duration-200 font-newsreader">
                       {article.title}
                     </h3>
                     <span className="text-[10px] text-gray-500 font-semibold uppercase tracking-wider">
@@ -255,7 +255,7 @@ const CategoryListing: React.FC = () => {
           <aside className="lg:col-span-4 flex flex-col gap-8 w-full">
             {/* Exclusives News Section */}
             <div className="bg-[#24214c] rounded-2xl p-5 text-white flex flex-col gap-4 shadow-lg border border-white/5">
-              <h2 className="text-[#cd2027] font-extrabold tracking-wider uppercase text-center text-lg border-b border-white/10 pb-3">
+              <h2 className="text-[#cd2027] font-extrabold tracking-wider uppercase text-center text-lg border-b border-white/10 pb-3 font-newsreader">
                 Exclusives News
               </h2>
               <div className="flex flex-col gap-4">
@@ -276,7 +276,7 @@ const CategoryListing: React.FC = () => {
                       />
                     </div>
                     <div className="flex flex-col justify-between flex-1 py-0.5">
-                      <h4 className="text-[11px] text-white line-clamp-2 leading-snug font-semibold hover:text-[#cd2027] transition-colors">
+                      <h4 className="text-[11px] text-white line-clamp-2 leading-snug font-semibold hover:text-[#cd2027] transition-colors font-newsreader">
                         {item.title}
                       </h4>
                       <span className="text-[9px] text-amber-400 font-extrabold uppercase mt-1 tracking-wider">
@@ -322,7 +322,7 @@ const CategoryListing: React.FC = () => {
       {/* Suggested UAE News Section (Light grey background, breaks out of content spacing) */}
       <div className="w-full bg-[#f9f9fb] pb-12 border-t border-gray-200/50 flex justify-center">
         <SectionContainer className="bg-transparent py-0">
-          <h2 className="text-[#cd2027] font-extrabold text-2xl mb-8 tracking-tight">
+          <h2 className="text-[#cd2027] font-extrabold text-2xl mb-8 tracking-tight font-newsreader">
             Suggested UAE News
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full">
@@ -345,8 +345,8 @@ const CategoryListing: React.FC = () => {
                   <span className="text-[9px] text-gray-500 font-bold uppercase tracking-wider">
                     {article.category} | {article.date}
                   </span>
-                  <h3 className="font-bold text-sm text-[#24214c] line-clamp-2 leading-snug group-hover:text-[#cd2027] transition-colors duration-200">
-                    How 5G Will Transform Communication and Connectivity
+                  <h3 className="font-bold text-sm text-[#24214c] line-clamp-2 leading-snug group-hover:text-[#cd2027] transition-colors duration-200 font-newsreader">
+                    {article.title || 'How 5G Will Transform Communication and Connectivity'}
                   </h3>
                 </div>
               </Link>

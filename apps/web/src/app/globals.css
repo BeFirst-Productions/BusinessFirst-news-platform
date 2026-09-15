@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,6 +6,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --font-newsreader: 'Newsreader', Georgia, Cambria, 'Times New Roman', Times, serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -20,8 +22,13 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-h1, .prose h1, .tiptap-content h1 {
-  font-family: var(--font-noto-sans-display), sans-serif;
+.font-newsreader,
+.news-title {
+  font-family: var(--font-newsreader), 'Newsreader', Georgia, serif;
+}
+
+h1, h2, .prose h1, .prose h2, .tiptap-content h1, .tiptap-content h2 {
+  font-family: var(--font-newsreader), 'Newsreader', Georgia, serif;
 }
 
 /* ═══════════════════════════════════════════════════

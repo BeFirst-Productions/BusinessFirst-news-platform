@@ -39,7 +39,7 @@ const CultureLifestyleSection = () => {
         <div className="w-full lg:w-[60%] flex flex-col gap-6">
           {/* Header */}
           <div className="flex justify-between items-end border-b-[1.5px] border-gray-300 pb-2">
-            <h2 className="text-xl md:text-2xl font-bold text-[#FF0202] relative pb-2 -mb-[10px] border-b-[3px] border-[#FF0202]">
+            <h2 className="text-xl md:text-2xl font-bold text-[#FF0202] relative pb-2 -mb-[10px] border-b-[3px] border-[#FF0202] font-newsreader">
               {cultureData?.categoryName || 'Culture & Lifestyle'}
             </h2>
             <Link
@@ -70,12 +70,12 @@ const CultureLifestyleSection = () => {
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
-                  <h4 className="font-bold text-[13px] md:text-sm text-[#24214c] group-hover:text-[#FF0202] transition-colors leading-tight mt-1 line-clamp-2">
+                  <h4 className="text-[#24214c] font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-[2.4rem] font-newsreader">
                     {item.title}
                   </h4>
-                  <div className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-auto pt-1 uppercase">
+                  <span className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-auto">
                     {item.category?.name || 'Culture & Lifestyle'} | {formatDate(item.publishedAt)}
-                  </div>
+                  </span>
                 </Link>
               ))}
             </div>
@@ -87,7 +87,7 @@ const CultureLifestyleSection = () => {
           <div className="bg-[#050505] rounded-xl p-6 md:p-8 flex flex-col h-full shadow-lg">
             {/* Header */}
             <div className="flex justify-between items-start border-b-[1.5px] border-gray-800 pb-4">
-              <h2 className="text-xl md:text-[22px] font-bold text-[#FF0202] leading-tight">
+              <h2 className="text-xl md:text-[22px] font-bold text-[#FF0202] leading-tight font-newsreader">
                 {mediaData?.categoryName || 'Media and Entertainment'}
               </h2>
               <Link
@@ -121,12 +121,12 @@ const CultureLifestyleSection = () => {
                       />
                     </div>
                     <div className="flex flex-col justify-center flex-1 gap-1">
-                      <h4 className="font-bold text-sm md:text-[15px] text-white group-hover:text-[#FF0202] transition-colors leading-snug line-clamp-2">
+                      <h4 className="text-white font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-[2.4rem] font-newsreader">
                         {item.title}
                       </h4>
-                      <div className="text-[10px] md:text-[11px] text-[#fbb03b] font-medium tracking-wide">
+                      <span className="text-[10px] md:text-[11px] text-[#fbb03b] font-medium mt-auto">
                         {item.category?.name || 'Media & Entertainment'} | {formatDate(item.publishedAt)}
-                      </div>
+                      </span>
                     </div>
                   </Link>
                 ))}

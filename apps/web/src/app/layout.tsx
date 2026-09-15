@@ -24,6 +24,14 @@ const notoSansDisplay = Noto_Sans_Display({
 export const metadata: Metadata = {
   title: "Business First",
   description: "News Platform",
+  icons: {
+    icon: [
+      { url: '/logo/logo.svg', type: 'image/svg+xml' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+    ],
+    shortcut: ['/logo/logo.svg'],
+    apple: ['/logo/logo.svg'],
+  },
 };
 
 export default function RootLayout({
@@ -36,6 +44,17 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${jetbrainsMono.variable} ${notoSansDisplay.variable} h-full antialiased`}
     >
+      <head>
+        <link rel="icon" href="/logo/logo.svg" type="image/svg+xml" />
+        <link rel="shortcut icon" href="/logo/logo.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/logo/logo.svg" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body className="min-h-full flex flex-col relative">
         <Providers>
           <Header />

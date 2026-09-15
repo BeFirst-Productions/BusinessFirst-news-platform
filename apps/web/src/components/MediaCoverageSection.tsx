@@ -31,7 +31,7 @@ const MediaCoverageSection = () => {
         <div className="w-full lg:w-1/2 flex flex-col gap-6 h-full">
           {/* Header */}
           <div className="text-center flex flex-col gap-1">
-            <h2 className="text-2xl md:text-[28px] font-bold text-[#FF0202]">
+            <h2 className="text-2xl md:text-[28px] font-bold text-[#FF0202] font-newsreader">
               Beyond Business
             </h2>
             <p className="text-gray-500 text-[13px] md:text-sm font-medium tracking-wide">Podcast Series</p>
@@ -74,12 +74,12 @@ const MediaCoverageSection = () => {
                   </div>
                   {/* Bottom Text */}
                   <div className="bg-[#24214c] p-4 md:p-5 flex flex-col gap-2 min-h-[90px] md:min-h-[110px] justify-between flex-1">
-                    <h3 className="text-white font-bold text-sm md:text-base leading-tight group-hover:text-[#FF0202] transition-colors line-clamp-2">
+                    <h4 className="text-white font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-[2.4rem] font-newsreader">
                       {item.title}
-                    </h3>
-                    <div className="text-gray-400 text-[9px] md:text-[11px] font-medium">
-                      {item.category} | {item.date}
-                    </div>
+                    </h4>
+                    <span className="text-[10px] md:text-[11px] text-gray-400 font-medium mt-auto">
+                      {item.category ? `${item.category} | ` : ''}{item.date}
+                    </span>
                   </div>
                 </div>
               ))}
@@ -106,7 +106,7 @@ const MediaCoverageSection = () => {
         <div className="w-full lg:w-1/2 flex flex-col gap-6 h-full">
           {/* Header */}
           <div className="text-center flex flex-col gap-1">
-            <h2 className="text-2xl md:text-[28px] font-bold text-[#FF0202]">
+            <h2 className="text-2xl md:text-[28px] font-bold text-[#FF0202] font-newsreader">
               Exclusive Coverage
             </h2>
             <p className="text-gray-500 text-[13px] md:text-sm font-medium tracking-wide">Yorem ipsum</p>
@@ -149,12 +149,12 @@ const MediaCoverageSection = () => {
                   </div>
                   {/* Bottom Text */}
                   <div className="bg-[#24214c] p-4 md:p-5 flex flex-col gap-2 min-h-[90px] md:min-h-[110px] justify-between flex-1">
-                    <h3 className="text-white font-bold text-sm md:text-base leading-tight group-hover:text-[#FF0202] transition-colors line-clamp-2">
+                    <h4 className="text-white font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-[2.4rem] font-newsreader">
                       {item.title}
-                    </h3>
-                    <div className="text-gray-400 text-[9px] md:text-[11px] font-medium">
-                      {item.category} | {item.date}
-                    </div>
+                    </h4>
+                    <span className="text-[10px] md:text-[11px] text-gray-400 font-medium mt-auto">
+                      {item.category ? `${item.category} | ` : ''}{item.date}
+                    </span>
                   </div>
                 </div>
               ))}

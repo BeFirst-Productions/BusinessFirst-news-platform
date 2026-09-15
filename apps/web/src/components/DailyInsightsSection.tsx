@@ -94,7 +94,7 @@ const DailyInsightsSection = () => {
 
                     {/* Bottom Text Bar */}
                     <div className="absolute bottom-0 left-0 w-full h-[45px] bg-[#24214c] flex items-center justify-center px-4 z-10">
-                      <span className="text-white text-[11px] md:text-xs font-medium tracking-wide line-clamp-1">
+                      <span className="text-white text-[11px] md:text-xs font-medium tracking-wide line-clamp-1 font-newsreader">
                         {item.title || item.category}
                       </span>
                     </div>
