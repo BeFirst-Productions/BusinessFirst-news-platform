@@ -344,7 +344,7 @@ export default function ViewArticlePage() {
                   {article.metaTitle || article.title}
                 </h4>
                 <p className="text-emerald-700 dark:text-emerald-500 text-xs truncate">
-                  https://businessfirst.com/articles/{article.slug}
+                  https://businessfirstuae.com/articles/{article.slug}
                 </p>
                 <p className="text-slate-600 dark:text-slate-400 text-xs line-clamp-2">
                   {article.metaDescription || article.excerpt || 'No description provided. Add a meta description to stand out in search results.'}

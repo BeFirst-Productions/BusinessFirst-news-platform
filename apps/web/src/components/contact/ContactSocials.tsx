@@ -52,8 +52,8 @@ const ContactSocials = () => {
             </div>
             <div className="flex flex-col gap-1">
               <span className="text-white/60 text-xs font-semibold uppercase tracking-wider">Email</span>
-              <a href="mailto:info@businessfirst.ae" className="text-sm font-medium hover:text-[#fbbf24] transition-colors break-all">
-                info@businessfirst.ae
+              <a href="mailto:info@businessfirstuae.com" className="text-sm font-medium hover:text-[#fbbf24] transition-colors break-all">
+                info@businessfirstuae.com
               </a>
             </div>
           </div>
