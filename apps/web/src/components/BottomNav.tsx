@@ -91,7 +91,7 @@ const BottomNav = () => {
                     <div className="bg-[#24214c] border border-white/20 rounded-xl py-4 px-6 shadow-2xl min-w-[200px] flex flex-col items-start gap-2">
                       {item.items.map((subItem, idx) => {
                         const href = item.name === 'Contact Us'
-                          ? '/contact'
+                          ? (subItem.toLowerCase().includes('advertise') ? '/advertise' : '/contact')
                           : `/news?category=${encodeURIComponent(subItem)}`;
                         return (
                           <Link

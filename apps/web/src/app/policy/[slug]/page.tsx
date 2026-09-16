@@ -54,7 +54,7 @@ const POLICY_CONTENT: Record<string, { title: string; subtitle: string; content:
         <p>Under certain circumstances, you have rights under data protection laws in relation to your personal data, including the right to request access, correction, erasure, restriction, transfer, to object to processing, and to withdraw consent (where applicable, such as GDPR and CCPA frameworks).</p>
 
         <h2 className="text-xl font-bold text-[#24214c] mt-8 mb-4">6. Contact Us</h2>
-        <p>If you have any questions about this Privacy Policy or our privacy practices, please contact our Data Protection Officer at privacy@businessfirst.com.</p>
+        <p>If you have any questions about this Privacy Policy or our privacy practices, please contact our Data Protection Officer at privacy@businessfirstuae.com.</p>
       </div>
     )
   },
@@ -62,8 +62,31 @@ const POLICY_CONTENT: Record<string, { title: string; subtitle: string; content:
 
 };
 
+import { redirect } from 'next/navigation';
+
 export default function PolicyPage({ params }: Props) {
   const policyKey = params.slug.toLowerCase();
+  if (policyKey === 'privacy') {
+    redirect('/privacy-policy');
+  }
+  if (policyKey === 'cookie') {
+    redirect('/cookie-policy');
+  }
+  if (policyKey === 'terms') {
+    redirect('/terms');
+  }
+  if (policyKey === 'disclaimer') {
+    redirect('/disclaimer');
+  }
+  if (policyKey === 'editorial') {
+    redirect('/editorial-policy');
+  }
+  if (policyKey === 'copyright' || policyKey === 'copyright-policy') {
+    redirect('/copyright-policy');
+  }
+  if (policyKey === 'corrections' || policyKey === 'corrections-policy' || policyKey === 'complaints' || policyKey === 'complaints-policy') {
+    redirect('/corrections-policy');
+  }
   const policy = POLICY_CONTENT[policyKey] || {
     title: 'Policy Document',
     subtitle: 'Legal guidelines and corporate agreements.',

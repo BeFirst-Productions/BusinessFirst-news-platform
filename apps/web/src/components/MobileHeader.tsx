@@ -161,7 +161,7 @@ const MobileHeader = () => {
                           <div className="flex flex-col gap-2 pl-4 border-l border-white/20">
                             {item.items?.map((subItem, idx) => {
                               const href = item.name === 'Contact Us'
-                                ? '/contact'
+                                ? (subItem.toLowerCase().includes('advertise') ? '/advertise' : '/contact')
                                 : `/news?category=${encodeURIComponent(subItem)}`;
                               return (
                                 <Link

@@ -105,6 +105,11 @@ Business First is a UAE-focused digital business news and media platform built f
             <h3 className="text-[#fbbf24] font-bold text-[15px] 2xl:text-[18px]">About the Company</h3>
             <ul className="flex flex-col gap-2 mt-2">
               <li>
+                <Link href="/about" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
+                  About us
+                </Link>
+              </li>
+              <li>
                 <Link href="/news?category=UAE%20News" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
                  Latest News
                 </Link>
@@ -132,6 +137,26 @@ Business First is a UAE-focused digital business news and media platform built f
               <li>
                 <Link href="/complaint" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
                   Submit a complaint
+                </Link>
+              </li>
+              <li>
+                <Link href="/disclaimer" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
+                  Disclaimer
+                </Link>
+              </li>
+              <li>
+                <Link href="/editorial-policy" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
+                  Editorial Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/copyright-policy" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
+                  Copyright Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/corrections-policy" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
+                  Corrections Policy
                 </Link>
               </li>
             </ul>
@@ -1277,11 +1302,19 @@ Business First is a UAE-focused digital business news and media platform built f
         {/* Bottom Bar */}
         <div className="flex flex-col items-center gap-6 mt-8">
           <div className="flex flex-wrap justify-center gap-x-2 gap-y-2 text-white text-[13px] 2xl:text-[15px]">
-            <Link href="#" className="hover:text-white transition-colors">Disclaimer</Link>
+            <Link href="/about" className="hover:text-[#fbbf24] transition-colors">About Us</Link>
+            <span>|</span>
+            <Link href="/editorial-policy" className="hover:text-white transition-colors">Editorial Policy</Link>
+            <span>|</span>
+            <Link href="/copyright-policy" className="hover:text-white transition-colors">Copyright Policy</Link>
+            <span>|</span>
+            <Link href="/corrections-policy" className="hover:text-white transition-colors">Corrections Policy</Link>
+            <span>|</span>
+            <Link href="/disclaimer" className="hover:text-white transition-colors">Disclaimer</Link>
             <span>|</span>
             <Link href="/terms" className="hover:text-white transition-colors">Terms and Conditions</Link>
             <span>|</span>
-            <Link href="/policy/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
             <span>|</span>
             <Link href="/cookie-policy" className="hover:text-white transition-colors">Cookie Policy</Link>
             {/* <span>|</span> */}
