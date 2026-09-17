@@ -1,5 +1,3 @@
-// Notification model
-
 model Notification {
   id        String           @id @default(uuid())
   title     String
@@ -10,8 +8,7 @@ model Notification {
   userId    String
   createdAt DateTime         @default(now())
   updatedAt DateTime         @updatedAt
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, isRead])
   @@index([createdAt])
