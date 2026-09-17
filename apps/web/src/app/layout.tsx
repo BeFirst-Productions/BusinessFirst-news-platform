@@ -1,24 +1,16 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono, Noto_Sans_Display } from "next/font/google";
+import { Merriweather } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Providers } from "@/app/providers";
 import ScrollToTop from "@/components/ScrollToTop";
 
-const inter = Inter({
-  variable: "--font-geist-sans",
+const merriweather = Merriweather({
+  weight: ["300", "400", "700", "900"],
   subsets: ["latin"],
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const notoSansDisplay = Noto_Sans_Display({
-  variable: "--font-noto-sans-display",
-  subsets: ["latin"],
+  variable: "--font-merriweather",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -42,7 +34,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${jetbrainsMono.variable} ${notoSansDisplay.variable} h-full antialiased`}
+      className={`${merriweather.variable} ${merriweather.className} h-full antialiased`}
     >
       <head>
         <link rel="icon" href="/logo/logo.svg" type="image/svg+xml" />
@@ -51,11 +43,11 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap"
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-full flex flex-col relative">
+      <body className="min-h-full flex flex-col relative font-sans">
         <Providers>
           <Header />
           {children}

@@ -214,7 +214,7 @@ const MobileHeader = () => {
               className="block w-full h-full relative"
             >
               <Image
-                src="/ads/next_1600x224.png"
+                src="/ads/next_1600x224.jpeg"
                 alt="Advertisement"
                 fill
                 className="object-fill"

@@ -208,7 +208,8 @@ exports.Prisma.ArticleScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   categoryId: 'categoryId',
-  authorId: 'authorId'
+  authorId: 'authorId',
+  authorName: 'authorName'
 };
 
 exports.Prisma.TagScalarFieldEnum = {

@@ -127,6 +127,7 @@ model Article {
   category   Category?         @relation(fields: [categoryId], references: [id], onDelete: SetNull)
   authorId   String
   author     User              @relation(fields: [authorId], references: [id])
+  authorName String?
   tags       ArticleTag[]
   comments   Comment[]
   ads        ArticleAd[]

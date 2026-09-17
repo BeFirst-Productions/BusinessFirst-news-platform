@@ -7,11 +7,12 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-geist-sans)', 'sans-serif'],
+        sans: ['var(--font-merriweather)', 'Merriweather', 'Georgia', 'serif'],
+        serif: ['var(--font-merriweather)', 'Merriweather', 'Georgia', 'serif'],
+        display: ['var(--font-merriweather)', 'Merriweather', 'Georgia', 'serif'],
+        newsreader: ['var(--font-merriweather)', 'Merriweather', 'Georgia', 'serif'],
+        merriweather: ['var(--font-merriweather)', 'Merriweather', 'Georgia', 'serif'],
         mono: ['var(--font-geist-mono)', 'monospace'],
-        display: ['var(--font-noto-sans-display)', 'sans-serif'],
-        newsreader: ['var(--font-newsreader)', 'Newsreader', 'Georgia', 'serif'],
-        serif: ['var(--font-newsreader)', 'Newsreader', 'Georgia', 'serif'],
       },
     },
   },

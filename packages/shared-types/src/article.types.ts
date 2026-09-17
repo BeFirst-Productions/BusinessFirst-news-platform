@@ -44,6 +44,7 @@ export interface Article extends BaseEntity {
   categories?: Category[];
   authorId: string;
   author?: User;
+  authorName?: string;
 }
 
 export interface ArticleFilters {

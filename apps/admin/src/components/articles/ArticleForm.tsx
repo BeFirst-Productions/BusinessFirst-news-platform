@@ -27,6 +27,7 @@ import {
   Globe,
   FileText,
   ArrowLeft,
+  User as UserIcon,
 } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { apiClient } from '@/lib/api-client';
@@ -60,6 +61,7 @@ export function generateSeoSlug(title: string): string {
 
 const articleSchema = z.object({
   title: z.string().min(5, 'Title must be at least 5 characters'),
+  authorName: z.string().max(100, 'Author name cannot exceed 100 characters').optional().nullable().or(z.literal('')),
   slug: z.string()
     .min(3, 'Slug must be at least 3 characters')
     .regex(/^[a-z0-9-]+$/, 'Slug must only contain lowercase letters, numbers, and hyphens'),
@@ -81,6 +83,16 @@ const articleSchema = z.object({
   featuredImage: z.string().optional().nullable(),
   featuredImageTitle: z.string().optional().nullable(),
 }).superRefine((data, ctx) => {
+  if (data.isSponsored) {
+    if (!data.authorName || data.authorName.trim() === '') {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Author is required when Sponsored contents is enabled',
+        path: ['authorName'],
+      });
+    }
+  }
+
   if (data.status === 'PUBLISHED') {
     if (!data.metaTitle || data.metaTitle.trim() === '') {
       ctx.addIssue({
@@ -153,6 +165,7 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
     resolver: zodResolver(articleSchema),
     defaultValues: {
       title: initialData?.title || '',
+      authorName: initialData?.authorName || '',
       slug: initialData?.slug || '',
       excerpt: initialData?.excerpt || '',
       categoryId: initialData?.categoryId || (initialData?.category?.id) || '',
@@ -175,6 +188,7 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
   });
 
   const status = watch('status');
+  const isSponsored = watch('isSponsored');
   const featuredImage = watch('featuredImage');
   const title = watch('title');
   const categoryId = watch('categoryId');
@@ -199,6 +213,7 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
       }
       reset({
         title: initialData.title || '',
+        authorName: initialData.authorName || '',
         slug: initialData.slug || '',
         excerpt: initialData.excerpt || '',
         categoryId: initialData.categoryId || (initialData.category?.id) || '',
@@ -337,6 +352,7 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
     // Clean scheduledAt if status is not SCHEDULED
     const submissionData = {
       ...formData,
+      authorName: formData.isSponsored ? (formData.authorName?.trim() || null) : null,
       featuredImage: finalImageUrl,
       content,
       scheduledAt: null,
@@ -409,6 +425,20 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
                 {...register('title')}
                 error={errors.title?.message}
               />
+
+              {isSponsored && (
+                <div className="space-y-1.5 animate-in fade-in slide-in-from-top-1 duration-200">
+                  <Input
+                    label="Author"
+                    required
+                    placeholder="Enter author / sponsor name (e.g. Brand Name, Company, or Contributor)"
+                    leftIcon={<UserIcon className="h-4 w-4" />}
+                    {...register('authorName')}
+                    error={errors.authorName?.message}
+                    helperText="Author is required for sponsored contents"
+                  />
+                </div>
+              )}
 
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
@@ -725,18 +755,30 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
                   )}
                 />
               </div>
-              <div className="flex items-center justify-between">
-                <Label>Sponsered Contents</Label>
-                <Controller
-                  name="isSponsored"
-                  control={control}
-                  render={({ field }) => (
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  )}
-                />
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <Label>Sponsered Contents</Label>
+                  <Controller
+                    name="isSponsored"
+                    control={control}
+                    render={({ field }) => (
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={(checked) => {
+                          field.onChange(checked);
+                          if (!checked) {
+                            setValue('authorName', '');
+                          }
+                        }}
+                      />
+                    )}
+                  />
+                </div>
+                {isSponsored && (
+                  <p className="text-[11px] text-amber-600 dark:text-amber-400 font-medium">
+                    * Author field is required and now visible in article details above.
+                  </p>
+                )}
               </div>
               <div className="flex items-center justify-between">
                 <Label>Exclusive News</Label>

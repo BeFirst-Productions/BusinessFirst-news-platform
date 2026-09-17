@@ -9252,6 +9252,7 @@ export namespace Prisma {
     updatedAt: Date | null
     categoryId: string | null
     authorId: string | null
+    authorName: string | null
   }
 
   export type ArticleMaxAggregateOutputType = {
@@ -9281,6 +9282,7 @@ export namespace Prisma {
     updatedAt: Date | null
     categoryId: string | null
     authorId: string | null
+    authorName: string | null
   }
 
   export type ArticleCountAggregateOutputType = {
@@ -9310,6 +9312,7 @@ export namespace Prisma {
     updatedAt: number
     categoryId: number
     authorId: number
+    authorName: number
     _all: number
   }
 
@@ -9351,6 +9354,7 @@ export namespace Prisma {
     updatedAt?: true
     categoryId?: true
     authorId?: true
+    authorName?: true
   }
 
   export type ArticleMaxAggregateInputType = {
@@ -9380,6 +9384,7 @@ export namespace Prisma {
     updatedAt?: true
     categoryId?: true
     authorId?: true
+    authorName?: true
   }
 
   export type ArticleCountAggregateInputType = {
@@ -9409,6 +9414,7 @@ export namespace Prisma {
     updatedAt?: true
     categoryId?: true
     authorId?: true
+    authorName?: true
     _all?: true
   }
 
@@ -9525,6 +9531,7 @@ export namespace Prisma {
     updatedAt: Date
     categoryId: string | null
     authorId: string
+    authorName: string | null
     _count: ArticleCountAggregateOutputType | null
     _avg: ArticleAvgAggregateOutputType | null
     _sum: ArticleSumAggregateOutputType | null
@@ -9573,6 +9580,7 @@ export namespace Prisma {
     updatedAt?: boolean
     categoryId?: boolean
     authorId?: boolean
+    authorName?: boolean
     category?: boolean | Article$categoryArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
     tags?: boolean | Article$tagsArgs<ExtArgs>
@@ -9609,6 +9617,7 @@ export namespace Prisma {
     updatedAt?: boolean
     categoryId?: boolean
     authorId?: boolean
+    authorName?: boolean
     category?: boolean | Article$categoryArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["article"]>
@@ -9640,6 +9649,7 @@ export namespace Prisma {
     updatedAt?: boolean
     categoryId?: boolean
     authorId?: boolean
+    authorName?: boolean
     category?: boolean | Article$categoryArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["article"]>
@@ -9671,9 +9681,10 @@ export namespace Prisma {
     updatedAt?: boolean
     categoryId?: boolean
     authorId?: boolean
+    authorName?: boolean
   }
 
-  export type ArticleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "content" | "excerpt" | "featuredImage" | "featuredImageTitle" | "status" | "isFeatured" | "isBreakingNews" | "isTopHeadline" | "isTrending" | "isUaeNews" | "isSponsored" | "isExclusiveNews" | "viewCount" | "scheduledAt" | "publishedAt" | "metaTitle" | "metaDescription" | "metaKeywords" | "readingTime" | "createdAt" | "updatedAt" | "categoryId" | "authorId", ExtArgs["result"]["article"]>
+  export type ArticleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "content" | "excerpt" | "featuredImage" | "featuredImageTitle" | "status" | "isFeatured" | "isBreakingNews" | "isTopHeadline" | "isTrending" | "isUaeNews" | "isSponsored" | "isExclusiveNews" | "viewCount" | "scheduledAt" | "publishedAt" | "metaTitle" | "metaDescription" | "metaKeywords" | "readingTime" | "createdAt" | "updatedAt" | "categoryId" | "authorId" | "authorName", ExtArgs["result"]["article"]>
   export type ArticleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | Article$categoryArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
@@ -9729,6 +9740,7 @@ export namespace Prisma {
       updatedAt: Date
       categoryId: string | null
       authorId: string
+      authorName: string | null
     }, ExtArgs["result"]["article"]>
     composites: {}
   }
@@ -10184,6 +10196,7 @@ export namespace Prisma {
     readonly updatedAt: FieldRef<"Article", 'DateTime'>
     readonly categoryId: FieldRef<"Article", 'String'>
     readonly authorId: FieldRef<"Article", 'String'>
+    readonly authorName: FieldRef<"Article", 'String'>
   }
     
 
@@ -29348,7 +29361,8 @@ export namespace Prisma {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     categoryId: 'categoryId',
-    authorId: 'authorId'
+    authorId: 'authorId',
+    authorName: 'authorName'
   };
 
   export type ArticleScalarFieldEnum = (typeof ArticleScalarFieldEnum)[keyof typeof ArticleScalarFieldEnum]
@@ -30342,6 +30356,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Article"> | Date | string
     categoryId?: StringNullableFilter<"Article"> | string | null
     authorId?: StringFilter<"Article"> | string
+    authorName?: StringNullableFilter<"Article"> | string | null
     category?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
     tags?: ArticleTagListRelationFilter
@@ -30377,6 +30392,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     categoryId?: SortOrderInput | SortOrder
     authorId?: SortOrder
+    authorName?: SortOrderInput | SortOrder
     category?: CategoryOrderByWithRelationInput
     author?: UserOrderByWithRelationInput
     tags?: ArticleTagOrderByRelationAggregateInput
@@ -30415,6 +30431,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Article"> | Date | string
     categoryId?: StringNullableFilter<"Article"> | string | null
     authorId?: StringFilter<"Article"> | string
+    authorName?: StringNullableFilter<"Article"> | string | null
     category?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
     tags?: ArticleTagListRelationFilter
@@ -30450,6 +30467,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     categoryId?: SortOrderInput | SortOrder
     authorId?: SortOrder
+    authorName?: SortOrderInput | SortOrder
     _count?: ArticleCountOrderByAggregateInput
     _avg?: ArticleAvgOrderByAggregateInput
     _max?: ArticleMaxOrderByAggregateInput
@@ -30487,6 +30505,7 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Article"> | Date | string
     categoryId?: StringNullableWithAggregatesFilter<"Article"> | string | null
     authorId?: StringWithAggregatesFilter<"Article"> | string
+    authorName?: StringNullableWithAggregatesFilter<"Article"> | string | null
   }
 
   export type TagWhereInput = {
@@ -32301,6 +32320,7 @@ export namespace Prisma {
     readingTime?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    authorName?: string | null
     category?: CategoryCreateNestedOneWithoutArticlesInput
     author: UserCreateNestedOneWithoutArticlesInput
     tags?: ArticleTagCreateNestedManyWithoutArticleInput
@@ -32336,6 +32356,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     categoryId?: string | null
     authorId: string
+    authorName?: string | null
     tags?: ArticleTagUncheckedCreateNestedManyWithoutArticleInput
     comments?: CommentUncheckedCreateNestedManyWithoutArticleInput
     ads?: ArticleAdUncheckedCreateNestedManyWithoutArticleInput
@@ -32367,6 +32388,7 @@ export namespace Prisma {
     readingTime?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
     category?: CategoryUpdateOneWithoutArticlesNestedInput
     author?: UserUpdateOneRequiredWithoutArticlesNestedInput
     tags?: ArticleTagUpdateManyWithoutArticleNestedInput
@@ -32402,6 +32424,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     authorId?: StringFieldUpdateOperationsInput | string
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: ArticleTagUncheckedUpdateManyWithoutArticleNestedInput
     comments?: CommentUncheckedUpdateManyWithoutArticleNestedInput
     ads?: ArticleAdUncheckedUpdateManyWithoutArticleNestedInput
@@ -32435,6 +32458,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     categoryId?: string | null
     authorId: string
+    authorName?: string | null
   }
 
   export type ArticleUpdateManyMutationInput = {
@@ -32462,6 +32486,7 @@ export namespace Prisma {
     readingTime?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ArticleUncheckedUpdateManyInput = {
@@ -32491,6 +32516,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     authorId?: StringFieldUpdateOperationsInput | string
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TagCreateInput = {
@@ -34555,6 +34581,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     categoryId?: SortOrder
     authorId?: SortOrder
+    authorName?: SortOrder
   }
 
   export type ArticleAvgOrderByAggregateInput = {
@@ -34589,6 +34616,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     categoryId?: SortOrder
     authorId?: SortOrder
+    authorName?: SortOrder
   }
 
   export type ArticleMinOrderByAggregateInput = {
@@ -34618,6 +34646,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     categoryId?: SortOrder
     authorId?: SortOrder
+    authorName?: SortOrder
   }
 
   export type ArticleSumOrderByAggregateInput = {
@@ -37988,6 +38017,7 @@ export namespace Prisma {
     readingTime?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    authorName?: string | null
     category?: CategoryCreateNestedOneWithoutArticlesInput
     author: UserCreateNestedOneWithoutArticlesInput
     tags?: ArticleTagCreateNestedManyWithoutArticleInput
@@ -38022,6 +38052,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     categoryId?: string | null
     authorId: string
+    authorName?: string | null
     tags?: ArticleTagUncheckedCreateNestedManyWithoutArticleInput
     comments?: CommentUncheckedCreateNestedManyWithoutArticleInput
     activities?: ArticleActivityUncheckedCreateNestedManyWithoutArticleInput
@@ -38123,6 +38154,7 @@ export namespace Prisma {
     readingTime?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
     category?: CategoryUpdateOneWithoutArticlesNestedInput
     author?: UserUpdateOneRequiredWithoutArticlesNestedInput
     tags?: ArticleTagUpdateManyWithoutArticleNestedInput
@@ -38157,6 +38189,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     authorId?: StringFieldUpdateOperationsInput | string
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: ArticleTagUncheckedUpdateManyWithoutArticleNestedInput
     comments?: CommentUncheckedUpdateManyWithoutArticleNestedInput
     activities?: ArticleActivityUncheckedUpdateManyWithoutArticleNestedInput
@@ -38802,6 +38835,7 @@ export namespace Prisma {
     readingTime?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    authorName?: string | null
     category?: CategoryCreateNestedOneWithoutArticlesInput
     author: UserCreateNestedOneWithoutArticlesInput
     comments?: CommentCreateNestedManyWithoutArticleInput
@@ -38836,6 +38870,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     categoryId?: string | null
     authorId: string
+    authorName?: string | null
     comments?: CommentUncheckedCreateNestedManyWithoutArticleInput
     ads?: ArticleAdUncheckedCreateNestedManyWithoutArticleInput
     activities?: ArticleActivityUncheckedCreateNestedManyWithoutArticleInput
@@ -38905,6 +38940,7 @@ export namespace Prisma {
     readingTime?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
     category?: CategoryUpdateOneWithoutArticlesNestedInput
     author?: UserUpdateOneRequiredWithoutArticlesNestedInput
     comments?: CommentUpdateManyWithoutArticleNestedInput
@@ -38939,6 +38975,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     authorId?: StringFieldUpdateOperationsInput | string
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
     comments?: CommentUncheckedUpdateManyWithoutArticleNestedInput
     ads?: ArticleAdUncheckedUpdateManyWithoutArticleNestedInput
     activities?: ArticleActivityUncheckedUpdateManyWithoutArticleNestedInput
@@ -39051,6 +39088,7 @@ export namespace Prisma {
     readingTime?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    authorName?: string | null
     category?: CategoryCreateNestedOneWithoutArticlesInput
     author: UserCreateNestedOneWithoutArticlesInput
     tags?: ArticleTagCreateNestedManyWithoutArticleInput
@@ -39085,6 +39123,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     categoryId?: string | null
     authorId: string
+    authorName?: string | null
     tags?: ArticleTagUncheckedCreateNestedManyWithoutArticleInput
     comments?: CommentUncheckedCreateNestedManyWithoutArticleInput
     ads?: ArticleAdUncheckedCreateNestedManyWithoutArticleInput
@@ -39190,6 +39229,7 @@ export namespace Prisma {
     readingTime?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
     category?: CategoryUpdateOneWithoutArticlesNestedInput
     author?: UserUpdateOneRequiredWithoutArticlesNestedInput
     tags?: ArticleTagUpdateManyWithoutArticleNestedInput
@@ -39224,6 +39264,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     authorId?: StringFieldUpdateOperationsInput | string
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: ArticleTagUncheckedUpdateManyWithoutArticleNestedInput
     comments?: CommentUncheckedUpdateManyWithoutArticleNestedInput
     ads?: ArticleAdUncheckedUpdateManyWithoutArticleNestedInput
@@ -39254,6 +39295,7 @@ export namespace Prisma {
     readingTime?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    authorName?: string | null
     category?: CategoryCreateNestedOneWithoutArticlesInput
     author: UserCreateNestedOneWithoutArticlesInput
     tags?: ArticleTagCreateNestedManyWithoutArticleInput
@@ -39288,6 +39330,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     categoryId?: string | null
     authorId: string
+    authorName?: string | null
     tags?: ArticleTagUncheckedCreateNestedManyWithoutArticleInput
     ads?: ArticleAdUncheckedCreateNestedManyWithoutArticleInput
     activities?: ArticleActivityUncheckedCreateNestedManyWithoutArticleInput
@@ -39397,6 +39440,7 @@ export namespace Prisma {
     readingTime?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
     category?: CategoryUpdateOneWithoutArticlesNestedInput
     author?: UserUpdateOneRequiredWithoutArticlesNestedInput
     tags?: ArticleTagUpdateManyWithoutArticleNestedInput
@@ -39431,6 +39475,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     authorId?: StringFieldUpdateOperationsInput | string
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: ArticleTagUncheckedUpdateManyWithoutArticleNestedInput
     ads?: ArticleAdUncheckedUpdateManyWithoutArticleNestedInput
     activities?: ArticleActivityUncheckedUpdateManyWithoutArticleNestedInput
@@ -39595,6 +39640,7 @@ export namespace Prisma {
     readingTime?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    authorName?: string | null
     author: UserCreateNestedOneWithoutArticlesInput
     tags?: ArticleTagCreateNestedManyWithoutArticleInput
     comments?: CommentCreateNestedManyWithoutArticleInput
@@ -39628,6 +39674,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     authorId: string
+    authorName?: string | null
     tags?: ArticleTagUncheckedCreateNestedManyWithoutArticleInput
     comments?: CommentUncheckedCreateNestedManyWithoutArticleInput
     ads?: ArticleAdUncheckedCreateNestedManyWithoutArticleInput
@@ -39825,6 +39872,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Article"> | Date | string
     categoryId?: StringNullableFilter<"Article"> | string | null
     authorId?: StringFilter<"Article"> | string
+    authorName?: StringNullableFilter<"Article"> | string | null
   }
 
   export type PageSeoUpsertWithWhereUniqueWithoutCategoryInput = {
@@ -40426,6 +40474,7 @@ export namespace Prisma {
     readingTime?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    authorName?: string | null
     category?: CategoryCreateNestedOneWithoutArticlesInput
     tags?: ArticleTagCreateNestedManyWithoutArticleInput
     comments?: CommentCreateNestedManyWithoutArticleInput
@@ -40459,6 +40508,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     categoryId?: string | null
+    authorName?: string | null
     tags?: ArticleTagUncheckedCreateNestedManyWithoutArticleInput
     comments?: CommentUncheckedCreateNestedManyWithoutArticleInput
     ads?: ArticleAdUncheckedCreateNestedManyWithoutArticleInput
@@ -41593,6 +41643,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     authorId: string
+    authorName?: string | null
   }
 
   export type PageSeoCreateManyCategoryInput = {
@@ -41691,6 +41742,7 @@ export namespace Prisma {
     readingTime?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
     author?: UserUpdateOneRequiredWithoutArticlesNestedInput
     tags?: ArticleTagUpdateManyWithoutArticleNestedInput
     comments?: CommentUpdateManyWithoutArticleNestedInput
@@ -41724,6 +41776,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     authorId?: StringFieldUpdateOperationsInput | string
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: ArticleTagUncheckedUpdateManyWithoutArticleNestedInput
     comments?: CommentUncheckedUpdateManyWithoutArticleNestedInput
     ads?: ArticleAdUncheckedUpdateManyWithoutArticleNestedInput
@@ -41756,6 +41809,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     authorId?: StringFieldUpdateOperationsInput | string
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type PageSeoUpdateWithoutCategoryInput = {
@@ -41869,6 +41923,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     categoryId?: string | null
+    authorName?: string | null
   }
 
   export type UserModulePermissionCreateManyUserInput = {
@@ -42039,6 +42094,7 @@ export namespace Prisma {
     readingTime?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
     category?: CategoryUpdateOneWithoutArticlesNestedInput
     tags?: ArticleTagUpdateManyWithoutArticleNestedInput
     comments?: CommentUpdateManyWithoutArticleNestedInput
@@ -42072,6 +42128,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: ArticleTagUncheckedUpdateManyWithoutArticleNestedInput
     comments?: CommentUncheckedUpdateManyWithoutArticleNestedInput
     ads?: ArticleAdUncheckedUpdateManyWithoutArticleNestedInput
@@ -42104,6 +42161,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserModulePermissionUpdateWithoutUserInput = {

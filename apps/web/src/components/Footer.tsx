@@ -139,26 +139,7 @@ Business First is a UAE-focused digital business news and media platform built f
                   Submit a complaint
                 </Link>
               </li>
-              <li>
-                <Link href="/disclaimer" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
-                  Disclaimer
-                </Link>
-              </li>
-              <li>
-                <Link href="/editorial-policy" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
-                  Editorial Policy
-                </Link>
-              </li>
-              <li>
-                <Link href="/copyright-policy" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
-                  Copyright Policy
-                </Link>
-              </li>
-              <li>
-                <Link href="/corrections-policy" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
-                  Corrections Policy
-                </Link>
-              </li>
+          
             </ul>
           </div>
 
@@ -1302,9 +1283,7 @@ Business First is a UAE-focused digital business news and media platform built f
         {/* Bottom Bar */}
         <div className="flex flex-col items-center gap-6 mt-8">
           <div className="flex flex-wrap justify-center gap-x-2 gap-y-2 text-white text-[13px] 2xl:text-[15px]">
-            <Link href="/about" className="hover:text-[#fbbf24] transition-colors">About Us</Link>
-            <span>|</span>
-            <Link href="/editorial-policy" className="hover:text-white transition-colors">Editorial Policy</Link>
+              <Link href="/editorial-policy" className="hover:text-white transition-colors">Editorial Policy</Link>
             <span>|</span>
             <Link href="/copyright-policy" className="hover:text-white transition-colors">Copyright Policy</Link>
             <span>|</span>

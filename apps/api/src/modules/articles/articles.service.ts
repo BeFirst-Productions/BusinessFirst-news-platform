@@ -194,6 +194,7 @@ export class ArticlesService {
         metaKeywords: data.metaKeywords || null,
         readingTime,
         authorId,
+        authorName: data.authorName && data.authorName.trim() !== '' ? data.authorName.trim() : (author?.name || null),
         categoryId: data.categoryId,
         tags: {
           create: data.tags?.map(tagId => ({ tagId })) || [],
@@ -367,6 +368,10 @@ export class ArticlesService {
 
     if (data.metaKeywords !== undefined) {
       updateData.metaKeywords = data.metaKeywords || null;
+    }
+
+    if (data.authorName !== undefined) {
+      updateData.authorName = data.authorName && data.authorName.trim() !== '' ? data.authorName.trim() : null;
     }
 
     // Sync tags inside a transaction if updated
