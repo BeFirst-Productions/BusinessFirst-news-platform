@@ -14,10 +14,10 @@ interface FullWidthAdBannerProps {
   linkUrl?: string;
 }
 
-const FullWidthAdBanner: React.FC<FullWidthAdBannerProps> = ({ 
-  containerClassName = "w-full", 
+const FullWidthAdBanner: React.FC<FullWidthAdBannerProps> = ({
+  containerClassName = "w-full",
   adClassName = "h-[120px] md:h-[140px] lg:h-[140px] shadow-sm",
-  imageUrl = "/ads/next_1600x224.png",
+  imageUrl = "/ads/next_1600x224.jpeg",
   altText = "Free Home Delivery Ad",
   ratio,
   targetPage = "home",
@@ -26,10 +26,10 @@ const FullWidthAdBanner: React.FC<FullWidthAdBannerProps> = ({
   if (ratio) {
     const fallbackContent = (
       <div className={`relative overflow-hidden w-full h-full`}>
-        <Image 
-          src={imageUrl} 
-          alt={altText} 
-          fill 
+        <Image
+          src={imageUrl}
+          alt={altText}
+          fill
           className="object-fill object-center"
         />
       </div>
@@ -37,7 +37,7 @@ const FullWidthAdBanner: React.FC<FullWidthAdBannerProps> = ({
 
     return (
       <div className={containerClassName}>
-        <DynamicAd 
+        <DynamicAd
           ratio={ratio}
           targetPage={targetPage}
           className={adClassName}
@@ -56,9 +56,9 @@ const FullWidthAdBanner: React.FC<FullWidthAdBannerProps> = ({
 
   return (
     <div className={containerClassName}>
-      <AdBanner 
-        imageUrl={imageUrl} 
-        altText={altText} 
+      <AdBanner
+        imageUrl={imageUrl}
+        altText={altText}
         className={adClassName}
         linkUrl={linkUrl}
       />

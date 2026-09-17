@@ -37,7 +37,7 @@ export async function generateMetadata() {
 
 export default function CorrectionsPolicyPage() {
   return (
-    <main className="min-h-screen bg-white flex flex-col items-center w-full">
+    <main className="min-h-screen bg-white flex flex-col items-center w-full  py-8 md:py-12">
       <ServerSeo slug="policy/corrections" />
 
       {/* Breadcrumbs */}
@@ -1129,9 +1129,7 @@ export default function CorrectionsPolicyPage() {
       </SectionContainer>
 
       {/* Ad Banner */}
-      <div className="w-full mt-12">
-        <FullWidthAdBanner />
-      </div>
+    
     </main>
   );
 }

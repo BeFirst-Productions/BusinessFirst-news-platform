@@ -30,7 +30,7 @@ export async function generateMetadata(
         images: article.featuredImage ? [article.featuredImage] : [],
         type: 'article',
         publishedTime: article.publishedAt,
-        authors: article.author?.name ? [article.author.name] : [],
+        authors: (article.authorName || article.author?.name) ? [article.authorName || article.author!.name] : [],
       },
     };
   } catch (error) {

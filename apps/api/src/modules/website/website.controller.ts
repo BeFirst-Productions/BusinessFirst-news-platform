@@ -29,6 +29,15 @@ export class WebsiteController {
     }
   }
 
+  static async getInstagramPosts(req: Request, res: Response, next: NextFunction) {
+    try {
+      const data = await WebsiteService.getInstagramPosts();
+      res.status(200).json(data);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   static async getArticles(req: Request, res: Response, next: NextFunction) {
     try {
       const page = Number(req.query.page) || 1;

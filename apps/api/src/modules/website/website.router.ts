@@ -6,6 +6,7 @@ const router: Router = Router();
 // Home content endpoint
 router.get('/home-content', WebsiteController.getHomeContent);
 router.get('/home-categories', WebsiteController.getHomeCategories);
+router.get('/instagram-posts', WebsiteController.getInstagramPosts);
 router.get('/articles', WebsiteController.getArticles);
 router.get('/articles/slug/:slug', WebsiteController.getArticleBySlug);
 router.get('/articles/:id/related', WebsiteController.getRelatedArticles);

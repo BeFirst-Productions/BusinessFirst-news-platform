@@ -186,16 +186,19 @@ export default function ArticlesPage() {
       key: 'author',
       header: 'Author',
       className: 'w-[140px]',
-      cell: (item: any) => (
-        <div className="flex items-center gap-2">
-          <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center">
-            <span className="text-white text-xs">
-              {item.author?.name?.charAt(0)?.toUpperCase()}
-            </span>
+      cell: (item: any) => {
+        const displayName = item.authorName || item.author?.name || 'Unknown';
+        return (
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
+              <span className="text-white text-xs font-medium">
+                {displayName.charAt(0)?.toUpperCase()}
+              </span>
+            </div>
+            <span className="text-sm truncate max-w-[120px]" title={displayName}>{displayName}</span>
           </div>
-          <span className="text-sm">{item.author?.name}</span>
-        </div>
-      ),
+        );
+      },
     },
     {
       key: 'status',

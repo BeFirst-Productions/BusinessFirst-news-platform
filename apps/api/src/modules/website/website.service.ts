@@ -730,4 +730,52 @@ export class WebsiteService {
       };
     });
   }
+
+  static async getInstagramPosts() {
+    const token = process.env.INSTAGRAM_ACCESS_TOKEN?.trim();
+    if (!token) {
+      return [];
+    }
+
+    const cacheKey = 'website:instagram-posts';
+    return this.getCachedOrFetch(cacheKey, 1800, async () => {
+      try {
+        const url = `https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp&limit=12&access_token=${token}`;
+        const response = await fetch(url);
+        if (!response.ok) {
+          return [];
+        }
+        const data: any = await response.json();
+        return (data.data || []).map((item: any, i: number) => {
+          const dateStr = item.timestamp
+            ? new Date(item.timestamp).toLocaleDateString('en-US', {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric',
+              })
+            : 'Latest News';
+
+          const firstLine = item.caption
+            ? item.caption.split('\n')[0].replace(/^[#@\s]+/, '').trim()
+            : `Business First Instagram Post ${i + 1}`;
+
+          const imageUrl =
+            item.media_type === 'VIDEO'
+              ? item.thumbnail_url || item.media_url
+              : item.media_url;
+
+          return {
+            id: item.id || `insta-${i + 1}`,
+            image: imageUrl || `/Instagram/insta-${(i % 10) + 1}.jpg`,
+            title: firstLine || `Business First Instagram Post ${i + 1}`,
+            description: item.caption || '',
+            dateText: `${dateStr} | Instagram`,
+            permalink: item.permalink || 'https://www.instagram.com/businessfirstuae',
+          };
+        });
+      } catch (error) {
+        return [];
+      }
+    });
+  }
 }

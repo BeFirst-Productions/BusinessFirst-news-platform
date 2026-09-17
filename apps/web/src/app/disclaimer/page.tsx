@@ -19,7 +19,7 @@ export async function generateMetadata() {
 
 export default function DisclaimerPage() {
   return (
-    <main className="min-h-screen bg-white flex flex-col items-center w-full">
+    <main className="min-h-screen bg-white flex flex-col items-center w-full  py-8 md:py-12">
       <ServerSeo slug="policy/disclaimer" />
       
       {/* Breadcrumbs matching website design */}
@@ -471,13 +471,7 @@ export default function DisclaimerPage() {
         </div>
 
         {/* Ad Banner matching website standards */}
-        <div className="w-full py-8 md:py-12">
-          <FullWidthAdBanner
-            ratio="disclaimer_bottom"
-            targetPage="disclaimer"
-            imageUrl="/ads/invest-first_1600x140.jpeg"
-          />
-        </div>
+        
       </SectionContainer>
     </main>
   );

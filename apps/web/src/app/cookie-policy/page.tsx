@@ -19,7 +19,7 @@ export async function generateMetadata() {
 
 export default function CookiePolicyPage() {
   return (
-    <main className="min-h-screen bg-white flex flex-col items-center w-full">
+    <main className="min-h-screen bg-white flex flex-col items-center w-full  py-8 md:py-12">
       <ServerSeo slug="policy/cookie" />
       
       {/* Breadcrumbs matching website design */}
@@ -610,13 +610,7 @@ export default function CookiePolicyPage() {
         </div>
 
         {/* Ad Banner matching website standards */}
-        <div className="w-full py-8 md:py-12">
-          <FullWidthAdBanner
-            ratio="cookie_bottom"
-            targetPage="cookie-policy"
-            imageUrl="/ads/invest-first_1600x140.jpeg"
-          />
-        </div>
+       
       </SectionContainer>
     </main>
   );

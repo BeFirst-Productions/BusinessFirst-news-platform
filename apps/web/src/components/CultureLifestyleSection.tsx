@@ -103,13 +103,17 @@ const CultureLifestyleSection = () => {
             {mediaArticles.length === 0 ? (
               <EmptyCategoryState categoryName={mediaData?.categoryName || 'Media and Entertainment'} isDark />
             ) : (
-              <div className="flex flex-col divide-y divide-gray-800/80 mt-4 my-auto">
+              <div className="flex-1 flex flex-col justify-between divide-y divide-gray-800/80 mt-2 sm:mt-4">
                 {mediaArticles.map((item, index) => (
                   <Link
                     key={item.id}
                     href={`/news/${item.slug || item.id}`}
-                    className={`py-4 first:pt-4 last:pb-2 group cursor-pointer flex gap-4 items-center ${
-                      index > 3 ? 'lg:hidden xl:flex' : ''
+                    className={`py-3 xl:py-3.5 2xl:py-4 first:pt-2 last:pb-1 group cursor-pointer flex gap-4 items-center ${
+                      index === 4
+                        ? 'lg:hidden xl:flex'
+                        : index >= 5
+                        ? 'lg:hidden xl:hidden 2xl:flex'
+                        : ''
                     }`}
                   >
                     <div className="relative w-32 md:w-40 aspect-[16/9] shrink-0 overflow-hidden bg-gray-800 rounded">

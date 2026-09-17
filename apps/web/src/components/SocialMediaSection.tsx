@@ -6,33 +6,91 @@ import apiClient from '@/lib/api-client';
 
 import SocialImage from './SocialImage';
 
-const SocialMediaSection = async () => {
-  let fetchedCards = [];
-  
-  try {
-    const res = await apiClient.get<any[]>('/instagram-posts', {
-      next: { revalidate: 3600 }
-    });
-    
-    if (res && Array.isArray(res)) {
-      fetchedCards = res;
+interface InstagramCard {
+  id: string | number;
+  image: string;
+  title: string;
+  description: string;
+  dateText: string;
+  permalink: string;
+}
+
+async function fetchInstagramCards(): Promise<InstagramCard[]> {
+  const token = process.env.INSTAGRAM_ACCESS_TOKEN?.trim();
+
+  // 1. If Instagram Access Token is configured, fetch directly from Instagram Graph API
+  if (token) {
+    try {
+      const url = `https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp&limit=12&access_token=${token}`;
+      const res = await fetch(url, {
+        next: { revalidate: 1800 }, // Revalidate every 30 minutes
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data?.data && Array.isArray(data.data) && data.data.length > 0) {
+          return data.data.map((item: any, i: number) => {
+            const dateStr = item.timestamp
+              ? new Date(item.timestamp).toLocaleDateString('en-US', {
+                  day: 'numeric',
+                  month: 'short',
+                  year: 'numeric',
+                })
+              : 'Latest News';
+
+            const firstLine = item.caption
+              ? item.caption.split('\n')[0].replace(/^[#@\s]+/, '').trim()
+              : `Business First Instagram Post ${i + 1}`;
+
+            const imageUrl =
+              item.media_type === 'VIDEO'
+                ? item.thumbnail_url || item.media_url
+                : item.media_url;
+
+            return {
+              id: item.id || `insta-${i + 1}`,
+              image: imageUrl || `/Instagram/insta-${(i % 10) + 1}.jpg`,
+              title: firstLine || `Business First Instagram Post ${i + 1}`,
+              description: item.caption || '',
+              dateText: `${dateStr} | Instagram`,
+              permalink: item.permalink || 'https://www.instagram.com/businessfirstuae',
+            };
+          });
+        }
+      } else {
+        const errorText = await res.text();
+        console.error('Instagram Graph API error:', res.status, errorText);
+      }
+    } catch (error) {
+      console.error('Failed to fetch from Instagram Graph API directly:', error);
     }
-  } catch (error) {
-    console.error('Failed to fetch Instagram posts from backend:', error);
   }
 
+  // 2. Fallback to backend API if available
+  try {
+    const res = await apiClient.get<InstagramCard[]>('/instagram-posts', {
+      next: { revalidate: 3600 },
+    });
+    if (res && Array.isArray(res) && res.length > 0) {
+      return res;
+    }
+  } catch {
+    // Backend endpoint might not be active, fall through to default cards
+  }
 
-  // Fallback to placeholder cards if API fails or no token
-  const defaultCards = Array.from({ length: 10 }, (_, i) => ({
+  // 3. Fallback placeholder cards
+  return Array.from({ length: 10 }, (_, i) => ({
     id: i + 1,
     image: `/Instagram/insta-${i + 1}.jpg`,
     title: `Business First Instagram Post ${i + 1}`,
     description: 'Catch the latest updates and exclusive insights from Business First on our official Instagram page.',
     dateText: 'Latest News | Business First',
-    permalink: 'https://www.instagram.com/businessfirstuae'
+    permalink: 'https://www.instagram.com/businessfirstuae',
   }));
+}
 
-  const cards = fetchedCards.length > 0 ? fetchedCards : defaultCards;
+const SocialMediaSection = async () => {
+  const cards = await fetchInstagramCards();
 
   return (
     <SectionContainer className="bg-white py-6 md:py-8">

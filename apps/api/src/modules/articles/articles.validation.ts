@@ -26,7 +26,18 @@ export const createArticleSchema = z.object({
   metaKeywords: z.string().optional().nullable().or(z.literal('')),
   featuredImage: z.string().optional().nullable().or(z.literal('')),
   featuredImageTitle: z.string().optional().nullable().or(z.literal('')),
+  authorName: z.string().max(100).optional().nullable().or(z.literal('')),
 }).superRefine((data, ctx) => {
+  if (data.isSponsored) {
+    if (!data.authorName || data.authorName.trim() === '') {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Author is required for sponsored contents',
+        path: ['authorName'],
+      });
+    }
+  }
+
   if (data.status === 'PUBLISHED') {
     if (!data.metaTitle || data.metaTitle.trim() === '') {
       ctx.addIssue({
@@ -78,6 +89,7 @@ export const updateArticleSchema = z.object({
   metaKeywords: z.string().optional().nullable().or(z.literal('')),
   featuredImage: z.string().optional().nullable().or(z.literal('')),
   featuredImageTitle: z.string().optional().nullable().or(z.literal('')),
+  authorName: z.string().max(100).optional().nullable().or(z.literal('')),
 });
 
 export const articleQuerySchema = z.object({

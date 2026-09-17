@@ -19,7 +19,7 @@ export async function generateMetadata() {
 
 export default function PrivacyPolicyPage() {
   return (
-    <main className="min-h-screen bg-white flex flex-col items-center w-full">
+    <main className="min-h-screen bg-white flex flex-col items-center w-full  py-8 md:py-12">
       <ServerSeo slug="policy/privacy" />
       
       {/* Breadcrumbs matching website design */}
@@ -784,13 +784,7 @@ legal@businessfirstuae.com
         </div>
 
         {/* Ad Banner matching website standards */}
-        <div className="w-full py-8 md:py-12">
-          <FullWidthAdBanner
-            ratio="privacy_bottom"
-            targetPage="privacy"
-            imageUrl="/ads/invest-first_1600x140.jpeg"
-          />
-        </div>
+      
       </SectionContainer>
     </main>
   );

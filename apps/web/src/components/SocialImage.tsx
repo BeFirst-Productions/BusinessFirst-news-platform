@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface SocialImageProps {
   src: string;
@@ -11,6 +11,10 @@ interface SocialImageProps {
 
 export default function SocialImage({ src, alt, fallbackSrc, className }: SocialImageProps) {
   const [imgSrc, setImgSrc] = useState(src);
+
+  useEffect(() => {
+    setImgSrc(src);
+  }, [src]);
 
   return (
     <img

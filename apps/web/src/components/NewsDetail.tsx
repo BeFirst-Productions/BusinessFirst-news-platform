@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React from 'react';
 import SectionContainer from './SectionContainer';
@@ -50,6 +50,7 @@ const NewsDetail: React.FC<NewsDetailProps> = ({ articleId }) => {
             <NewsHeader
               title={article.title}
               description={article.metaDescription || ""}
+              author={article.isSponsored ? (article.authorName || article.author?.name) : undefined}
             />
             <NewsContent
               imageUrl={article.featuredImage || ''}
