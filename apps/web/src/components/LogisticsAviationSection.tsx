@@ -77,18 +77,18 @@ const LogisticsAviationSection: React.FC = () => {
         {/* Left Column: Logistics & Trade */}
         <div className="flex-1 bg-[#F5F5F7] p-6 md:p-8 flex flex-col gap-6 w-full">
           {/* Header */}
-          <div className="flex justify-between items-center border-b border-gray-300 pb-2">
-            <div className="relative">
-              <h2 className="text-xl md:text-2xl font-bold text-[#FF0202] font-newsreader">
+          <div className="flex justify-between items-center border-b border-gray-300 pb-2 gap-3 sm:gap-4 md:gap-6">
+            <div className="relative min-w-0 flex-1">
+              <h2 className="text-xl md:text-2xl font-bold text-[#FF0202] font-newsreader break-words leading-tight">
                 {logisticsData?.categoryName || 'Logistics & Trade'}
               </h2>
-              <div className="absolute -bottom-[9px] left-0 w-full h-[3px] bg-[#FF0202]"></div>
+              <div className="absolute -bottom-[9px] left-0 w-full max-w-[200px] h-[3px] bg-[#FF0202]"></div>
             </div>
             <Link
               href={`/news?category=${encodeURIComponent(
                 logisticsData?.categoryName || 'Logistics & Trade'
               )}`}
-              className="flex items-center text-[#24214c] font-bold text-sm hover:opacity-80 transition-opacity"
+              className="flex items-center text-[#24214c] font-bold text-xs sm:text-sm hover:opacity-80 transition-opacity shrink-0 whitespace-nowrap pb-0.5"
             >
               View All <ChevronDown size={16} className="ml-1 text-gray-500" />
             </Link>
@@ -113,7 +113,7 @@ const LogisticsAviationSection: React.FC = () => {
                     />
                   </div>
                   <div className="flex flex-col justify-center sm:w-[55%]">
-                    <h3 className="text-[#24214c] font-bold text-lg xl:text-[22px] leading-tight group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-[45px] font-newsreader">
+                    <h3 className="text-[#24214c] font-bold text-lg xl:text-[22px] leading-tight group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-0 md:min-h-[45px] break-words font-newsreader">
                       {logisticsFeatured.title}
                     </h3>
                     <span className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-1">
@@ -146,7 +146,7 @@ const LogisticsAviationSection: React.FC = () => {
                         />
                       </div>
                       <div className="flex flex-col flex-1 justify-between">
-                        <h4 className="text-[#24214c] font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-[2.4rem] font-newsreader">
+                        <h4 className="text-[#24214c] font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-0 md:min-h-[2.4rem] break-words font-newsreader">
                           {item.title}
                         </h4>
                         <span className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-auto">
@@ -164,18 +164,18 @@ const LogisticsAviationSection: React.FC = () => {
         {/* Right Column: Aviation & Aerospace */}
         <div className="flex-1 bg-[#1E194E] p-6 md:p-8 flex flex-col gap-6 w-full">
           {/* Header */}
-          <div className="flex justify-between items-center border-b border-gray-600/60 pb-2">
-            <div className="relative">
-              <h2 className="text-xl md:text-2xl font-bold text-[#FF0202] font-newsreader">
+          <div className="flex justify-between items-center border-b border-gray-600/60 pb-2 gap-3 sm:gap-4 md:gap-6">
+            <div className="relative min-w-0 flex-1">
+              <h2 className="text-xl md:text-2xl font-bold text-[#FF0202] font-newsreader break-words leading-tight">
                 {aviationData?.categoryName || 'Aviation & Aerospace'}
               </h2>
-              <div className="absolute -bottom-[9px] left-0 w-full h-[3px] bg-[#FF0202]"></div>
+              <div className="absolute -bottom-[9px] left-0 w-full max-w-[200px] h-[3px] bg-[#FF0202]"></div>
             </div>
             <Link
               href={`/news?category=${encodeURIComponent(
                 aviationData?.categoryName || 'Aviation & Aerospace'
               )}`}
-              className="flex items-center text-[#FBB03B] font-bold text-sm hover:opacity-80 transition-opacity"
+              className="flex items-center text-[#FBB03B] font-bold text-xs sm:text-sm hover:opacity-80 transition-opacity shrink-0 whitespace-nowrap pb-0.5"
             >
               View All <ChevronDown size={16} className="ml-1 text-[#FBB03B]" />
             </Link>
@@ -200,7 +200,7 @@ const LogisticsAviationSection: React.FC = () => {
                     />
                   </div>
                   <div className="flex flex-col justify-center sm:w-[55%]">
-                    <h3 className="text-white font-bold text-lg xl:text-[22px] leading-tight group-hover:text-[#FBB03B] transition-colors line-clamp-2 min-h-[45px] font-newsreader">
+                    <h3 className="text-white font-bold text-lg xl:text-[22px] leading-tight group-hover:text-[#FBB03B] transition-colors line-clamp-2 min-h-0 md:min-h-[45px] break-words font-newsreader">
                       {aviationFeatured.title}
                     </h3>
                     <span className="text-[10px] md:text-[11px] text-[#FBB03B] font-medium mt-1">
@@ -233,7 +233,7 @@ const LogisticsAviationSection: React.FC = () => {
                         />
                       </div>
                       <div className="flex flex-col flex-1 justify-between">
-                        <h4 className="text-white font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#FBB03B] transition-colors line-clamp-2 min-h-[2.4rem] font-newsreader">
+                        <h4 className="text-white font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#FBB03B] transition-colors line-clamp-2 min-h-0 md:min-h-[2.4rem] break-words font-newsreader">
                           {item.title}
                         </h4>
                         <span className="text-[10px] md:text-[11px] text-[#FBB03B] font-medium mt-auto">

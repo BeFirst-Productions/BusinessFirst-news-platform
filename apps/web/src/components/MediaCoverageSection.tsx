@@ -74,7 +74,7 @@ const MediaCoverageSection = () => {
                   </div>
                   {/* Bottom Text */}
                   <div className="bg-[#24214c] p-4 md:p-5 flex flex-col gap-2 min-h-[90px] md:min-h-[110px] justify-between flex-1">
-                    <h4 className="text-white font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-[2.4rem] font-newsreader">
+                    <h4 className="text-white font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-0 md:min-h-[2.4rem] break-words font-newsreader">
                       {item.title}
                     </h4>
                     <span className="text-[10px] md:text-[11px] text-gray-400 font-medium mt-auto">
@@ -149,7 +149,7 @@ const MediaCoverageSection = () => {
                   </div>
                   {/* Bottom Text */}
                   <div className="bg-[#24214c] p-4 md:p-5 flex flex-col gap-2 min-h-[90px] md:min-h-[110px] justify-between flex-1">
-                    <h4 className="text-white font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-[2.4rem] font-newsreader">
+                    <h4 className="text-white font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-0 md:min-h-[2.4rem] break-words font-newsreader">
                       {item.title}
                     </h4>
                     <span className="text-[10px] md:text-[11px] text-gray-400 font-medium mt-auto">

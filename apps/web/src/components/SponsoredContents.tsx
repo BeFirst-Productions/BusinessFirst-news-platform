@@ -88,7 +88,7 @@ const SponsoredContents = () => {
                   />
                 </div>
                 <div className="p-5 flex flex-col flex-grow justify-between">
-                  <h3 className="text-white font-bold text-xs sm:text-sm md:text-[16px] leading-snug mb-3 line-clamp-2 min-h-[2.4rem] group-hover:text-[#e2b036] transition-colors font-newsreader">
+                  <h3 className="text-white font-bold text-xs sm:text-sm md:text-[16px] leading-snug mb-3 line-clamp-2 min-h-0 md:min-h-[2.4rem] break-words group-hover:text-[#e2b036] transition-colors font-newsreader">
                     {article.title}
                   </h3>
                   <span className="text-[#e2b036] text-[10px] md:text-[11px] font-medium mt-auto">

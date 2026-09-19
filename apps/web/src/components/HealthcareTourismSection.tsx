@@ -42,15 +42,15 @@ const HealthcareTourismSection = () => {
         {/* Left Column: Healthcare & Pharma */}
         <div className="w-full lg:w-[58%] flex flex-col gap-6">
           {/* Header */}
-          <div className="flex justify-between items-end border-b-[1.5px] border-gray-300 pb-2">
-            <h2 className="text-xl md:text-2xl font-bold text-[#FF0202] relative pb-2 -mb-[10px] border-b-[3px] border-[#FF0202] font-newsreader">
+          <div className="flex justify-between items-end border-b-[1.5px] border-gray-300 pb-2 gap-3 sm:gap-4 md:gap-6">
+            <h2 className="text-xl md:text-2xl font-bold text-[#FF0202] relative pb-2 -mb-[10px] border-b-[3px] border-[#FF0202] font-newsreader min-w-0 break-words leading-tight">
               {healthData?.categoryName || 'Healthcare & Pharma'}
             </h2>
             <Link
               href={`/news?category=${encodeURIComponent(
                 healthData?.categoryName || 'Healthcare & Pharma'
               )}`}
-              className="text-[#24214c] font-bold text-sm flex items-center hover:text-[#FF0202] transition-colors"
+              className="text-[#24214c] font-bold text-xs sm:text-sm flex items-center hover:text-[#FF0202] transition-colors shrink-0 whitespace-nowrap pb-0.5"
             >
               View All <ChevronDown size={18} className="ml-1" strokeWidth={3} />
             </Link>
@@ -71,7 +71,7 @@ const HealthcareTourismSection = () => {
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
-                  <h3 className="text-[#24214c] font-bold text-lg xl:text-[22px] leading-tight group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-[45px] font-newsreader">
+                  <h3 className="text-[#24214c] font-bold text-lg xl:text-[22px] leading-tight group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-0 md:min-h-[45px] break-words font-newsreader mt-2.5 sm:mt-3">
                     {healthFeatured.title}
                   </h3>
                   <span className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-auto">
@@ -93,7 +93,7 @@ const HealthcareTourismSection = () => {
                           className="object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                       </div>
-                      <h4 className="text-[#24214c] font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-[2.4rem] font-newsreader mt-2">
+                      <h4 className="text-[#24214c] font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-0 md:min-h-[2.4rem] break-words font-newsreader mt-2">
                         {item.title}
                       </h4>
                       <span className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-auto">
@@ -110,15 +110,15 @@ const HealthcareTourismSection = () => {
         {/* Right Column: Tourism & Hospitality (With Light Gray Background Container) */}
         <div className="w-full lg:w-[42%] bg-[#f4f4f6] p-4 sm:p-5 rounded-xl flex flex-col gap-6">
           {/* Header */}
-          <div className="flex justify-between items-end border-b-[1.5px] border-gray-300 pb-2">
-            <h2 className="text-xl md:text-2xl font-bold text-[#FF0202] relative pb-2 -mb-[10px] border-b-[3px] border-[#FF0202] font-newsreader">
+          <div className="flex justify-between items-end border-b-[1.5px] border-gray-300 pb-2 gap-3 sm:gap-4 md:gap-6">
+            <h2 className="text-xl md:text-2xl font-bold text-[#FF0202] relative pb-2 -mb-[10px] border-b-[3px] border-[#FF0202] font-newsreader min-w-0 break-words leading-tight">
               {tourismData?.categoryName || 'Tourism & Hospitality'}
             </h2>
             <Link
               href={`/news?category=${encodeURIComponent(
                 tourismData?.categoryName || 'Tourism & Hospitality'
               )}`}
-              className="text-[#24214c] font-bold text-sm flex items-center hover:text-[#FF0202] transition-colors"
+              className="text-[#24214c] font-bold text-xs sm:text-sm flex items-center hover:text-[#FF0202] transition-colors shrink-0 whitespace-nowrap pb-0.5"
             >
               View All <ChevronDown size={18} className="ml-1" strokeWidth={3} />
             </Link>
@@ -139,7 +139,7 @@ const HealthcareTourismSection = () => {
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
-                  <h3 className="text-[#24214c] font-bold text-lg xl:text-[22px] leading-tight group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-[45px] font-newsreader">
+                  <h3 className="text-[#24214c] font-bold text-lg xl:text-[22px] leading-tight group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-0 md:min-h-[45px] break-words font-newsreader mt-2.5 sm:mt-3">
                     {tourismFeatured.title}
                   </h3>
                   <span className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-auto">
@@ -168,7 +168,7 @@ const HealthcareTourismSection = () => {
                         />
                       </div>
                       <div className="flex flex-col justify-center flex-1">
-                        <h4 className="text-[#24214c] font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-[2.4rem] font-newsreader">
+                        <h4 className="text-[#24214c] font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-0 md:min-h-[2.4rem] break-words font-newsreader">
                           {item.title}
                         </h4>
                         <span className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-auto">

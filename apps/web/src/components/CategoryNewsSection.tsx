@@ -87,7 +87,7 @@ function FeaturedArticle({ article, imageClassName, showExcerpt = false }: Featu
           </div>
         )}
       </div>
-      <h3 className="text-[#24214c] font-bold text-lg xl:text-[22px] leading-tight group-hover:text-[#cd2027] transition-colors line-clamp-2 min-h-[45px] font-newsreader mt-1.5">
+      <h3 className="text-[#24214c] font-bold text-lg xl:text-[22px] leading-tight group-hover:text-[#cd2027] transition-colors line-clamp-2 min-h-0 md:min-h-[45px] break-words font-newsreader mt-1.5">
         {article.title}
       </h3>
       <span className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-0.5">
@@ -315,17 +315,17 @@ const CategoryNewsSection = () => {
         {/* Left Block - Spans 8/12 */}
         <div className="lg:col-span-8 flex flex-col gap-6 w-full">
           {/* Header */}
-          <div className="flex justify-between items-center border-b border-gray-300 pb-2">
-            <div className="relative">
-              <h2 className="text-xl md:text-2xl font-bold text-[#FF0202]">
+          <div className="flex justify-between items-center border-b border-gray-300 pb-2 gap-3 sm:gap-4 md:gap-6">
+            <div className="relative min-w-0 flex-1">
+              <h2 className="text-xl md:text-2xl font-bold text-[#FF0202] break-words leading-tight">
                 {leftCategory?.name || 'Real Estate & Construction'}
               </h2>
-              <div className="absolute -bottom-[9px] left-0 w-full h-[3px] bg-[#FF0202]" />
+              <div className="absolute -bottom-[9px] left-0 w-full max-w-[200px] h-[3px] bg-[#FF0202]" />
             </div>
             {leftCategory && (
               <Link
                 href={`/news/category/${leftCategory.slug}`}
-                className="flex items-center text-[#24214c] font-bold text-sm hover:opacity-80 transition-opacity"
+                className="flex items-center text-[#24214c] font-bold text-xs sm:text-sm hover:opacity-80 transition-opacity shrink-0 whitespace-nowrap pb-0.5"
               >
                 View All{' '}
                 <ChevronDown size={16} className="ml-1 text-gray-500" />
@@ -381,17 +381,17 @@ const CategoryNewsSection = () => {
           <div className="bg-[#F5F5F5] p-5 lg:p-6 xl:p-7 2xl:p-8 flex flex-col h-full border border-gray-100 rounded">
             <div>
               {/* Header */}
-              <div className="flex flex-wrap lg:flex-col xl:flex-row justify-between items-start xl:items-center border-b border-gray-300 pb-2 gap-2 xl:gap-0">
-                <div className="relative">
-                  <h2 className="text-xl md:text-2xl font-bold text-[#FF0202]">
+              <div className="flex flex-wrap lg:flex-col xl:flex-row justify-between items-start xl:items-center border-b border-gray-300 pb-2 gap-3 sm:gap-4">
+                <div className="relative min-w-0 flex-1">
+                  <h2 className="text-xl md:text-2xl font-bold text-[#FF0202] break-words leading-tight">
                     {rightCategory?.name || 'Economy & Policy'}
                   </h2>
-                  <div className="absolute -bottom-[9px] left-0 w-full h-[3px] bg-[#FF0202] hidden xl:block" />
+                  <div className="absolute -bottom-[9px] left-0 w-full max-w-[200px] h-[3px] bg-[#FF0202] hidden xl:block" />
                 </div>
                 {rightCategory && (
                   <Link
                     href={`/news/category/${rightCategory.slug}`}
-                    className="flex items-center text-[#24214c] font-bold text-sm hover:opacity-80 transition-opacity whitespace-nowrap lg:mt-1 xl:mt-0"
+                    className="flex items-center text-[#24214c] font-bold text-xs sm:text-sm hover:opacity-80 transition-opacity shrink-0 whitespace-nowrap lg:mt-1 xl:mt-0 pb-0.5"
                   >
                     View All{' '}
                     <ChevronDown size={16} className="ml-1 text-gray-500" />

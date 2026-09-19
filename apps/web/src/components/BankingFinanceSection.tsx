@@ -42,14 +42,14 @@ const BankingFinanceSection: React.FC = () => {
         {/* Left 8 Cols */}
         <div className="w-full lg:w-2/3 flex flex-col gap-6">
           {/* Header */}
-          <div className="flex justify-between items-center border-b-[1.5px] border-[#24214c]/30 pb-2 relative">
-            <h2 className="text-xl md:text-2xl font-bold text-[#FF0202] relative inline-block">
+          <div className="flex justify-between items-center border-b-[1.5px] border-[#24214c]/30 pb-2 relative gap-3 sm:gap-4 md:gap-6">
+            <h2 className="text-xl md:text-2xl font-bold text-[#FF0202] relative inline-block min-w-0 break-words leading-tight">
               {categoryName}
-              <div className="absolute -bottom-[9.5px] left-0 w-full h-[2.5px] bg-[#FF0202]"></div>
+              <div className="absolute -bottom-[9.5px] left-0 w-full max-w-[200px] h-[2.5px] bg-[#FF0202]"></div>
             </h2>
             <Link
               href={`/news?category=${encodeURIComponent(categoryName)}`}
-              className="flex items-center text-[#24214c] font-bold text-sm hover:opacity-80 transition-opacity"
+              className="flex items-center text-[#24214c] font-bold text-xs sm:text-sm hover:opacity-80 transition-opacity shrink-0 whitespace-nowrap pb-0.5"
             >
               View All <ChevronDown size={16} className="ml-1 text-[#24214c]" />
             </Link>
@@ -77,7 +77,7 @@ const BankingFinanceSection: React.FC = () => {
                         />
                       </div>
                       <div className="flex flex-col mt-4">
-                        <h3 className="text-[#24214c] font-bold text-lg xl:text-[22px] leading-tight group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-[45px] font-newsreader">
+                        <h3 className="text-[#24214c] font-bold text-lg xl:text-[22px] leading-tight group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-0 md:min-h-[45px] break-words font-newsreader">
                           {mainFeatured.title}
                         </h3>
                         <span className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-auto">
@@ -105,7 +105,7 @@ const BankingFinanceSection: React.FC = () => {
                             />
                           </div>
                           <div className="flex flex-col justify-center flex-grow w-[65%]">
-                            <h4 className="text-[#24214c] font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-[2.4rem] font-newsreader">
+                            <h4 className="text-[#24214c] font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-0 md:min-h-[2.4rem] break-words font-newsreader">
                               {item.title}
                             </h4>
                             <span className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-auto">
@@ -136,7 +136,7 @@ const BankingFinanceSection: React.FC = () => {
                           />
                         </div>
                         <div className="flex flex-col shrink-0">
-                          <h4 className="text-[#24214c] font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-[2.4rem] font-newsreader">
+                          <h4 className="text-[#24214c] font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-0 md:min-h-[2.4rem] break-words font-newsreader">
                             {item.title}
                           </h4>
                           <span className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-auto">

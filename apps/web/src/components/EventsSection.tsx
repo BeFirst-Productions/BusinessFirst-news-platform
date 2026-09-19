@@ -78,15 +78,15 @@ const EventsSection = () => {
         {/* Left Column: Events */}
         <div className="w-full lg:w-[65%] flex flex-col gap-6">
           {/* Header */}
-          <div className="flex justify-between items-end border-b-[1.5px] border-gray-300 pb-2">
-            <h2 className="text-xl md:text-2xl font-bold text-[#FF0202] relative pb-2 -mb-[10px] border-b-[3px] border-[#FF0202] font-newsreader">
+          <div className="flex justify-between items-end border-b-[1.5px] border-gray-300 pb-2 gap-3 sm:gap-4 md:gap-6">
+            <h2 className="text-xl md:text-2xl font-bold text-[#FF0202] relative pb-2 -mb-[10px] border-b-[3px] border-[#FF0202] font-newsreader min-w-0 break-words leading-tight">
               {eventsData?.categoryName || 'Events'}
             </h2>
             <Link
               href={`/news?category=${encodeURIComponent(
                 eventsData?.categoryName || 'Events'
               )}`}
-              className="text-[#24214c] font-bold text-sm flex items-center hover:text-[#FF0202] transition-colors"
+              className="text-[#24214c] font-bold text-xs sm:text-sm flex items-center hover:text-[#FF0202] transition-colors shrink-0 whitespace-nowrap pb-0.5"
             >
               View All <ChevronDown size={18} className="ml-1" strokeWidth={3} />
             </Link>
@@ -110,7 +110,7 @@ const EventsSection = () => {
                           className="object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                       </div>
-                      <h3 className="text-[#24214c] font-bold text-lg xl:text-[22px] leading-tight group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-[45px] font-newsreader">
+                      <h3 className="text-[#24214c] font-bold text-lg xl:text-[22px] leading-tight group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-0 md:min-h-[45px] break-words font-newsreader">
                         {mainArticle.title}
                       </h3>
                       <span className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-auto">
@@ -133,7 +133,7 @@ const EventsSection = () => {
                             className="object-cover group-hover:scale-105 transition-transform duration-500"
                           />
                         </div>
-                        <h4 className="text-[#24214c] font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-[2.4rem] font-newsreader">
+                        <h4 className="text-[#24214c] font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-0 md:min-h-[2.4rem] break-words font-newsreader">
                           {item.title}
                         </h4>
                         <span className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-auto">
@@ -158,7 +158,7 @@ const EventsSection = () => {
                           className="object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                       </div>
-                      <h4 className="text-[#24214c] font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-[2.4rem] font-newsreader">
+                      <h4 className="text-[#24214c] font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#FF0202] transition-colors line-clamp-2 min-h-0 md:min-h-[2.4rem] break-words font-newsreader">
                         {item.title}
                       </h4>
                       <span className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-auto">
