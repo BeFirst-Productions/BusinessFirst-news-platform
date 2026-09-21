@@ -11,6 +11,7 @@ import FullWidthAdBanner from './FullWidthAdBanner';
 import ArticleLayoutWithStickySidebar from './news-detail/ArticleLayoutWithStickySidebar';
 import { useArticle } from '@/hooks/use-articles';
 import { Skeleton } from './ui/Skeleton';
+import { formatDate } from '@/lib/utils';
 
 interface NewsDetailProps {
   articleId?: string;
@@ -38,6 +39,14 @@ const NewsDetail: React.FC<NewsDetailProps> = ({ articleId }) => {
     );
   }
 
+  const authorName = (article.authorName && article.authorName !== 'Super Admin')
+    ? article.authorName
+    : (article.author?.name && article.author.name !== 'Super Admin' ? article.author.name : 'News Desk');
+
+  const articleDate = (article.publishedAt || article.createdAt)
+    ? formatDate(article.publishedAt || article.createdAt)
+    : '';
+
   return (
     <SectionContainer className="bg-white py-8 md:py-12">
       {/* Breadcrumbs */}
@@ -50,7 +59,8 @@ const NewsDetail: React.FC<NewsDetailProps> = ({ articleId }) => {
             <NewsHeader
               title={article.title}
               description={article.metaDescription || ""}
-              author={article.isSponsored ? (article.authorName || article.author?.name) : undefined}
+              author={authorName}
+              date={articleDate}
             />
             <NewsContent
               imageUrl={article.featuredImage || ''}
