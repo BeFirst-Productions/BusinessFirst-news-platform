@@ -14,6 +14,7 @@ import toast from 'react-hot-toast';
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid email'),
   password: z.string().min(1, 'Password is required'),
+  rememberMe: z.boolean().optional(),
 });
 
 type LoginFormData = z.infer<typeof loginSchema>;
@@ -23,14 +24,38 @@ export default function LoginPage() {
   const { login } = useAuthStore();
   const [showPassword, setShowPassword] = React.useState(false);
 
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginFormData>({
+  const { register, handleSubmit, setValue, formState: { errors, isSubmitting } } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
-    defaultValues: { email: 'superadmin@businessfirst.com', password: 'SuperAdmin@123!' },
+    defaultValues: { email: '', password: '', rememberMe: false },
   });
+
+  // On page load, auto-fill remembered email if user previously checked "Remember me"
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedEmail = localStorage.getItem('admin_remembered_email');
+      if (savedEmail) {
+        setValue('email', savedEmail);
+        setValue('rememberMe', true);
+      }
+    }
+  }, [setValue]);
 
   const onSubmit = async (data: LoginFormData) => {
     try {
       await login(data.email, data.password);
+
+      if (typeof window !== 'undefined') {
+        if (data.rememberMe) {
+          localStorage.setItem('admin_remembered_email', data.email);
+          localStorage.setItem('admin_remember_me', 'true');
+          sessionStorage.setItem('admin_session_active', 'true');
+        } else {
+          localStorage.removeItem('admin_remembered_email');
+          localStorage.removeItem('admin_remember_me');
+          sessionStorage.setItem('admin_session_active', 'true');
+        }
+      }
+
       toast.success('Welcome back!');
       router.push('/dashboard');
     } catch (error: any) {
@@ -108,8 +133,12 @@ export default function LoginPage() {
               </div>
 
               <div className="flex items-center justify-between">
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" className="rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
+                <label className="flex items-center gap-2 cursor-pointer select-none">
+                  <input
+                    type="checkbox"
+                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                    {...register('rememberMe')}
+                  />
                   <span className="text-sm text-gray-600 dark:text-gray-400">Remember me</span>
                 </label>
                 <a href="/forgot-password" className="text-sm text-blue-600 hover:text-blue-700 font-medium">
@@ -122,11 +151,11 @@ export default function LoginPage() {
               </Button>
             </form>
 
-            <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
+            {/* <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
               <p className="text-xs text-blue-700 dark:text-blue-300 font-medium mb-2">Demo Credentials</p>
               <p className="text-sm text-blue-600 dark:text-blue-400">Email: admin@businessfirst.com</p>
               <p className="text-sm text-blue-600 dark:text-blue-400">Password: SuperAdmin@123!</p>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

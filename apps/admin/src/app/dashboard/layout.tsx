@@ -97,6 +97,21 @@ function DashboardLayoutContent({
     }
   }, [authCheckReady, isAuthenticated, pathname, router]);
 
+  // Enforce session-only persistence when "Remember me" was not checked
+  useEffect(() => {
+    if (typeof window !== 'undefined' && mounted && isAuthenticated) {
+      const isRemembered = localStorage.getItem('admin_remember_me') === 'true';
+      const isSessionActive = sessionStorage.getItem('admin_session_active') === 'true';
+
+      if (!isRemembered && !isSessionActive) {
+        useAuthStore.getState().logout();
+        router.push('/login');
+      } else {
+        sessionStorage.setItem('admin_session_active', 'true');
+      }
+    }
+  }, [mounted, isAuthenticated, router]);
+
   useEffect(() => {
     if (isAuthenticated) {
       refreshProfile();
