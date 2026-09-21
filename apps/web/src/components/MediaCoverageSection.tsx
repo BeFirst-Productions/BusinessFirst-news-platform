@@ -31,7 +31,7 @@ const MediaCoverageSection = () => {
         <div className="w-full lg:w-1/2 flex flex-col gap-6 h-full">
           {/* Header */}
           <div className="text-center flex flex-col gap-1">
-            <h2 className="text-2xl md:text-[28px] font-bold text-[#FF0202] font-newsreader">
+            <h2 className="text-xl sm:text-2xl md:text-[28px] font-bold text-[#FF0202] font-newsreader break-words">
               Beyond Business
             </h2>
             <p className="text-gray-500 text-[13px] md:text-sm font-medium tracking-wide">Podcast Series</p>
@@ -106,7 +106,7 @@ const MediaCoverageSection = () => {
         <div className="w-full lg:w-1/2 flex flex-col gap-6 h-full">
           {/* Header */}
           <div className="text-center flex flex-col gap-1">
-            <h2 className="text-2xl md:text-[28px] font-bold text-[#FF0202] font-newsreader">
+            <h2 className="text-xl sm:text-2xl md:text-[28px] font-bold text-[#FF0202] font-newsreader break-words">
               Exclusive Coverage
             </h2>
             <p className="text-gray-500 text-[13px] md:text-sm font-medium tracking-wide">Yorem ipsum</p>
