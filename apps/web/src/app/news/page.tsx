@@ -4,10 +4,19 @@ import { buildMetadata } from '@/components/seo/seo.types';
 import CategoryListing from "@/components/CategoryListing";
 
 interface Props {
-  searchParams: { category?: string; isSponsored?: string };
+  searchParams: { category?: string; isSponsored?: string; search?: string; q?: string };
 }
 
 export async function generateMetadata({ searchParams }: Props) {
+  const searchQuery = (searchParams.search || searchParams.q || '').trim();
+  if (searchQuery) {
+    return buildMetadata({
+      title: `Search: "${searchQuery}" | BusinessFirst`,
+      description: `Search results for "${searchQuery}" across BusinessFirst news, analysis, and reports.`,
+      canonicalUrl: `/news?search=${encodeURIComponent(searchQuery)}`,
+    });
+  }
+
   const isSponsoredParam = searchParams.isSponsored === 'true';
   const categoryName = searchParams.category || 'Latest News';
   

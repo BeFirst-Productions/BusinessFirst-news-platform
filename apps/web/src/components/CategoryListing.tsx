@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Search } from 'lucide-react';
 import SectionContainer from './SectionContainer';
 import FullWidthAdBanner from './FullWidthAdBanner';
 import { DynamicAd } from './ads/DynamicAd';
@@ -46,9 +46,18 @@ const SECTION_MAPPINGS: Record<string, string[]> = {
 
 const CategoryListing: React.FC = () => {
   const searchParams = useSearchParams();
+  const rawSearchQuery = searchParams.get('search') || searchParams.get('q') || '';
+  const searchQuery = rawSearchQuery.trim();
+  const isSearchMode = searchQuery.length > 0;
+
   const isSponsoredParam = searchParams.get('isSponsored') === 'true';
   const rawCategoryName = searchParams.get('category');
-  const categoryName = isSponsoredParam ? 'Sponsored Contents' : (rawCategoryName || 'Latest News');
+  const categoryName = isSearchMode
+    ? `Search: "${searchQuery}"`
+    : isSponsoredParam
+    ? 'Sponsored Contents'
+    : (rawCategoryName || 'Latest News');
+
   const pageParam = searchParams.get('page');
   const currentPage = pageParam ? parseInt(pageParam, 10) : 1;
   const itemsPerPage = 12;
@@ -57,13 +66,15 @@ const CategoryListing: React.FC = () => {
   const { data: apiResponse, isLoading } = useArticles({
     page: currentPage,
     limit: itemsPerPage,
-    ...(isSponsoredParam || categoryName === 'Sponsored Contents'
+    ...(isSearchMode
+      ? { search: searchQuery }
+      : isSponsoredParam || categoryName === 'Sponsored Contents'
       ? { isSponsored: true }
       : categoryName === 'UAE News'
-        ? { isUaeNews: true }
-        : categoryName !== 'Latest News'
-          ? { search: categoryName }
-          : {}),
+      ? { isUaeNews: true }
+      : categoryName !== 'Latest News'
+      ? { search: categoryName }
+      : {}),
   });
 
   // Fetch dedicated UAE News for the suggested section
@@ -75,7 +86,9 @@ const CategoryListing: React.FC = () => {
   // Fetch all categories to get the description
   const { data: categories } = useCategories();
   const matchedCategory = categories?.find((c: any) => c.name === categoryName);
-  const categoryDescription = matchedCategory?.description || `Explore the latest news, insights, and expert analysis on ${categoryName}.`;
+  const categoryDescription = isSearchMode
+    ? `Showing search results for "${searchQuery}".`
+    : matchedCategory?.description || `Explore the latest news, insights, and expert analysis on ${categoryName}.`;
 
   // Extract live articles from API
   const rawApiArticles = apiResponse?.data || [];
@@ -83,7 +96,7 @@ const CategoryListing: React.FC = () => {
   const displayArticles = rawApiArticles.map((item: any) => ({
     id: item.slug || item.id,
     title: item.title,
-    category: item.category?.name || categoryName,
+    category: item.category?.name || (isSearchMode ? 'News' : categoryName),
     date: item.publishedAt
       ? new Date(item.publishedAt).toLocaleDateString('en-US', {
         month: 'short',
@@ -101,6 +114,9 @@ const CategoryListing: React.FC = () => {
 
   // Helper to build URL with kept category and set page
   const getPageUrl = (pageNum: number) => {
+    if (isSearchMode) {
+      return `/news?search=${encodeURIComponent(searchQuery)}&page=${pageNum}`;
+    }
     return `/news?category=${encodeURIComponent(categoryName)}&page=${pageNum}`;
   };
 
@@ -148,55 +164,107 @@ const CategoryListing: React.FC = () => {
       {/* Upper Content Section */}
       <SectionContainer className="bg-white pt-6 pb-12">
         {/* Breadcrumbs */}
-        <div className="flex items-center gap-2 text-xs md:text-sm font-medium mb-6">
+        <div className="flex items-center gap-2 text-xs md:text-sm font-medium mb-6 flex-wrap">
           <Link href="/" className="text-gray-500 hover:text-[#cd2027] transition-colors">
             Home
           </Link>
           <span className="text-[#cd2027] font-semibold">&gt;</span>
-          <span className="text-[#cd2027] font-semibold">{categoryName}</span>
+          {isSearchMode ? (
+            <>
+              <Link href="/news" className="text-gray-500 hover:text-[#cd2027] transition-colors">
+                News
+              </Link>
+              <span className="text-[#cd2027] font-semibold">&gt;</span>
+              <span className="text-[#cd2027] font-semibold">Search: &ldquo;{searchQuery}&rdquo;</span>
+            </>
+          ) : (
+            <span className="text-[#cd2027] font-semibold">{categoryName}</span>
+          )}
         </div>
 
-        {/* Category Header */}
-        <div className="border-b border-gray-200 pb-5 mb-8">
-          <h1 className="text-3xl font-extrabold text-[#cd2027] mb-3 tracking-tight font-newsreader">
-            {categoryName}
-          </h1>
-          <p className="text-gray-600 text-sm leading-relaxed max-w-4xl font-medium">
-            {categoryDescription}
-          </p>
+        {/* Category / Search Header */}
+        <div className="border-b border-gray-200 pb-5 mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-[#cd2027] mb-2 tracking-tight font-newsreader">
+              {isSearchMode ? (
+                <>
+                  Search Results for <span className="text-[#24214c]">&ldquo;{searchQuery}&rdquo;</span>
+                </>
+              ) : (
+                categoryName
+              )}
+            </h1>
+            <p className="text-gray-600 text-sm leading-relaxed max-w-4xl font-medium">
+              {isSearchMode
+                ? `Found ${apiResponse?.metadata?.total ?? rawApiArticles.length} article${(apiResponse?.metadata?.total ?? rawApiArticles.length) === 1 ? '' : 's'} matching your search.`
+                : categoryDescription}
+            </p>
+          </div>
+          {isSearchMode && (
+            <Link
+              href="/news"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-gray-300 text-xs font-bold text-[#24214c] hover:bg-gray-50 hover:text-[#FF0202] transition-colors shrink-0 shadow-sm self-start sm:self-auto"
+            >
+              Clear Search
+            </Link>
+          )}
         </div>
 
         {/* Main Grid: Grid Listing + Sidebar */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 w-full items-stretch">
           {/* Left Side: News Cards Grid & Pagination */}
           <div className="lg:col-span-8 flex flex-col gap-10 min-h-[75vh]">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-8">
-              {paginatedArticles.map((article) => (
-                <Link
-                  key={article.id}
-                  href={`/news/${article.id}`}
-                  className="group flex flex-col gap-2.5 cursor-pointer"
-                >
-                  <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-gray-100 shadow-sm">
-                    <Image
-                      src={article.imageUrl}
-                      alt={article.title}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1.5 px-1">
-                    <h3 className="font-bold text-sm text-[#24214c] line-clamp-2 leading-snug group-hover:text-[#cd2027] transition-colors duration-200 font-newsreader">
-                      {article.title}
-                    </h3>
-                    <span className="text-[10px] text-gray-500 font-semibold uppercase tracking-wider">
-                      {article.category} | {article.date}
-                    </span>
-                  </div>
-                </Link>
-              ))}
-            </div>
+            {paginatedArticles.length === 0 && !isLoading ? (
+              <div className="flex flex-col items-center justify-center py-16 px-4 text-center bg-gray-50/80 rounded-2xl border border-dashed border-gray-200">
+                <div className="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center text-gray-400 mb-4 border border-gray-100">
+                  <Search size={26} />
+                </div>
+                <h3 className="text-lg font-bold text-[#24214c] mb-1 font-newsreader">
+                  {isSearchMode ? `No articles found for "${searchQuery}"` : 'No articles available'}
+                </h3>
+                <p className="text-sm text-gray-500 max-w-md mb-6 font-normal">
+                  {isSearchMode
+                    ? 'Try checking for spelling errors, using more general keywords, or browsing our primary news categories.'
+                    : 'Please check back later for updates.'}
+                </p>
+                {isSearchMode && (
+                  <Link
+                    href="/news"
+                    className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#24214c] hover:bg-[#FF0202] text-white rounded-full text-xs font-bold transition-colors shadow-sm"
+                  >
+                    Browse All News
+                  </Link>
+                )}
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-8">
+                {paginatedArticles.map((article) => (
+                  <Link
+                    key={article.id}
+                    href={`/news/${article.id}`}
+                    className="group flex flex-col gap-2.5 cursor-pointer"
+                  >
+                    <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-gray-100 shadow-sm">
+                      <Image
+                        src={article.imageUrl}
+                        alt={article.title}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-300"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1.5 px-1">
+                      <h3 className="font-bold text-sm text-[#24214c] line-clamp-2 leading-snug group-hover:text-[#cd2027] transition-colors duration-200 font-newsreader">
+                        {article.title}
+                      </h3>
+                      <span className="text-[10px] text-gray-500 font-semibold uppercase tracking-wider">
+                        {article.category} | {article.date}
+                      </span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
 
             {/* Pagination Controls */}
             {totalPages > 1 && (

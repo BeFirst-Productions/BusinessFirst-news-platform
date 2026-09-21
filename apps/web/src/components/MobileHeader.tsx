@@ -6,6 +6,7 @@ import { Menu, Search, UserPlus, ChevronDown, X } from 'lucide-react';
 import Link from 'next/link';
 import SectionContainer from './SectionContainer';
 import { DynamicAd } from './ads/DynamicAd';
+import { NavbarSearch } from './search/NavbarSearch';
 
 const MobileHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -109,15 +110,10 @@ const MobileHeader = () => {
         {/* Mobile Search Dropdown */}
         {isSearchOpen && (
           <div className="absolute top-full left-0 w-full bg-[#24214c] text-white z-40 shadow-xl border-t border-white/10 p-4">
-            <div className="relative flex items-center">
-              <Search size={18} className="text-[#24214c] absolute left-3 pointer-events-none" />
-              <input
-                type="text"
-                placeholder="Search..."
-                className="bg-white text-[#24214c] text-base rounded-full pl-10 pr-4 py-2 focus:outline-none w-full focus:ring-2 focus:ring-[#FF0202]/50 transition-all placeholder:text-gray-400"
-                autoFocus
-              />
-            </div>
+            <NavbarSearch
+              variant="mobile"
+              onClose={() => setIsSearchOpen(false)}
+            />
           </div>
         )}
 

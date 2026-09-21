@@ -149,7 +149,7 @@ export class WebsiteService {
 
       const categoryConfigs = [
         { key: 'real-estate-construction', name: 'Real Estate & Construction', limit: 7, matchers: ['real-estate-construction', 'real-estate', 'construction'] },
-        { key: 'economy-policy', name: 'Economy & Policy', limit: 4, matchers: ['economy-policy', 'economy', 'policy'] },
+        { key: 'economy-policy', name: 'Economy & Policy', limit: 5, matchers: ['economy-policy', 'economy', 'policy'] },
         { key: 'technology-innovation', name: 'Technology & Innovation', limit: 9, matchers: ['technology-innovation', 'technology', 'innovation'] },
         { key: 'logistics-trade', name: 'Logistics & Trade', limit: 6, matchers: ['logistics-trade', 'logistics', 'trade'] },
         { key: 'aviation-aerospace', name: 'Aviation & Aerospace', limit: 6, matchers: ['aviation-aerospace', 'aviation', 'aerospace'] },
@@ -272,10 +272,12 @@ export class WebsiteService {
         where.isUaeNews = query.isUaeNews;
       }
 
+      const cleanSearch = query.search?.trim();
+
       if (query.isSponsored !== undefined) {
         where.isSponsored = query.isSponsored;
-      } else {
-        // Exclude sponsored articles by default in general listing/category queries
+      } else if (!cleanSearch) {
+        // Exclude sponsored articles by default in general listing/category queries, but include in search
         where.isSponsored = false;
       }
 
@@ -283,11 +285,12 @@ export class WebsiteService {
         where.isExclusiveNews = query.isExclusiveNews;
       }
 
-      if (query.search) {
+      if (cleanSearch) {
         where.OR = [
-          { title: { contains: query.search, mode: 'insensitive' } },
-          { excerpt: { contains: query.search, mode: 'insensitive' } },
-          { category: { name: { contains: query.search, mode: 'insensitive' } } },
+          { title: { contains: cleanSearch, mode: 'insensitive' } },
+          { excerpt: { contains: cleanSearch, mode: 'insensitive' } },
+          { category: { name: { contains: cleanSearch, mode: 'insensitive' } } },
+          { tags: { some: { tag: { name: { contains: cleanSearch, mode: 'insensitive' } } } } },
         ];
       }
 

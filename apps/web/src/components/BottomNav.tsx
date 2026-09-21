@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Search, ChevronDown } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 
 import SectionContainer from './SectionContainer';
+import { NavbarSearch } from './search/NavbarSearch';
 
 const BottomNav = () => {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
@@ -122,14 +123,7 @@ const BottomNav = () => {
         })}
       </nav>
 
-      <div className="relative shrink-0 flex items-center group">
-        <Search size={16} className="text-[#24214c] absolute left-3 pointer-events-none" />
-        <input
-          type="text"
-          placeholder="Search..."
-          className="bg-white text-[#24214c] text-sm rounded-full pl-9 pr-4 py-1.5 focus:outline-none w-[140px] md:w-[110px] lg:w-[130px] xl:w-[240px] focus:ring-2 focus:ring-[#FF0202]/50 transition-all placeholder:text-gray-400"
-        />
-      </div>
+      <NavbarSearch variant="desktop" />
     </SectionContainer>
   );
 };

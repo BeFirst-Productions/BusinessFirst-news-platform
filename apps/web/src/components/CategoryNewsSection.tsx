@@ -12,13 +12,36 @@ import { Skeleton } from './ui/Skeleton';
 
 // ==================== API HOOK ====================
 
-import { useHomeCategories } from '@/hooks/use-articles';
+import { useHomeCategories, useArticles } from '@/hooks/use-articles';
 
 function useCategoryNewsData() {
   const { data: homeCategories, isLoading, isError } = useHomeCategories();
 
   const leftSec = homeCategories?.['real-estate-construction'];
   const rightSec = homeCategories?.['economy-policy'];
+
+  // Ensure Economy & Policy has at least 5 articles (1 featured + 4 small)
+  const categoryId =
+    rightSec?.articles?.[0]?.category?.id ||
+    (rightSec?.articles?.[0] as any)?.categoryId ||
+    '4b278eae-6f09-47ab-bf8c-78e7a62fdc04';
+  const needsMoreArticles = !rightSec || (rightSec.articles?.length ?? 0) < 5;
+
+  const { data: categoryArticlesResponse } = useArticles(
+    {
+      categoryId,
+      limit: 5,
+    },
+    {
+      enabled: needsMoreArticles,
+    }
+  );
+
+  const fetchedArticles: Article[] = Array.isArray(categoryArticlesResponse?.data)
+    ? categoryArticlesResponse.data
+    : Array.isArray(categoryArticlesResponse)
+    ? categoryArticlesResponse
+    : [];
 
   const leftCategory: Category = {
     id: leftSec?.categorySlug || 'real-estate-construction',
@@ -34,12 +57,19 @@ function useCategoryNewsData() {
     isActive: true,
   } as Category;
 
+  const rightArticles =
+    (rightSec?.articles?.length ?? 0) >= 5
+      ? rightSec!.articles
+      : fetchedArticles.length >= 5
+      ? fetchedArticles
+      : rightSec?.articles || [];
+
   return {
     data: {
       leftCategory,
       leftArticles: leftSec?.articles || [],
       rightCategory,
-      rightArticles: rightSec?.articles || [],
+      rightArticles,
     },
     isLoading,
     isError,
@@ -123,7 +153,7 @@ function HorizontalArticleItem({
       <div
         className={`relative shrink-0 overflow-hidden rounded-md ${
           isSidebar
-            ? 'w-[95px] h-[72px] sm:w-[105px] sm:h-[80px] xl:w-[135px] xl:h-[95px] 2xl:w-[155px] 2xl:h-[105px]'
+            ? 'w-[105px] sm:w-[115px] xl:w-[125px] 2xl:w-[135px] self-stretch min-h-[85px]'
             : 'w-[130px] sm:w-[160px] h-[95px] sm:h-[110px] 2xl:w-[170px] 2xl:h-[115px]'
         }`}
       >
@@ -133,7 +163,7 @@ function HorizontalArticleItem({
             alt={article.title}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-300"
-            sizes={isSidebar ? '(max-width: 1280px) 105px, 155px' : '170px'}
+            sizes={isSidebar ? '(max-width: 1280px) 115px, 135px' : '170px'}
           />
         ) : (
           <div className="w-full h-full bg-gray-200 flex items-center justify-center">
@@ -145,19 +175,19 @@ function HorizontalArticleItem({
         className={`flex flex-col min-w-0 flex-1 ${
           showExcerpt
             ? isSidebar
-              ? 'min-h-[72px] sm:min-h-[80px] xl:min-h-[95px] 2xl:min-h-[105px]'
+              ? 'justify-between min-h-[85px]'
               : 'min-h-[95px] sm:min-h-[110px] 2xl:min-h-[115px]'
             : ''
         }`}
       >
-        <h4 className="text-[#24214c] font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#cd2027] transition-colors line-clamp-2 font-newsreader">
+        <h4 className="text-[#24214c] font-bold text-xs sm:text-sm md:text-[15px] xl:text-[16px] leading-snug group-hover:text-[#cd2027] transition-colors line-clamp-2 font-newsreader">
           {article.title}
         </h4>
-        <span className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-1">
+        <span className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-1 truncate block">
           {article.category?.name || 'News'} | {formatDate(article.publishedAt)}
         </span>
         {showExcerpt && excerptText && (
-          <p className="text-gray-600 text-xs sm:text-[13px] leading-relaxed line-clamp-2 2xl:line-clamp-3 mt-1 font-normal">
+          <p className="text-gray-600 text-xs sm:text-[13px] leading-relaxed line-clamp-2 mt-1 font-normal">
             {excerptText}
           </p>
         )}
@@ -307,7 +337,7 @@ const CategoryNewsSection = () => {
   const leftMedium = leftArticles.slice(4, 8);
 
   const rightFeatured = rightArticles[0];
-  const rightSmall = rightArticles.slice(1, 6);
+  const rightSmall = rightArticles.slice(1, 5);
 
   return (
     <SectionContainer as="section" className="bg-white py-6 md:py-8">
