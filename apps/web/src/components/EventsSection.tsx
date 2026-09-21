@@ -176,7 +176,7 @@ const EventsSection = () => {
         <div className="w-full lg:w-[35%] flex flex-col gap-6">
           <div className="flex justify-between items-end border-b-[1.5px] border-gray-300 pb-2">
             <h2 className="text-xl md:text-2xl font-bold text-[#FF0202] relative pb-2 -mb-[10px] border-b-[3px] border-[#FF0202] font-newsreader">
-              Events Coverage
+              Upcoming Events
             </h2>
           </div>
 
