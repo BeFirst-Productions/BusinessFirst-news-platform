@@ -194,7 +194,7 @@ export class ArticlesService {
         metaKeywords: data.metaKeywords || null,
         readingTime,
         authorId,
-        authorName: data.authorName && data.authorName.trim() !== '' ? data.authorName.trim() : (author?.name || null),
+        authorName: data.authorName && data.authorName.trim() !== '' ? data.authorName.trim() : 'News Desk',
         categoryId: data.categoryId,
         tags: {
           create: data.tags?.map(tagId => ({ tagId })) || [],

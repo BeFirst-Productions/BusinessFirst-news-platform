@@ -1317,7 +1317,7 @@ Business First is a UAE-focused digital business news and media platform built f
           </div>
 
           <p className="text-white text-[13px] 2xl:text-[15px] mt-2 pb-4">
-            © Business First News (a unit of BeFirst Enterprises). All rights reserved.
+            © Business First News a unit of BeFirst Enterprises. All rights reserved.
           </p>
         </div>
 

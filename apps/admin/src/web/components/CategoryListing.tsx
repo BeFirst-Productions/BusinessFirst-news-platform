@@ -109,8 +109,10 @@ const CategoryListing: React.FC = () => {
   // Extract exclusive articles (using first 7 articles as mock exclusives)
   const exclusiveArticles = allNewsArticles.slice(0, 7);
 
-  // Suggested UAE News articles (using 4 distinct articles)
-  const suggestedArticles = allNewsArticles.slice(4, 8);
+  // Suggested UAE News articles (using distinct articles excluding current category)
+  const suggestedArticles = allNewsArticles
+    .filter((item: any) => item.category?.toLowerCase().trim() !== categoryName.toLowerCase().trim())
+    .slice(4, 8);
 
   return (
     <div className="w-full bg-white flex flex-col items-center">
@@ -209,7 +211,7 @@ const CategoryListing: React.FC = () => {
           <aside className="lg:col-span-4 flex flex-col gap-8 w-full">
             {/* Exclusives News Section */}
             <div className="bg-[#24214c] rounded-2xl p-5 text-white flex flex-col gap-4 shadow-lg border border-white/5">
-              <h2 className="text-[#cd2027] font-extrabold tracking-wider uppercase text-center text-lg border-b border-white/10 pb-3">
+              <h2 className="text-[#cd2027] font-extrabold tracking-wider uppercase text-left text-lg border-b border-white/10 pb-3">
                 Exclusives News
               </h2>
               <div className="flex flex-col gap-4">
@@ -263,40 +265,42 @@ const CategoryListing: React.FC = () => {
       </SectionContainer>
 
       {/* Suggested UAE News Section (Light grey background, breaks out of content spacing) */}
-      <div className="w-full bg-[#f9f9fb] py-12 border-t border-gray-200/50 flex justify-center">
-        <SectionContainer className="bg-transparent py-0">
-          <h2 className="text-[#cd2027] font-extrabold text-2xl mb-8 tracking-tight">
-            Suggested UAE News
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full">
-            {suggestedArticles.map((article) => (
-              <Link 
-                key={article.id} 
-                href={`/news/${article.id}`} 
-                className="group bg-white border border-gray-200/70 rounded-2xl p-3 pb-5 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col gap-3.5 cursor-pointer"
-              >
-                <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-gray-50 shrink-0">
-                  <Image
-                    src={article.imageUrl}
-                    alt={article.title}
-                    fill
-                    className="object-cover group-hover:scale-103 transition-transform duration-300"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 25vw, 200px"
-                  />
-                </div>
-                <div className="flex flex-col gap-1.5 flex-grow">
-                  <span className="text-[9px] text-gray-500 font-bold uppercase tracking-wider">
-                    {article.category} | {article.date}
-                  </span>
-                  <h3 className="font-bold text-sm text-[#24214c] line-clamp-2 leading-snug group-hover:text-[#cd2027] transition-colors duration-200">
-                    How 5G Will Transform Communication and Connectivity
-                  </h3>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </SectionContainer>
-      </div>
+      {categoryName !== 'UAE News' && suggestedArticles.length > 0 && (
+        <div className="w-full bg-[#f9f9fb] py-12 border-t border-gray-200/50 flex justify-center">
+          <SectionContainer className="bg-transparent py-0">
+            <h2 className="text-[#cd2027] font-extrabold text-2xl mb-8 tracking-tight">
+              Suggested UAE News
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full">
+              {suggestedArticles.map((article) => (
+                <Link 
+                  key={article.id} 
+                  href={`/news/${article.id}`} 
+                  className="group bg-white border border-gray-200/70 rounded-2xl p-3 pb-5 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col gap-3.5 cursor-pointer"
+                >
+                  <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-gray-50 shrink-0">
+                    <Image
+                      src={article.imageUrl}
+                      alt={article.title}
+                      fill
+                      className="object-cover group-hover:scale-103 transition-transform duration-300"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 25vw, 200px"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-1.5 flex-grow">
+                    <span className="text-[9px] text-gray-500 font-bold uppercase tracking-wider">
+                      {article.category} | {article.date}
+                    </span>
+                    <h3 className="font-bold text-sm text-[#24214c] line-clamp-2 leading-snug group-hover:text-[#cd2027] transition-colors duration-200">
+                      How 5G Will Transform Communication and Connectivity
+                    </h3>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </SectionContainer>
+        </div>
+      )}
     </div>
   );
 };

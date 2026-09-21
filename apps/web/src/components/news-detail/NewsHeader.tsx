@@ -4,17 +4,20 @@ interface NewsHeaderProps {
   title: string;
   description: string;
   author?: string;
+  date?: string;
 }
 
-const NewsHeader: React.FC<NewsHeaderProps> = ({ title, description, author }) => {
+const NewsHeader: React.FC<NewsHeaderProps> = ({ title, description, author, date }) => {
+  const metaText = [author, date].filter(Boolean).join(' | ');
+
   return (
     <div className="flex flex-col gap-4 mb-8">
       <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#BF2025] leading-tight font-newsreader">
         {title}
       </h1>
-      {author && (
+      {metaText && (
         <div className="text-sm md:text-base font-medium text-gray-500 -mt-2">
-          {author}
+          {metaText}
         </div>
       )}
       {description && (
