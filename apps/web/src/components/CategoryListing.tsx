@@ -80,7 +80,7 @@ const CategoryListing: React.FC = () => {
   // Fetch dedicated UAE News for the suggested section
   const { data: uaeResponse } = useArticles({
     isUaeNews: true,
-    limit: 4,
+    limit: 16,
   });
 
   // Fetch all categories to get the description
@@ -141,21 +141,40 @@ const CategoryListing: React.FC = () => {
     excerpt: item.excerpt || item.title,
   }));
 
-  // Suggested UAE News articles from API response
-  const suggestedArticles = (uaeResponse?.data || []).map((item: any) => ({
-    id: item.slug || item.id,
-    title: item.title,
-    category: item.category?.name || 'UAE News',
-    date: item.publishedAt
-      ? new Date(item.publishedAt).toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric'
-      })
-      : '',
-    imageUrl: item.featuredImage || '/placeholder-news.jpg',
-    excerpt: item.excerpt || item.title,
-  }));
+  // Suggested UAE News articles from API response (excluding current category and already displayed articles)
+  const suggestedArticles = (uaeResponse?.data || [])
+    .filter((item: any) => {
+      const itemCatName = item.category?.name?.toLowerCase().trim();
+      const itemCatSlug = item.category?.slug?.toLowerCase().trim();
+      const currentCat = categoryName?.toLowerCase().trim();
+      
+      // Exclude articles belonging to the currently viewed category (e.g. MENA)
+      if (currentCat && (itemCatName === currentCat || itemCatSlug === currentCat)) {
+        return false;
+      }
+      
+      // Exclude articles already displayed in the main list
+      if (displayArticles.some((a: any) => a.id === item.id || a.id === item.slug)) {
+        return false;
+      }
+      
+      return true;
+    })
+    .slice(0, 4)
+    .map((item: any) => ({
+      id: item.slug || item.id,
+      title: item.title,
+      category: item.category?.name || 'UAE News',
+      date: item.publishedAt
+        ? new Date(item.publishedAt).toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric'
+        })
+        : '',
+      imageUrl: item.featuredImage || '/placeholder-news.jpg',
+      excerpt: item.excerpt || item.title,
+    }));
 
 
 
@@ -323,7 +342,7 @@ const CategoryListing: React.FC = () => {
           <aside className="lg:col-span-4 flex flex-col gap-8 w-full">
             {/* Exclusives News Section */}
             <div className="bg-[#24214c] rounded-2xl p-5 text-white flex flex-col gap-4 shadow-lg border border-white/5">
-              <h2 className="text-[#cd2027] font-extrabold tracking-wider uppercase text-center text-lg border-b border-white/10 pb-3 font-newsreader">
+              <h2 className="text-[#cd2027] font-extrabold tracking-wider uppercase text-left text-lg border-b border-white/10 pb-3 font-newsreader">
                 Exclusives News
               </h2>
               <div className="flex flex-col gap-4">
@@ -388,40 +407,42 @@ const CategoryListing: React.FC = () => {
       </SectionContainer>
 
       {/* Suggested UAE News Section (Light grey background, breaks out of content spacing) */}
-      <div className="w-full bg-[#f9f9fb] pb-12 border-t border-gray-200/50 flex justify-center">
-        <SectionContainer className="bg-transparent py-0">
-          <h2 className="text-[#cd2027] font-extrabold text-2xl mb-8 tracking-tight font-newsreader">
-            Suggested UAE News
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full">
-            {suggestedArticles.map((article) => (
-              <Link
-                key={article.id}
-                href={`/news/${article.id}`}
-                className="group bg-white border border-gray-200/70 rounded-2xl p-3 pb-5 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col gap-3.5 cursor-pointer"
-              >
-                <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-gray-50 shrink-0">
-                  <Image
-                    src={article.imageUrl}
-                    alt={article.title}
-                    fill
-                    className="object-cover group-hover:scale-103 transition-transform duration-300"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 25vw, 200px"
-                  />
-                </div>
-                <div className="flex flex-col gap-1.5 flex-grow">
-                  <span className="text-[9px] text-gray-500 font-bold uppercase tracking-wider">
-                    {article.category} | {article.date}
-                  </span>
-                  <h3 className="font-bold text-sm text-[#24214c] line-clamp-2 leading-snug group-hover:text-[#cd2027] transition-colors duration-200 font-newsreader">
-                    {article.title || 'How 5G Will Transform Communication and Connectivity'}
-                  </h3>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </SectionContainer>
-      </div>
+      {categoryName !== 'UAE News' && suggestedArticles.length > 0 && (
+        <div className="w-full bg-[#f9f9fb] pb-12 border-t border-gray-200/50 flex justify-center">
+          <SectionContainer className="bg-transparent py-0">
+            <h2 className="text-[#cd2027] font-extrabold text-2xl mb-8 tracking-tight font-newsreader">
+              Suggested UAE News
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full">
+              {suggestedArticles.map((article) => (
+                <Link
+                  key={article.id}
+                  href={`/news/${article.id}`}
+                  className="group bg-white border border-gray-200/70 rounded-2xl p-3 pb-5 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col gap-3.5 cursor-pointer"
+                >
+                  <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-gray-50 shrink-0">
+                    <Image
+                      src={article.imageUrl}
+                      alt={article.title}
+                      fill
+                      className="object-cover group-hover:scale-103 transition-transform duration-300"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 25vw, 200px"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-1.5 flex-grow">
+                    <span className="text-[9px] text-gray-500 font-bold uppercase tracking-wider">
+                      {article.category} | {article.date}
+                    </span>
+                    <h3 className="font-bold text-sm text-[#24214c] line-clamp-2 leading-snug group-hover:text-[#cd2027] transition-colors duration-200 font-newsreader">
+                      {article.title || 'How 5G Will Transform Communication and Connectivity'}
+                    </h3>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </SectionContainer>
+        </div>
+      )}
     </div>
   );
 };

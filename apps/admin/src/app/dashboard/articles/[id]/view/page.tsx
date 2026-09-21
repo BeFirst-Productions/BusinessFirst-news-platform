@@ -190,7 +190,11 @@ export default function ViewArticlePage() {
                     )}
                   </div>
                   <div>
-                    <p className="font-semibold text-sm text-foreground leading-none">{article.authorName || article.author?.name || 'Unknown Author'}</p>
+                    <p className="font-semibold text-sm text-foreground leading-none">
+                      {(article.authorName && article.authorName !== 'Super Admin')
+                        ? article.authorName
+                        : (article.author?.name && article.author.name !== 'Super Admin' ? article.author.name : 'News Desk')}
+                    </p>
                     <p className="text-xs text-muted-foreground mt-1">{article.authorName && article.author?.name ? `Published by ${article.author.name}` : (article.author?.email || '')}</p>
                   </div>
                 </div>

@@ -187,7 +187,9 @@ export default function ArticlesPage() {
       header: 'Author',
       className: 'w-[140px]',
       cell: (item: any) => {
-        const displayName = item.authorName || item.author?.name || 'Unknown';
+        const displayName = (item.authorName && item.authorName !== 'Super Admin')
+          ? item.authorName
+          : (item.author?.name && item.author.name !== 'Super Admin' ? item.author.name : 'News Desk');
         return (
           <div className="flex items-center gap-2">
             <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center flex-shrink-0">

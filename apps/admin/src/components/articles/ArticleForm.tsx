@@ -165,7 +165,7 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
     resolver: zodResolver(articleSchema),
     defaultValues: {
       title: initialData?.title || '',
-      authorName: initialData?.authorName || '',
+      authorName: initialData?.authorName || 'News Desk',
       slug: initialData?.slug || '',
       excerpt: initialData?.excerpt || '',
       categoryId: initialData?.categoryId || (initialData?.category?.id) || '',
@@ -188,7 +188,6 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
   });
 
   const status = watch('status');
-  const isSponsored = watch('isSponsored');
   const featuredImage = watch('featuredImage');
   const title = watch('title');
   const categoryId = watch('categoryId');
@@ -213,7 +212,7 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
       }
       reset({
         title: initialData.title || '',
-        authorName: initialData.authorName || '',
+        authorName: initialData.authorName || 'News Desk',
         slug: initialData.slug || '',
         excerpt: initialData.excerpt || '',
         categoryId: initialData.categoryId || (initialData.category?.id) || '',
@@ -352,7 +351,7 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
     // Clean scheduledAt if status is not SCHEDULED
     const submissionData = {
       ...formData,
-      authorName: formData.isSponsored ? (formData.authorName?.trim() || null) : null,
+      authorName: formData.authorName?.trim() || 'News Desk',
       featuredImage: finalImageUrl,
       content,
       scheduledAt: null,
@@ -426,19 +425,16 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
                 error={errors.title?.message}
               />
 
-              {isSponsored && (
-                <div className="space-y-1.5 animate-in fade-in slide-in-from-top-1 duration-200">
-                  <Input
-                    label="Author"
-                    required
-                    placeholder="Enter author / sponsor name (e.g. Brand Name, Company, or Contributor)"
-                    leftIcon={<UserIcon className="h-4 w-4" />}
-                    {...register('authorName')}
-                    error={errors.authorName?.message}
-                    helperText="Author is required for sponsored contents"
-                  />
-                </div>
-              )}
+              <div className="space-y-1.5">
+                <Input
+                  label="Author"
+                  placeholder="Enter author name (default: News Desk)"
+                  leftIcon={<UserIcon className="h-4 w-4" />}
+                  {...register('authorName')}
+                  error={errors.authorName?.message}
+                  helperText="Author name displayed on the article (defaults to News Desk)"
+                />
+              </div>
 
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
@@ -764,21 +760,11 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
                     render={({ field }) => (
                       <Switch
                         checked={field.value}
-                        onCheckedChange={(checked) => {
-                          field.onChange(checked);
-                          if (!checked) {
-                            setValue('authorName', '');
-                          }
-                        }}
+                        onCheckedChange={field.onChange}
                       />
                     )}
                   />
                 </div>
-                {isSponsored && (
-                  <p className="text-[11px] text-amber-600 dark:text-amber-400 font-medium">
-                    * Author field is required and now visible in article details above.
-                  </p>
-                )}
               </div>
               <div className="flex items-center justify-between">
                 <Label>Exclusive News</Label>
