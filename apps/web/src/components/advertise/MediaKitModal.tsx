@@ -37,8 +37,8 @@ export const MediaKitModal: React.FC<MediaKitModalProps> = ({ isOpen, onClose })
       'data:text/plain;charset=utf-8,' +
       encodeURIComponent(
         `BUSINESS FIRST - MEDIA KIT & ADVERTISING SPECS (UAE)\n\n` +
-        `Website: https://businessfirstuae.com\n` +
-        `Advertising & Partnerships: ads@businessfirstuae.com\n` +
+        `Website: https://businessfirstnews.com\n` +
+        `Advertising & Partnerships: ads@businessfirstnews.com\n` +
         `WhatsApp & Hotline: +971 4 123 4567\n\n` +
         `Overview:\nBusiness First is the UAE's premier business news and intelligence platform connecting decision makers, C-suite executives, investors, and entrepreneurs.\n\n` +
         `Media Solutions:\n` +

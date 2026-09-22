@@ -381,8 +381,8 @@ export default function CorrectionsPolicyPage() {
                 <div className="bg-red-50 border border-red-200 rounded-xl p-4 mb-4">
                   <span className="text-xs uppercase tracking-wider text-red-700 font-bold">Editorial &amp; Corrections Desk</span>
                   <p className="mt-1">
-                    <a href="mailto:editorial@businessfirstuae.com" className="text-base font-bold text-red-700 hover:underline">
-                      editorial@businessfirstuae.com
+                    <a href="mailto:editorial@businessfirstnews.com" className="text-base font-bold text-red-700 hover:underline">
+                      editorial@businessfirstnews.com
                     </a>
                   </p>
                 </div>
@@ -464,14 +464,14 @@ export default function CorrectionsPolicyPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="p-3.5 bg-gray-50 border border-gray-200 rounded-lg">
                     <p className="text-xs text-gray-500 font-bold uppercase">Editorial Complaints</p>
-                    <a href="mailto:editorial@businessfirstuae.com" className="text-sm font-semibold text-[#24214c] hover:underline">
-                      editorial@businessfirstuae.com
+                    <a href="mailto:editorial@businessfirstnews.com" className="text-sm font-semibold text-[#24214c] hover:underline">
+                      editorial@businessfirstnews.com
                     </a>
                   </div>
                   <div className="p-3.5 bg-gray-50 border border-gray-200 rounded-lg">
                     <p className="text-xs text-gray-500 font-bold uppercase">Legal / Privacy / Copyright</p>
-                    <a href="mailto:legal@businessfirstuae.com" className="text-sm font-semibold text-[#24214c] hover:underline">
-                      legal@businessfirstuae.com
+                    <a href="mailto:legal@businessfirstnews.com" className="text-sm font-semibold text-[#24214c] hover:underline">
+                      legal@businessfirstnews.com
                     </a>
                   </div>
                 </div>
@@ -750,8 +750,8 @@ export default function CorrectionsPolicyPage() {
                 </p>
                 <div className="bg-gray-50 border border-gray-200 p-3 rounded-lg text-sm mb-3">
                   <strong>Copyright Enquiries:</strong>{' '}
-                  <a href="mailto:legal@businessfirstuae.com" className="text-[#cd2027] font-semibold hover:underline">
-                    legal@businessfirstuae.com
+                  <a href="mailto:legal@businessfirstnews.com" className="text-[#cd2027] font-semibold hover:underline">
+                    legal@businessfirstnews.com
                   </a>
                 </div>
                 <p className="text-xs md:text-sm text-gray-600">
@@ -1060,26 +1060,26 @@ export default function CorrectionsPolicyPage() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs md:text-sm pt-2">
                     <div>
                       <p className="text-white/50 text-[11px] uppercase font-bold">Editorial Corrections &amp; Complaints</p>
-                      <a href="mailto:editorial@businessfirstuae.com" className="text-white hover:text-[#fbbf24] font-semibold break-all">
-                        editorial@businessfirstuae.com
+                      <a href="mailto:editorial@businessfirstnews.com" className="text-white hover:text-[#fbbf24] font-semibold break-all">
+                        editorial@businessfirstnews.com
                       </a>
                     </div>
                     <div>
                       <p className="text-white/50 text-[11px] uppercase font-bold">Legal / Privacy Matters</p>
-                      <a href="mailto:legal@businessfirstuae.com" className="text-white hover:text-[#fbbf24] font-semibold break-all">
-                        legal@businessfirstuae.com
+                      <a href="mailto:legal@businessfirstnews.com" className="text-white hover:text-[#fbbf24] font-semibold break-all">
+                        legal@businessfirstnews.com
                       </a>
                     </div>
                     <div>
                       <p className="text-white/50 text-[11px] uppercase font-bold">Advertising &amp; Commercial</p>
-                      <a href="mailto:advertise@businessfirstuae.com" className="text-white hover:text-[#fbbf24] font-semibold break-all">
-                        advertise@businessfirstuae.com
+                      <a href="mailto:advertise@businessfirstnews.com" className="text-white hover:text-[#fbbf24] font-semibold break-all">
+                        advertise@businessfirstnews.com
                       </a>
                     </div>
                     <div>
                       <p className="text-white/50 text-[11px] uppercase font-bold">Official Website</p>
-                      <a href="https://businessfirstuae.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-[#fbbf24] font-semibold">
-                        businessfirstuae.com
+                      <a href="https://businessfirstnews.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-[#fbbf24] font-semibold">
+                        businessfirstnews.com
                       </a>
                     </div>
                   </div>

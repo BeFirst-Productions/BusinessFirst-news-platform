@@ -54,10 +54,10 @@ const CookieSidebar = () => {
             <div className="flex flex-col">
               <span className="text-white/60 text-xs font-semibold uppercase tracking-wider">Privacy Enquiries</span>
               <a
-                href="mailto:privacy@businessfirstuae.com"
+                href="mailto:privacy@businessfirstnews.com"
                 className="text-sm font-medium leading-snug hover:text-red-400 transition-colors break-all"
               >
-                privacy@businessfirstuae.com
+                privacy@businessfirstnews.com
               </a>
             </div>
           </div>

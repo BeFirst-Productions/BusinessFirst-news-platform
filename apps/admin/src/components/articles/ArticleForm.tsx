@@ -491,7 +491,7 @@ export function ArticleForm({ initialData, onSubmit, isSubmitting = false }: Art
                   </div>
                   <div className="space-y-1">
                     <div className="text-xs text-emerald-700 dark:text-emerald-500 font-medium truncate flex items-center gap-1">
-                      <span>https://businessfirstuae.com</span>
+                      <span>https://businessfirstnews.com</span>
                       <span className="text-gray-400">›</span>
                       <span className={cn(
                         "font-semibold",

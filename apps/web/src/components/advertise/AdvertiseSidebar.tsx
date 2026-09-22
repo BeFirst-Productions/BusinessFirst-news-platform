@@ -38,12 +38,12 @@ const AdvertiseSidebar: React.FC<AdvertiseSidebarProps> = ({ onOpenMediaKit }) =
             <div className="flex flex-col">
               <span className="text-white/60 text-xs font-semibold uppercase tracking-wider">Email Inquiry</span>
               <a 
-                href="mailto:advertise@businessfirstuae.com" 
+                href="mailto:advertise@businessfirstnews.com" 
                 className="text-sm font-semibold hover:text-[#fbbf24] transition break-all mt-0.5"
               >
-                advertise@businessfirstuae.com
+                advertise@businessfirstnews.com
               </a>
-              <span className="text-[11px] text-white/50">info@businessfirstuae.com</span>
+              <span className="text-[11px] text-white/50">info@businessfirstnews.com</span>
             </div>
           </div>
 

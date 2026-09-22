@@ -54,10 +54,10 @@ const CorrectionsSidebar = () => {
             <div className="flex flex-col">
               <span className="text-white/60 text-xs font-semibold uppercase tracking-wider">Corrections Desk</span>
               <a
-                href="mailto:editorial@businessfirstuae.com"
+                href="mailto:editorial@businessfirstnews.com"
                 className="text-sm font-medium leading-snug hover:text-red-400 transition-colors break-all"
               >
-                editorial@businessfirstuae.com
+                editorial@businessfirstnews.com
               </a>
             </div>
           </div>
@@ -118,20 +118,20 @@ const CorrectionsSidebar = () => {
           <div className="text-xs text-white/80 space-y-2">
             <div>
               <p className="text-white/50 text-[11px]">Editorial &amp; Corrections:</p>
-              <a href="mailto:editorial@businessfirstuae.com" className="hover:text-[#fbbf24] font-medium break-all">
-                editorial@businessfirstuae.com
+              <a href="mailto:editorial@businessfirstnews.com" className="hover:text-[#fbbf24] font-medium break-all">
+                editorial@businessfirstnews.com
               </a>
             </div>
             <div>
               <p className="text-white/50 text-[11px]">Legal &amp; Privacy:</p>
-              <a href="mailto:legal@businessfirstuae.com" className="hover:text-[#fbbf24] font-medium break-all">
-                legal@businessfirstuae.com
+              <a href="mailto:legal@businessfirstnews.com" className="hover:text-[#fbbf24] font-medium break-all">
+                legal@businessfirstnews.com
               </a>
             </div>
             <div>
               <p className="text-white/50 text-[11px]">Advertising &amp; Commercial:</p>
-              <a href="mailto:advertise@businessfirstuae.com" className="hover:text-[#fbbf24] font-medium break-all">
-                advertise@businessfirstuae.com
+              <a href="mailto:advertise@businessfirstnews.com" className="hover:text-[#fbbf24] font-medium break-all">
+                advertise@businessfirstnews.com
               </a>
             </div>
           </div>

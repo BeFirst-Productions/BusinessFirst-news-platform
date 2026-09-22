@@ -19,7 +19,7 @@ export async function generateMetadata({ searchParams }: Props) {
 
   const isSponsoredParam = searchParams.isSponsored === 'true';
   const categoryName = searchParams.category || 'Latest News';
-  
+
   let categorySlug = 'news';
   if (isSponsoredParam || categoryName === 'Sponsored Contents') {
     categorySlug = 'sponsored';

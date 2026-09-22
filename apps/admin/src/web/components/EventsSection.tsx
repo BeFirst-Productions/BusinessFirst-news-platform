@@ -103,7 +103,7 @@ const EventsSection = () => {
                 src="https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&w=800&q=80" 
                 alt="Concert Event" 
                 fill 
-                className="object-cover group-hover:scale-105 transition-transform duration-700"
+                className="object-cover"
               />
             </div>
             

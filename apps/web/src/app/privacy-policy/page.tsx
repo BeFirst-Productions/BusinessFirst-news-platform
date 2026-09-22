@@ -113,8 +113,8 @@ export default function PrivacyPolicyPage() {
                   <p className="text-gray-700"><strong>Registered Address:</strong> Dubai, United Arab Emirates</p>
                   <p className="text-gray-700">
                     <strong>Email:</strong>{' '}
-                    <a href="mailto:privacy@businessfirstuae.com" className="text-[#FF0202] hover:underline">
-                      privacy@businessfirstuae.com
+                    <a href="mailto:privacy@businessfirstnews.com" className="text-[#FF0202] hover:underline">
+                      privacy@businessfirstnews.com
                     </a>
                   </p>
                   <p className="text-gray-700">
@@ -125,8 +125,8 @@ export default function PrivacyPolicyPage() {
                   </p>
                   <p className="text-gray-700">
                     <strong>Website:</strong>{' '}
-                    <a href="https://businessfirstuae.com" target="_blank" rel="noopener noreferrer" className="text-[#FF0202] hover:underline">
-                      businessfirstuae.com
+                    <a href="https://businessfirstnews.com" target="_blank" rel="noopener noreferrer" className="text-[#FF0202] hover:underline">
+                      businessfirstnews.com
                     </a>
                   </p>
                 </div>
@@ -419,8 +419,8 @@ export default function PrivacyPolicyPage() {
                 </p>
                 <p className="mb-3">
                   Every marketing email provides a clear method to unsubscribe. You may also contact us at{' '}
-                  <a href="mailto:privacy@businessfirstuae.com" className="text-[#FF0202] hover:underline font-medium">
-                    privacy@businessfirstuae.com
+                  <a href="mailto:privacy@businessfirstnews.com" className="text-[#FF0202] hover:underline font-medium">
+                    privacy@businessfirstnews.com
                   </a>{' '}
                   to change your preferences.
                 </p>
@@ -551,8 +551,8 @@ export default function PrivacyPolicyPage() {
                   <p className="font-bold text-[#24214c]">Privacy Contact — Business First / Befirst Media Productions</p>
                   <p className="text-gray-700 mt-1">
                     <strong>Email:</strong>{' '}
-                    <a href="mailto:privacy@businessfirstuae.com" className="text-[#FF0202] hover:underline">
-                      privacy@businessfirstuae.com
+                    <a href="mailto:privacy@businessfirstnews.com" className="text-[#FF0202] hover:underline">
+                      privacy@businessfirstnews.com
                     </a>
                   </p>
                   <p className="text-gray-700 mt-0.5"><strong>Address:</strong> Dubai, United Arab Emirates</p>
@@ -694,8 +694,8 @@ export default function PrivacyPolicyPage() {
                   <p className="text-gray-700"><strong>Privacy Contact:</strong> Data Protection Officer</p>
                   <p className="text-gray-700 mt-1">
                     <strong>Email:</strong>{' '}
-                    <a href="mailto:privacy@businessfirstuae.com" className="text-[#FF0202] hover:underline font-medium">
-                      privacy@businessfirstuae.com
+                    <a href="mailto:privacy@businessfirstnews.com" className="text-[#FF0202] hover:underline font-medium">
+                      privacy@businessfirstnews.com
                     </a>
                   </p>
                 </div>
@@ -733,22 +733,22 @@ export default function PrivacyPolicyPage() {
                     <p className="text-gray-600 mt-1">Dubai, United Arab Emirates</p>
                     <p className="text-gray-600 mt-1">
                       <strong className="text-gray-800">Website:</strong>{' '}
-                      <a href="https://businessfirstuae.com" target="_blank" rel="noopener noreferrer" className="text-[#FF0202] hover:underline">
-                        businessfirstuae.com
+                      <a href="https://businessfirstnews.com" target="_blank" rel="noopener noreferrer" className="text-[#FF0202] hover:underline">
+                        businessfirstnews.com
                       </a>
                     </p>
                   </div>
                   <div className="space-y-1.5">
                     <p className="text-gray-700">
                       <strong className="text-[#24214c]">Privacy / DPO:</strong>{' '}
-                      <a href="mailto:legal@businessfirstuae.com" className="text-[#FF0202] hover:underline">
-legal@businessfirstuae.com
+                      <a href="mailto:legal@businessfirstnews.com" className="text-[#FF0202] hover:underline">
+legal@businessfirstnews.com
                       </a>
                     </p>
                     <p className="text-gray-700">
                       <strong className="text-[#24214c]">General Email:</strong>{' '}
-                      <a href="mailto:info@businessfirstuae.com" className="text-[#FF0202] hover:underline">
-                        info@businessfirstuae.com
+                      <a href="mailto:info@businessfirstnews.com" className="text-[#FF0202] hover:underline">
+                        info@businessfirstnews.com
                       </a>
                     </p>
                     <p className="text-gray-700">

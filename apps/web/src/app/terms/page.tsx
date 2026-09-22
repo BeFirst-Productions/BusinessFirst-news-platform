@@ -121,8 +121,8 @@ export default function TermsPage() {
                   <p><strong>Legal Entity:</strong> Befirst Media Productions (operating through Business First)</p>
                   <p><strong>Registered Address:</strong> Dubai, United Arab Emirates</p>
                   <p><strong>Licensing Jurisdiction:</strong> United Arab Emirates</p>
-                  <p><strong>General Enquiries:</strong> <a href="mailto:info@businessfirstuae.com" className="text-[#cd2027] hover:underline">info@businessfirstuae.com</a></p>
-                  <p><strong>Official Website:</strong> <a href="https://businessfirstuae.com" target="_blank" rel="noopener noreferrer" className="text-[#cd2027] hover:underline">https://businessfirstuae.com</a></p>
+                  <p><strong>General Enquiries:</strong> <a href="mailto:info@businessfirstnews.com" className="text-[#cd2027] hover:underline">info@businessfirstnews.com</a></p>
+                  <p><strong>Official Website:</strong> <a href="https://businessfirstnews.com" target="_blank" rel="noopener noreferrer" className="text-[#cd2027] hover:underline">https://businessfirstnews.com</a></p>
                 </div>
               </section>
 
@@ -247,8 +247,8 @@ export default function TermsPage() {
                 </p>
                 <div className="bg-gray-50 border border-gray-200 p-3 rounded-lg text-sm mb-3">
                   <strong>Editorial Team:</strong>{' '}
-                  <a href="mailto:editorial@businessfirstuae.com" className="text-[#cd2027] font-semibold hover:underline">
-                    editorial@businessfirstuae.com
+                  <a href="mailto:editorial@businessfirstnews.com" className="text-[#cd2027] font-semibold hover:underline">
+                    editorial@businessfirstnews.com
                   </a>
                 </div>
                 <p className="text-xs md:text-sm text-gray-600">
@@ -518,8 +518,8 @@ export default function TermsPage() {
                 </p>
                 <div className="bg-gray-50 border border-gray-200 p-3 rounded-lg text-sm">
                   <strong>Licensing Desk:</strong>{' '}
-                  <a href="mailto:licensing@businessfirstuae.com" className="text-[#cd2027] font-semibold hover:underline">
-                    licensing@businessfirstuae.com
+                  <a href="mailto:licensing@businessfirstnews.com" className="text-[#cd2027] font-semibold hover:underline">
+                    licensing@businessfirstnews.com
                   </a>
                 </div>
               </section>
@@ -774,33 +774,33 @@ export default function TermsPage() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs md:text-sm pt-2">
                     <div>
                       <p className="text-white/50 text-[11px] uppercase font-bold">General Enquiries</p>
-                      <a href="mailto:info@businessfirstuae.com" className="text-white hover:text-[#fbbf24] font-semibold break-all">
-                        info@businessfirstuae.com
+                      <a href="mailto:info@businessfirstnews.com" className="text-white hover:text-[#fbbf24] font-semibold break-all">
+                        info@businessfirstnews.com
                       </a>
                     </div>
                     <div>
                       <p className="text-white/50 text-[11px] uppercase font-bold">Legal &amp; Privacy</p>
-                      <a href="mailto:legal@businessfirstuae.com" className="text-white hover:text-[#fbbf24] font-semibold break-all">
-                        legal@businessfirstuae.com
+                      <a href="mailto:legal@businessfirstnews.com" className="text-white hover:text-[#fbbf24] font-semibold break-all">
+                        legal@businessfirstnews.com
                       </a>
                     </div>
                     <div>
                       <p className="text-white/50 text-[11px] uppercase font-bold">Editorial Desk</p>
-                      <a href="mailto:editorial@businessfirstuae.com" className="text-white hover:text-[#fbbf24] font-semibold break-all">
-                        editorial@businessfirstuae.com
+                      <a href="mailto:editorial@businessfirstnews.com" className="text-white hover:text-[#fbbf24] font-semibold break-all">
+                        editorial@businessfirstnews.com
                       </a>
                     </div>
                     <div>
                       <p className="text-white/50 text-[11px] uppercase font-bold">Advertising &amp; Commercial</p>
-                      <a href="mailto:advertise@businessfirstuae.com" className="text-white hover:text-[#fbbf24] font-semibold break-all">
-                        advertise@businessfirstuae.com
+                      <a href="mailto:advertise@businessfirstnews.com" className="text-white hover:text-[#fbbf24] font-semibold break-all">
+                        advertise@businessfirstnews.com
                       </a>
                     </div>
                   </div>
                   <div className="border-t border-white/10 pt-4 text-xs text-white/60 space-y-1">
                     <p><strong>Registered Legal Entity:</strong> Befirst Media Productions (operating through Business First)</p>
                     <p><strong>Registered Address:</strong> Dubai, United Arab Emirates</p>
-                    <p><strong>Official Website:</strong> <a href="https://businessfirstuae.com" target="_blank" rel="noopener noreferrer" className="hover:text-white">https://businessfirstuae.com</a></p>
+                    <p><strong>Official Website:</strong> <a href="https://businessfirstnews.com" target="_blank" rel="noopener noreferrer" className="hover:text-white">https://businessfirstnews.com</a></p>
                   </div>
                 </div>
               </section>
