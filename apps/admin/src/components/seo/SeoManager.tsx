@@ -78,7 +78,7 @@ function SerpPreviewPanel({
 
   const displayUrl = record.canonicalUrl
     ? record.canonicalUrl.replace(/^https?:\/\//, '')
-    : `businessfirstuae.com${record.slug ? '/' + record.slug : ''}`;
+    : `businessfirstnews.com${record.slug ? '/' + record.slug : ''}`;
 
   const ogTitle    = record.ogTitle    ?? record.metaTitle;
   const ogDesc     = record.ogDescription ?? record.metaDescription;

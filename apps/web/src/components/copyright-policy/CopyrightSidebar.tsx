@@ -54,10 +54,10 @@ const CopyrightSidebar = () => {
             <div className="flex flex-col">
               <span className="text-white/60 text-xs font-semibold uppercase tracking-wider">Licensing Enquiries</span>
               <a
-                href="mailto:licensing@businessfirstuae.com"
+                href="mailto:licensing@businessfirstnews.com"
                 className="text-sm font-medium leading-snug hover:text-red-400 transition-colors break-all"
               >
-                licensing@businessfirstuae.com
+                licensing@businessfirstnews.com
               </a>
             </div>
           </div>

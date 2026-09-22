@@ -559,22 +559,22 @@ export default function CookiePolicyPage() {
                     <p className="text-gray-600 mt-1">United Arab Emirates</p>
                     <p className="text-gray-600 mt-1">
                       <strong className="text-gray-800">Website:</strong>{' '}
-                      <a href="https://businessfirstuae.com" target="_blank" rel="noopener noreferrer" className="text-[#FF0202] hover:underline">
-                        businessfirstuae.com
+                      <a href="https://businessfirstnews.com" target="_blank" rel="noopener noreferrer" className="text-[#FF0202] hover:underline">
+                        businessfirstnews.com
                       </a>
                     </p>
                   </div>
                   <div className="space-y-1.5">
                     <p className="text-gray-700">
                       <strong className="text-[#24214c]">Privacy Email:</strong>{' '}
-                      <a href="mailto:privacy@businessfirstuae.com" className="text-[#FF0202] hover:underline">
-                        privacy@businessfirstuae.com
+                      <a href="mailto:privacy@businessfirstnews.com" className="text-[#FF0202] hover:underline">
+                        privacy@businessfirstnews.com
                       </a>
                     </p>
                     <p className="text-gray-700">
                       <strong className="text-[#24214c]">General Email:</strong>{' '}
-                      <a href="mailto:info@businessfirstuae.com" className="text-[#FF0202] hover:underline">
-                        info@businessfirstuae.com
+                      <a href="mailto:info@businessfirstnews.com" className="text-[#FF0202] hover:underline">
+                        info@businessfirstnews.com
                       </a>
                     </p>
                     <p className="text-gray-700">

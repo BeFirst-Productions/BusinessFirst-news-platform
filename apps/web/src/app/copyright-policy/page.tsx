@@ -221,8 +221,8 @@ export default function CopyrightPolicyPage() {
                   Republishing Business First content requires prior written permission. Businesses, publishers, news aggregators and educational institutions seeking republication should contact:
                 </p>
                 <p className="font-semibold text-[#FF0202] mb-3">
-                  <a href="mailto:licensing@businessfirstuae.com" className="hover:underline">
-                    licensing@businessfirstuae.com
+                  <a href="mailto:licensing@businessfirstnews.com" className="hover:underline">
+                    licensing@businessfirstnews.com
                   </a>
                 </p>
                 <p className="text-xs text-gray-500 italic">
@@ -382,8 +382,8 @@ export default function CopyrightPolicyPage() {
                 </div>
                 <p className="text-xs text-gray-600">
                   Organisations seeking commercial AI licensing should contact{' '}
-                  <a href="mailto:licensing@businessfirstuae.com" className="text-[#FF0202] font-semibold hover:underline">
-                    licensing@businessfirstuae.com
+                  <a href="mailto:licensing@businessfirstnews.com" className="text-[#FF0202] font-semibold hover:underline">
+                    licensing@businessfirstnews.com
                   </a>.
                 </p>
               </section>
@@ -627,8 +627,8 @@ export default function CopyrightPolicyPage() {
                 </p>
                 <div className="p-4 rounded-xl bg-[#f8f9fb] border border-gray-200 text-xs sm:text-sm mb-3">
                   <p className="font-semibold text-[#FF0202]">
-                    <a href="mailto:legal@businessfirstuae.com" className="hover:underline">
-                      legal@businessfirstuae.com
+                    <a href="mailto:legal@businessfirstnews.com" className="hover:underline">
+                      legal@businessfirstnews.com
                     </a>
                   </p>
                   <p className="text-gray-600 mt-1">
@@ -708,34 +708,34 @@ export default function CopyrightPolicyPage() {
                     <p className="text-gray-600 mt-1">Dubai, United Arab Emirates</p>
                     <p className="text-gray-600 mt-1">
                       <strong className="text-gray-800">Website:</strong>{' '}
-                      <a href="https://businessfirstuae.com" target="_blank" rel="noopener noreferrer" className="text-[#FF0202] hover:underline">
-                        businessfirstuae.com
+                      <a href="https://businessfirstnews.com" target="_blank" rel="noopener noreferrer" className="text-[#FF0202] hover:underline">
+                        businessfirstnews.com
                       </a>
                     </p>
                   </div>
                   <div className="space-y-1.5">
                     <p className="text-gray-700">
                       <strong className="text-[#24214c]">Content Licensing:</strong>{' '}
-                      <a href="mailto:licensing@businessfirstuae.com" className="text-[#FF0202] hover:underline">
-                        licensing@businessfirstuae.com
+                      <a href="mailto:licensing@businessfirstnews.com" className="text-[#FF0202] hover:underline">
+                        licensing@businessfirstnews.com
                       </a>
                     </p>
                     <p className="text-gray-700">
                       <strong className="text-[#24214c]">Copyright Complaints:</strong>{' '}
-                      <a href="mailto:legal@businessfirstuae.com" className="text-[#FF0202] hover:underline">
-                        legal@businessfirstuae.com
+                      <a href="mailto:legal@businessfirstnews.com" className="text-[#FF0202] hover:underline">
+                        legal@businessfirstnews.com
                       </a>
                     </p>
                     <p className="text-gray-700">
                       <strong className="text-[#24214c]">Editorial Desk:</strong>{' '}
-                      <a href="mailto:editorial@businessfirstuae.com" className="text-[#FF0202] hover:underline">
-                        editorial@businessfirstuae.com
+                      <a href="mailto:editorial@businessfirstnews.com" className="text-[#FF0202] hover:underline">
+                        editorial@businessfirstnews.com
                       </a>
                     </p>
                     <p className="text-gray-700">
                       <strong className="text-[#24214c]">General Enquiries:</strong>{' '}
-                      <a href="mailto:info@businessfirstuae.com" className="text-[#FF0202] hover:underline">
-                        info@businessfirstuae.com
+                      <a href="mailto:info@businessfirstnews.com" className="text-[#FF0202] hover:underline">
+                        info@businessfirstnews.com
                       </a>
                     </p>
                   </div>

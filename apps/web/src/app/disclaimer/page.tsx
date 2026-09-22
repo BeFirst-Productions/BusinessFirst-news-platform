@@ -287,8 +287,8 @@ export default function DisclaimerPage() {
                   </p>
                   <p className="text-sm">
                     <strong>Editorial:</strong>{' '}
-                    <a href="mailto:editorial@businessfirstuae.com" className="text-[#FF0202] hover:underline">
-                      editorial@businessfirstuae.com
+                    <a href="mailto:editorial@businessfirstnews.com" className="text-[#FF0202] hover:underline">
+                      editorial@businessfirstnews.com
                     </a>
                   </p>
                 </div>
@@ -355,8 +355,8 @@ export default function DisclaimerPage() {
                 </p>
                 <p>
                   For permissions or content-licensing enquiries, contact:{' '}
-                  <a href="mailto:editorial@businessfirstuae.com" className="text-[#FF0202] hover:underline font-semibold">
-                    editorial@businessfirstuae.com
+                  <a href="mailto:editorial@businessfirstnews.com" className="text-[#FF0202] hover:underline font-semibold">
+                    editorial@businessfirstnews.com
                   </a>
                 </p>
               </section>
@@ -418,28 +418,28 @@ export default function DisclaimerPage() {
                     <p className="text-gray-600 mt-1">Dubai, United Arab Emirates</p>
                     <p className="text-gray-600 mt-1">
                       <strong className="text-gray-800">Website:</strong>{' '}
-                      <a href="https://businessfirstuae.com" target="_blank" rel="noopener noreferrer" className="text-[#FF0202] hover:underline">
-                        businessfirstuae.com
+                      <a href="https://businessfirstnews.com" target="_blank" rel="noopener noreferrer" className="text-[#FF0202] hover:underline">
+                        businessfirstnews.com
                       </a>
                     </p>
                   </div>
                   <div className="space-y-1.5">
                     <p className="text-gray-700">
                       <strong className="text-[#24214c]">General Enquiries:</strong>{' '}
-                      <a href="mailto:info@businessfirstuae.com" className="text-[#FF0202] hover:underline">
-                        info@businessfirstuae.com
+                      <a href="mailto:info@businessfirstnews.com" className="text-[#FF0202] hover:underline">
+                        info@businessfirstnews.com
                       </a>
                     </p>
                     <p className="text-gray-700">
                       <strong className="text-[#24214c]">Editorial:</strong>{' '}
-                      <a href="mailto:editorial@businessfirstuae.com" className="text-[#FF0202] hover:underline">
-                        editorial@businessfirstuae.com
+                      <a href="mailto:editorial@businessfirstnews.com" className="text-[#FF0202] hover:underline">
+                        editorial@businessfirstnews.com
                       </a>
                     </p>
                     <p className="text-gray-700">
                       <strong className="text-[#24214c]">Legal:</strong>{' '}
-                      <a href="mailto:legal@businessfirstuae.com" className="text-[#FF0202] hover:underline">
-                        legal@businessfirstuae.com
+                      <a href="mailto:legal@businessfirstnews.com" className="text-[#FF0202] hover:underline">
+                        legal@businessfirstnews.com
                       </a>
                     </p>
                   </div>

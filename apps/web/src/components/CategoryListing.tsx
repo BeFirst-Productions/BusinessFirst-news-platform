@@ -36,6 +36,7 @@ const SECTION_MAPPINGS: Record<string, string[]> = {
     'Lifestyle & Culture'
   ],
   'Exclusive Segments': [
+    'Featured Analysis',
     'Sponsored Contents',
     // 'Events & Coverage',
     // 'Business & Beyond',
@@ -51,16 +52,31 @@ const CategoryListing: React.FC = () => {
   const isSearchMode = searchQuery.length > 0;
 
   const isSponsoredParam = searchParams.get('isSponsored') === 'true';
+  const isFeaturedParam = searchParams.get('isFeatured') === 'true';
   const rawCategoryName = searchParams.get('category');
   const categoryName = isSearchMode
     ? `Search: "${searchQuery}"`
-    : isSponsoredParam
+    : isSponsoredParam || rawCategoryName === 'Sponsored Contents'
     ? 'Sponsored Contents'
+    : isFeaturedParam || rawCategoryName === 'Featured Analysis'
+    ? 'Featured Analysis'
     : (rawCategoryName || 'Latest News');
 
   const pageParam = searchParams.get('page');
   const currentPage = pageParam ? parseInt(pageParam, 10) : 1;
   const itemsPerPage = 12;
+
+  // Fetch all categories to get matched category & ID
+  const { data: categories } = useCategories();
+  const matchedCategory = categories?.find(
+    (c: any) =>
+      c.name?.toLowerCase() === categoryName.toLowerCase() ||
+      c.slug?.toLowerCase() === categoryName.toLowerCase().replace(/[^\w\s-]/g, '').replace(/[\s_]+/g, '-')
+  );
+
+  const isFeaturedAnalysis = categoryName === 'Featured Analysis';
+  const targetCategoryId =
+    matchedCategory?.id || (isFeaturedAnalysis ? '79db4f54-ed90-4bae-9866-ef5f97a348c2' : undefined);
 
   // Fetch live published articles from Express API (/api/v1/website/articles)
   const { data: apiResponse, isLoading } = useArticles({
@@ -72,6 +88,8 @@ const CategoryListing: React.FC = () => {
       ? { isSponsored: true }
       : categoryName === 'UAE News'
       ? { isUaeNews: true }
+      : targetCategoryId
+      ? { categoryId: targetCategoryId }
       : categoryName !== 'Latest News'
       ? { search: categoryName }
       : {}),
@@ -83,14 +101,14 @@ const CategoryListing: React.FC = () => {
     limit: 16,
   });
 
-  // Fetch all categories to get the description
-  const { data: categories } = useCategories();
-  const matchedCategory = categories?.find((c: any) => c.name === categoryName);
   const categoryDescription = isSearchMode
     ? `Showing search results for "${searchQuery}".`
-    : matchedCategory?.description || `Explore the latest news, insights, and expert analysis on ${categoryName}.`;
+    : matchedCategory?.description ||
+      (categoryName === 'Featured Analysis'
+        ? 'Explore in-depth business perspectives, expert insights, and featured analyses.'
+        : `Explore the latest news, insights, and expert analysis on ${categoryName}.`);
 
-  // Extract live articles from API
+  // Extract live articles from API strictly for this category
   const rawApiArticles = apiResponse?.data || [];
 
   const displayArticles = rawApiArticles.map((item: any) => ({

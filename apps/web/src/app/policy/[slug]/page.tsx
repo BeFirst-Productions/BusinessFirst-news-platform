@@ -54,7 +54,7 @@ const POLICY_CONTENT: Record<string, { title: string; subtitle: string; content:
         <p>Under certain circumstances, you have rights under data protection laws in relation to your personal data, including the right to request access, correction, erasure, restriction, transfer, to object to processing, and to withdraw consent (where applicable, such as GDPR and CCPA frameworks).</p>
 
         <h2 className="text-xl font-bold text-[#24214c] mt-8 mb-4">6. Contact Us</h2>
-        <p>If you have any questions about this Privacy Policy or our privacy practices, please contact our Data Protection Officer at privacy@businessfirstuae.com.</p>
+        <p>If you have any questions about this Privacy Policy or our privacy practices, please contact our Data Protection Officer at privacy@businessfirstnews.com.</p>
       </div>
     )
   },

@@ -785,7 +785,7 @@ export default function EditorialPolicyPage() {
                   52. COMPLAINTS
                 </h2>
                 <p className="mb-2">Editorial complaints should include article URL, date, and supporting evidence sent to:</p>
-                <p className="font-semibold text-[#FF0202]">editorial@businessfirstuae.com</p>
+                <p className="font-semibold text-[#FF0202]">editorial@businessfirstnews.com</p>
               </section>
 
               {/* 53. TAKEDOWN REQUESTS */}
@@ -864,40 +864,40 @@ export default function EditorialPolicyPage() {
                     <p className="text-gray-600 mt-1">Dubai, United Arab Emirates</p>
                     <p className="text-gray-600 mt-1">
                       <strong className="text-gray-800">Website:</strong>{' '}
-                      <a href="https://businessfirstuae.com" target="_blank" rel="noopener noreferrer" className="text-[#FF0202] hover:underline">
-                        businessfirstuae.com
+                      <a href="https://businessfirstnews.com" target="_blank" rel="noopener noreferrer" className="text-[#FF0202] hover:underline">
+                        businessfirstnews.com
                       </a>
                     </p>
                   </div>
                   <div className="space-y-1.5">
                     <p className="text-gray-700">
                       <strong className="text-[#24214c]">General Enquiries:</strong>{' '}
-                      <a href="mailto:info@businessfirstuae.com" className="text-[#FF0202] hover:underline">
-                        info@businessfirstuae.com
+                      <a href="mailto:info@businessfirstnews.com" className="text-[#FF0202] hover:underline">
+                        info@businessfirstnews.com
                       </a>
                     </p>
                     <p className="text-gray-700">
                       <strong className="text-[#24214c]">News Tips &amp; Editorial:</strong>{' '}
-                      <a href="mailto:editorial@businessfirstuae.com" className="text-[#FF0202] hover:underline">
-                        editorial@businessfirstuae.com
+                      <a href="mailto:editorial@businessfirstnews.com" className="text-[#FF0202] hover:underline">
+                        editorial@businessfirstnews.com
                       </a>
                     </p>
                     <p className="text-gray-700">
                       <strong className="text-[#24214c]">Press Releases:</strong>{' '}
-                      <a href="mailto:pr@businessfirstuae.com" className="text-[#FF0202] hover:underline">
-                        pr@businessfirstuae.com
+                      <a href="mailto:pr@businessfirstnews.com" className="text-[#FF0202] hover:underline">
+                        pr@businessfirstnews.com
                       </a>
                     </p>
                     <p className="text-gray-700">
                       <strong className="text-[#24214c]">Advertising &amp; Commercial:</strong>{' '}
-                      <a href="mailto:ads@businessfirstuae.com" className="text-[#FF0202] hover:underline">
-                        ads@businessfirstuae.com
+                      <a href="mailto:ads@businessfirstnews.com" className="text-[#FF0202] hover:underline">
+                        ads@businessfirstnews.com
                       </a>
                     </p>
                     <p className="text-gray-700">
                       <strong className="text-[#24214c]">Legal &amp; Privacy:</strong>{' '}
-                      <a href="mailto:legal@businessfirstuae.com" className="text-[#FF0202] hover:underline">
-                        legal@businessfirstuae.com
+                      <a href="mailto:legal@businessfirstnews.com" className="text-[#FF0202] hover:underline">
+                        legal@businessfirstnews.com
                       </a>
                     </p>
                   </div>

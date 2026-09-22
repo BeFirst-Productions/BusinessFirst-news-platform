@@ -115,20 +115,20 @@ const TermsSidebar = () => {
           <div className="text-xs text-white/80 space-y-2">
             <div>
               <p className="text-white/50 text-[11px]">Legal &amp; Compliance:</p>
-              <a href="mailto:legal@businessfirstuae.com" className="hover:text-[#fbbf24] font-medium break-all">
-                legal@businessfirstuae.com
+              <a href="mailto:legal@businessfirstnews.com" className="hover:text-[#fbbf24] font-medium break-all">
+                legal@businessfirstnews.com
               </a>
             </div>
             <div>
               <p className="text-white/50 text-[11px]">Advertising &amp; Commercial:</p>
-              <a href="mailto:advertise@businessfirstuae.com" className="hover:text-[#fbbf24] font-medium break-all">
-                advertise@businessfirstuae.com
+              <a href="mailto:advertise@businessfirstnews.com" className="hover:text-[#fbbf24] font-medium break-all">
+                advertise@businessfirstnews.com
               </a>
             </div>
             <div>
               <p className="text-white/50 text-[11px]">Editorial Desk:</p>
-              <a href="mailto:editorial@businessfirstuae.com" className="hover:text-[#fbbf24] font-medium break-all">
-                editorial@businessfirstuae.com
+              <a href="mailto:editorial@businessfirstnews.com" className="hover:text-[#fbbf24] font-medium break-all">
+                editorial@businessfirstnews.com
               </a>
             </div>
           </div>

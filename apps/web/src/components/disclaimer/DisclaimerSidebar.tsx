@@ -54,10 +54,10 @@ const DisclaimerSidebar = () => {
             <div className="flex flex-col">
               <span className="text-white/60 text-xs font-semibold uppercase tracking-wider">Corrections &amp; Feedback</span>
               <a
-                href="mailto:editorial@businessfirstuae.com"
+                href="mailto:editorial@businessfirstnews.com"
                 className="text-sm font-medium leading-snug hover:text-red-400 transition-colors break-all"
               >
-                editorial@businessfirstuae.com
+                editorial@businessfirstnews.com
               </a>
             </div>
           </div>
