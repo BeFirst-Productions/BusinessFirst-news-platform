@@ -44,7 +44,7 @@ const CultureLifestyleSection = () => {
             </h2>
             <Link
               href={`/news?category=${encodeURIComponent(
-                cultureData?.categoryName || 'Culture & Lifestyle'
+                cultureArticles[0]?.category?.name || cultureData?.categoryName || 'Lifestyle & Culture'
               )}`}
               className="text-[#24214c] font-bold text-xs sm:text-sm flex items-center hover:text-[#FF0202] transition-colors shrink-0 whitespace-nowrap pb-0.5"
             >
@@ -76,7 +76,7 @@ const CultureLifestyleSection = () => {
                     </h4>
                   </div>
                   <span className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-1">
-                    {item.category?.name || 'Culture & Lifestyle'} | {formatDate(item.publishedAt)}
+                    {item.category?.name || 'Lifestyle & Culture'} | {formatDate(item.publishedAt)}
                   </span>
                 </Link>
               ))}
@@ -94,7 +94,7 @@ const CultureLifestyleSection = () => {
               </h2>
               <Link
                 href={`/news?category=${encodeURIComponent(
-                  mediaData?.categoryName || 'Media and Entertainment'
+                  mediaArticles[0]?.category?.name || mediaData?.categoryName || 'Media & Entertainment'
                 )}`}
                 className="text-white font-bold text-xs sm:text-sm flex items-center hover:text-[#FF0202] transition-colors shrink-0 whitespace-nowrap pb-0.5"
               >

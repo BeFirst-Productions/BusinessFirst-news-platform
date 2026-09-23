@@ -83,6 +83,7 @@ const NewsGridSection = () => {
             title="Trending News"
             titleColor="#FF0202"
             articles={trendingList}
+            viewAllHref="/news?category=Trending%20News"
           />
         </div>
 
@@ -92,6 +93,7 @@ const NewsGridSection = () => {
             title="UAE News"
             titleColor="#FF0202"
             articles={uaeList}
+            viewAllHref="/news?category=UAE%20News"
           />
         </div>
 

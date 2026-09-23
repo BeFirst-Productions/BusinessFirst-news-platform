@@ -4,7 +4,7 @@ import { buildMetadata } from '@/components/seo/seo.types';
 import CategoryListing from "@/components/CategoryListing";
 
 interface Props {
-  searchParams: { category?: string; isSponsored?: string; search?: string; q?: string };
+  searchParams: { category?: string; isSponsored?: string; search?: string; q?: string; isTrending?: string; isUaeNews?: string };
 }
 
 export async function generateMetadata({ searchParams }: Props) {
@@ -18,13 +18,28 @@ export async function generateMetadata({ searchParams }: Props) {
   }
 
   const isSponsoredParam = searchParams.isSponsored === 'true';
-  const categoryName = searchParams.category || 'Latest News';
+  const isTrendingParam = searchParams.isTrending === 'true';
+  const isUaeNewsParam = searchParams.isUaeNews === 'true';
+  const rawCat = searchParams.category || '';
+  const isTrending = isTrendingParam || rawCat.toLowerCase() === 'trending news' || rawCat.toLowerCase() === 'trending';
+  const isUaeNews = isUaeNewsParam || rawCat.toLowerCase() === 'uae news' || rawCat.toLowerCase() === 'uae';
+  const isSponsored = isSponsoredParam || rawCat.toLowerCase() === 'sponsored contents' || rawCat.toLowerCase() === 'sponsored';
+
+  const categoryName = isSponsored
+    ? 'Sponsored Contents'
+    : isTrending
+    ? 'Trending News'
+    : isUaeNews
+    ? 'UAE News'
+    : (searchParams.category || 'Latest News');
 
   let categorySlug = 'news';
-  if (isSponsoredParam || categoryName === 'Sponsored Contents') {
+  if (isSponsored) {
     categorySlug = 'sponsored';
-  } else if (categoryName === 'UAE News') {
+  } else if (isUaeNews) {
     categorySlug = 'uae-news';
+  } else if (isTrending) {
+    categorySlug = 'trending';
   } else if (categoryName !== 'Latest News') {
     categorySlug = `category/${categoryName.toLowerCase().trim().replace(/[^\w\s-]/g, '').replace(/[\s_]+/g, '-').replace(/-+/g, '-').replace(/^-+|-+$/g, '')}`;
   }
