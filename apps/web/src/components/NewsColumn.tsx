@@ -18,6 +18,7 @@ interface NewsColumnProps {
   featured?: NewsItem;
   mediumGrid?: NewsItem[];
   smallList?: NewsItem[];
+  viewAllHref?: string;
 }
 
 const NewsColumn: React.FC<NewsColumnProps> = ({
@@ -26,13 +27,15 @@ const NewsColumn: React.FC<NewsColumnProps> = ({
   articles,
   featured: propFeatured,
   mediumGrid: propMediumGrid = [],
-  smallList: propSmallList = []
+  smallList: propSmallList = [],
+  viewAllHref,
 }) => {
   const featured = articles ? articles[0] : propFeatured;
   const mediumGrid = articles ? articles.slice(1, 5) : propMediumGrid;
   const smallList = articles ? articles.slice(5, 8) : propSmallList;
 
   const hasArticles = Boolean(featured || mediumGrid.length > 0 || smallList.length > 0);
+  const href = viewAllHref || `/news?category=${encodeURIComponent(title)}`;
 
   return (
     <div className="flex flex-col gap-6 w-full">
@@ -42,7 +45,7 @@ const NewsColumn: React.FC<NewsColumnProps> = ({
           <h2 className="text-xl md:text-2xl font-bold font-newsreader break-words leading-tight" style={{ color: titleColor }}>{title}</h2>
           <div className="absolute -bottom-[9px] left-0 w-full max-w-[200px] h-[3px]" style={{ backgroundColor: titleColor }}></div>
         </div>
-        <Link href={`/news?search=${encodeURIComponent(title)}`} className="flex items-center text-[#24214c] font-bold text-xs sm:text-sm hover:opacity-80 transition-opacity shrink-0 whitespace-nowrap pb-0.5">
+        <Link href={href} className="flex items-center text-[#24214c] font-bold text-xs sm:text-sm hover:opacity-80 transition-opacity shrink-0 whitespace-nowrap pb-0.5">
           View All <ChevronDown size={16} className="ml-1 text-gray-500" />
         </Link>
       </div>

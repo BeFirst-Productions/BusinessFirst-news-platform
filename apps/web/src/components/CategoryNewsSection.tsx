@@ -354,7 +354,7 @@ const CategoryNewsSection = () => {
             </div>
             {leftCategory && (
               <Link
-                href={`/news/category/${leftCategory.slug}`}
+                href={`/news?category=${encodeURIComponent(leftCategory.name)}`}
                 className="flex items-center text-[#24214c] font-bold text-xs sm:text-sm hover:opacity-80 transition-opacity shrink-0 whitespace-nowrap pb-0.5"
               >
                 View All{' '}
@@ -420,7 +420,7 @@ const CategoryNewsSection = () => {
                 </div>
                 {rightCategory && (
                   <Link
-                    href={`/news/category/${rightCategory.slug}`}
+                    href={`/news?category=${encodeURIComponent(rightCategory.name)}`}
                     className="flex items-center text-[#24214c] font-bold text-xs sm:text-sm hover:opacity-80 transition-opacity shrink-0 whitespace-nowrap lg:mt-1 xl:mt-0 pb-0.5"
                   >
                     View All{' '}

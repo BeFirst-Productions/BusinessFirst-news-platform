@@ -112,7 +112,7 @@ const DailyInsightsSection = () => {
             </div>
 
             {/* View All Button */}
-            <Link href="/news?search=Insights" className="bg-[#FF0202] hover:bg-[#d00000] text-white font-bold text-[13px] px-8 py-2.5 rounded transition-colors flex items-center justify-center mt-2 shadow-sm">
+            <Link href={`/news?category=${encodeURIComponent('Daily Insights')}`} className="bg-[#FF0202] hover:bg-[#d00000] text-white font-bold text-[13px] px-8 py-2.5 rounded transition-colors flex items-center justify-center mt-2 shadow-sm">
               View All <ArrowUpRight size={16} className="ml-1" />
             </Link>
           </>

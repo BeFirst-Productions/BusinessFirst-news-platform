@@ -45,6 +45,99 @@ const SECTION_MAPPINGS: Record<string, string[]> = {
   ]
 };
 
+const normalizeWords = (str: string) =>
+  str
+    .toLowerCase()
+    .replace(/&/g, 'and')
+    .replace(/[^\w\s]/g, ' ')
+    .split(/\s+/)
+    .filter((w) => w.length > 0 && w !== 'and')
+    .sort()
+    .join(' ');
+
+const CATEGORY_ALIASES: Record<string, string[]> = {
+  'culture & lifestyle': ['lifestyle & culture', 'lifestyle-culture', 'culture-lifestyle', 'lifestyle', 'culture'],
+  'lifestyle & culture': ['culture & lifestyle', 'lifestyle-culture', 'culture-lifestyle', 'lifestyle', 'culture'],
+  'media & entertainment': ['media and entertainment', 'media-entertainment', 'media', 'entertainment', 'media coverage'],
+  'media and entertainment': ['media & entertainment', 'media-entertainment', 'media', 'entertainment', 'media coverage'],
+  'daily insights': ['insights', 'daily-insights', 'daily insight', 'insight'],
+  'insights': ['daily insights', 'daily-insights', 'daily insight', 'insight'],
+  'events': ['events & coverage', 'events-coverage', 'events and coverage', 'event'],
+  'events & coverage': ['events', 'events-coverage', 'events and coverage', 'event'],
+  'economy & policy': ['economy and policy', 'economy-policy', 'economy', 'policy'],
+  'economy and policy': ['economy & policy', 'economy-policy', 'economy', 'policy'],
+  'real estate & construction': ['real estate and construction', 'real estate', 'construction', 'real-estate-construction'],
+  'real estate and construction': ['real estate & construction', 'real estate', 'construction', 'real-estate-construction'],
+  'technology & innovation': ['technology and innovation', 'tech', 'technology', 'innovation', 'technology-innovation'],
+  'technology and innovation': ['technology & innovation', 'tech', 'technology', 'innovation', 'technology-innovation'],
+  'logistics & trade': ['logistics and trade', 'logistics', 'trade', 'logistics-trade'],
+  'logistics and trade': ['logistics & trade', 'logistics', 'trade', 'logistics-trade'],
+  'aviation & aerospace': ['aviation and aerospace', 'aviation', 'aerospace', 'aviation-aerospace'],
+  'aviation and aerospace': ['aviation & aerospace', 'aviation', 'aerospace', 'aviation-aerospace'],
+  'banking & finance': ['banking and finance', 'banking', 'finance', 'banking-finance'],
+  'banking and finance': ['banking & finance', 'banking', 'finance', 'banking-finance'],
+  'oil, gas & energy': ['oil and gas', 'oil & gas', 'energy', 'oil-gas-energy', 'oil', 'gas'],
+  'oil & gas': ['oil, gas & energy', 'oil and gas', 'energy', 'oil-gas-energy', 'oil', 'gas'],
+  'healthcare & pharma': ['healthcare and pharma', 'healthcare', 'pharma', 'health', 'healthcare-pharma'],
+  'healthcare and pharma': ['healthcare & pharma', 'healthcare', 'pharma', 'health', 'healthcare-pharma'],
+  'tourism & hospitality': ['tourism and hospitality', 'tourism', 'hospitality', 'tourism-hospitality'],
+  'tourism and hospitality': ['tourism & hospitality', 'tourism', 'hospitality', 'tourism-hospitality'],
+  'sports & recreation': ['sports and recreation', 'sports', 'recreation', 'sports-recreation'],
+  'sports and recreation': ['sports & recreation', 'sports', 'recreation', 'sports-recreation'],
+};
+
+const findCategory = (categories: any[] | undefined, targetName: string) => {
+  if (!categories || !targetName) return undefined;
+  const target = targetName.toLowerCase().trim();
+  const targetSlug = target.replace(/[^\w\s-]/g, '').replace(/[\s_]+/g, '-');
+  const targetNorm = normalizeWords(target);
+  const aliases = CATEGORY_ALIASES[target] || [];
+
+  // 1. Exact name or slug match
+  const exact = categories.find(
+    (c: any) =>
+      c.name?.toLowerCase().trim() === target ||
+      c.slug?.toLowerCase().trim() === targetSlug ||
+      c.slug?.toLowerCase().trim() === target
+  );
+  if (exact) return exact;
+
+  // 2. Normalized words match (e.g. "Culture & Lifestyle" matches "Lifestyle & Culture")
+  const normMatch = categories.find(
+    (c: any) => normalizeWords(c.name || '') === targetNorm || normalizeWords(c.slug || '') === targetNorm
+  );
+  if (normMatch) return normMatch;
+
+  // 3. Known aliases match
+  const aliasMatch = categories.find((c: any) => {
+    const cName = c.name?.toLowerCase().trim();
+    const cSlug = c.slug?.toLowerCase().trim();
+    return (
+      aliases.includes(cName) ||
+      aliases.includes(cSlug) ||
+      (CATEGORY_ALIASES[cName] && (CATEGORY_ALIASES[cName].includes(target) || CATEGORY_ALIASES[cName].includes(targetSlug)))
+    );
+  });
+  if (aliasMatch) return aliasMatch;
+
+  // 4. Word subset match
+  const targetWords = targetNorm.split(' ').filter(Boolean);
+  const subsetMatch = categories.find((c: any) => {
+    const cWords = normalizeWords(c.name || '').split(' ').filter(Boolean);
+    return targetWords.length > 0 && (
+      cWords.every((w) => targetWords.includes(w)) ||
+      targetWords.every((w) => cWords.includes(w))
+    );
+  });
+  if (subsetMatch) return subsetMatch;
+
+  // 5. Substring match
+  return categories.find((c: any) => {
+    const cName = c.name?.toLowerCase().trim();
+    return cName && (cName.includes(target) || target.includes(cName));
+  });
+};
+
 const CategoryListing: React.FC = () => {
   const searchParams = useSearchParams();
   const rawSearchQuery = searchParams.get('search') || searchParams.get('q') || '';
@@ -53,13 +146,25 @@ const CategoryListing: React.FC = () => {
 
   const isSponsoredParam = searchParams.get('isSponsored') === 'true';
   const isFeaturedParam = searchParams.get('isFeatured') === 'true';
+  const isTrendingParam = searchParams.get('isTrending') === 'true';
+  const isUaeNewsParam = searchParams.get('isUaeNews') === 'true';
   const rawCategoryName = searchParams.get('category');
+
+  const isTrending = isTrendingParam || rawCategoryName?.toLowerCase() === 'trending news' || rawCategoryName?.toLowerCase() === 'trending';
+  const isUaeNews = isUaeNewsParam || rawCategoryName?.toLowerCase() === 'uae news' || rawCategoryName?.toLowerCase() === 'uae';
+  const isSponsored = isSponsoredParam || rawCategoryName?.toLowerCase() === 'sponsored contents' || rawCategoryName?.toLowerCase() === 'sponsored';
+  const isFeatured = isFeaturedParam || rawCategoryName?.toLowerCase() === 'featured analysis';
+
   const categoryName = isSearchMode
     ? `Search: "${searchQuery}"`
-    : isSponsoredParam || rawCategoryName === 'Sponsored Contents'
+    : isSponsored
     ? 'Sponsored Contents'
-    : isFeaturedParam || rawCategoryName === 'Featured Analysis'
+    : isFeatured
     ? 'Featured Analysis'
+    : isTrending
+    ? 'Trending News'
+    : isUaeNews
+    ? 'UAE News'
     : (rawCategoryName || 'Latest News');
 
   const pageParam = searchParams.get('page');
@@ -67,33 +172,39 @@ const CategoryListing: React.FC = () => {
   const itemsPerPage = 12;
 
   // Fetch all categories to get matched category & ID
-  const { data: categories } = useCategories();
-  const matchedCategory = categories?.find(
-    (c: any) =>
-      c.name?.toLowerCase() === categoryName.toLowerCase() ||
-      c.slug?.toLowerCase() === categoryName.toLowerCase().replace(/[^\w\s-]/g, '').replace(/[\s_]+/g, '-')
-  );
+  const { data: categories, isLoading: isCategoriesLoading } = useCategories();
+  const matchedCategory = findCategory(categories, categoryName);
 
   const isFeaturedAnalysis = categoryName === 'Featured Analysis';
   const targetCategoryId =
     matchedCategory?.id || (isFeaturedAnalysis ? '79db4f54-ed90-4bae-9866-ef5f97a348c2' : undefined);
 
+  const isSpecialCategory = isSearchMode || isSponsored || isTrending || isUaeNews || isFeatured || categoryName === 'Latest News';
+  const isArticlesEnabled = isSpecialCategory || !isCategoriesLoading;
+
   // Fetch live published articles from Express API (/api/v1/website/articles)
-  const { data: apiResponse, isLoading } = useArticles({
-    page: currentPage,
-    limit: itemsPerPage,
-    ...(isSearchMode
-      ? { search: searchQuery }
-      : isSponsoredParam || categoryName === 'Sponsored Contents'
-      ? { isSponsored: true }
-      : categoryName === 'UAE News'
-      ? { isUaeNews: true }
-      : targetCategoryId
-      ? { categoryId: targetCategoryId }
-      : categoryName !== 'Latest News'
-      ? { search: categoryName }
-      : {}),
-  });
+  const { data: apiResponse, isLoading: isArticlesLoading } = useArticles(
+    {
+      page: currentPage,
+      limit: itemsPerPage,
+      ...(isSearchMode
+        ? { search: searchQuery }
+        : isSponsored
+        ? { isSponsored: true }
+        : isTrending
+        ? { isTrending: true }
+        : isUaeNews
+        ? { isUaeNews: true }
+        : targetCategoryId
+        ? { categoryId: targetCategoryId }
+        : categoryName !== 'Latest News'
+        ? { search: categoryName }
+        : {}),
+    },
+    { enabled: isArticlesEnabled }
+  );
+
+  const isLoading = isArticlesLoading || (!isSpecialCategory && isCategoriesLoading);
 
   // Fetch dedicated UAE News for the suggested section
   const { data: uaeResponse } = useArticles({
@@ -106,6 +217,10 @@ const CategoryListing: React.FC = () => {
     : matchedCategory?.description ||
       (categoryName === 'Featured Analysis'
         ? 'Explore in-depth business perspectives, expert insights, and featured analyses.'
+        : categoryName === 'Trending News'
+        ? 'Stay informed with the most popular and trending business stories right now.'
+        : categoryName === 'UAE News'
+        ? 'Comprehensive coverage of business, economy, and leadership across the United Arab Emirates.'
         : `Explore the latest news, insights, and expert analysis on ${categoryName}.`);
 
   // Extract live articles from API strictly for this category
@@ -134,6 +249,15 @@ const CategoryListing: React.FC = () => {
   const getPageUrl = (pageNum: number) => {
     if (isSearchMode) {
       return `/news?search=${encodeURIComponent(searchQuery)}&page=${pageNum}`;
+    }
+    if (isTrendingParam) {
+      return `/news?isTrending=true&page=${pageNum}`;
+    }
+    if (isUaeNewsParam) {
+      return `/news?isUaeNews=true&page=${pageNum}`;
+    }
+    if (isSponsoredParam) {
+      return `/news?isSponsored=true&page=${pageNum}`;
     }
     return `/news?category=${encodeURIComponent(categoryName)}&page=${pageNum}`;
   };
