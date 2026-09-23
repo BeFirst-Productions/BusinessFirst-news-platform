@@ -262,16 +262,27 @@ const CategoryListing: React.FC = () => {
     return `/news?category=${encodeURIComponent(categoryName)}&page=${pageNum}`;
   };
 
-  // Fetch dedicated Exclusive News
-  const { data: exclusiveResponse } = useArticles({
-    isExclusiveNews: true,
-    limit: 7,
-  });
+  // Sidebar widget: Show UAE News if currently on Trending News page, otherwise show Trending News
+  const isTrendingPage = isTrending;
+  const sidebarTitle = isTrendingPage ? 'UAE News' : 'Trending News';
 
-  const exclusiveArticles = (exclusiveResponse?.data || []).map((item: any) => ({
+  // Fetch dedicated Trending News for sidebar (skip if on Trending News page)
+  const { data: trendingSidebarResponse } = useArticles(
+    {
+      isTrending: true,
+      limit: 7,
+    },
+    { enabled: !isTrendingPage }
+  );
+
+  const rawSidebarArticles = isTrendingPage
+    ? (uaeResponse?.data || []).slice(0, 7)
+    : (trendingSidebarResponse?.data || []);
+
+  const sidebarArticles = rawSidebarArticles.map((item: any) => ({
     id: item.slug || item.id,
     title: item.title,
-    category: item.category?.name || 'Exclusive News',
+    category: item.category?.name || (isTrendingPage ? 'UAE News' : 'Trending News'),
     date: item.publishedAt
       ? new Date(item.publishedAt).toLocaleDateString('en-US', {
         month: 'short',
@@ -295,8 +306,11 @@ const CategoryListing: React.FC = () => {
         return false;
       }
       
-      // Exclude articles already displayed in the main list
-      if (displayArticles.some((a: any) => a.id === item.id || a.id === item.slug)) {
+      // Exclude articles already displayed in the main list or sidebar
+      if (
+        displayArticles.some((a: any) => a.id === item.id || a.id === item.slug) ||
+        sidebarArticles.some((a: any) => a.id === item.id || a.id === item.slug)
+      ) {
         return false;
       }
       
@@ -482,17 +496,17 @@ const CategoryListing: React.FC = () => {
 
           {/* Right Side: Sidebar Widgets */}
           <aside className="lg:col-span-4 flex flex-col gap-8 w-full">
-            {/* Exclusives News Section */}
+            {/* Sidebar News Section */}
             <div className="bg-[#24214c] rounded-2xl p-5 text-white flex flex-col gap-4 shadow-lg border border-white/5">
               <h2 className="text-[#cd2027] font-extrabold tracking-wider uppercase text-left text-lg border-b border-white/10 pb-3 font-newsreader">
-                Exclusives News
+                {sidebarTitle}
               </h2>
               <div className="flex flex-col gap-4">
-                {exclusiveArticles.map((item, index) => (
+                {sidebarArticles.map((item, index) => (
                   <Link
                     key={item.id}
                     href={`/news/${item.id}`}
-                    className={`flex gap-3 hover:opacity-90 transition-opacity pb-3 ${index !== exclusiveArticles.length - 1 ? 'border-b border-white/10' : ''
+                    className={`flex gap-3 hover:opacity-90 transition-opacity pb-3 ${index !== sidebarArticles.length - 1 ? 'border-b border-white/10' : ''
                       }`}
                   >
                     <div className="relative w-20 h-14 shrink-0 rounded overflow-hidden bg-gray-800 border border-white/10">
@@ -549,7 +563,7 @@ const CategoryListing: React.FC = () => {
       </SectionContainer>
 
       {/* Suggested UAE News Section (Light grey background, breaks out of content spacing) */}
-      {categoryName !== 'UAE News' && suggestedArticles.length > 0 && (
+      {categoryName !== 'UAE News' && !isTrendingPage && suggestedArticles.length > 0 && (
         <div className="w-full bg-[#f9f9fb] pb-12 border-t border-gray-200/50 flex justify-center">
           <SectionContainer className="bg-transparent py-0">
             <h2 className="text-[#cd2027] font-extrabold text-2xl mb-8 tracking-tight font-newsreader">
