@@ -1,14 +1,15 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Share2, Link as LinkIcon, Copy, Check, X, ExternalLink, Globe } from 'lucide-react';
-import { 
-  FaWhatsapp, 
-  FaXTwitter, 
-  FaLinkedinIn, 
-  FaInstagram, 
-  FaFacebookF, 
-  FaEnvelope 
+import { createPortal } from 'react-dom';
+import { Share2, Link as LinkIcon, Copy, Check, X, ExternalLink } from 'lucide-react';
+import {
+  FaWhatsapp,
+  FaXTwitter,
+  FaLinkedinIn,
+  FaInstagram,
+  FaFacebookF,
+  FaEnvelope
 } from 'react-icons/fa6';
 
 interface ArticleShareBarProps {
@@ -22,8 +23,10 @@ export const ArticleShareBar: React.FC<ArticleShareBarProps> = ({ title, url: cu
   const [isCopyModalOpen, setIsCopyModalOpen] = useState<boolean>(false);
   const [copied, setCopied] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [mounted, setMounted] = useState<boolean>(false);
 
   useEffect(() => {
+    setMounted(true);
     if (customUrl) {
       setCurrentUrl(customUrl);
     } else if (typeof window !== 'undefined') {
@@ -138,12 +141,13 @@ export const ArticleShareBar: React.FC<ArticleShareBarProps> = ({ title, url: cu
 
   return (
     <div className="w-full flex justify-end mb-2 mt-0">
-      {/* Toast Notification */}
-      {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-gray-900 text-white text-sm px-4 py-2.5 rounded-lg shadow-xl flex items-center gap-2 animate-in fade-in slide-in-from-bottom-5 duration-200">
+      {/* Toast Notification Portaled to document.body */}
+      {toastMessage && mounted && createPortal(
+        <div className="fixed bottom-6 right-6 z-[9999] bg-gray-900 text-white text-sm px-4 py-2.5 rounded-lg shadow-xl flex items-center gap-2 animate-in fade-in slide-in-from-bottom-5 duration-200">
           <Check className="w-4 h-4 text-green-400" />
           <span>{toastMessage}</span>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* Share and Copy Link Action Bar - Right Aligned, Icon Only, Professional */}
@@ -181,11 +185,14 @@ export const ArticleShareBar: React.FC<ArticleShareBarProps> = ({ title, url: cu
         </div>
       </div>
 
-      {/* SHARE MODAL */}
-      {isShareModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-          <div 
-            className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden border border-gray-100 animate-in zoom-in-95 duration-200"
+      {/* SHARE MODAL - Portaled directly to document.body to render above header & navbar */}
+      {isShareModalOpen && mounted && createPortal(
+        <div 
+          className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200"
+          onClick={() => setIsShareModalOpen(false)}
+        >
+          <div
+            className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden border border-gray-100 animate-in zoom-in-95 duration-200 relative z-[10000]"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
@@ -255,14 +262,18 @@ export const ArticleShareBar: React.FC<ArticleShareBarProps> = ({ title, url: cu
               </div>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
-      {/* COPY LINK MODAL */}
-      {isCopyModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-          <div 
-            className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden border border-gray-100 animate-in zoom-in-95 duration-200"
+      {/* COPY LINK MODAL - Portaled directly to document.body to render above header & navbar */}
+      {isCopyModalOpen && mounted && createPortal(
+        <div 
+          className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200"
+          onClick={() => setIsCopyModalOpen(false)}
+        >
+          <div
+            className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden border border-gray-100 animate-in zoom-in-95 duration-200 relative z-[10000]"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
@@ -302,11 +313,10 @@ export const ArticleShareBar: React.FC<ArticleShareBarProps> = ({ title, url: cu
                 />
                 <button
                   onClick={handleCopyLink}
-                  className={`px-4 py-2 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm cursor-pointer ${
-                    copied 
-                      ? 'bg-green-600 text-white' 
+                  className={`px-4 py-2 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm cursor-pointer ${copied
+                      ? 'bg-green-600 text-white'
                       : 'bg-[#BF2025] hover:bg-[#a61a1f] text-white'
-                  }`}
+                    }`}
                 >
                   {copied ? (
                     <>
@@ -340,7 +350,8 @@ export const ArticleShareBar: React.FC<ArticleShareBarProps> = ({ title, url: cu
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
