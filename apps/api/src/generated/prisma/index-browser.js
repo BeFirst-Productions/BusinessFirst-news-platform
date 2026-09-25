@@ -132,15 +132,15 @@ exports.Prisma.AdScalarFieldEnum = {
   endDate: 'endDate',
   status: 'status',
   priority: 'priority',
-  targetPage: 'targetPage',
-  ratio: 'ratio',
-  pageName: 'pageName',
-  placementName: 'placementName',
   impressions: 'impressions',
   clicks: 'clicks',
   createdBy: 'createdBy',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  pageName: 'pageName',
+  placementName: 'placementName',
+  ratio: 'ratio',
+  targetPage: 'targetPage'
 };
 
 exports.Prisma.AdSpaceScalarFieldEnum = {
@@ -189,15 +189,9 @@ exports.Prisma.ArticleScalarFieldEnum = {
   content: 'content',
   excerpt: 'excerpt',
   featuredImage: 'featuredImage',
-  featuredImageTitle: 'featuredImageTitle',
   status: 'status',
   isFeatured: 'isFeatured',
   isBreakingNews: 'isBreakingNews',
-  isTopHeadline: 'isTopHeadline',
-  isTrending: 'isTrending',
-  isUaeNews: 'isUaeNews',
-  isSponsored: 'isSponsored',
-  isExclusiveNews: 'isExclusiveNews',
   viewCount: 'viewCount',
   scheduledAt: 'scheduledAt',
   publishedAt: 'publishedAt',
@@ -209,6 +203,12 @@ exports.Prisma.ArticleScalarFieldEnum = {
   updatedAt: 'updatedAt',
   categoryId: 'categoryId',
   authorId: 'authorId',
+  featuredImageTitle: 'featuredImageTitle',
+  isSponsored: 'isSponsored',
+  isTopHeadline: 'isTopHeadline',
+  isTrending: 'isTrending',
+  isUaeNews: 'isUaeNews',
+  isExclusiveNews: 'isExclusiveNews',
   authorName: 'authorName'
 };
 
@@ -455,8 +455,8 @@ exports.Prisma.JsonNullValueFilter = {
 exports.AdType = exports.$Enums.AdType = {
   IMAGE: 'IMAGE',
   VIDEO: 'VIDEO',
-  GIF: 'GIF',
-  BOTH: 'BOTH'
+  BOTH: 'BOTH',
+  GIF: 'GIF'
 };
 
 exports.AdStatus = exports.$Enums.AdStatus = {

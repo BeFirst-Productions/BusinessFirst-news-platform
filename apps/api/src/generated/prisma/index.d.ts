@@ -159,8 +159,8 @@ export type ArticleStatus = (typeof ArticleStatus)[keyof typeof ArticleStatus]
 export const AdType: {
   IMAGE: 'IMAGE',
   VIDEO: 'VIDEO',
-  GIF: 'GIF',
-  BOTH: 'BOTH'
+  BOTH: 'BOTH',
+  GIF: 'GIF'
 };
 
 export type AdType = (typeof AdType)[keyof typeof AdType]
@@ -2933,15 +2933,15 @@ export namespace Prisma {
    */
 
   export type AdCountOutputType = {
+    analytics: number
     placements: number
     articles: number
-    analytics: number
   }
 
   export type AdCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    analytics?: boolean | AdCountOutputTypeCountAnalyticsArgs
     placements?: boolean | AdCountOutputTypeCountPlacementsArgs
     articles?: boolean | AdCountOutputTypeCountArticlesArgs
-    analytics?: boolean | AdCountOutputTypeCountAnalyticsArgs
   }
 
   // Custom InputTypes
@@ -2958,6 +2958,13 @@ export namespace Prisma {
   /**
    * AdCountOutputType without action
    */
+  export type AdCountOutputTypeCountAnalyticsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AdAnalyticsWhereInput
+  }
+
+  /**
+   * AdCountOutputType without action
+   */
   export type AdCountOutputTypeCountPlacementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AdPlacementWhereInput
   }
@@ -2967,13 +2974,6 @@ export namespace Prisma {
    */
   export type AdCountOutputTypeCountArticlesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ArticleAdWhereInput
-  }
-
-  /**
-   * AdCountOutputType without action
-   */
-  export type AdCountOutputTypeCountAnalyticsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: AdAnalyticsWhereInput
   }
 
 
@@ -3013,17 +3013,17 @@ export namespace Prisma {
    */
 
   export type ArticleCountOutputType = {
+    activities: number
+    ads: number
     tags: number
     comments: number
-    ads: number
-    activities: number
   }
 
   export type ArticleCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    activities?: boolean | ArticleCountOutputTypeCountActivitiesArgs
+    ads?: boolean | ArticleCountOutputTypeCountAdsArgs
     tags?: boolean | ArticleCountOutputTypeCountTagsArgs
     comments?: boolean | ArticleCountOutputTypeCountCommentsArgs
-    ads?: boolean | ArticleCountOutputTypeCountAdsArgs
-    activities?: boolean | ArticleCountOutputTypeCountActivitiesArgs
   }
 
   // Custom InputTypes
@@ -3040,15 +3040,8 @@ export namespace Prisma {
   /**
    * ArticleCountOutputType without action
    */
-  export type ArticleCountOutputTypeCountTagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ArticleTagWhereInput
-  }
-
-  /**
-   * ArticleCountOutputType without action
-   */
-  export type ArticleCountOutputTypeCountCommentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CommentWhereInput
+  export type ArticleCountOutputTypeCountActivitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ArticleActivityWhereInput
   }
 
   /**
@@ -3061,8 +3054,15 @@ export namespace Prisma {
   /**
    * ArticleCountOutputType without action
    */
-  export type ArticleCountOutputTypeCountActivitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ArticleActivityWhereInput
+  export type ArticleCountOutputTypeCountTagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ArticleTagWhereInput
+  }
+
+  /**
+   * ArticleCountOutputType without action
+   */
+  export type ArticleCountOutputTypeCountCommentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CommentWhereInput
   }
 
 
@@ -3133,14 +3133,14 @@ export namespace Prisma {
    */
 
   export type CategoryCountOutputType = {
-    children: number
     articles: number
+    children: number
     pageSeo: number
   }
 
   export type CategoryCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    children?: boolean | CategoryCountOutputTypeCountChildrenArgs
     articles?: boolean | CategoryCountOutputTypeCountArticlesArgs
+    children?: boolean | CategoryCountOutputTypeCountChildrenArgs
     pageSeo?: boolean | CategoryCountOutputTypeCountPageSeoArgs
   }
 
@@ -3158,15 +3158,15 @@ export namespace Prisma {
   /**
    * CategoryCountOutputType without action
    */
-  export type CategoryCountOutputTypeCountChildrenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CategoryWhereInput
+  export type CategoryCountOutputTypeCountArticlesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ArticleWhereInput
   }
 
   /**
    * CategoryCountOutputType without action
    */
-  export type CategoryCountOutputTypeCountArticlesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ArticleWhereInput
+  export type CategoryCountOutputTypeCountChildrenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CategoryWhereInput
   }
 
   /**
@@ -3182,25 +3182,25 @@ export namespace Prisma {
    */
 
   export type UserCountOutputType = {
-    createdUsers: number
-    articles: number
-    modules: number
-    notifications: number
     ads: number
+    articles: number
     articleActivities: number
-    settings: number
     media: number
+    notifications: number
+    settings: number
+    createdUsers: number
+    modules: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    createdUsers?: boolean | UserCountOutputTypeCountCreatedUsersArgs
-    articles?: boolean | UserCountOutputTypeCountArticlesArgs
-    modules?: boolean | UserCountOutputTypeCountModulesArgs
-    notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
     ads?: boolean | UserCountOutputTypeCountAdsArgs
+    articles?: boolean | UserCountOutputTypeCountArticlesArgs
     articleActivities?: boolean | UserCountOutputTypeCountArticleActivitiesArgs
-    settings?: boolean | UserCountOutputTypeCountSettingsArgs
     media?: boolean | UserCountOutputTypeCountMediaArgs
+    notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
+    settings?: boolean | UserCountOutputTypeCountSettingsArgs
+    createdUsers?: boolean | UserCountOutputTypeCountCreatedUsersArgs
+    modules?: boolean | UserCountOutputTypeCountModulesArgs
   }
 
   // Custom InputTypes
@@ -3217,8 +3217,8 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountCreatedUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: UserWhereInput
+  export type UserCountOutputTypeCountAdsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AdWhereInput
   }
 
   /**
@@ -3231,8 +3231,15 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountModulesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: UserModulePermissionWhereInput
+  export type UserCountOutputTypeCountArticleActivitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ArticleActivityWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountMediaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MediaWhereInput
   }
 
   /**
@@ -3245,20 +3252,6 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountAdsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: AdWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountArticleActivitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ArticleActivityWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
   export type UserCountOutputTypeCountSettingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SiteSettingWhereInput
   }
@@ -3266,8 +3259,15 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountMediaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: MediaWhereInput
+  export type UserCountOutputTypeCountCreatedUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountModulesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserModulePermissionWhereInput
   }
 
 
@@ -3342,15 +3342,15 @@ export namespace Prisma {
     endDate: Date | null
     status: $Enums.AdStatus | null
     priority: number | null
-    targetPage: string | null
-    ratio: string | null
-    pageName: string | null
-    placementName: string | null
     impressions: number | null
     clicks: number | null
     createdBy: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    pageName: string | null
+    placementName: string | null
+    ratio: string | null
+    targetPage: string | null
   }
 
   export type AdMaxAggregateOutputType = {
@@ -3365,15 +3365,15 @@ export namespace Prisma {
     endDate: Date | null
     status: $Enums.AdStatus | null
     priority: number | null
-    targetPage: string | null
-    ratio: string | null
-    pageName: string | null
-    placementName: string | null
     impressions: number | null
     clicks: number | null
     createdBy: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    pageName: string | null
+    placementName: string | null
+    ratio: string | null
+    targetPage: string | null
   }
 
   export type AdCountAggregateOutputType = {
@@ -3388,15 +3388,15 @@ export namespace Prisma {
     endDate: number
     status: number
     priority: number
-    targetPage: number
-    ratio: number
-    pageName: number
-    placementName: number
     impressions: number
     clicks: number
     createdBy: number
     createdAt: number
     updatedAt: number
+    pageName: number
+    placementName: number
+    ratio: number
+    targetPage: number
     _all: number
   }
 
@@ -3425,15 +3425,15 @@ export namespace Prisma {
     endDate?: true
     status?: true
     priority?: true
-    targetPage?: true
-    ratio?: true
-    pageName?: true
-    placementName?: true
     impressions?: true
     clicks?: true
     createdBy?: true
     createdAt?: true
     updatedAt?: true
+    pageName?: true
+    placementName?: true
+    ratio?: true
+    targetPage?: true
   }
 
   export type AdMaxAggregateInputType = {
@@ -3448,15 +3448,15 @@ export namespace Prisma {
     endDate?: true
     status?: true
     priority?: true
-    targetPage?: true
-    ratio?: true
-    pageName?: true
-    placementName?: true
     impressions?: true
     clicks?: true
     createdBy?: true
     createdAt?: true
     updatedAt?: true
+    pageName?: true
+    placementName?: true
+    ratio?: true
+    targetPage?: true
   }
 
   export type AdCountAggregateInputType = {
@@ -3471,15 +3471,15 @@ export namespace Prisma {
     endDate?: true
     status?: true
     priority?: true
-    targetPage?: true
-    ratio?: true
-    pageName?: true
-    placementName?: true
     impressions?: true
     clicks?: true
     createdBy?: true
     createdAt?: true
     updatedAt?: true
+    pageName?: true
+    placementName?: true
+    ratio?: true
+    targetPage?: true
     _all?: true
   }
 
@@ -3581,15 +3581,15 @@ export namespace Prisma {
     endDate: Date
     status: $Enums.AdStatus
     priority: number
-    targetPage: string | null
-    ratio: string | null
-    pageName: string | null
-    placementName: string | null
     impressions: number
     clicks: number
     createdBy: string
     createdAt: Date
     updatedAt: Date
+    pageName: string | null
+    placementName: string | null
+    ratio: string | null
+    targetPage: string | null
     _count: AdCountAggregateOutputType | null
     _avg: AdAvgAggregateOutputType | null
     _sum: AdSumAggregateOutputType | null
@@ -3623,19 +3623,19 @@ export namespace Prisma {
     endDate?: boolean
     status?: boolean
     priority?: boolean
-    targetPage?: boolean
-    ratio?: boolean
-    pageName?: boolean
-    placementName?: boolean
     impressions?: boolean
     clicks?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    pageName?: boolean
+    placementName?: boolean
+    ratio?: boolean
+    targetPage?: boolean
     creator?: boolean | UserDefaultArgs<ExtArgs>
+    analytics?: boolean | Ad$analyticsArgs<ExtArgs>
     placements?: boolean | Ad$placementsArgs<ExtArgs>
     articles?: boolean | Ad$articlesArgs<ExtArgs>
-    analytics?: boolean | Ad$analyticsArgs<ExtArgs>
     _count?: boolean | AdCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["ad"]>
 
@@ -3651,15 +3651,15 @@ export namespace Prisma {
     endDate?: boolean
     status?: boolean
     priority?: boolean
-    targetPage?: boolean
-    ratio?: boolean
-    pageName?: boolean
-    placementName?: boolean
     impressions?: boolean
     clicks?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    pageName?: boolean
+    placementName?: boolean
+    ratio?: boolean
+    targetPage?: boolean
     creator?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["ad"]>
 
@@ -3675,15 +3675,15 @@ export namespace Prisma {
     endDate?: boolean
     status?: boolean
     priority?: boolean
-    targetPage?: boolean
-    ratio?: boolean
-    pageName?: boolean
-    placementName?: boolean
     impressions?: boolean
     clicks?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    pageName?: boolean
+    placementName?: boolean
+    ratio?: boolean
+    targetPage?: boolean
     creator?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["ad"]>
 
@@ -3699,23 +3699,23 @@ export namespace Prisma {
     endDate?: boolean
     status?: boolean
     priority?: boolean
-    targetPage?: boolean
-    ratio?: boolean
-    pageName?: boolean
-    placementName?: boolean
     impressions?: boolean
     clicks?: boolean
     createdBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    pageName?: boolean
+    placementName?: boolean
+    ratio?: boolean
+    targetPage?: boolean
   }
 
-  export type AdOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "type" | "imageUrl" | "videoUrl" | "redirectUrl" | "startDate" | "endDate" | "status" | "priority" | "targetPage" | "ratio" | "pageName" | "placementName" | "impressions" | "clicks" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["ad"]>
+  export type AdOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "type" | "imageUrl" | "videoUrl" | "redirectUrl" | "startDate" | "endDate" | "status" | "priority" | "impressions" | "clicks" | "createdBy" | "createdAt" | "updatedAt" | "pageName" | "placementName" | "ratio" | "targetPage", ExtArgs["result"]["ad"]>
   export type AdInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     creator?: boolean | UserDefaultArgs<ExtArgs>
+    analytics?: boolean | Ad$analyticsArgs<ExtArgs>
     placements?: boolean | Ad$placementsArgs<ExtArgs>
     articles?: boolean | Ad$articlesArgs<ExtArgs>
-    analytics?: boolean | Ad$analyticsArgs<ExtArgs>
     _count?: boolean | AdCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type AdIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3729,9 +3729,9 @@ export namespace Prisma {
     name: "Ad"
     objects: {
       creator: Prisma.$UserPayload<ExtArgs>
+      analytics: Prisma.$AdAnalyticsPayload<ExtArgs>[]
       placements: Prisma.$AdPlacementPayload<ExtArgs>[]
       articles: Prisma.$ArticleAdPayload<ExtArgs>[]
-      analytics: Prisma.$AdAnalyticsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3745,15 +3745,15 @@ export namespace Prisma {
       endDate: Date
       status: $Enums.AdStatus
       priority: number
-      targetPage: string | null
-      ratio: string | null
-      pageName: string | null
-      placementName: string | null
       impressions: number
       clicks: number
       createdBy: string
       createdAt: Date
       updatedAt: Date
+      pageName: string | null
+      placementName: string | null
+      ratio: string | null
+      targetPage: string | null
     }, ExtArgs["result"]["ad"]>
     composites: {}
   }
@@ -4149,9 +4149,9 @@ export namespace Prisma {
   export interface Prisma__AdClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     creator<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    analytics<T extends Ad$analyticsArgs<ExtArgs> = {}>(args?: Subset<T, Ad$analyticsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AdAnalyticsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     placements<T extends Ad$placementsArgs<ExtArgs> = {}>(args?: Subset<T, Ad$placementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AdPlacementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     articles<T extends Ad$articlesArgs<ExtArgs> = {}>(args?: Subset<T, Ad$articlesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ArticleAdPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    analytics<T extends Ad$analyticsArgs<ExtArgs> = {}>(args?: Subset<T, Ad$analyticsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AdAnalyticsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4192,15 +4192,15 @@ export namespace Prisma {
     readonly endDate: FieldRef<"Ad", 'DateTime'>
     readonly status: FieldRef<"Ad", 'AdStatus'>
     readonly priority: FieldRef<"Ad", 'Int'>
-    readonly targetPage: FieldRef<"Ad", 'String'>
-    readonly ratio: FieldRef<"Ad", 'String'>
-    readonly pageName: FieldRef<"Ad", 'String'>
-    readonly placementName: FieldRef<"Ad", 'String'>
     readonly impressions: FieldRef<"Ad", 'Int'>
     readonly clicks: FieldRef<"Ad", 'Int'>
     readonly createdBy: FieldRef<"Ad", 'String'>
     readonly createdAt: FieldRef<"Ad", 'DateTime'>
     readonly updatedAt: FieldRef<"Ad", 'DateTime'>
+    readonly pageName: FieldRef<"Ad", 'String'>
+    readonly placementName: FieldRef<"Ad", 'String'>
+    readonly ratio: FieldRef<"Ad", 'String'>
+    readonly targetPage: FieldRef<"Ad", 'String'>
   }
     
 
@@ -4602,6 +4602,30 @@ export namespace Prisma {
   }
 
   /**
+   * Ad.analytics
+   */
+  export type Ad$analyticsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdAnalytics
+     */
+    select?: AdAnalyticsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AdAnalytics
+     */
+    omit?: AdAnalyticsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdAnalyticsInclude<ExtArgs> | null
+    where?: AdAnalyticsWhereInput
+    orderBy?: AdAnalyticsOrderByWithRelationInput | AdAnalyticsOrderByWithRelationInput[]
+    cursor?: AdAnalyticsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AdAnalyticsScalarFieldEnum | AdAnalyticsScalarFieldEnum[]
+  }
+
+  /**
    * Ad.placements
    */
   export type Ad$placementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4647,30 +4671,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ArticleAdScalarFieldEnum | ArticleAdScalarFieldEnum[]
-  }
-
-  /**
-   * Ad.analytics
-   */
-  export type Ad$analyticsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the AdAnalytics
-     */
-    select?: AdAnalyticsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the AdAnalytics
-     */
-    omit?: AdAnalyticsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AdAnalyticsInclude<ExtArgs> | null
-    where?: AdAnalyticsWhereInput
-    orderBy?: AdAnalyticsOrderByWithRelationInput | AdAnalyticsOrderByWithRelationInput[]
-    cursor?: AdAnalyticsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: AdAnalyticsScalarFieldEnum | AdAnalyticsScalarFieldEnum[]
   }
 
   /**
@@ -7177,8 +7177,8 @@ export namespace Prisma {
     position?: boolean
     order?: boolean
     createdAt?: boolean
-    article?: boolean | ArticleDefaultArgs<ExtArgs>
     ad?: boolean | AdDefaultArgs<ExtArgs>
+    article?: boolean | ArticleDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["articleAd"]>
 
   export type ArticleAdSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -7188,8 +7188,8 @@ export namespace Prisma {
     position?: boolean
     order?: boolean
     createdAt?: boolean
-    article?: boolean | ArticleDefaultArgs<ExtArgs>
     ad?: boolean | AdDefaultArgs<ExtArgs>
+    article?: boolean | ArticleDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["articleAd"]>
 
   export type ArticleAdSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -7199,8 +7199,8 @@ export namespace Prisma {
     position?: boolean
     order?: boolean
     createdAt?: boolean
-    article?: boolean | ArticleDefaultArgs<ExtArgs>
     ad?: boolean | AdDefaultArgs<ExtArgs>
+    article?: boolean | ArticleDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["articleAd"]>
 
   export type ArticleAdSelectScalar = {
@@ -7214,23 +7214,23 @@ export namespace Prisma {
 
   export type ArticleAdOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "articleId" | "adId" | "position" | "order" | "createdAt", ExtArgs["result"]["articleAd"]>
   export type ArticleAdInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    article?: boolean | ArticleDefaultArgs<ExtArgs>
     ad?: boolean | AdDefaultArgs<ExtArgs>
+    article?: boolean | ArticleDefaultArgs<ExtArgs>
   }
   export type ArticleAdIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    article?: boolean | ArticleDefaultArgs<ExtArgs>
     ad?: boolean | AdDefaultArgs<ExtArgs>
+    article?: boolean | ArticleDefaultArgs<ExtArgs>
   }
   export type ArticleAdIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    article?: boolean | ArticleDefaultArgs<ExtArgs>
     ad?: boolean | AdDefaultArgs<ExtArgs>
+    article?: boolean | ArticleDefaultArgs<ExtArgs>
   }
 
   export type $ArticleAdPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "ArticleAd"
     objects: {
-      article: Prisma.$ArticlePayload<ExtArgs>
       ad: Prisma.$AdPayload<ExtArgs>
+      article: Prisma.$ArticlePayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -7633,8 +7633,8 @@ export namespace Prisma {
    */
   export interface Prisma__ArticleAdClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    article<T extends ArticleDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ArticleDefaultArgs<ExtArgs>>): Prisma__ArticleClient<$Result.GetResult<Prisma.$ArticlePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     ad<T extends AdDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AdDefaultArgs<ExtArgs>>): Prisma__AdClient<$Result.GetResult<Prisma.$AdPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    article<T extends ArticleDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ArticleDefaultArgs<ExtArgs>>): Prisma__ArticleClient<$Result.GetResult<Prisma.$ArticlePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9232,15 +9232,9 @@ export namespace Prisma {
     content: string | null
     excerpt: string | null
     featuredImage: string | null
-    featuredImageTitle: string | null
     status: $Enums.ArticleStatus | null
     isFeatured: boolean | null
     isBreakingNews: boolean | null
-    isTopHeadline: boolean | null
-    isTrending: boolean | null
-    isUaeNews: boolean | null
-    isSponsored: boolean | null
-    isExclusiveNews: boolean | null
     viewCount: number | null
     scheduledAt: Date | null
     publishedAt: Date | null
@@ -9252,6 +9246,12 @@ export namespace Prisma {
     updatedAt: Date | null
     categoryId: string | null
     authorId: string | null
+    featuredImageTitle: string | null
+    isSponsored: boolean | null
+    isTopHeadline: boolean | null
+    isTrending: boolean | null
+    isUaeNews: boolean | null
+    isExclusiveNews: boolean | null
     authorName: string | null
   }
 
@@ -9262,15 +9262,9 @@ export namespace Prisma {
     content: string | null
     excerpt: string | null
     featuredImage: string | null
-    featuredImageTitle: string | null
     status: $Enums.ArticleStatus | null
     isFeatured: boolean | null
     isBreakingNews: boolean | null
-    isTopHeadline: boolean | null
-    isTrending: boolean | null
-    isUaeNews: boolean | null
-    isSponsored: boolean | null
-    isExclusiveNews: boolean | null
     viewCount: number | null
     scheduledAt: Date | null
     publishedAt: Date | null
@@ -9282,6 +9276,12 @@ export namespace Prisma {
     updatedAt: Date | null
     categoryId: string | null
     authorId: string | null
+    featuredImageTitle: string | null
+    isSponsored: boolean | null
+    isTopHeadline: boolean | null
+    isTrending: boolean | null
+    isUaeNews: boolean | null
+    isExclusiveNews: boolean | null
     authorName: string | null
   }
 
@@ -9292,15 +9292,9 @@ export namespace Prisma {
     content: number
     excerpt: number
     featuredImage: number
-    featuredImageTitle: number
     status: number
     isFeatured: number
     isBreakingNews: number
-    isTopHeadline: number
-    isTrending: number
-    isUaeNews: number
-    isSponsored: number
-    isExclusiveNews: number
     viewCount: number
     scheduledAt: number
     publishedAt: number
@@ -9312,6 +9306,12 @@ export namespace Prisma {
     updatedAt: number
     categoryId: number
     authorId: number
+    featuredImageTitle: number
+    isSponsored: number
+    isTopHeadline: number
+    isTrending: number
+    isUaeNews: number
+    isExclusiveNews: number
     authorName: number
     _all: number
   }
@@ -9334,15 +9334,9 @@ export namespace Prisma {
     content?: true
     excerpt?: true
     featuredImage?: true
-    featuredImageTitle?: true
     status?: true
     isFeatured?: true
     isBreakingNews?: true
-    isTopHeadline?: true
-    isTrending?: true
-    isUaeNews?: true
-    isSponsored?: true
-    isExclusiveNews?: true
     viewCount?: true
     scheduledAt?: true
     publishedAt?: true
@@ -9354,6 +9348,12 @@ export namespace Prisma {
     updatedAt?: true
     categoryId?: true
     authorId?: true
+    featuredImageTitle?: true
+    isSponsored?: true
+    isTopHeadline?: true
+    isTrending?: true
+    isUaeNews?: true
+    isExclusiveNews?: true
     authorName?: true
   }
 
@@ -9364,15 +9364,9 @@ export namespace Prisma {
     content?: true
     excerpt?: true
     featuredImage?: true
-    featuredImageTitle?: true
     status?: true
     isFeatured?: true
     isBreakingNews?: true
-    isTopHeadline?: true
-    isTrending?: true
-    isUaeNews?: true
-    isSponsored?: true
-    isExclusiveNews?: true
     viewCount?: true
     scheduledAt?: true
     publishedAt?: true
@@ -9384,6 +9378,12 @@ export namespace Prisma {
     updatedAt?: true
     categoryId?: true
     authorId?: true
+    featuredImageTitle?: true
+    isSponsored?: true
+    isTopHeadline?: true
+    isTrending?: true
+    isUaeNews?: true
+    isExclusiveNews?: true
     authorName?: true
   }
 
@@ -9394,15 +9394,9 @@ export namespace Prisma {
     content?: true
     excerpt?: true
     featuredImage?: true
-    featuredImageTitle?: true
     status?: true
     isFeatured?: true
     isBreakingNews?: true
-    isTopHeadline?: true
-    isTrending?: true
-    isUaeNews?: true
-    isSponsored?: true
-    isExclusiveNews?: true
     viewCount?: true
     scheduledAt?: true
     publishedAt?: true
@@ -9414,6 +9408,12 @@ export namespace Prisma {
     updatedAt?: true
     categoryId?: true
     authorId?: true
+    featuredImageTitle?: true
+    isSponsored?: true
+    isTopHeadline?: true
+    isTrending?: true
+    isUaeNews?: true
+    isExclusiveNews?: true
     authorName?: true
     _all?: true
   }
@@ -9511,15 +9511,9 @@ export namespace Prisma {
     content: string
     excerpt: string | null
     featuredImage: string | null
-    featuredImageTitle: string | null
     status: $Enums.ArticleStatus
     isFeatured: boolean
     isBreakingNews: boolean
-    isTopHeadline: boolean
-    isTrending: boolean
-    isUaeNews: boolean
-    isSponsored: boolean
-    isExclusiveNews: boolean
     viewCount: number
     scheduledAt: Date | null
     publishedAt: Date | null
@@ -9531,6 +9525,12 @@ export namespace Prisma {
     updatedAt: Date
     categoryId: string | null
     authorId: string
+    featuredImageTitle: string | null
+    isSponsored: boolean
+    isTopHeadline: boolean
+    isTrending: boolean
+    isUaeNews: boolean
+    isExclusiveNews: boolean
     authorName: string | null
     _count: ArticleCountAggregateOutputType | null
     _avg: ArticleAvgAggregateOutputType | null
@@ -9560,15 +9560,9 @@ export namespace Prisma {
     content?: boolean
     excerpt?: boolean
     featuredImage?: boolean
-    featuredImageTitle?: boolean
     status?: boolean
     isFeatured?: boolean
     isBreakingNews?: boolean
-    isTopHeadline?: boolean
-    isTrending?: boolean
-    isUaeNews?: boolean
-    isSponsored?: boolean
-    isExclusiveNews?: boolean
     viewCount?: boolean
     scheduledAt?: boolean
     publishedAt?: boolean
@@ -9580,13 +9574,19 @@ export namespace Prisma {
     updatedAt?: boolean
     categoryId?: boolean
     authorId?: boolean
+    featuredImageTitle?: boolean
+    isSponsored?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isExclusiveNews?: boolean
     authorName?: boolean
-    category?: boolean | Article$categoryArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
+    category?: boolean | Article$categoryArgs<ExtArgs>
+    activities?: boolean | Article$activitiesArgs<ExtArgs>
+    ads?: boolean | Article$adsArgs<ExtArgs>
     tags?: boolean | Article$tagsArgs<ExtArgs>
     comments?: boolean | Article$commentsArgs<ExtArgs>
-    ads?: boolean | Article$adsArgs<ExtArgs>
-    activities?: boolean | Article$activitiesArgs<ExtArgs>
     _count?: boolean | ArticleCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["article"]>
 
@@ -9597,15 +9597,9 @@ export namespace Prisma {
     content?: boolean
     excerpt?: boolean
     featuredImage?: boolean
-    featuredImageTitle?: boolean
     status?: boolean
     isFeatured?: boolean
     isBreakingNews?: boolean
-    isTopHeadline?: boolean
-    isTrending?: boolean
-    isUaeNews?: boolean
-    isSponsored?: boolean
-    isExclusiveNews?: boolean
     viewCount?: boolean
     scheduledAt?: boolean
     publishedAt?: boolean
@@ -9617,9 +9611,15 @@ export namespace Prisma {
     updatedAt?: boolean
     categoryId?: boolean
     authorId?: boolean
+    featuredImageTitle?: boolean
+    isSponsored?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isExclusiveNews?: boolean
     authorName?: boolean
-    category?: boolean | Article$categoryArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
+    category?: boolean | Article$categoryArgs<ExtArgs>
   }, ExtArgs["result"]["article"]>
 
   export type ArticleSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -9629,15 +9629,9 @@ export namespace Prisma {
     content?: boolean
     excerpt?: boolean
     featuredImage?: boolean
-    featuredImageTitle?: boolean
     status?: boolean
     isFeatured?: boolean
     isBreakingNews?: boolean
-    isTopHeadline?: boolean
-    isTrending?: boolean
-    isUaeNews?: boolean
-    isSponsored?: boolean
-    isExclusiveNews?: boolean
     viewCount?: boolean
     scheduledAt?: boolean
     publishedAt?: boolean
@@ -9649,9 +9643,15 @@ export namespace Prisma {
     updatedAt?: boolean
     categoryId?: boolean
     authorId?: boolean
+    featuredImageTitle?: boolean
+    isSponsored?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isExclusiveNews?: boolean
     authorName?: boolean
-    category?: boolean | Article$categoryArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
+    category?: boolean | Article$categoryArgs<ExtArgs>
   }, ExtArgs["result"]["article"]>
 
   export type ArticleSelectScalar = {
@@ -9661,15 +9661,9 @@ export namespace Prisma {
     content?: boolean
     excerpt?: boolean
     featuredImage?: boolean
-    featuredImageTitle?: boolean
     status?: boolean
     isFeatured?: boolean
     isBreakingNews?: boolean
-    isTopHeadline?: boolean
-    isTrending?: boolean
-    isUaeNews?: boolean
-    isSponsored?: boolean
-    isExclusiveNews?: boolean
     viewCount?: boolean
     scheduledAt?: boolean
     publishedAt?: boolean
@@ -9681,37 +9675,43 @@ export namespace Prisma {
     updatedAt?: boolean
     categoryId?: boolean
     authorId?: boolean
+    featuredImageTitle?: boolean
+    isSponsored?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isExclusiveNews?: boolean
     authorName?: boolean
   }
 
-  export type ArticleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "content" | "excerpt" | "featuredImage" | "featuredImageTitle" | "status" | "isFeatured" | "isBreakingNews" | "isTopHeadline" | "isTrending" | "isUaeNews" | "isSponsored" | "isExclusiveNews" | "viewCount" | "scheduledAt" | "publishedAt" | "metaTitle" | "metaDescription" | "metaKeywords" | "readingTime" | "createdAt" | "updatedAt" | "categoryId" | "authorId" | "authorName", ExtArgs["result"]["article"]>
+  export type ArticleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "content" | "excerpt" | "featuredImage" | "status" | "isFeatured" | "isBreakingNews" | "viewCount" | "scheduledAt" | "publishedAt" | "metaTitle" | "metaDescription" | "metaKeywords" | "readingTime" | "createdAt" | "updatedAt" | "categoryId" | "authorId" | "featuredImageTitle" | "isSponsored" | "isTopHeadline" | "isTrending" | "isUaeNews" | "isExclusiveNews" | "authorName", ExtArgs["result"]["article"]>
   export type ArticleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    category?: boolean | Article$categoryArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
+    category?: boolean | Article$categoryArgs<ExtArgs>
+    activities?: boolean | Article$activitiesArgs<ExtArgs>
+    ads?: boolean | Article$adsArgs<ExtArgs>
     tags?: boolean | Article$tagsArgs<ExtArgs>
     comments?: boolean | Article$commentsArgs<ExtArgs>
-    ads?: boolean | Article$adsArgs<ExtArgs>
-    activities?: boolean | Article$activitiesArgs<ExtArgs>
     _count?: boolean | ArticleCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ArticleIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    category?: boolean | Article$categoryArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
+    category?: boolean | Article$categoryArgs<ExtArgs>
   }
   export type ArticleIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    category?: boolean | Article$categoryArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
+    category?: boolean | Article$categoryArgs<ExtArgs>
   }
 
   export type $ArticlePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Article"
     objects: {
-      category: Prisma.$CategoryPayload<ExtArgs> | null
       author: Prisma.$UserPayload<ExtArgs>
+      category: Prisma.$CategoryPayload<ExtArgs> | null
+      activities: Prisma.$ArticleActivityPayload<ExtArgs>[]
+      ads: Prisma.$ArticleAdPayload<ExtArgs>[]
       tags: Prisma.$ArticleTagPayload<ExtArgs>[]
       comments: Prisma.$CommentPayload<ExtArgs>[]
-      ads: Prisma.$ArticleAdPayload<ExtArgs>[]
-      activities: Prisma.$ArticleActivityPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -9720,15 +9720,9 @@ export namespace Prisma {
       content: string
       excerpt: string | null
       featuredImage: string | null
-      featuredImageTitle: string | null
       status: $Enums.ArticleStatus
       isFeatured: boolean
       isBreakingNews: boolean
-      isTopHeadline: boolean
-      isTrending: boolean
-      isUaeNews: boolean
-      isSponsored: boolean
-      isExclusiveNews: boolean
       viewCount: number
       scheduledAt: Date | null
       publishedAt: Date | null
@@ -9740,6 +9734,12 @@ export namespace Prisma {
       updatedAt: Date
       categoryId: string | null
       authorId: string
+      featuredImageTitle: string | null
+      isSponsored: boolean
+      isTopHeadline: boolean
+      isTrending: boolean
+      isUaeNews: boolean
+      isExclusiveNews: boolean
       authorName: string | null
     }, ExtArgs["result"]["article"]>
     composites: {}
@@ -10135,12 +10135,12 @@ export namespace Prisma {
    */
   export interface Prisma__ArticleClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    category<T extends Article$categoryArgs<ExtArgs> = {}>(args?: Subset<T, Article$categoryArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     author<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    category<T extends Article$categoryArgs<ExtArgs> = {}>(args?: Subset<T, Article$categoryArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    activities<T extends Article$activitiesArgs<ExtArgs> = {}>(args?: Subset<T, Article$activitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ArticleActivityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    ads<T extends Article$adsArgs<ExtArgs> = {}>(args?: Subset<T, Article$adsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ArticleAdPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tags<T extends Article$tagsArgs<ExtArgs> = {}>(args?: Subset<T, Article$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ArticleTagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     comments<T extends Article$commentsArgs<ExtArgs> = {}>(args?: Subset<T, Article$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    ads<T extends Article$adsArgs<ExtArgs> = {}>(args?: Subset<T, Article$adsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ArticleAdPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    activities<T extends Article$activitiesArgs<ExtArgs> = {}>(args?: Subset<T, Article$activitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ArticleActivityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10176,15 +10176,9 @@ export namespace Prisma {
     readonly content: FieldRef<"Article", 'String'>
     readonly excerpt: FieldRef<"Article", 'String'>
     readonly featuredImage: FieldRef<"Article", 'String'>
-    readonly featuredImageTitle: FieldRef<"Article", 'String'>
     readonly status: FieldRef<"Article", 'ArticleStatus'>
     readonly isFeatured: FieldRef<"Article", 'Boolean'>
     readonly isBreakingNews: FieldRef<"Article", 'Boolean'>
-    readonly isTopHeadline: FieldRef<"Article", 'Boolean'>
-    readonly isTrending: FieldRef<"Article", 'Boolean'>
-    readonly isUaeNews: FieldRef<"Article", 'Boolean'>
-    readonly isSponsored: FieldRef<"Article", 'Boolean'>
-    readonly isExclusiveNews: FieldRef<"Article", 'Boolean'>
     readonly viewCount: FieldRef<"Article", 'Int'>
     readonly scheduledAt: FieldRef<"Article", 'DateTime'>
     readonly publishedAt: FieldRef<"Article", 'DateTime'>
@@ -10196,6 +10190,12 @@ export namespace Prisma {
     readonly updatedAt: FieldRef<"Article", 'DateTime'>
     readonly categoryId: FieldRef<"Article", 'String'>
     readonly authorId: FieldRef<"Article", 'String'>
+    readonly featuredImageTitle: FieldRef<"Article", 'String'>
+    readonly isSponsored: FieldRef<"Article", 'Boolean'>
+    readonly isTopHeadline: FieldRef<"Article", 'Boolean'>
+    readonly isTrending: FieldRef<"Article", 'Boolean'>
+    readonly isUaeNews: FieldRef<"Article", 'Boolean'>
+    readonly isExclusiveNews: FieldRef<"Article", 'Boolean'>
     readonly authorName: FieldRef<"Article", 'String'>
   }
     
@@ -10617,6 +10617,54 @@ export namespace Prisma {
   }
 
   /**
+   * Article.activities
+   */
+  export type Article$activitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ArticleActivity
+     */
+    select?: ArticleActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ArticleActivity
+     */
+    omit?: ArticleActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ArticleActivityInclude<ExtArgs> | null
+    where?: ArticleActivityWhereInput
+    orderBy?: ArticleActivityOrderByWithRelationInput | ArticleActivityOrderByWithRelationInput[]
+    cursor?: ArticleActivityWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ArticleActivityScalarFieldEnum | ArticleActivityScalarFieldEnum[]
+  }
+
+  /**
+   * Article.ads
+   */
+  export type Article$adsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ArticleAd
+     */
+    select?: ArticleAdSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ArticleAd
+     */
+    omit?: ArticleAdOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ArticleAdInclude<ExtArgs> | null
+    where?: ArticleAdWhereInput
+    orderBy?: ArticleAdOrderByWithRelationInput | ArticleAdOrderByWithRelationInput[]
+    cursor?: ArticleAdWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ArticleAdScalarFieldEnum | ArticleAdScalarFieldEnum[]
+  }
+
+  /**
    * Article.tags
    */
   export type Article$tagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10662,54 +10710,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CommentScalarFieldEnum | CommentScalarFieldEnum[]
-  }
-
-  /**
-   * Article.ads
-   */
-  export type Article$adsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ArticleAd
-     */
-    select?: ArticleAdSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ArticleAd
-     */
-    omit?: ArticleAdOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ArticleAdInclude<ExtArgs> | null
-    where?: ArticleAdWhereInput
-    orderBy?: ArticleAdOrderByWithRelationInput | ArticleAdOrderByWithRelationInput[]
-    cursor?: ArticleAdWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ArticleAdScalarFieldEnum | ArticleAdScalarFieldEnum[]
-  }
-
-  /**
-   * Article.activities
-   */
-  export type Article$activitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ArticleActivity
-     */
-    select?: ArticleActivitySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ArticleActivity
-     */
-    omit?: ArticleActivityOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ArticleActivityInclude<ExtArgs> | null
-    where?: ArticleActivityWhereInput
-    orderBy?: ArticleActivityOrderByWithRelationInput | ArticleActivityOrderByWithRelationInput[]
-    cursor?: ArticleActivityWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ArticleActivityScalarFieldEnum | ArticleActivityScalarFieldEnum[]
   }
 
   /**
@@ -13032,8 +13032,8 @@ export namespace Prisma {
     userId?: boolean
     articleId?: boolean
     createdAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     article?: boolean | ArticleActivity$articleArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["articleActivity"]>
 
   export type ArticleActivitySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -13043,8 +13043,8 @@ export namespace Prisma {
     userId?: boolean
     articleId?: boolean
     createdAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     article?: boolean | ArticleActivity$articleArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["articleActivity"]>
 
   export type ArticleActivitySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -13054,8 +13054,8 @@ export namespace Prisma {
     userId?: boolean
     articleId?: boolean
     createdAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     article?: boolean | ArticleActivity$articleArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["articleActivity"]>
 
   export type ArticleActivitySelectScalar = {
@@ -13069,23 +13069,23 @@ export namespace Prisma {
 
   export type ArticleActivityOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "action" | "details" | "userId" | "articleId" | "createdAt", ExtArgs["result"]["articleActivity"]>
   export type ArticleActivityInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     article?: boolean | ArticleActivity$articleArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type ArticleActivityIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     article?: boolean | ArticleActivity$articleArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type ArticleActivityIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     article?: boolean | ArticleActivity$articleArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $ArticleActivityPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "ArticleActivity"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>
       article: Prisma.$ArticlePayload<ExtArgs> | null
+      user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -13488,8 +13488,8 @@ export namespace Prisma {
    */
   export interface Prisma__ArticleActivityClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     article<T extends ArticleActivity$articleArgs<ExtArgs> = {}>(args?: Subset<T, ArticleActivity$articleArgs<ExtArgs>>): Prisma__ArticleClient<$Result.GetResult<Prisma.$ArticlePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -15389,9 +15389,9 @@ export namespace Prisma {
     metaDescription?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    articles?: boolean | Category$articlesArgs<ExtArgs>
     parent?: boolean | Category$parentArgs<ExtArgs>
     children?: boolean | Category$childrenArgs<ExtArgs>
-    articles?: boolean | Category$articlesArgs<ExtArgs>
     pageSeo?: boolean | Category$pageSeoArgs<ExtArgs>
     _count?: boolean | CategoryCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["category"]>
@@ -15445,9 +15445,9 @@ export namespace Prisma {
 
   export type CategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "description" | "parentId" | "image" | "order" | "isActive" | "metaTitle" | "metaDescription" | "createdAt" | "updatedAt", ExtArgs["result"]["category"]>
   export type CategoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    articles?: boolean | Category$articlesArgs<ExtArgs>
     parent?: boolean | Category$parentArgs<ExtArgs>
     children?: boolean | Category$childrenArgs<ExtArgs>
-    articles?: boolean | Category$articlesArgs<ExtArgs>
     pageSeo?: boolean | Category$pageSeoArgs<ExtArgs>
     _count?: boolean | CategoryCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -15461,9 +15461,9 @@ export namespace Prisma {
   export type $CategoryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Category"
     objects: {
+      articles: Prisma.$ArticlePayload<ExtArgs>[]
       parent: Prisma.$CategoryPayload<ExtArgs> | null
       children: Prisma.$CategoryPayload<ExtArgs>[]
-      articles: Prisma.$ArticlePayload<ExtArgs>[]
       pageSeo: Prisma.$PageSeoPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -15873,9 +15873,9 @@ export namespace Prisma {
    */
   export interface Prisma__CategoryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    articles<T extends Category$articlesArgs<ExtArgs> = {}>(args?: Subset<T, Category$articlesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ArticlePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     parent<T extends Category$parentArgs<ExtArgs> = {}>(args?: Subset<T, Category$parentArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     children<T extends Category$childrenArgs<ExtArgs> = {}>(args?: Subset<T, Category$childrenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    articles<T extends Category$articlesArgs<ExtArgs> = {}>(args?: Subset<T, Category$articlesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ArticlePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     pageSeo<T extends Category$pageSeoArgs<ExtArgs> = {}>(args?: Subset<T, Category$pageSeoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PageSeoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -16319,6 +16319,30 @@ export namespace Prisma {
   }
 
   /**
+   * Category.articles
+   */
+  export type Category$articlesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Article
+     */
+    select?: ArticleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Article
+     */
+    omit?: ArticleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ArticleInclude<ExtArgs> | null
+    where?: ArticleWhereInput
+    orderBy?: ArticleOrderByWithRelationInput | ArticleOrderByWithRelationInput[]
+    cursor?: ArticleWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ArticleScalarFieldEnum | ArticleScalarFieldEnum[]
+  }
+
+  /**
    * Category.parent
    */
   export type Category$parentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -16359,30 +16383,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CategoryScalarFieldEnum | CategoryScalarFieldEnum[]
-  }
-
-  /**
-   * Category.articles
-   */
-  export type Category$articlesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Article
-     */
-    select?: ArticleSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Article
-     */
-    omit?: ArticleOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ArticleInclude<ExtArgs> | null
-    where?: ArticleWhereInput
-    orderBy?: ArticleOrderByWithRelationInput | ArticleOrderByWithRelationInput[]
-    cursor?: ArticleWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ArticleScalarFieldEnum | ArticleScalarFieldEnum[]
   }
 
   /**
@@ -25771,15 +25771,15 @@ export namespace Prisma {
     lastLoginAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    ads?: boolean | User$adsArgs<ExtArgs>
+    articles?: boolean | User$articlesArgs<ExtArgs>
+    articleActivities?: boolean | User$articleActivitiesArgs<ExtArgs>
+    media?: boolean | User$mediaArgs<ExtArgs>
+    notifications?: boolean | User$notificationsArgs<ExtArgs>
+    settings?: boolean | User$settingsArgs<ExtArgs>
     creator?: boolean | User$creatorArgs<ExtArgs>
     createdUsers?: boolean | User$createdUsersArgs<ExtArgs>
-    articles?: boolean | User$articlesArgs<ExtArgs>
     modules?: boolean | User$modulesArgs<ExtArgs>
-    notifications?: boolean | User$notificationsArgs<ExtArgs>
-    ads?: boolean | User$adsArgs<ExtArgs>
-    articleActivities?: boolean | User$articleActivitiesArgs<ExtArgs>
-    settings?: boolean | User$settingsArgs<ExtArgs>
-    media?: boolean | User$mediaArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -25838,15 +25838,15 @@ export namespace Prisma {
 
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "name" | "role" | "status" | "avatar" | "bio" | "canCreateUsers" | "createdBy" | "refreshToken" | "lastLoginAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    ads?: boolean | User$adsArgs<ExtArgs>
+    articles?: boolean | User$articlesArgs<ExtArgs>
+    articleActivities?: boolean | User$articleActivitiesArgs<ExtArgs>
+    media?: boolean | User$mediaArgs<ExtArgs>
+    notifications?: boolean | User$notificationsArgs<ExtArgs>
+    settings?: boolean | User$settingsArgs<ExtArgs>
     creator?: boolean | User$creatorArgs<ExtArgs>
     createdUsers?: boolean | User$createdUsersArgs<ExtArgs>
-    articles?: boolean | User$articlesArgs<ExtArgs>
     modules?: boolean | User$modulesArgs<ExtArgs>
-    notifications?: boolean | User$notificationsArgs<ExtArgs>
-    ads?: boolean | User$adsArgs<ExtArgs>
-    articleActivities?: boolean | User$articleActivitiesArgs<ExtArgs>
-    settings?: boolean | User$settingsArgs<ExtArgs>
-    media?: boolean | User$mediaArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -25859,15 +25859,15 @@ export namespace Prisma {
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
+      ads: Prisma.$AdPayload<ExtArgs>[]
+      articles: Prisma.$ArticlePayload<ExtArgs>[]
+      articleActivities: Prisma.$ArticleActivityPayload<ExtArgs>[]
+      media: Prisma.$MediaPayload<ExtArgs>[]
+      notifications: Prisma.$NotificationPayload<ExtArgs>[]
+      settings: Prisma.$SiteSettingPayload<ExtArgs>[]
       creator: Prisma.$UserPayload<ExtArgs> | null
       createdUsers: Prisma.$UserPayload<ExtArgs>[]
-      articles: Prisma.$ArticlePayload<ExtArgs>[]
       modules: Prisma.$UserModulePermissionPayload<ExtArgs>[]
-      notifications: Prisma.$NotificationPayload<ExtArgs>[]
-      ads: Prisma.$AdPayload<ExtArgs>[]
-      articleActivities: Prisma.$ArticleActivityPayload<ExtArgs>[]
-      settings: Prisma.$SiteSettingPayload<ExtArgs>[]
-      media: Prisma.$MediaPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -26278,15 +26278,15 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    ads<T extends User$adsArgs<ExtArgs> = {}>(args?: Subset<T, User$adsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AdPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    articles<T extends User$articlesArgs<ExtArgs> = {}>(args?: Subset<T, User$articlesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ArticlePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    articleActivities<T extends User$articleActivitiesArgs<ExtArgs> = {}>(args?: Subset<T, User$articleActivitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ArticleActivityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    media<T extends User$mediaArgs<ExtArgs> = {}>(args?: Subset<T, User$mediaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MediaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    notifications<T extends User$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    settings<T extends User$settingsArgs<ExtArgs> = {}>(args?: Subset<T, User$settingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SiteSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     creator<T extends User$creatorArgs<ExtArgs> = {}>(args?: Subset<T, User$creatorArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     createdUsers<T extends User$createdUsersArgs<ExtArgs> = {}>(args?: Subset<T, User$createdUsersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    articles<T extends User$articlesArgs<ExtArgs> = {}>(args?: Subset<T, User$articlesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ArticlePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     modules<T extends User$modulesArgs<ExtArgs> = {}>(args?: Subset<T, User$modulesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserModulePermissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    notifications<T extends User$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    ads<T extends User$adsArgs<ExtArgs> = {}>(args?: Subset<T, User$adsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AdPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    articleActivities<T extends User$articleActivitiesArgs<ExtArgs> = {}>(args?: Subset<T, User$articleActivitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ArticleActivityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    settings<T extends User$settingsArgs<ExtArgs> = {}>(args?: Subset<T, User$settingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SiteSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    media<T extends User$mediaArgs<ExtArgs> = {}>(args?: Subset<T, User$mediaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MediaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -26731,6 +26731,150 @@ export namespace Prisma {
   }
 
   /**
+   * User.ads
+   */
+  export type User$adsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Ad
+     */
+    select?: AdSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Ad
+     */
+    omit?: AdOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdInclude<ExtArgs> | null
+    where?: AdWhereInput
+    orderBy?: AdOrderByWithRelationInput | AdOrderByWithRelationInput[]
+    cursor?: AdWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AdScalarFieldEnum | AdScalarFieldEnum[]
+  }
+
+  /**
+   * User.articles
+   */
+  export type User$articlesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Article
+     */
+    select?: ArticleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Article
+     */
+    omit?: ArticleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ArticleInclude<ExtArgs> | null
+    where?: ArticleWhereInput
+    orderBy?: ArticleOrderByWithRelationInput | ArticleOrderByWithRelationInput[]
+    cursor?: ArticleWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ArticleScalarFieldEnum | ArticleScalarFieldEnum[]
+  }
+
+  /**
+   * User.articleActivities
+   */
+  export type User$articleActivitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ArticleActivity
+     */
+    select?: ArticleActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ArticleActivity
+     */
+    omit?: ArticleActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ArticleActivityInclude<ExtArgs> | null
+    where?: ArticleActivityWhereInput
+    orderBy?: ArticleActivityOrderByWithRelationInput | ArticleActivityOrderByWithRelationInput[]
+    cursor?: ArticleActivityWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ArticleActivityScalarFieldEnum | ArticleActivityScalarFieldEnum[]
+  }
+
+  /**
+   * User.media
+   */
+  export type User$mediaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Media
+     */
+    select?: MediaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Media
+     */
+    omit?: MediaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MediaInclude<ExtArgs> | null
+    where?: MediaWhereInput
+    orderBy?: MediaOrderByWithRelationInput | MediaOrderByWithRelationInput[]
+    cursor?: MediaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MediaScalarFieldEnum | MediaScalarFieldEnum[]
+  }
+
+  /**
+   * User.notifications
+   */
+  export type User$notificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    where?: NotificationWhereInput
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    cursor?: NotificationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * User.settings
+   */
+  export type User$settingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SiteSetting
+     */
+    select?: SiteSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SiteSetting
+     */
+    omit?: SiteSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SiteSettingInclude<ExtArgs> | null
+    where?: SiteSettingWhereInput
+    orderBy?: SiteSettingOrderByWithRelationInput | SiteSettingOrderByWithRelationInput[]
+    cursor?: SiteSettingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SiteSettingScalarFieldEnum | SiteSettingScalarFieldEnum[]
+  }
+
+  /**
    * User.creator
    */
   export type User$creatorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -26774,30 +26918,6 @@ export namespace Prisma {
   }
 
   /**
-   * User.articles
-   */
-  export type User$articlesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Article
-     */
-    select?: ArticleSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Article
-     */
-    omit?: ArticleOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ArticleInclude<ExtArgs> | null
-    where?: ArticleWhereInput
-    orderBy?: ArticleOrderByWithRelationInput | ArticleOrderByWithRelationInput[]
-    cursor?: ArticleWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ArticleScalarFieldEnum | ArticleScalarFieldEnum[]
-  }
-
-  /**
    * User.modules
    */
   export type User$modulesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -26819,126 +26939,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: UserModulePermissionScalarFieldEnum | UserModulePermissionScalarFieldEnum[]
-  }
-
-  /**
-   * User.notifications
-   */
-  export type User$notificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Notification
-     */
-    select?: NotificationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Notification
-     */
-    omit?: NotificationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: NotificationInclude<ExtArgs> | null
-    where?: NotificationWhereInput
-    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
-    cursor?: NotificationWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
-  }
-
-  /**
-   * User.ads
-   */
-  export type User$adsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Ad
-     */
-    select?: AdSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Ad
-     */
-    omit?: AdOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AdInclude<ExtArgs> | null
-    where?: AdWhereInput
-    orderBy?: AdOrderByWithRelationInput | AdOrderByWithRelationInput[]
-    cursor?: AdWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: AdScalarFieldEnum | AdScalarFieldEnum[]
-  }
-
-  /**
-   * User.articleActivities
-   */
-  export type User$articleActivitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ArticleActivity
-     */
-    select?: ArticleActivitySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ArticleActivity
-     */
-    omit?: ArticleActivityOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ArticleActivityInclude<ExtArgs> | null
-    where?: ArticleActivityWhereInput
-    orderBy?: ArticleActivityOrderByWithRelationInput | ArticleActivityOrderByWithRelationInput[]
-    cursor?: ArticleActivityWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ArticleActivityScalarFieldEnum | ArticleActivityScalarFieldEnum[]
-  }
-
-  /**
-   * User.settings
-   */
-  export type User$settingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SiteSetting
-     */
-    select?: SiteSettingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the SiteSetting
-     */
-    omit?: SiteSettingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SiteSettingInclude<ExtArgs> | null
-    where?: SiteSettingWhereInput
-    orderBy?: SiteSettingOrderByWithRelationInput | SiteSettingOrderByWithRelationInput[]
-    cursor?: SiteSettingWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: SiteSettingScalarFieldEnum | SiteSettingScalarFieldEnum[]
-  }
-
-  /**
-   * User.media
-   */
-  export type User$mediaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Media
-     */
-    select?: MediaSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Media
-     */
-    omit?: MediaOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: MediaInclude<ExtArgs> | null
-    where?: MediaWhereInput
-    orderBy?: MediaOrderByWithRelationInput | MediaOrderByWithRelationInput[]
-    cursor?: MediaWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: MediaScalarFieldEnum | MediaScalarFieldEnum[]
   }
 
   /**
@@ -28317,8 +28317,8 @@ export namespace Prisma {
     canDelete?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     module?: boolean | ModuleDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["userModulePermission"]>
 
   export type UserModulePermissionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -28331,8 +28331,8 @@ export namespace Prisma {
     canDelete?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     module?: boolean | ModuleDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["userModulePermission"]>
 
   export type UserModulePermissionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -28345,8 +28345,8 @@ export namespace Prisma {
     canDelete?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     module?: boolean | ModuleDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["userModulePermission"]>
 
   export type UserModulePermissionSelectScalar = {
@@ -28363,23 +28363,23 @@ export namespace Prisma {
 
   export type UserModulePermissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "moduleId" | "canView" | "canCreate" | "canEdit" | "canDelete" | "createdAt" | "updatedAt", ExtArgs["result"]["userModulePermission"]>
   export type UserModulePermissionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     module?: boolean | ModuleDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type UserModulePermissionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     module?: boolean | ModuleDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type UserModulePermissionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     module?: boolean | ModuleDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $UserModulePermissionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "UserModulePermission"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>
       module: Prisma.$ModulePayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -28785,8 +28785,8 @@ export namespace Prisma {
    */
   export interface Prisma__UserModulePermissionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     module<T extends ModuleDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ModuleDefaultArgs<ExtArgs>>): Prisma__ModuleClient<$Result.GetResult<Prisma.$ModulePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -29270,15 +29270,15 @@ export namespace Prisma {
     endDate: 'endDate',
     status: 'status',
     priority: 'priority',
-    targetPage: 'targetPage',
-    ratio: 'ratio',
-    pageName: 'pageName',
-    placementName: 'placementName',
     impressions: 'impressions',
     clicks: 'clicks',
     createdBy: 'createdBy',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    pageName: 'pageName',
+    placementName: 'placementName',
+    ratio: 'ratio',
+    targetPage: 'targetPage'
   };
 
   export type AdScalarFieldEnum = (typeof AdScalarFieldEnum)[keyof typeof AdScalarFieldEnum]
@@ -29342,15 +29342,9 @@ export namespace Prisma {
     content: 'content',
     excerpt: 'excerpt',
     featuredImage: 'featuredImage',
-    featuredImageTitle: 'featuredImageTitle',
     status: 'status',
     isFeatured: 'isFeatured',
     isBreakingNews: 'isBreakingNews',
-    isTopHeadline: 'isTopHeadline',
-    isTrending: 'isTrending',
-    isUaeNews: 'isUaeNews',
-    isSponsored: 'isSponsored',
-    isExclusiveNews: 'isExclusiveNews',
     viewCount: 'viewCount',
     scheduledAt: 'scheduledAt',
     publishedAt: 'publishedAt',
@@ -29362,6 +29356,12 @@ export namespace Prisma {
     updatedAt: 'updatedAt',
     categoryId: 'categoryId',
     authorId: 'authorId',
+    featuredImageTitle: 'featuredImageTitle',
+    isSponsored: 'isSponsored',
+    isTopHeadline: 'isTopHeadline',
+    isTrending: 'isTrending',
+    isUaeNews: 'isUaeNews',
+    isExclusiveNews: 'isExclusiveNews',
     authorName: 'authorName'
   };
 
@@ -29929,19 +29929,19 @@ export namespace Prisma {
     endDate?: DateTimeFilter<"Ad"> | Date | string
     status?: EnumAdStatusFilter<"Ad"> | $Enums.AdStatus
     priority?: IntFilter<"Ad"> | number
-    targetPage?: StringNullableFilter<"Ad"> | string | null
-    ratio?: StringNullableFilter<"Ad"> | string | null
-    pageName?: StringNullableFilter<"Ad"> | string | null
-    placementName?: StringNullableFilter<"Ad"> | string | null
     impressions?: IntFilter<"Ad"> | number
     clicks?: IntFilter<"Ad"> | number
     createdBy?: StringFilter<"Ad"> | string
     createdAt?: DateTimeFilter<"Ad"> | Date | string
     updatedAt?: DateTimeFilter<"Ad"> | Date | string
+    pageName?: StringNullableFilter<"Ad"> | string | null
+    placementName?: StringNullableFilter<"Ad"> | string | null
+    ratio?: StringNullableFilter<"Ad"> | string | null
+    targetPage?: StringNullableFilter<"Ad"> | string | null
     creator?: XOR<UserScalarRelationFilter, UserWhereInput>
+    analytics?: AdAnalyticsListRelationFilter
     placements?: AdPlacementListRelationFilter
     articles?: ArticleAdListRelationFilter
-    analytics?: AdAnalyticsListRelationFilter
   }
 
   export type AdOrderByWithRelationInput = {
@@ -29956,19 +29956,19 @@ export namespace Prisma {
     endDate?: SortOrder
     status?: SortOrder
     priority?: SortOrder
-    targetPage?: SortOrderInput | SortOrder
-    ratio?: SortOrderInput | SortOrder
-    pageName?: SortOrderInput | SortOrder
-    placementName?: SortOrderInput | SortOrder
     impressions?: SortOrder
     clicks?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    pageName?: SortOrderInput | SortOrder
+    placementName?: SortOrderInput | SortOrder
+    ratio?: SortOrderInput | SortOrder
+    targetPage?: SortOrderInput | SortOrder
     creator?: UserOrderByWithRelationInput
+    analytics?: AdAnalyticsOrderByRelationAggregateInput
     placements?: AdPlacementOrderByRelationAggregateInput
     articles?: ArticleAdOrderByRelationAggregateInput
-    analytics?: AdAnalyticsOrderByRelationAggregateInput
   }
 
   export type AdWhereUniqueInput = Prisma.AtLeast<{
@@ -29986,19 +29986,19 @@ export namespace Prisma {
     endDate?: DateTimeFilter<"Ad"> | Date | string
     status?: EnumAdStatusFilter<"Ad"> | $Enums.AdStatus
     priority?: IntFilter<"Ad"> | number
-    targetPage?: StringNullableFilter<"Ad"> | string | null
-    ratio?: StringNullableFilter<"Ad"> | string | null
-    pageName?: StringNullableFilter<"Ad"> | string | null
-    placementName?: StringNullableFilter<"Ad"> | string | null
     impressions?: IntFilter<"Ad"> | number
     clicks?: IntFilter<"Ad"> | number
     createdBy?: StringFilter<"Ad"> | string
     createdAt?: DateTimeFilter<"Ad"> | Date | string
     updatedAt?: DateTimeFilter<"Ad"> | Date | string
+    pageName?: StringNullableFilter<"Ad"> | string | null
+    placementName?: StringNullableFilter<"Ad"> | string | null
+    ratio?: StringNullableFilter<"Ad"> | string | null
+    targetPage?: StringNullableFilter<"Ad"> | string | null
     creator?: XOR<UserScalarRelationFilter, UserWhereInput>
+    analytics?: AdAnalyticsListRelationFilter
     placements?: AdPlacementListRelationFilter
     articles?: ArticleAdListRelationFilter
-    analytics?: AdAnalyticsListRelationFilter
   }, "id">
 
   export type AdOrderByWithAggregationInput = {
@@ -30013,15 +30013,15 @@ export namespace Prisma {
     endDate?: SortOrder
     status?: SortOrder
     priority?: SortOrder
-    targetPage?: SortOrderInput | SortOrder
-    ratio?: SortOrderInput | SortOrder
-    pageName?: SortOrderInput | SortOrder
-    placementName?: SortOrderInput | SortOrder
     impressions?: SortOrder
     clicks?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    pageName?: SortOrderInput | SortOrder
+    placementName?: SortOrderInput | SortOrder
+    ratio?: SortOrderInput | SortOrder
+    targetPage?: SortOrderInput | SortOrder
     _count?: AdCountOrderByAggregateInput
     _avg?: AdAvgOrderByAggregateInput
     _max?: AdMaxOrderByAggregateInput
@@ -30044,15 +30044,15 @@ export namespace Prisma {
     endDate?: DateTimeWithAggregatesFilter<"Ad"> | Date | string
     status?: EnumAdStatusWithAggregatesFilter<"Ad"> | $Enums.AdStatus
     priority?: IntWithAggregatesFilter<"Ad"> | number
-    targetPage?: StringNullableWithAggregatesFilter<"Ad"> | string | null
-    ratio?: StringNullableWithAggregatesFilter<"Ad"> | string | null
-    pageName?: StringNullableWithAggregatesFilter<"Ad"> | string | null
-    placementName?: StringNullableWithAggregatesFilter<"Ad"> | string | null
     impressions?: IntWithAggregatesFilter<"Ad"> | number
     clicks?: IntWithAggregatesFilter<"Ad"> | number
     createdBy?: StringWithAggregatesFilter<"Ad"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Ad"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Ad"> | Date | string
+    pageName?: StringNullableWithAggregatesFilter<"Ad"> | string | null
+    placementName?: StringNullableWithAggregatesFilter<"Ad"> | string | null
+    ratio?: StringNullableWithAggregatesFilter<"Ad"> | string | null
+    targetPage?: StringNullableWithAggregatesFilter<"Ad"> | string | null
   }
 
   export type AdSpaceWhereInput = {
@@ -30208,8 +30208,8 @@ export namespace Prisma {
     position?: StringFilter<"ArticleAd"> | string
     order?: IntFilter<"ArticleAd"> | number
     createdAt?: DateTimeFilter<"ArticleAd"> | Date | string
-    article?: XOR<ArticleScalarRelationFilter, ArticleWhereInput>
     ad?: XOR<AdScalarRelationFilter, AdWhereInput>
+    article?: XOR<ArticleScalarRelationFilter, ArticleWhereInput>
   }
 
   export type ArticleAdOrderByWithRelationInput = {
@@ -30219,8 +30219,8 @@ export namespace Prisma {
     position?: SortOrder
     order?: SortOrder
     createdAt?: SortOrder
-    article?: ArticleOrderByWithRelationInput
     ad?: AdOrderByWithRelationInput
+    article?: ArticleOrderByWithRelationInput
   }
 
   export type ArticleAdWhereUniqueInput = Prisma.AtLeast<{
@@ -30234,8 +30234,8 @@ export namespace Prisma {
     position?: StringFilter<"ArticleAd"> | string
     order?: IntFilter<"ArticleAd"> | number
     createdAt?: DateTimeFilter<"ArticleAd"> | Date | string
-    article?: XOR<ArticleScalarRelationFilter, ArticleWhereInput>
     ad?: XOR<AdScalarRelationFilter, AdWhereInput>
+    article?: XOR<ArticleScalarRelationFilter, ArticleWhereInput>
   }, "id" | "articleId_adId_position">
 
   export type ArticleAdOrderByWithAggregationInput = {
@@ -30336,15 +30336,9 @@ export namespace Prisma {
     content?: StringFilter<"Article"> | string
     excerpt?: StringNullableFilter<"Article"> | string | null
     featuredImage?: StringNullableFilter<"Article"> | string | null
-    featuredImageTitle?: StringNullableFilter<"Article"> | string | null
     status?: EnumArticleStatusFilter<"Article"> | $Enums.ArticleStatus
     isFeatured?: BoolFilter<"Article"> | boolean
     isBreakingNews?: BoolFilter<"Article"> | boolean
-    isTopHeadline?: BoolFilter<"Article"> | boolean
-    isTrending?: BoolFilter<"Article"> | boolean
-    isUaeNews?: BoolFilter<"Article"> | boolean
-    isSponsored?: BoolFilter<"Article"> | boolean
-    isExclusiveNews?: BoolFilter<"Article"> | boolean
     viewCount?: IntFilter<"Article"> | number
     scheduledAt?: DateTimeNullableFilter<"Article"> | Date | string | null
     publishedAt?: DateTimeNullableFilter<"Article"> | Date | string | null
@@ -30356,13 +30350,19 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Article"> | Date | string
     categoryId?: StringNullableFilter<"Article"> | string | null
     authorId?: StringFilter<"Article"> | string
+    featuredImageTitle?: StringNullableFilter<"Article"> | string | null
+    isSponsored?: BoolFilter<"Article"> | boolean
+    isTopHeadline?: BoolFilter<"Article"> | boolean
+    isTrending?: BoolFilter<"Article"> | boolean
+    isUaeNews?: BoolFilter<"Article"> | boolean
+    isExclusiveNews?: BoolFilter<"Article"> | boolean
     authorName?: StringNullableFilter<"Article"> | string | null
-    category?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
+    category?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
+    activities?: ArticleActivityListRelationFilter
+    ads?: ArticleAdListRelationFilter
     tags?: ArticleTagListRelationFilter
     comments?: CommentListRelationFilter
-    ads?: ArticleAdListRelationFilter
-    activities?: ArticleActivityListRelationFilter
   }
 
   export type ArticleOrderByWithRelationInput = {
@@ -30372,15 +30372,9 @@ export namespace Prisma {
     content?: SortOrder
     excerpt?: SortOrderInput | SortOrder
     featuredImage?: SortOrderInput | SortOrder
-    featuredImageTitle?: SortOrderInput | SortOrder
     status?: SortOrder
     isFeatured?: SortOrder
     isBreakingNews?: SortOrder
-    isTopHeadline?: SortOrder
-    isTrending?: SortOrder
-    isUaeNews?: SortOrder
-    isSponsored?: SortOrder
-    isExclusiveNews?: SortOrder
     viewCount?: SortOrder
     scheduledAt?: SortOrderInput | SortOrder
     publishedAt?: SortOrderInput | SortOrder
@@ -30392,13 +30386,19 @@ export namespace Prisma {
     updatedAt?: SortOrder
     categoryId?: SortOrderInput | SortOrder
     authorId?: SortOrder
+    featuredImageTitle?: SortOrderInput | SortOrder
+    isSponsored?: SortOrder
+    isTopHeadline?: SortOrder
+    isTrending?: SortOrder
+    isUaeNews?: SortOrder
+    isExclusiveNews?: SortOrder
     authorName?: SortOrderInput | SortOrder
-    category?: CategoryOrderByWithRelationInput
     author?: UserOrderByWithRelationInput
+    category?: CategoryOrderByWithRelationInput
+    activities?: ArticleActivityOrderByRelationAggregateInput
+    ads?: ArticleAdOrderByRelationAggregateInput
     tags?: ArticleTagOrderByRelationAggregateInput
     comments?: CommentOrderByRelationAggregateInput
-    ads?: ArticleAdOrderByRelationAggregateInput
-    activities?: ArticleActivityOrderByRelationAggregateInput
   }
 
   export type ArticleWhereUniqueInput = Prisma.AtLeast<{
@@ -30411,15 +30411,9 @@ export namespace Prisma {
     content?: StringFilter<"Article"> | string
     excerpt?: StringNullableFilter<"Article"> | string | null
     featuredImage?: StringNullableFilter<"Article"> | string | null
-    featuredImageTitle?: StringNullableFilter<"Article"> | string | null
     status?: EnumArticleStatusFilter<"Article"> | $Enums.ArticleStatus
     isFeatured?: BoolFilter<"Article"> | boolean
     isBreakingNews?: BoolFilter<"Article"> | boolean
-    isTopHeadline?: BoolFilter<"Article"> | boolean
-    isTrending?: BoolFilter<"Article"> | boolean
-    isUaeNews?: BoolFilter<"Article"> | boolean
-    isSponsored?: BoolFilter<"Article"> | boolean
-    isExclusiveNews?: BoolFilter<"Article"> | boolean
     viewCount?: IntFilter<"Article"> | number
     scheduledAt?: DateTimeNullableFilter<"Article"> | Date | string | null
     publishedAt?: DateTimeNullableFilter<"Article"> | Date | string | null
@@ -30431,13 +30425,19 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Article"> | Date | string
     categoryId?: StringNullableFilter<"Article"> | string | null
     authorId?: StringFilter<"Article"> | string
+    featuredImageTitle?: StringNullableFilter<"Article"> | string | null
+    isSponsored?: BoolFilter<"Article"> | boolean
+    isTopHeadline?: BoolFilter<"Article"> | boolean
+    isTrending?: BoolFilter<"Article"> | boolean
+    isUaeNews?: BoolFilter<"Article"> | boolean
+    isExclusiveNews?: BoolFilter<"Article"> | boolean
     authorName?: StringNullableFilter<"Article"> | string | null
-    category?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
+    category?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
+    activities?: ArticleActivityListRelationFilter
+    ads?: ArticleAdListRelationFilter
     tags?: ArticleTagListRelationFilter
     comments?: CommentListRelationFilter
-    ads?: ArticleAdListRelationFilter
-    activities?: ArticleActivityListRelationFilter
   }, "id" | "slug">
 
   export type ArticleOrderByWithAggregationInput = {
@@ -30447,15 +30447,9 @@ export namespace Prisma {
     content?: SortOrder
     excerpt?: SortOrderInput | SortOrder
     featuredImage?: SortOrderInput | SortOrder
-    featuredImageTitle?: SortOrderInput | SortOrder
     status?: SortOrder
     isFeatured?: SortOrder
     isBreakingNews?: SortOrder
-    isTopHeadline?: SortOrder
-    isTrending?: SortOrder
-    isUaeNews?: SortOrder
-    isSponsored?: SortOrder
-    isExclusiveNews?: SortOrder
     viewCount?: SortOrder
     scheduledAt?: SortOrderInput | SortOrder
     publishedAt?: SortOrderInput | SortOrder
@@ -30467,6 +30461,12 @@ export namespace Prisma {
     updatedAt?: SortOrder
     categoryId?: SortOrderInput | SortOrder
     authorId?: SortOrder
+    featuredImageTitle?: SortOrderInput | SortOrder
+    isSponsored?: SortOrder
+    isTopHeadline?: SortOrder
+    isTrending?: SortOrder
+    isUaeNews?: SortOrder
+    isExclusiveNews?: SortOrder
     authorName?: SortOrderInput | SortOrder
     _count?: ArticleCountOrderByAggregateInput
     _avg?: ArticleAvgOrderByAggregateInput
@@ -30485,15 +30485,9 @@ export namespace Prisma {
     content?: StringWithAggregatesFilter<"Article"> | string
     excerpt?: StringNullableWithAggregatesFilter<"Article"> | string | null
     featuredImage?: StringNullableWithAggregatesFilter<"Article"> | string | null
-    featuredImageTitle?: StringNullableWithAggregatesFilter<"Article"> | string | null
     status?: EnumArticleStatusWithAggregatesFilter<"Article"> | $Enums.ArticleStatus
     isFeatured?: BoolWithAggregatesFilter<"Article"> | boolean
     isBreakingNews?: BoolWithAggregatesFilter<"Article"> | boolean
-    isTopHeadline?: BoolWithAggregatesFilter<"Article"> | boolean
-    isTrending?: BoolWithAggregatesFilter<"Article"> | boolean
-    isUaeNews?: BoolWithAggregatesFilter<"Article"> | boolean
-    isSponsored?: BoolWithAggregatesFilter<"Article"> | boolean
-    isExclusiveNews?: BoolWithAggregatesFilter<"Article"> | boolean
     viewCount?: IntWithAggregatesFilter<"Article"> | number
     scheduledAt?: DateTimeNullableWithAggregatesFilter<"Article"> | Date | string | null
     publishedAt?: DateTimeNullableWithAggregatesFilter<"Article"> | Date | string | null
@@ -30505,6 +30499,12 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Article"> | Date | string
     categoryId?: StringNullableWithAggregatesFilter<"Article"> | string | null
     authorId?: StringWithAggregatesFilter<"Article"> | string
+    featuredImageTitle?: StringNullableWithAggregatesFilter<"Article"> | string | null
+    isSponsored?: BoolWithAggregatesFilter<"Article"> | boolean
+    isTopHeadline?: BoolWithAggregatesFilter<"Article"> | boolean
+    isTrending?: BoolWithAggregatesFilter<"Article"> | boolean
+    isUaeNews?: BoolWithAggregatesFilter<"Article"> | boolean
+    isExclusiveNews?: BoolWithAggregatesFilter<"Article"> | boolean
     authorName?: StringNullableWithAggregatesFilter<"Article"> | string | null
   }
 
@@ -30627,8 +30627,8 @@ export namespace Prisma {
     userId?: StringFilter<"ArticleActivity"> | string
     articleId?: StringNullableFilter<"ArticleActivity"> | string | null
     createdAt?: DateTimeFilter<"ArticleActivity"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     article?: XOR<ArticleNullableScalarRelationFilter, ArticleWhereInput> | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type ArticleActivityOrderByWithRelationInput = {
@@ -30638,8 +30638,8 @@ export namespace Prisma {
     userId?: SortOrder
     articleId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
-    user?: UserOrderByWithRelationInput
     article?: ArticleOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
   }
 
   export type ArticleActivityWhereUniqueInput = Prisma.AtLeast<{
@@ -30652,8 +30652,8 @@ export namespace Prisma {
     userId?: StringFilter<"ArticleActivity"> | string
     articleId?: StringNullableFilter<"ArticleActivity"> | string | null
     createdAt?: DateTimeFilter<"ArticleActivity"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     article?: XOR<ArticleNullableScalarRelationFilter, ArticleWhereInput> | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
   export type ArticleActivityOrderByWithAggregationInput = {
@@ -30777,9 +30777,9 @@ export namespace Prisma {
     metaDescription?: StringNullableFilter<"Category"> | string | null
     createdAt?: DateTimeFilter<"Category"> | Date | string
     updatedAt?: DateTimeFilter<"Category"> | Date | string
+    articles?: ArticleListRelationFilter
     parent?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
     children?: CategoryListRelationFilter
-    articles?: ArticleListRelationFilter
     pageSeo?: PageSeoListRelationFilter
   }
 
@@ -30796,9 +30796,9 @@ export namespace Prisma {
     metaDescription?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    articles?: ArticleOrderByRelationAggregateInput
     parent?: CategoryOrderByWithRelationInput
     children?: CategoryOrderByRelationAggregateInput
-    articles?: ArticleOrderByRelationAggregateInput
     pageSeo?: PageSeoOrderByRelationAggregateInput
   }
 
@@ -30818,9 +30818,9 @@ export namespace Prisma {
     metaDescription?: StringNullableFilter<"Category"> | string | null
     createdAt?: DateTimeFilter<"Category"> | Date | string
     updatedAt?: DateTimeFilter<"Category"> | Date | string
+    articles?: ArticleListRelationFilter
     parent?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
     children?: CategoryListRelationFilter
-    articles?: ArticleListRelationFilter
     pageSeo?: PageSeoListRelationFilter
   }, "id" | "name" | "slug">
 
@@ -31589,15 +31589,15 @@ export namespace Prisma {
     lastLoginAt?: DateTimeNullableFilter<"User"> | Date | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    ads?: AdListRelationFilter
+    articles?: ArticleListRelationFilter
+    articleActivities?: ArticleActivityListRelationFilter
+    media?: MediaListRelationFilter
+    notifications?: NotificationListRelationFilter
+    settings?: SiteSettingListRelationFilter
     creator?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     createdUsers?: UserListRelationFilter
-    articles?: ArticleListRelationFilter
     modules?: UserModulePermissionListRelationFilter
-    notifications?: NotificationListRelationFilter
-    ads?: AdListRelationFilter
-    articleActivities?: ArticleActivityListRelationFilter
-    settings?: SiteSettingListRelationFilter
-    media?: MediaListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -31615,15 +31615,15 @@ export namespace Prisma {
     lastLoginAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    ads?: AdOrderByRelationAggregateInput
+    articles?: ArticleOrderByRelationAggregateInput
+    articleActivities?: ArticleActivityOrderByRelationAggregateInput
+    media?: MediaOrderByRelationAggregateInput
+    notifications?: NotificationOrderByRelationAggregateInput
+    settings?: SiteSettingOrderByRelationAggregateInput
     creator?: UserOrderByWithRelationInput
     createdUsers?: UserOrderByRelationAggregateInput
-    articles?: ArticleOrderByRelationAggregateInput
     modules?: UserModulePermissionOrderByRelationAggregateInput
-    notifications?: NotificationOrderByRelationAggregateInput
-    ads?: AdOrderByRelationAggregateInput
-    articleActivities?: ArticleActivityOrderByRelationAggregateInput
-    settings?: SiteSettingOrderByRelationAggregateInput
-    media?: MediaOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -31644,15 +31644,15 @@ export namespace Prisma {
     lastLoginAt?: DateTimeNullableFilter<"User"> | Date | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    ads?: AdListRelationFilter
+    articles?: ArticleListRelationFilter
+    articleActivities?: ArticleActivityListRelationFilter
+    media?: MediaListRelationFilter
+    notifications?: NotificationListRelationFilter
+    settings?: SiteSettingListRelationFilter
     creator?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     createdUsers?: UserListRelationFilter
-    articles?: ArticleListRelationFilter
     modules?: UserModulePermissionListRelationFilter
-    notifications?: NotificationListRelationFilter
-    ads?: AdListRelationFilter
-    articleActivities?: ArticleActivityListRelationFilter
-    settings?: SiteSettingListRelationFilter
-    media?: MediaListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -31785,8 +31785,8 @@ export namespace Prisma {
     canDelete?: BoolFilter<"UserModulePermission"> | boolean
     createdAt?: DateTimeFilter<"UserModulePermission"> | Date | string
     updatedAt?: DateTimeFilter<"UserModulePermission"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     module?: XOR<ModuleScalarRelationFilter, ModuleWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type UserModulePermissionOrderByWithRelationInput = {
@@ -31799,8 +31799,8 @@ export namespace Prisma {
     canDelete?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    user?: UserOrderByWithRelationInput
     module?: ModuleOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
   }
 
   export type UserModulePermissionWhereUniqueInput = Prisma.AtLeast<{
@@ -31817,8 +31817,8 @@ export namespace Prisma {
     canDelete?: BoolFilter<"UserModulePermission"> | boolean
     createdAt?: DateTimeFilter<"UserModulePermission"> | Date | string
     updatedAt?: DateTimeFilter<"UserModulePermission"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     module?: XOR<ModuleScalarRelationFilter, ModuleWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "userId_moduleId">
 
   export type UserModulePermissionOrderByWithAggregationInput = {
@@ -31863,18 +31863,18 @@ export namespace Prisma {
     endDate: Date | string
     status?: $Enums.AdStatus
     priority?: number
-    targetPage?: string | null
-    ratio?: string | null
-    pageName?: string | null
-    placementName?: string | null
     impressions?: number
     clicks?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    pageName?: string | null
+    placementName?: string | null
+    ratio?: string | null
+    targetPage?: string | null
     creator: UserCreateNestedOneWithoutAdsInput
+    analytics?: AdAnalyticsCreateNestedManyWithoutAdInput
     placements?: AdPlacementCreateNestedManyWithoutAdInput
     articles?: ArticleAdCreateNestedManyWithoutAdInput
-    analytics?: AdAnalyticsCreateNestedManyWithoutAdInput
   }
 
   export type AdUncheckedCreateInput = {
@@ -31889,18 +31889,18 @@ export namespace Prisma {
     endDate: Date | string
     status?: $Enums.AdStatus
     priority?: number
-    targetPage?: string | null
-    ratio?: string | null
-    pageName?: string | null
-    placementName?: string | null
     impressions?: number
     clicks?: number
     createdBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    pageName?: string | null
+    placementName?: string | null
+    ratio?: string | null
+    targetPage?: string | null
+    analytics?: AdAnalyticsUncheckedCreateNestedManyWithoutAdInput
     placements?: AdPlacementUncheckedCreateNestedManyWithoutAdInput
     articles?: ArticleAdUncheckedCreateNestedManyWithoutAdInput
-    analytics?: AdAnalyticsUncheckedCreateNestedManyWithoutAdInput
   }
 
   export type AdUpdateInput = {
@@ -31915,18 +31915,18 @@ export namespace Prisma {
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumAdStatusFieldUpdateOperationsInput | $Enums.AdStatus
     priority?: IntFieldUpdateOperationsInput | number
-    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
-    ratio?: NullableStringFieldUpdateOperationsInput | string | null
-    pageName?: NullableStringFieldUpdateOperationsInput | string | null
-    placementName?: NullableStringFieldUpdateOperationsInput | string | null
     impressions?: IntFieldUpdateOperationsInput | number
     clicks?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
+    placementName?: NullableStringFieldUpdateOperationsInput | string | null
+    ratio?: NullableStringFieldUpdateOperationsInput | string | null
+    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
     creator?: UserUpdateOneRequiredWithoutAdsNestedInput
+    analytics?: AdAnalyticsUpdateManyWithoutAdNestedInput
     placements?: AdPlacementUpdateManyWithoutAdNestedInput
     articles?: ArticleAdUpdateManyWithoutAdNestedInput
-    analytics?: AdAnalyticsUpdateManyWithoutAdNestedInput
   }
 
   export type AdUncheckedUpdateInput = {
@@ -31941,18 +31941,18 @@ export namespace Prisma {
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumAdStatusFieldUpdateOperationsInput | $Enums.AdStatus
     priority?: IntFieldUpdateOperationsInput | number
-    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
-    ratio?: NullableStringFieldUpdateOperationsInput | string | null
-    pageName?: NullableStringFieldUpdateOperationsInput | string | null
-    placementName?: NullableStringFieldUpdateOperationsInput | string | null
     impressions?: IntFieldUpdateOperationsInput | number
     clicks?: IntFieldUpdateOperationsInput | number
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
+    placementName?: NullableStringFieldUpdateOperationsInput | string | null
+    ratio?: NullableStringFieldUpdateOperationsInput | string | null
+    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
+    analytics?: AdAnalyticsUncheckedUpdateManyWithoutAdNestedInput
     placements?: AdPlacementUncheckedUpdateManyWithoutAdNestedInput
     articles?: ArticleAdUncheckedUpdateManyWithoutAdNestedInput
-    analytics?: AdAnalyticsUncheckedUpdateManyWithoutAdNestedInput
   }
 
   export type AdCreateManyInput = {
@@ -31967,15 +31967,15 @@ export namespace Prisma {
     endDate: Date | string
     status?: $Enums.AdStatus
     priority?: number
-    targetPage?: string | null
-    ratio?: string | null
-    pageName?: string | null
-    placementName?: string | null
     impressions?: number
     clicks?: number
     createdBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    pageName?: string | null
+    placementName?: string | null
+    ratio?: string | null
+    targetPage?: string | null
   }
 
   export type AdUpdateManyMutationInput = {
@@ -31990,14 +31990,14 @@ export namespace Prisma {
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumAdStatusFieldUpdateOperationsInput | $Enums.AdStatus
     priority?: IntFieldUpdateOperationsInput | number
-    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
-    ratio?: NullableStringFieldUpdateOperationsInput | string | null
-    pageName?: NullableStringFieldUpdateOperationsInput | string | null
-    placementName?: NullableStringFieldUpdateOperationsInput | string | null
     impressions?: IntFieldUpdateOperationsInput | number
     clicks?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
+    placementName?: NullableStringFieldUpdateOperationsInput | string | null
+    ratio?: NullableStringFieldUpdateOperationsInput | string | null
+    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type AdUncheckedUpdateManyInput = {
@@ -32012,15 +32012,15 @@ export namespace Prisma {
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumAdStatusFieldUpdateOperationsInput | $Enums.AdStatus
     priority?: IntFieldUpdateOperationsInput | number
-    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
-    ratio?: NullableStringFieldUpdateOperationsInput | string | null
-    pageName?: NullableStringFieldUpdateOperationsInput | string | null
-    placementName?: NullableStringFieldUpdateOperationsInput | string | null
     impressions?: IntFieldUpdateOperationsInput | number
     clicks?: IntFieldUpdateOperationsInput | number
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
+    placementName?: NullableStringFieldUpdateOperationsInput | string | null
+    ratio?: NullableStringFieldUpdateOperationsInput | string | null
+    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type AdSpaceCreateInput = {
@@ -32177,8 +32177,8 @@ export namespace Prisma {
     position: string
     order?: number
     createdAt?: Date | string
-    article: ArticleCreateNestedOneWithoutAdsInput
     ad: AdCreateNestedOneWithoutArticlesInput
+    article: ArticleCreateNestedOneWithoutAdsInput
   }
 
   export type ArticleAdUncheckedCreateInput = {
@@ -32195,8 +32195,8 @@ export namespace Prisma {
     position?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    article?: ArticleUpdateOneRequiredWithoutAdsNestedInput
     ad?: AdUpdateOneRequiredWithoutArticlesNestedInput
+    article?: ArticleUpdateOneRequiredWithoutAdsNestedInput
   }
 
   export type ArticleAdUncheckedUpdateInput = {
@@ -32302,15 +32302,9 @@ export namespace Prisma {
     content: string
     excerpt?: string | null
     featuredImage?: string | null
-    featuredImageTitle?: string | null
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
-    isTopHeadline?: boolean
-    isTrending?: boolean
-    isUaeNews?: boolean
-    isSponsored?: boolean
-    isExclusiveNews?: boolean
     viewCount?: number
     scheduledAt?: Date | string | null
     publishedAt?: Date | string | null
@@ -32320,13 +32314,19 @@ export namespace Prisma {
     readingTime?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    featuredImageTitle?: string | null
+    isSponsored?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isExclusiveNews?: boolean
     authorName?: string | null
-    category?: CategoryCreateNestedOneWithoutArticlesInput
     author: UserCreateNestedOneWithoutArticlesInput
+    category?: CategoryCreateNestedOneWithoutArticlesInput
+    activities?: ArticleActivityCreateNestedManyWithoutArticleInput
+    ads?: ArticleAdCreateNestedManyWithoutArticleInput
     tags?: ArticleTagCreateNestedManyWithoutArticleInput
     comments?: CommentCreateNestedManyWithoutArticleInput
-    ads?: ArticleAdCreateNestedManyWithoutArticleInput
-    activities?: ArticleActivityCreateNestedManyWithoutArticleInput
   }
 
   export type ArticleUncheckedCreateInput = {
@@ -32336,15 +32336,9 @@ export namespace Prisma {
     content: string
     excerpt?: string | null
     featuredImage?: string | null
-    featuredImageTitle?: string | null
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
-    isTopHeadline?: boolean
-    isTrending?: boolean
-    isUaeNews?: boolean
-    isSponsored?: boolean
-    isExclusiveNews?: boolean
     viewCount?: number
     scheduledAt?: Date | string | null
     publishedAt?: Date | string | null
@@ -32356,11 +32350,17 @@ export namespace Prisma {
     updatedAt?: Date | string
     categoryId?: string | null
     authorId: string
+    featuredImageTitle?: string | null
+    isSponsored?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isExclusiveNews?: boolean
     authorName?: string | null
+    activities?: ArticleActivityUncheckedCreateNestedManyWithoutArticleInput
+    ads?: ArticleAdUncheckedCreateNestedManyWithoutArticleInput
     tags?: ArticleTagUncheckedCreateNestedManyWithoutArticleInput
     comments?: CommentUncheckedCreateNestedManyWithoutArticleInput
-    ads?: ArticleAdUncheckedCreateNestedManyWithoutArticleInput
-    activities?: ArticleActivityUncheckedCreateNestedManyWithoutArticleInput
   }
 
   export type ArticleUpdateInput = {
@@ -32370,15 +32370,9 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
-    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
-    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
-    isTrending?: BoolFieldUpdateOperationsInput | boolean
-    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
-    isSponsored?: BoolFieldUpdateOperationsInput | boolean
-    isExclusiveNews?: BoolFieldUpdateOperationsInput | boolean
     viewCount?: IntFieldUpdateOperationsInput | number
     scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -32388,13 +32382,19 @@ export namespace Prisma {
     readingTime?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    isSponsored?: BoolFieldUpdateOperationsInput | boolean
+    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
+    isTrending?: BoolFieldUpdateOperationsInput | boolean
+    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
+    isExclusiveNews?: BoolFieldUpdateOperationsInput | boolean
     authorName?: NullableStringFieldUpdateOperationsInput | string | null
-    category?: CategoryUpdateOneWithoutArticlesNestedInput
     author?: UserUpdateOneRequiredWithoutArticlesNestedInput
+    category?: CategoryUpdateOneWithoutArticlesNestedInput
+    activities?: ArticleActivityUpdateManyWithoutArticleNestedInput
+    ads?: ArticleAdUpdateManyWithoutArticleNestedInput
     tags?: ArticleTagUpdateManyWithoutArticleNestedInput
     comments?: CommentUpdateManyWithoutArticleNestedInput
-    ads?: ArticleAdUpdateManyWithoutArticleNestedInput
-    activities?: ArticleActivityUpdateManyWithoutArticleNestedInput
   }
 
   export type ArticleUncheckedUpdateInput = {
@@ -32404,15 +32404,9 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
-    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
-    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
-    isTrending?: BoolFieldUpdateOperationsInput | boolean
-    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
-    isSponsored?: BoolFieldUpdateOperationsInput | boolean
-    isExclusiveNews?: BoolFieldUpdateOperationsInput | boolean
     viewCount?: IntFieldUpdateOperationsInput | number
     scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -32424,11 +32418,17 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     authorId?: StringFieldUpdateOperationsInput | string
+    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    isSponsored?: BoolFieldUpdateOperationsInput | boolean
+    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
+    isTrending?: BoolFieldUpdateOperationsInput | boolean
+    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
+    isExclusiveNews?: BoolFieldUpdateOperationsInput | boolean
     authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    activities?: ArticleActivityUncheckedUpdateManyWithoutArticleNestedInput
+    ads?: ArticleAdUncheckedUpdateManyWithoutArticleNestedInput
     tags?: ArticleTagUncheckedUpdateManyWithoutArticleNestedInput
     comments?: CommentUncheckedUpdateManyWithoutArticleNestedInput
-    ads?: ArticleAdUncheckedUpdateManyWithoutArticleNestedInput
-    activities?: ArticleActivityUncheckedUpdateManyWithoutArticleNestedInput
   }
 
   export type ArticleCreateManyInput = {
@@ -32438,15 +32438,9 @@ export namespace Prisma {
     content: string
     excerpt?: string | null
     featuredImage?: string | null
-    featuredImageTitle?: string | null
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
-    isTopHeadline?: boolean
-    isTrending?: boolean
-    isUaeNews?: boolean
-    isSponsored?: boolean
-    isExclusiveNews?: boolean
     viewCount?: number
     scheduledAt?: Date | string | null
     publishedAt?: Date | string | null
@@ -32458,6 +32452,12 @@ export namespace Prisma {
     updatedAt?: Date | string
     categoryId?: string | null
     authorId: string
+    featuredImageTitle?: string | null
+    isSponsored?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isExclusiveNews?: boolean
     authorName?: string | null
   }
 
@@ -32468,15 +32468,9 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
-    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
-    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
-    isTrending?: BoolFieldUpdateOperationsInput | boolean
-    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
-    isSponsored?: BoolFieldUpdateOperationsInput | boolean
-    isExclusiveNews?: BoolFieldUpdateOperationsInput | boolean
     viewCount?: IntFieldUpdateOperationsInput | number
     scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -32486,6 +32480,12 @@ export namespace Prisma {
     readingTime?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    isSponsored?: BoolFieldUpdateOperationsInput | boolean
+    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
+    isTrending?: BoolFieldUpdateOperationsInput | boolean
+    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
+    isExclusiveNews?: BoolFieldUpdateOperationsInput | boolean
     authorName?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -32496,15 +32496,9 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
-    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
-    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
-    isTrending?: BoolFieldUpdateOperationsInput | boolean
-    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
-    isSponsored?: BoolFieldUpdateOperationsInput | boolean
-    isExclusiveNews?: BoolFieldUpdateOperationsInput | boolean
     viewCount?: IntFieldUpdateOperationsInput | number
     scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -32516,6 +32510,12 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     authorId?: StringFieldUpdateOperationsInput | string
+    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    isSponsored?: BoolFieldUpdateOperationsInput | boolean
+    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
+    isTrending?: BoolFieldUpdateOperationsInput | boolean
+    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
+    isExclusiveNews?: BoolFieldUpdateOperationsInput | boolean
     authorName?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -32631,8 +32631,8 @@ export namespace Prisma {
     action: string
     details?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
-    user: UserCreateNestedOneWithoutArticleActivitiesInput
     article?: ArticleCreateNestedOneWithoutActivitiesInput
+    user: UserCreateNestedOneWithoutArticleActivitiesInput
   }
 
   export type ArticleActivityUncheckedCreateInput = {
@@ -32649,8 +32649,8 @@ export namespace Prisma {
     action?: StringFieldUpdateOperationsInput | string
     details?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutArticleActivitiesNestedInput
     article?: ArticleUpdateOneWithoutActivitiesNestedInput
+    user?: UserUpdateOneRequiredWithoutArticleActivitiesNestedInput
   }
 
   export type ArticleActivityUncheckedUpdateInput = {
@@ -32785,9 +32785,9 @@ export namespace Prisma {
     metaDescription?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    articles?: ArticleCreateNestedManyWithoutCategoryInput
     parent?: CategoryCreateNestedOneWithoutChildrenInput
     children?: CategoryCreateNestedManyWithoutParentInput
-    articles?: ArticleCreateNestedManyWithoutCategoryInput
     pageSeo?: PageSeoCreateNestedManyWithoutCategoryInput
   }
 
@@ -32804,8 +32804,8 @@ export namespace Prisma {
     metaDescription?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    children?: CategoryUncheckedCreateNestedManyWithoutParentInput
     articles?: ArticleUncheckedCreateNestedManyWithoutCategoryInput
+    children?: CategoryUncheckedCreateNestedManyWithoutParentInput
     pageSeo?: PageSeoUncheckedCreateNestedManyWithoutCategoryInput
   }
 
@@ -32821,9 +32821,9 @@ export namespace Prisma {
     metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    articles?: ArticleUpdateManyWithoutCategoryNestedInput
     parent?: CategoryUpdateOneWithoutChildrenNestedInput
     children?: CategoryUpdateManyWithoutParentNestedInput
-    articles?: ArticleUpdateManyWithoutCategoryNestedInput
     pageSeo?: PageSeoUpdateManyWithoutCategoryNestedInput
   }
 
@@ -32840,8 +32840,8 @@ export namespace Prisma {
     metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    children?: CategoryUncheckedUpdateManyWithoutParentNestedInput
     articles?: ArticleUncheckedUpdateManyWithoutCategoryNestedInput
+    children?: CategoryUncheckedUpdateManyWithoutParentNestedInput
     pageSeo?: PageSeoUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
@@ -33732,15 +33732,15 @@ export namespace Prisma {
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    ads?: AdCreateNestedManyWithoutCreatorInput
+    articles?: ArticleCreateNestedManyWithoutAuthorInput
+    articleActivities?: ArticleActivityCreateNestedManyWithoutUserInput
+    media?: MediaCreateNestedManyWithoutUploaderInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    settings?: SiteSettingCreateNestedManyWithoutUpdatedByUserInput
     creator?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatorInput
-    articles?: ArticleCreateNestedManyWithoutAuthorInput
     modules?: UserModulePermissionCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-    ads?: AdCreateNestedManyWithoutCreatorInput
-    articleActivities?: ArticleActivityCreateNestedManyWithoutUserInput
-    settings?: SiteSettingCreateNestedManyWithoutUpdatedByUserInput
-    media?: MediaCreateNestedManyWithoutUploaderInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -33758,14 +33758,14 @@ export namespace Prisma {
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatorInput
-    articles?: ArticleUncheckedCreateNestedManyWithoutAuthorInput
-    modules?: UserModulePermissionUncheckedCreateNestedManyWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     ads?: AdUncheckedCreateNestedManyWithoutCreatorInput
+    articles?: ArticleUncheckedCreateNestedManyWithoutAuthorInput
     articleActivities?: ArticleActivityUncheckedCreateNestedManyWithoutUserInput
-    settings?: SiteSettingUncheckedCreateNestedManyWithoutUpdatedByUserInput
     media?: MediaUncheckedCreateNestedManyWithoutUploaderInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    settings?: SiteSettingUncheckedCreateNestedManyWithoutUpdatedByUserInput
+    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatorInput
+    modules?: UserModulePermissionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -33782,15 +33782,15 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ads?: AdUpdateManyWithoutCreatorNestedInput
+    articles?: ArticleUpdateManyWithoutAuthorNestedInput
+    articleActivities?: ArticleActivityUpdateManyWithoutUserNestedInput
+    media?: MediaUpdateManyWithoutUploaderNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    settings?: SiteSettingUpdateManyWithoutUpdatedByUserNestedInput
     creator?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatorNestedInput
-    articles?: ArticleUpdateManyWithoutAuthorNestedInput
     modules?: UserModulePermissionUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
-    ads?: AdUpdateManyWithoutCreatorNestedInput
-    articleActivities?: ArticleActivityUpdateManyWithoutUserNestedInput
-    settings?: SiteSettingUpdateManyWithoutUpdatedByUserNestedInput
-    media?: MediaUpdateManyWithoutUploaderNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -33808,14 +33808,14 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdUsers?: UserUncheckedUpdateManyWithoutCreatorNestedInput
-    articles?: ArticleUncheckedUpdateManyWithoutAuthorNestedInput
-    modules?: UserModulePermissionUncheckedUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     ads?: AdUncheckedUpdateManyWithoutCreatorNestedInput
+    articles?: ArticleUncheckedUpdateManyWithoutAuthorNestedInput
     articleActivities?: ArticleActivityUncheckedUpdateManyWithoutUserNestedInput
-    settings?: SiteSettingUncheckedUpdateManyWithoutUpdatedByUserNestedInput
     media?: MediaUncheckedUpdateManyWithoutUploaderNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    settings?: SiteSettingUncheckedUpdateManyWithoutUpdatedByUserNestedInput
+    createdUsers?: UserUncheckedUpdateManyWithoutCreatorNestedInput
+    modules?: UserModulePermissionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -33964,8 +33964,8 @@ export namespace Prisma {
     canDelete?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutModulesInput
     module: ModuleCreateNestedOneWithoutPermissionsInput
+    user: UserCreateNestedOneWithoutModulesInput
   }
 
   export type UserModulePermissionUncheckedCreateInput = {
@@ -33988,8 +33988,8 @@ export namespace Prisma {
     canDelete?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutModulesNestedInput
     module?: ModuleUpdateOneRequiredWithoutPermissionsNestedInput
+    user?: UserUpdateOneRequiredWithoutModulesNestedInput
   }
 
   export type UserModulePermissionUncheckedUpdateInput = {
@@ -34109,6 +34109,12 @@ export namespace Prisma {
     isNot?: UserWhereInput
   }
 
+  export type AdAnalyticsListRelationFilter = {
+    every?: AdAnalyticsWhereInput
+    some?: AdAnalyticsWhereInput
+    none?: AdAnalyticsWhereInput
+  }
+
   export type AdPlacementListRelationFilter = {
     every?: AdPlacementWhereInput
     some?: AdPlacementWhereInput
@@ -34121,15 +34127,13 @@ export namespace Prisma {
     none?: ArticleAdWhereInput
   }
 
-  export type AdAnalyticsListRelationFilter = {
-    every?: AdAnalyticsWhereInput
-    some?: AdAnalyticsWhereInput
-    none?: AdAnalyticsWhereInput
-  }
-
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
+  }
+
+  export type AdAnalyticsOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type AdPlacementOrderByRelationAggregateInput = {
@@ -34137,10 +34141,6 @@ export namespace Prisma {
   }
 
   export type ArticleAdOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type AdAnalyticsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -34156,15 +34156,15 @@ export namespace Prisma {
     endDate?: SortOrder
     status?: SortOrder
     priority?: SortOrder
-    targetPage?: SortOrder
-    ratio?: SortOrder
-    pageName?: SortOrder
-    placementName?: SortOrder
     impressions?: SortOrder
     clicks?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    pageName?: SortOrder
+    placementName?: SortOrder
+    ratio?: SortOrder
+    targetPage?: SortOrder
   }
 
   export type AdAvgOrderByAggregateInput = {
@@ -34185,15 +34185,15 @@ export namespace Prisma {
     endDate?: SortOrder
     status?: SortOrder
     priority?: SortOrder
-    targetPage?: SortOrder
-    ratio?: SortOrder
-    pageName?: SortOrder
-    placementName?: SortOrder
     impressions?: SortOrder
     clicks?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    pageName?: SortOrder
+    placementName?: SortOrder
+    ratio?: SortOrder
+    targetPage?: SortOrder
   }
 
   export type AdMinOrderByAggregateInput = {
@@ -34208,15 +34208,15 @@ export namespace Prisma {
     endDate?: SortOrder
     status?: SortOrder
     priority?: SortOrder
-    targetPage?: SortOrder
-    ratio?: SortOrder
-    pageName?: SortOrder
-    placementName?: SortOrder
     impressions?: SortOrder
     clicks?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    pageName?: SortOrder
+    placementName?: SortOrder
+    ratio?: SortOrder
+    targetPage?: SortOrder
   }
 
   export type AdSumOrderByAggregateInput = {
@@ -34524,6 +34524,12 @@ export namespace Prisma {
     isNot?: CategoryWhereInput | null
   }
 
+  export type ArticleActivityListRelationFilter = {
+    every?: ArticleActivityWhereInput
+    some?: ArticleActivityWhereInput
+    none?: ArticleActivityWhereInput
+  }
+
   export type ArticleTagListRelationFilter = {
     every?: ArticleTagWhereInput
     some?: ArticleTagWhereInput
@@ -34536,10 +34542,8 @@ export namespace Prisma {
     none?: CommentWhereInput
   }
 
-  export type ArticleActivityListRelationFilter = {
-    every?: ArticleActivityWhereInput
-    some?: ArticleActivityWhereInput
-    none?: ArticleActivityWhereInput
+  export type ArticleActivityOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type ArticleTagOrderByRelationAggregateInput = {
@@ -34550,10 +34554,6 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type ArticleActivityOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type ArticleCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
@@ -34561,15 +34561,9 @@ export namespace Prisma {
     content?: SortOrder
     excerpt?: SortOrder
     featuredImage?: SortOrder
-    featuredImageTitle?: SortOrder
     status?: SortOrder
     isFeatured?: SortOrder
     isBreakingNews?: SortOrder
-    isTopHeadline?: SortOrder
-    isTrending?: SortOrder
-    isUaeNews?: SortOrder
-    isSponsored?: SortOrder
-    isExclusiveNews?: SortOrder
     viewCount?: SortOrder
     scheduledAt?: SortOrder
     publishedAt?: SortOrder
@@ -34581,6 +34575,12 @@ export namespace Prisma {
     updatedAt?: SortOrder
     categoryId?: SortOrder
     authorId?: SortOrder
+    featuredImageTitle?: SortOrder
+    isSponsored?: SortOrder
+    isTopHeadline?: SortOrder
+    isTrending?: SortOrder
+    isUaeNews?: SortOrder
+    isExclusiveNews?: SortOrder
     authorName?: SortOrder
   }
 
@@ -34596,15 +34596,9 @@ export namespace Prisma {
     content?: SortOrder
     excerpt?: SortOrder
     featuredImage?: SortOrder
-    featuredImageTitle?: SortOrder
     status?: SortOrder
     isFeatured?: SortOrder
     isBreakingNews?: SortOrder
-    isTopHeadline?: SortOrder
-    isTrending?: SortOrder
-    isUaeNews?: SortOrder
-    isSponsored?: SortOrder
-    isExclusiveNews?: SortOrder
     viewCount?: SortOrder
     scheduledAt?: SortOrder
     publishedAt?: SortOrder
@@ -34616,6 +34610,12 @@ export namespace Prisma {
     updatedAt?: SortOrder
     categoryId?: SortOrder
     authorId?: SortOrder
+    featuredImageTitle?: SortOrder
+    isSponsored?: SortOrder
+    isTopHeadline?: SortOrder
+    isTrending?: SortOrder
+    isUaeNews?: SortOrder
+    isExclusiveNews?: SortOrder
     authorName?: SortOrder
   }
 
@@ -34626,15 +34626,9 @@ export namespace Prisma {
     content?: SortOrder
     excerpt?: SortOrder
     featuredImage?: SortOrder
-    featuredImageTitle?: SortOrder
     status?: SortOrder
     isFeatured?: SortOrder
     isBreakingNews?: SortOrder
-    isTopHeadline?: SortOrder
-    isTrending?: SortOrder
-    isUaeNews?: SortOrder
-    isSponsored?: SortOrder
-    isExclusiveNews?: SortOrder
     viewCount?: SortOrder
     scheduledAt?: SortOrder
     publishedAt?: SortOrder
@@ -34646,6 +34640,12 @@ export namespace Prisma {
     updatedAt?: SortOrder
     categoryId?: SortOrder
     authorId?: SortOrder
+    featuredImageTitle?: SortOrder
+    isSponsored?: SortOrder
+    isTopHeadline?: SortOrder
+    isTrending?: SortOrder
+    isUaeNews?: SortOrder
+    isExclusiveNews?: SortOrder
     authorName?: SortOrder
   }
 
@@ -34853,16 +34853,16 @@ export namespace Prisma {
     parentId?: SortOrder
   }
 
-  export type CategoryListRelationFilter = {
-    every?: CategoryWhereInput
-    some?: CategoryWhereInput
-    none?: CategoryWhereInput
-  }
-
   export type ArticleListRelationFilter = {
     every?: ArticleWhereInput
     some?: ArticleWhereInput
     none?: ArticleWhereInput
+  }
+
+  export type CategoryListRelationFilter = {
+    every?: CategoryWhereInput
+    some?: CategoryWhereInput
+    none?: CategoryWhereInput
   }
 
   export type PageSeoListRelationFilter = {
@@ -34871,11 +34871,11 @@ export namespace Prisma {
     none?: PageSeoWhereInput
   }
 
-  export type CategoryOrderByRelationAggregateInput = {
+  export type ArticleOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type ArticleOrderByRelationAggregateInput = {
+  export type CategoryOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -35514,6 +35514,30 @@ export namespace Prisma {
     not?: NestedEnumUserStatusFilter<$PrismaModel> | $Enums.UserStatus
   }
 
+  export type AdListRelationFilter = {
+    every?: AdWhereInput
+    some?: AdWhereInput
+    none?: AdWhereInput
+  }
+
+  export type MediaListRelationFilter = {
+    every?: MediaWhereInput
+    some?: MediaWhereInput
+    none?: MediaWhereInput
+  }
+
+  export type NotificationListRelationFilter = {
+    every?: NotificationWhereInput
+    some?: NotificationWhereInput
+    none?: NotificationWhereInput
+  }
+
+  export type SiteSettingListRelationFilter = {
+    every?: SiteSettingWhereInput
+    some?: SiteSettingWhereInput
+    none?: SiteSettingWhereInput
+  }
+
   export type UserListRelationFilter = {
     every?: UserWhereInput
     some?: UserWhereInput
@@ -35526,35 +35550,11 @@ export namespace Prisma {
     none?: UserModulePermissionWhereInput
   }
 
-  export type NotificationListRelationFilter = {
-    every?: NotificationWhereInput
-    some?: NotificationWhereInput
-    none?: NotificationWhereInput
-  }
-
-  export type AdListRelationFilter = {
-    every?: AdWhereInput
-    some?: AdWhereInput
-    none?: AdWhereInput
-  }
-
-  export type SiteSettingListRelationFilter = {
-    every?: SiteSettingWhereInput
-    some?: SiteSettingWhereInput
-    none?: SiteSettingWhereInput
-  }
-
-  export type MediaListRelationFilter = {
-    every?: MediaWhereInput
-    some?: MediaWhereInput
-    none?: MediaWhereInput
-  }
-
-  export type UserOrderByRelationAggregateInput = {
+  export type AdOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type UserModulePermissionOrderByRelationAggregateInput = {
+  export type MediaOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -35562,15 +35562,15 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type AdOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type SiteSettingOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type MediaOrderByRelationAggregateInput = {
+  export type UserOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserModulePermissionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -35741,6 +35741,13 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type AdAnalyticsCreateNestedManyWithoutAdInput = {
+    create?: XOR<AdAnalyticsCreateWithoutAdInput, AdAnalyticsUncheckedCreateWithoutAdInput> | AdAnalyticsCreateWithoutAdInput[] | AdAnalyticsUncheckedCreateWithoutAdInput[]
+    connectOrCreate?: AdAnalyticsCreateOrConnectWithoutAdInput | AdAnalyticsCreateOrConnectWithoutAdInput[]
+    createMany?: AdAnalyticsCreateManyAdInputEnvelope
+    connect?: AdAnalyticsWhereUniqueInput | AdAnalyticsWhereUniqueInput[]
+  }
+
   export type AdPlacementCreateNestedManyWithoutAdInput = {
     create?: XOR<AdPlacementCreateWithoutAdInput, AdPlacementUncheckedCreateWithoutAdInput> | AdPlacementCreateWithoutAdInput[] | AdPlacementUncheckedCreateWithoutAdInput[]
     connectOrCreate?: AdPlacementCreateOrConnectWithoutAdInput | AdPlacementCreateOrConnectWithoutAdInput[]
@@ -35755,7 +35762,7 @@ export namespace Prisma {
     connect?: ArticleAdWhereUniqueInput | ArticleAdWhereUniqueInput[]
   }
 
-  export type AdAnalyticsCreateNestedManyWithoutAdInput = {
+  export type AdAnalyticsUncheckedCreateNestedManyWithoutAdInput = {
     create?: XOR<AdAnalyticsCreateWithoutAdInput, AdAnalyticsUncheckedCreateWithoutAdInput> | AdAnalyticsCreateWithoutAdInput[] | AdAnalyticsUncheckedCreateWithoutAdInput[]
     connectOrCreate?: AdAnalyticsCreateOrConnectWithoutAdInput | AdAnalyticsCreateOrConnectWithoutAdInput[]
     createMany?: AdAnalyticsCreateManyAdInputEnvelope
@@ -35774,13 +35781,6 @@ export namespace Prisma {
     connectOrCreate?: ArticleAdCreateOrConnectWithoutAdInput | ArticleAdCreateOrConnectWithoutAdInput[]
     createMany?: ArticleAdCreateManyAdInputEnvelope
     connect?: ArticleAdWhereUniqueInput | ArticleAdWhereUniqueInput[]
-  }
-
-  export type AdAnalyticsUncheckedCreateNestedManyWithoutAdInput = {
-    create?: XOR<AdAnalyticsCreateWithoutAdInput, AdAnalyticsUncheckedCreateWithoutAdInput> | AdAnalyticsCreateWithoutAdInput[] | AdAnalyticsUncheckedCreateWithoutAdInput[]
-    connectOrCreate?: AdAnalyticsCreateOrConnectWithoutAdInput | AdAnalyticsCreateOrConnectWithoutAdInput[]
-    createMany?: AdAnalyticsCreateManyAdInputEnvelope
-    connect?: AdAnalyticsWhereUniqueInput | AdAnalyticsWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -35819,6 +35819,20 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAdsInput, UserUpdateWithoutAdsInput>, UserUncheckedUpdateWithoutAdsInput>
   }
 
+  export type AdAnalyticsUpdateManyWithoutAdNestedInput = {
+    create?: XOR<AdAnalyticsCreateWithoutAdInput, AdAnalyticsUncheckedCreateWithoutAdInput> | AdAnalyticsCreateWithoutAdInput[] | AdAnalyticsUncheckedCreateWithoutAdInput[]
+    connectOrCreate?: AdAnalyticsCreateOrConnectWithoutAdInput | AdAnalyticsCreateOrConnectWithoutAdInput[]
+    upsert?: AdAnalyticsUpsertWithWhereUniqueWithoutAdInput | AdAnalyticsUpsertWithWhereUniqueWithoutAdInput[]
+    createMany?: AdAnalyticsCreateManyAdInputEnvelope
+    set?: AdAnalyticsWhereUniqueInput | AdAnalyticsWhereUniqueInput[]
+    disconnect?: AdAnalyticsWhereUniqueInput | AdAnalyticsWhereUniqueInput[]
+    delete?: AdAnalyticsWhereUniqueInput | AdAnalyticsWhereUniqueInput[]
+    connect?: AdAnalyticsWhereUniqueInput | AdAnalyticsWhereUniqueInput[]
+    update?: AdAnalyticsUpdateWithWhereUniqueWithoutAdInput | AdAnalyticsUpdateWithWhereUniqueWithoutAdInput[]
+    updateMany?: AdAnalyticsUpdateManyWithWhereWithoutAdInput | AdAnalyticsUpdateManyWithWhereWithoutAdInput[]
+    deleteMany?: AdAnalyticsScalarWhereInput | AdAnalyticsScalarWhereInput[]
+  }
+
   export type AdPlacementUpdateManyWithoutAdNestedInput = {
     create?: XOR<AdPlacementCreateWithoutAdInput, AdPlacementUncheckedCreateWithoutAdInput> | AdPlacementCreateWithoutAdInput[] | AdPlacementUncheckedCreateWithoutAdInput[]
     connectOrCreate?: AdPlacementCreateOrConnectWithoutAdInput | AdPlacementCreateOrConnectWithoutAdInput[]
@@ -35847,7 +35861,7 @@ export namespace Prisma {
     deleteMany?: ArticleAdScalarWhereInput | ArticleAdScalarWhereInput[]
   }
 
-  export type AdAnalyticsUpdateManyWithoutAdNestedInput = {
+  export type AdAnalyticsUncheckedUpdateManyWithoutAdNestedInput = {
     create?: XOR<AdAnalyticsCreateWithoutAdInput, AdAnalyticsUncheckedCreateWithoutAdInput> | AdAnalyticsCreateWithoutAdInput[] | AdAnalyticsUncheckedCreateWithoutAdInput[]
     connectOrCreate?: AdAnalyticsCreateOrConnectWithoutAdInput | AdAnalyticsCreateOrConnectWithoutAdInput[]
     upsert?: AdAnalyticsUpsertWithWhereUniqueWithoutAdInput | AdAnalyticsUpsertWithWhereUniqueWithoutAdInput[]
@@ -35887,20 +35901,6 @@ export namespace Prisma {
     update?: ArticleAdUpdateWithWhereUniqueWithoutAdInput | ArticleAdUpdateWithWhereUniqueWithoutAdInput[]
     updateMany?: ArticleAdUpdateManyWithWhereWithoutAdInput | ArticleAdUpdateManyWithWhereWithoutAdInput[]
     deleteMany?: ArticleAdScalarWhereInput | ArticleAdScalarWhereInput[]
-  }
-
-  export type AdAnalyticsUncheckedUpdateManyWithoutAdNestedInput = {
-    create?: XOR<AdAnalyticsCreateWithoutAdInput, AdAnalyticsUncheckedCreateWithoutAdInput> | AdAnalyticsCreateWithoutAdInput[] | AdAnalyticsUncheckedCreateWithoutAdInput[]
-    connectOrCreate?: AdAnalyticsCreateOrConnectWithoutAdInput | AdAnalyticsCreateOrConnectWithoutAdInput[]
-    upsert?: AdAnalyticsUpsertWithWhereUniqueWithoutAdInput | AdAnalyticsUpsertWithWhereUniqueWithoutAdInput[]
-    createMany?: AdAnalyticsCreateManyAdInputEnvelope
-    set?: AdAnalyticsWhereUniqueInput | AdAnalyticsWhereUniqueInput[]
-    disconnect?: AdAnalyticsWhereUniqueInput | AdAnalyticsWhereUniqueInput[]
-    delete?: AdAnalyticsWhereUniqueInput | AdAnalyticsWhereUniqueInput[]
-    connect?: AdAnalyticsWhereUniqueInput | AdAnalyticsWhereUniqueInput[]
-    update?: AdAnalyticsUpdateWithWhereUniqueWithoutAdInput | AdAnalyticsUpdateWithWhereUniqueWithoutAdInput[]
-    updateMany?: AdAnalyticsUpdateManyWithWhereWithoutAdInput | AdAnalyticsUpdateManyWithWhereWithoutAdInput[]
-    deleteMany?: AdAnalyticsScalarWhereInput | AdAnalyticsScalarWhereInput[]
   }
 
   export type AdPlacementCreateNestedManyWithoutAdSpaceInput = {
@@ -35977,24 +35977,16 @@ export namespace Prisma {
     update?: XOR<XOR<AdSpaceUpdateToOneWithWhereWithoutPlacementsInput, AdSpaceUpdateWithoutPlacementsInput>, AdSpaceUncheckedUpdateWithoutPlacementsInput>
   }
 
-  export type ArticleCreateNestedOneWithoutAdsInput = {
-    create?: XOR<ArticleCreateWithoutAdsInput, ArticleUncheckedCreateWithoutAdsInput>
-    connectOrCreate?: ArticleCreateOrConnectWithoutAdsInput
-    connect?: ArticleWhereUniqueInput
-  }
-
   export type AdCreateNestedOneWithoutArticlesInput = {
     create?: XOR<AdCreateWithoutArticlesInput, AdUncheckedCreateWithoutArticlesInput>
     connectOrCreate?: AdCreateOrConnectWithoutArticlesInput
     connect?: AdWhereUniqueInput
   }
 
-  export type ArticleUpdateOneRequiredWithoutAdsNestedInput = {
+  export type ArticleCreateNestedOneWithoutAdsInput = {
     create?: XOR<ArticleCreateWithoutAdsInput, ArticleUncheckedCreateWithoutAdsInput>
     connectOrCreate?: ArticleCreateOrConnectWithoutAdsInput
-    upsert?: ArticleUpsertWithoutAdsInput
     connect?: ArticleWhereUniqueInput
-    update?: XOR<XOR<ArticleUpdateToOneWithWhereWithoutAdsInput, ArticleUpdateWithoutAdsInput>, ArticleUncheckedUpdateWithoutAdsInput>
   }
 
   export type AdUpdateOneRequiredWithoutArticlesNestedInput = {
@@ -36003,6 +35995,14 @@ export namespace Prisma {
     upsert?: AdUpsertWithoutArticlesInput
     connect?: AdWhereUniqueInput
     update?: XOR<XOR<AdUpdateToOneWithWhereWithoutArticlesInput, AdUpdateWithoutArticlesInput>, AdUncheckedUpdateWithoutArticlesInput>
+  }
+
+  export type ArticleUpdateOneRequiredWithoutAdsNestedInput = {
+    create?: XOR<ArticleCreateWithoutAdsInput, ArticleUncheckedCreateWithoutAdsInput>
+    connectOrCreate?: ArticleCreateOrConnectWithoutAdsInput
+    upsert?: ArticleUpsertWithoutAdsInput
+    connect?: ArticleWhereUniqueInput
+    update?: XOR<XOR<ArticleUpdateToOneWithWhereWithoutAdsInput, ArticleUpdateWithoutAdsInput>, ArticleUncheckedUpdateWithoutAdsInput>
   }
 
   export type AdCreateNestedOneWithoutAnalyticsInput = {
@@ -36019,16 +36019,30 @@ export namespace Prisma {
     update?: XOR<XOR<AdUpdateToOneWithWhereWithoutAnalyticsInput, AdUpdateWithoutAnalyticsInput>, AdUncheckedUpdateWithoutAnalyticsInput>
   }
 
+  export type UserCreateNestedOneWithoutArticlesInput = {
+    create?: XOR<UserCreateWithoutArticlesInput, UserUncheckedCreateWithoutArticlesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutArticlesInput
+    connect?: UserWhereUniqueInput
+  }
+
   export type CategoryCreateNestedOneWithoutArticlesInput = {
     create?: XOR<CategoryCreateWithoutArticlesInput, CategoryUncheckedCreateWithoutArticlesInput>
     connectOrCreate?: CategoryCreateOrConnectWithoutArticlesInput
     connect?: CategoryWhereUniqueInput
   }
 
-  export type UserCreateNestedOneWithoutArticlesInput = {
-    create?: XOR<UserCreateWithoutArticlesInput, UserUncheckedCreateWithoutArticlesInput>
-    connectOrCreate?: UserCreateOrConnectWithoutArticlesInput
-    connect?: UserWhereUniqueInput
+  export type ArticleActivityCreateNestedManyWithoutArticleInput = {
+    create?: XOR<ArticleActivityCreateWithoutArticleInput, ArticleActivityUncheckedCreateWithoutArticleInput> | ArticleActivityCreateWithoutArticleInput[] | ArticleActivityUncheckedCreateWithoutArticleInput[]
+    connectOrCreate?: ArticleActivityCreateOrConnectWithoutArticleInput | ArticleActivityCreateOrConnectWithoutArticleInput[]
+    createMany?: ArticleActivityCreateManyArticleInputEnvelope
+    connect?: ArticleActivityWhereUniqueInput | ArticleActivityWhereUniqueInput[]
+  }
+
+  export type ArticleAdCreateNestedManyWithoutArticleInput = {
+    create?: XOR<ArticleAdCreateWithoutArticleInput, ArticleAdUncheckedCreateWithoutArticleInput> | ArticleAdCreateWithoutArticleInput[] | ArticleAdUncheckedCreateWithoutArticleInput[]
+    connectOrCreate?: ArticleAdCreateOrConnectWithoutArticleInput | ArticleAdCreateOrConnectWithoutArticleInput[]
+    createMany?: ArticleAdCreateManyArticleInputEnvelope
+    connect?: ArticleAdWhereUniqueInput | ArticleAdWhereUniqueInput[]
   }
 
   export type ArticleTagCreateNestedManyWithoutArticleInput = {
@@ -36045,18 +36059,18 @@ export namespace Prisma {
     connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
   }
 
-  export type ArticleAdCreateNestedManyWithoutArticleInput = {
-    create?: XOR<ArticleAdCreateWithoutArticleInput, ArticleAdUncheckedCreateWithoutArticleInput> | ArticleAdCreateWithoutArticleInput[] | ArticleAdUncheckedCreateWithoutArticleInput[]
-    connectOrCreate?: ArticleAdCreateOrConnectWithoutArticleInput | ArticleAdCreateOrConnectWithoutArticleInput[]
-    createMany?: ArticleAdCreateManyArticleInputEnvelope
-    connect?: ArticleAdWhereUniqueInput | ArticleAdWhereUniqueInput[]
-  }
-
-  export type ArticleActivityCreateNestedManyWithoutArticleInput = {
+  export type ArticleActivityUncheckedCreateNestedManyWithoutArticleInput = {
     create?: XOR<ArticleActivityCreateWithoutArticleInput, ArticleActivityUncheckedCreateWithoutArticleInput> | ArticleActivityCreateWithoutArticleInput[] | ArticleActivityUncheckedCreateWithoutArticleInput[]
     connectOrCreate?: ArticleActivityCreateOrConnectWithoutArticleInput | ArticleActivityCreateOrConnectWithoutArticleInput[]
     createMany?: ArticleActivityCreateManyArticleInputEnvelope
     connect?: ArticleActivityWhereUniqueInput | ArticleActivityWhereUniqueInput[]
+  }
+
+  export type ArticleAdUncheckedCreateNestedManyWithoutArticleInput = {
+    create?: XOR<ArticleAdCreateWithoutArticleInput, ArticleAdUncheckedCreateWithoutArticleInput> | ArticleAdCreateWithoutArticleInput[] | ArticleAdUncheckedCreateWithoutArticleInput[]
+    connectOrCreate?: ArticleAdCreateOrConnectWithoutArticleInput | ArticleAdCreateOrConnectWithoutArticleInput[]
+    createMany?: ArticleAdCreateManyArticleInputEnvelope
+    connect?: ArticleAdWhereUniqueInput | ArticleAdWhereUniqueInput[]
   }
 
   export type ArticleTagUncheckedCreateNestedManyWithoutArticleInput = {
@@ -36073,26 +36087,20 @@ export namespace Prisma {
     connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
   }
 
-  export type ArticleAdUncheckedCreateNestedManyWithoutArticleInput = {
-    create?: XOR<ArticleAdCreateWithoutArticleInput, ArticleAdUncheckedCreateWithoutArticleInput> | ArticleAdCreateWithoutArticleInput[] | ArticleAdUncheckedCreateWithoutArticleInput[]
-    connectOrCreate?: ArticleAdCreateOrConnectWithoutArticleInput | ArticleAdCreateOrConnectWithoutArticleInput[]
-    createMany?: ArticleAdCreateManyArticleInputEnvelope
-    connect?: ArticleAdWhereUniqueInput | ArticleAdWhereUniqueInput[]
-  }
-
-  export type ArticleActivityUncheckedCreateNestedManyWithoutArticleInput = {
-    create?: XOR<ArticleActivityCreateWithoutArticleInput, ArticleActivityUncheckedCreateWithoutArticleInput> | ArticleActivityCreateWithoutArticleInput[] | ArticleActivityUncheckedCreateWithoutArticleInput[]
-    connectOrCreate?: ArticleActivityCreateOrConnectWithoutArticleInput | ArticleActivityCreateOrConnectWithoutArticleInput[]
-    createMany?: ArticleActivityCreateManyArticleInputEnvelope
-    connect?: ArticleActivityWhereUniqueInput | ArticleActivityWhereUniqueInput[]
-  }
-
   export type EnumArticleStatusFieldUpdateOperationsInput = {
     set?: $Enums.ArticleStatus
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
     set?: Date | string | null
+  }
+
+  export type UserUpdateOneRequiredWithoutArticlesNestedInput = {
+    create?: XOR<UserCreateWithoutArticlesInput, UserUncheckedCreateWithoutArticlesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutArticlesInput
+    upsert?: UserUpsertWithoutArticlesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutArticlesInput, UserUpdateWithoutArticlesInput>, UserUncheckedUpdateWithoutArticlesInput>
   }
 
   export type CategoryUpdateOneWithoutArticlesNestedInput = {
@@ -36105,12 +36113,32 @@ export namespace Prisma {
     update?: XOR<XOR<CategoryUpdateToOneWithWhereWithoutArticlesInput, CategoryUpdateWithoutArticlesInput>, CategoryUncheckedUpdateWithoutArticlesInput>
   }
 
-  export type UserUpdateOneRequiredWithoutArticlesNestedInput = {
-    create?: XOR<UserCreateWithoutArticlesInput, UserUncheckedCreateWithoutArticlesInput>
-    connectOrCreate?: UserCreateOrConnectWithoutArticlesInput
-    upsert?: UserUpsertWithoutArticlesInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutArticlesInput, UserUpdateWithoutArticlesInput>, UserUncheckedUpdateWithoutArticlesInput>
+  export type ArticleActivityUpdateManyWithoutArticleNestedInput = {
+    create?: XOR<ArticleActivityCreateWithoutArticleInput, ArticleActivityUncheckedCreateWithoutArticleInput> | ArticleActivityCreateWithoutArticleInput[] | ArticleActivityUncheckedCreateWithoutArticleInput[]
+    connectOrCreate?: ArticleActivityCreateOrConnectWithoutArticleInput | ArticleActivityCreateOrConnectWithoutArticleInput[]
+    upsert?: ArticleActivityUpsertWithWhereUniqueWithoutArticleInput | ArticleActivityUpsertWithWhereUniqueWithoutArticleInput[]
+    createMany?: ArticleActivityCreateManyArticleInputEnvelope
+    set?: ArticleActivityWhereUniqueInput | ArticleActivityWhereUniqueInput[]
+    disconnect?: ArticleActivityWhereUniqueInput | ArticleActivityWhereUniqueInput[]
+    delete?: ArticleActivityWhereUniqueInput | ArticleActivityWhereUniqueInput[]
+    connect?: ArticleActivityWhereUniqueInput | ArticleActivityWhereUniqueInput[]
+    update?: ArticleActivityUpdateWithWhereUniqueWithoutArticleInput | ArticleActivityUpdateWithWhereUniqueWithoutArticleInput[]
+    updateMany?: ArticleActivityUpdateManyWithWhereWithoutArticleInput | ArticleActivityUpdateManyWithWhereWithoutArticleInput[]
+    deleteMany?: ArticleActivityScalarWhereInput | ArticleActivityScalarWhereInput[]
+  }
+
+  export type ArticleAdUpdateManyWithoutArticleNestedInput = {
+    create?: XOR<ArticleAdCreateWithoutArticleInput, ArticleAdUncheckedCreateWithoutArticleInput> | ArticleAdCreateWithoutArticleInput[] | ArticleAdUncheckedCreateWithoutArticleInput[]
+    connectOrCreate?: ArticleAdCreateOrConnectWithoutArticleInput | ArticleAdCreateOrConnectWithoutArticleInput[]
+    upsert?: ArticleAdUpsertWithWhereUniqueWithoutArticleInput | ArticleAdUpsertWithWhereUniqueWithoutArticleInput[]
+    createMany?: ArticleAdCreateManyArticleInputEnvelope
+    set?: ArticleAdWhereUniqueInput | ArticleAdWhereUniqueInput[]
+    disconnect?: ArticleAdWhereUniqueInput | ArticleAdWhereUniqueInput[]
+    delete?: ArticleAdWhereUniqueInput | ArticleAdWhereUniqueInput[]
+    connect?: ArticleAdWhereUniqueInput | ArticleAdWhereUniqueInput[]
+    update?: ArticleAdUpdateWithWhereUniqueWithoutArticleInput | ArticleAdUpdateWithWhereUniqueWithoutArticleInput[]
+    updateMany?: ArticleAdUpdateManyWithWhereWithoutArticleInput | ArticleAdUpdateManyWithWhereWithoutArticleInput[]
+    deleteMany?: ArticleAdScalarWhereInput | ArticleAdScalarWhereInput[]
   }
 
   export type ArticleTagUpdateManyWithoutArticleNestedInput = {
@@ -36141,21 +36169,7 @@ export namespace Prisma {
     deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
   }
 
-  export type ArticleAdUpdateManyWithoutArticleNestedInput = {
-    create?: XOR<ArticleAdCreateWithoutArticleInput, ArticleAdUncheckedCreateWithoutArticleInput> | ArticleAdCreateWithoutArticleInput[] | ArticleAdUncheckedCreateWithoutArticleInput[]
-    connectOrCreate?: ArticleAdCreateOrConnectWithoutArticleInput | ArticleAdCreateOrConnectWithoutArticleInput[]
-    upsert?: ArticleAdUpsertWithWhereUniqueWithoutArticleInput | ArticleAdUpsertWithWhereUniqueWithoutArticleInput[]
-    createMany?: ArticleAdCreateManyArticleInputEnvelope
-    set?: ArticleAdWhereUniqueInput | ArticleAdWhereUniqueInput[]
-    disconnect?: ArticleAdWhereUniqueInput | ArticleAdWhereUniqueInput[]
-    delete?: ArticleAdWhereUniqueInput | ArticleAdWhereUniqueInput[]
-    connect?: ArticleAdWhereUniqueInput | ArticleAdWhereUniqueInput[]
-    update?: ArticleAdUpdateWithWhereUniqueWithoutArticleInput | ArticleAdUpdateWithWhereUniqueWithoutArticleInput[]
-    updateMany?: ArticleAdUpdateManyWithWhereWithoutArticleInput | ArticleAdUpdateManyWithWhereWithoutArticleInput[]
-    deleteMany?: ArticleAdScalarWhereInput | ArticleAdScalarWhereInput[]
-  }
-
-  export type ArticleActivityUpdateManyWithoutArticleNestedInput = {
+  export type ArticleActivityUncheckedUpdateManyWithoutArticleNestedInput = {
     create?: XOR<ArticleActivityCreateWithoutArticleInput, ArticleActivityUncheckedCreateWithoutArticleInput> | ArticleActivityCreateWithoutArticleInput[] | ArticleActivityUncheckedCreateWithoutArticleInput[]
     connectOrCreate?: ArticleActivityCreateOrConnectWithoutArticleInput | ArticleActivityCreateOrConnectWithoutArticleInput[]
     upsert?: ArticleActivityUpsertWithWhereUniqueWithoutArticleInput | ArticleActivityUpsertWithWhereUniqueWithoutArticleInput[]
@@ -36167,6 +36181,20 @@ export namespace Prisma {
     update?: ArticleActivityUpdateWithWhereUniqueWithoutArticleInput | ArticleActivityUpdateWithWhereUniqueWithoutArticleInput[]
     updateMany?: ArticleActivityUpdateManyWithWhereWithoutArticleInput | ArticleActivityUpdateManyWithWhereWithoutArticleInput[]
     deleteMany?: ArticleActivityScalarWhereInput | ArticleActivityScalarWhereInput[]
+  }
+
+  export type ArticleAdUncheckedUpdateManyWithoutArticleNestedInput = {
+    create?: XOR<ArticleAdCreateWithoutArticleInput, ArticleAdUncheckedCreateWithoutArticleInput> | ArticleAdCreateWithoutArticleInput[] | ArticleAdUncheckedCreateWithoutArticleInput[]
+    connectOrCreate?: ArticleAdCreateOrConnectWithoutArticleInput | ArticleAdCreateOrConnectWithoutArticleInput[]
+    upsert?: ArticleAdUpsertWithWhereUniqueWithoutArticleInput | ArticleAdUpsertWithWhereUniqueWithoutArticleInput[]
+    createMany?: ArticleAdCreateManyArticleInputEnvelope
+    set?: ArticleAdWhereUniqueInput | ArticleAdWhereUniqueInput[]
+    disconnect?: ArticleAdWhereUniqueInput | ArticleAdWhereUniqueInput[]
+    delete?: ArticleAdWhereUniqueInput | ArticleAdWhereUniqueInput[]
+    connect?: ArticleAdWhereUniqueInput | ArticleAdWhereUniqueInput[]
+    update?: ArticleAdUpdateWithWhereUniqueWithoutArticleInput | ArticleAdUpdateWithWhereUniqueWithoutArticleInput[]
+    updateMany?: ArticleAdUpdateManyWithWhereWithoutArticleInput | ArticleAdUpdateManyWithWhereWithoutArticleInput[]
+    deleteMany?: ArticleAdScalarWhereInput | ArticleAdScalarWhereInput[]
   }
 
   export type ArticleTagUncheckedUpdateManyWithoutArticleNestedInput = {
@@ -36195,34 +36223,6 @@ export namespace Prisma {
     update?: CommentUpdateWithWhereUniqueWithoutArticleInput | CommentUpdateWithWhereUniqueWithoutArticleInput[]
     updateMany?: CommentUpdateManyWithWhereWithoutArticleInput | CommentUpdateManyWithWhereWithoutArticleInput[]
     deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
-  }
-
-  export type ArticleAdUncheckedUpdateManyWithoutArticleNestedInput = {
-    create?: XOR<ArticleAdCreateWithoutArticleInput, ArticleAdUncheckedCreateWithoutArticleInput> | ArticleAdCreateWithoutArticleInput[] | ArticleAdUncheckedCreateWithoutArticleInput[]
-    connectOrCreate?: ArticleAdCreateOrConnectWithoutArticleInput | ArticleAdCreateOrConnectWithoutArticleInput[]
-    upsert?: ArticleAdUpsertWithWhereUniqueWithoutArticleInput | ArticleAdUpsertWithWhereUniqueWithoutArticleInput[]
-    createMany?: ArticleAdCreateManyArticleInputEnvelope
-    set?: ArticleAdWhereUniqueInput | ArticleAdWhereUniqueInput[]
-    disconnect?: ArticleAdWhereUniqueInput | ArticleAdWhereUniqueInput[]
-    delete?: ArticleAdWhereUniqueInput | ArticleAdWhereUniqueInput[]
-    connect?: ArticleAdWhereUniqueInput | ArticleAdWhereUniqueInput[]
-    update?: ArticleAdUpdateWithWhereUniqueWithoutArticleInput | ArticleAdUpdateWithWhereUniqueWithoutArticleInput[]
-    updateMany?: ArticleAdUpdateManyWithWhereWithoutArticleInput | ArticleAdUpdateManyWithWhereWithoutArticleInput[]
-    deleteMany?: ArticleAdScalarWhereInput | ArticleAdScalarWhereInput[]
-  }
-
-  export type ArticleActivityUncheckedUpdateManyWithoutArticleNestedInput = {
-    create?: XOR<ArticleActivityCreateWithoutArticleInput, ArticleActivityUncheckedCreateWithoutArticleInput> | ArticleActivityCreateWithoutArticleInput[] | ArticleActivityUncheckedCreateWithoutArticleInput[]
-    connectOrCreate?: ArticleActivityCreateOrConnectWithoutArticleInput | ArticleActivityCreateOrConnectWithoutArticleInput[]
-    upsert?: ArticleActivityUpsertWithWhereUniqueWithoutArticleInput | ArticleActivityUpsertWithWhereUniqueWithoutArticleInput[]
-    createMany?: ArticleActivityCreateManyArticleInputEnvelope
-    set?: ArticleActivityWhereUniqueInput | ArticleActivityWhereUniqueInput[]
-    disconnect?: ArticleActivityWhereUniqueInput | ArticleActivityWhereUniqueInput[]
-    delete?: ArticleActivityWhereUniqueInput | ArticleActivityWhereUniqueInput[]
-    connect?: ArticleActivityWhereUniqueInput | ArticleActivityWhereUniqueInput[]
-    update?: ArticleActivityUpdateWithWhereUniqueWithoutArticleInput | ArticleActivityUpdateWithWhereUniqueWithoutArticleInput[]
-    updateMany?: ArticleActivityUpdateManyWithWhereWithoutArticleInput | ArticleActivityUpdateManyWithWhereWithoutArticleInput[]
-    deleteMany?: ArticleActivityScalarWhereInput | ArticleActivityScalarWhereInput[]
   }
 
   export type ArticleTagCreateNestedManyWithoutTagInput = {
@@ -36295,24 +36295,16 @@ export namespace Prisma {
     update?: XOR<XOR<TagUpdateToOneWithWhereWithoutArticlesInput, TagUpdateWithoutArticlesInput>, TagUncheckedUpdateWithoutArticlesInput>
   }
 
-  export type UserCreateNestedOneWithoutArticleActivitiesInput = {
-    create?: XOR<UserCreateWithoutArticleActivitiesInput, UserUncheckedCreateWithoutArticleActivitiesInput>
-    connectOrCreate?: UserCreateOrConnectWithoutArticleActivitiesInput
-    connect?: UserWhereUniqueInput
-  }
-
   export type ArticleCreateNestedOneWithoutActivitiesInput = {
     create?: XOR<ArticleCreateWithoutActivitiesInput, ArticleUncheckedCreateWithoutActivitiesInput>
     connectOrCreate?: ArticleCreateOrConnectWithoutActivitiesInput
     connect?: ArticleWhereUniqueInput
   }
 
-  export type UserUpdateOneRequiredWithoutArticleActivitiesNestedInput = {
+  export type UserCreateNestedOneWithoutArticleActivitiesInput = {
     create?: XOR<UserCreateWithoutArticleActivitiesInput, UserUncheckedCreateWithoutArticleActivitiesInput>
     connectOrCreate?: UserCreateOrConnectWithoutArticleActivitiesInput
-    upsert?: UserUpsertWithoutArticleActivitiesInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutArticleActivitiesInput, UserUpdateWithoutArticleActivitiesInput>, UserUncheckedUpdateWithoutArticleActivitiesInput>
   }
 
   export type ArticleUpdateOneWithoutActivitiesNestedInput = {
@@ -36323,6 +36315,14 @@ export namespace Prisma {
     delete?: ArticleWhereInput | boolean
     connect?: ArticleWhereUniqueInput
     update?: XOR<XOR<ArticleUpdateToOneWithWhereWithoutActivitiesInput, ArticleUpdateWithoutActivitiesInput>, ArticleUncheckedUpdateWithoutActivitiesInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutArticleActivitiesNestedInput = {
+    create?: XOR<UserCreateWithoutArticleActivitiesInput, UserUncheckedCreateWithoutArticleActivitiesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutArticleActivitiesInput
+    upsert?: UserUpsertWithoutArticleActivitiesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutArticleActivitiesInput, UserUpdateWithoutArticleActivitiesInput>, UserUncheckedUpdateWithoutArticleActivitiesInput>
   }
 
   export type ArticleCreateNestedOneWithoutCommentsInput = {
@@ -36397,6 +36397,13 @@ export namespace Prisma {
     deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
   }
 
+  export type ArticleCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<ArticleCreateWithoutCategoryInput, ArticleUncheckedCreateWithoutCategoryInput> | ArticleCreateWithoutCategoryInput[] | ArticleUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: ArticleCreateOrConnectWithoutCategoryInput | ArticleCreateOrConnectWithoutCategoryInput[]
+    createMany?: ArticleCreateManyCategoryInputEnvelope
+    connect?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
+  }
+
   export type CategoryCreateNestedOneWithoutChildrenInput = {
     create?: XOR<CategoryCreateWithoutChildrenInput, CategoryUncheckedCreateWithoutChildrenInput>
     connectOrCreate?: CategoryCreateOrConnectWithoutChildrenInput
@@ -36410,25 +36417,11 @@ export namespace Prisma {
     connect?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
   }
 
-  export type ArticleCreateNestedManyWithoutCategoryInput = {
-    create?: XOR<ArticleCreateWithoutCategoryInput, ArticleUncheckedCreateWithoutCategoryInput> | ArticleCreateWithoutCategoryInput[] | ArticleUncheckedCreateWithoutCategoryInput[]
-    connectOrCreate?: ArticleCreateOrConnectWithoutCategoryInput | ArticleCreateOrConnectWithoutCategoryInput[]
-    createMany?: ArticleCreateManyCategoryInputEnvelope
-    connect?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
-  }
-
   export type PageSeoCreateNestedManyWithoutCategoryInput = {
     create?: XOR<PageSeoCreateWithoutCategoryInput, PageSeoUncheckedCreateWithoutCategoryInput> | PageSeoCreateWithoutCategoryInput[] | PageSeoUncheckedCreateWithoutCategoryInput[]
     connectOrCreate?: PageSeoCreateOrConnectWithoutCategoryInput | PageSeoCreateOrConnectWithoutCategoryInput[]
     createMany?: PageSeoCreateManyCategoryInputEnvelope
     connect?: PageSeoWhereUniqueInput | PageSeoWhereUniqueInput[]
-  }
-
-  export type CategoryUncheckedCreateNestedManyWithoutParentInput = {
-    create?: XOR<CategoryCreateWithoutParentInput, CategoryUncheckedCreateWithoutParentInput> | CategoryCreateWithoutParentInput[] | CategoryUncheckedCreateWithoutParentInput[]
-    connectOrCreate?: CategoryCreateOrConnectWithoutParentInput | CategoryCreateOrConnectWithoutParentInput[]
-    createMany?: CategoryCreateManyParentInputEnvelope
-    connect?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
   }
 
   export type ArticleUncheckedCreateNestedManyWithoutCategoryInput = {
@@ -36438,11 +36431,32 @@ export namespace Prisma {
     connect?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
   }
 
+  export type CategoryUncheckedCreateNestedManyWithoutParentInput = {
+    create?: XOR<CategoryCreateWithoutParentInput, CategoryUncheckedCreateWithoutParentInput> | CategoryCreateWithoutParentInput[] | CategoryUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: CategoryCreateOrConnectWithoutParentInput | CategoryCreateOrConnectWithoutParentInput[]
+    createMany?: CategoryCreateManyParentInputEnvelope
+    connect?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
+  }
+
   export type PageSeoUncheckedCreateNestedManyWithoutCategoryInput = {
     create?: XOR<PageSeoCreateWithoutCategoryInput, PageSeoUncheckedCreateWithoutCategoryInput> | PageSeoCreateWithoutCategoryInput[] | PageSeoUncheckedCreateWithoutCategoryInput[]
     connectOrCreate?: PageSeoCreateOrConnectWithoutCategoryInput | PageSeoCreateOrConnectWithoutCategoryInput[]
     createMany?: PageSeoCreateManyCategoryInputEnvelope
     connect?: PageSeoWhereUniqueInput | PageSeoWhereUniqueInput[]
+  }
+
+  export type ArticleUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<ArticleCreateWithoutCategoryInput, ArticleUncheckedCreateWithoutCategoryInput> | ArticleCreateWithoutCategoryInput[] | ArticleUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: ArticleCreateOrConnectWithoutCategoryInput | ArticleCreateOrConnectWithoutCategoryInput[]
+    upsert?: ArticleUpsertWithWhereUniqueWithoutCategoryInput | ArticleUpsertWithWhereUniqueWithoutCategoryInput[]
+    createMany?: ArticleCreateManyCategoryInputEnvelope
+    set?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
+    disconnect?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
+    delete?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
+    connect?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
+    update?: ArticleUpdateWithWhereUniqueWithoutCategoryInput | ArticleUpdateWithWhereUniqueWithoutCategoryInput[]
+    updateMany?: ArticleUpdateManyWithWhereWithoutCategoryInput | ArticleUpdateManyWithWhereWithoutCategoryInput[]
+    deleteMany?: ArticleScalarWhereInput | ArticleScalarWhereInput[]
   }
 
   export type CategoryUpdateOneWithoutChildrenNestedInput = {
@@ -36469,20 +36483,6 @@ export namespace Prisma {
     deleteMany?: CategoryScalarWhereInput | CategoryScalarWhereInput[]
   }
 
-  export type ArticleUpdateManyWithoutCategoryNestedInput = {
-    create?: XOR<ArticleCreateWithoutCategoryInput, ArticleUncheckedCreateWithoutCategoryInput> | ArticleCreateWithoutCategoryInput[] | ArticleUncheckedCreateWithoutCategoryInput[]
-    connectOrCreate?: ArticleCreateOrConnectWithoutCategoryInput | ArticleCreateOrConnectWithoutCategoryInput[]
-    upsert?: ArticleUpsertWithWhereUniqueWithoutCategoryInput | ArticleUpsertWithWhereUniqueWithoutCategoryInput[]
-    createMany?: ArticleCreateManyCategoryInputEnvelope
-    set?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
-    disconnect?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
-    delete?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
-    connect?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
-    update?: ArticleUpdateWithWhereUniqueWithoutCategoryInput | ArticleUpdateWithWhereUniqueWithoutCategoryInput[]
-    updateMany?: ArticleUpdateManyWithWhereWithoutCategoryInput | ArticleUpdateManyWithWhereWithoutCategoryInput[]
-    deleteMany?: ArticleScalarWhereInput | ArticleScalarWhereInput[]
-  }
-
   export type PageSeoUpdateManyWithoutCategoryNestedInput = {
     create?: XOR<PageSeoCreateWithoutCategoryInput, PageSeoUncheckedCreateWithoutCategoryInput> | PageSeoCreateWithoutCategoryInput[] | PageSeoUncheckedCreateWithoutCategoryInput[]
     connectOrCreate?: PageSeoCreateOrConnectWithoutCategoryInput | PageSeoCreateOrConnectWithoutCategoryInput[]
@@ -36497,20 +36497,6 @@ export namespace Prisma {
     deleteMany?: PageSeoScalarWhereInput | PageSeoScalarWhereInput[]
   }
 
-  export type CategoryUncheckedUpdateManyWithoutParentNestedInput = {
-    create?: XOR<CategoryCreateWithoutParentInput, CategoryUncheckedCreateWithoutParentInput> | CategoryCreateWithoutParentInput[] | CategoryUncheckedCreateWithoutParentInput[]
-    connectOrCreate?: CategoryCreateOrConnectWithoutParentInput | CategoryCreateOrConnectWithoutParentInput[]
-    upsert?: CategoryUpsertWithWhereUniqueWithoutParentInput | CategoryUpsertWithWhereUniqueWithoutParentInput[]
-    createMany?: CategoryCreateManyParentInputEnvelope
-    set?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
-    disconnect?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
-    delete?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
-    connect?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
-    update?: CategoryUpdateWithWhereUniqueWithoutParentInput | CategoryUpdateWithWhereUniqueWithoutParentInput[]
-    updateMany?: CategoryUpdateManyWithWhereWithoutParentInput | CategoryUpdateManyWithWhereWithoutParentInput[]
-    deleteMany?: CategoryScalarWhereInput | CategoryScalarWhereInput[]
-  }
-
   export type ArticleUncheckedUpdateManyWithoutCategoryNestedInput = {
     create?: XOR<ArticleCreateWithoutCategoryInput, ArticleUncheckedCreateWithoutCategoryInput> | ArticleCreateWithoutCategoryInput[] | ArticleUncheckedCreateWithoutCategoryInput[]
     connectOrCreate?: ArticleCreateOrConnectWithoutCategoryInput | ArticleCreateOrConnectWithoutCategoryInput[]
@@ -36523,6 +36509,20 @@ export namespace Prisma {
     update?: ArticleUpdateWithWhereUniqueWithoutCategoryInput | ArticleUpdateWithWhereUniqueWithoutCategoryInput[]
     updateMany?: ArticleUpdateManyWithWhereWithoutCategoryInput | ArticleUpdateManyWithWhereWithoutCategoryInput[]
     deleteMany?: ArticleScalarWhereInput | ArticleScalarWhereInput[]
+  }
+
+  export type CategoryUncheckedUpdateManyWithoutParentNestedInput = {
+    create?: XOR<CategoryCreateWithoutParentInput, CategoryUncheckedCreateWithoutParentInput> | CategoryCreateWithoutParentInput[] | CategoryUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: CategoryCreateOrConnectWithoutParentInput | CategoryCreateOrConnectWithoutParentInput[]
+    upsert?: CategoryUpsertWithWhereUniqueWithoutParentInput | CategoryUpsertWithWhereUniqueWithoutParentInput[]
+    createMany?: CategoryCreateManyParentInputEnvelope
+    set?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
+    disconnect?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
+    delete?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
+    connect?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
+    update?: CategoryUpdateWithWhereUniqueWithoutParentInput | CategoryUpdateWithWhereUniqueWithoutParentInput[]
+    updateMany?: CategoryUpdateManyWithWhereWithoutParentInput | CategoryUpdateManyWithWhereWithoutParentInput[]
+    deleteMany?: CategoryScalarWhereInput | CategoryScalarWhereInput[]
   }
 
   export type PageSeoUncheckedUpdateManyWithoutCategoryNestedInput = {
@@ -36631,6 +36631,48 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSettingsInput, UserUpdateWithoutSettingsInput>, UserUncheckedUpdateWithoutSettingsInput>
   }
 
+  export type AdCreateNestedManyWithoutCreatorInput = {
+    create?: XOR<AdCreateWithoutCreatorInput, AdUncheckedCreateWithoutCreatorInput> | AdCreateWithoutCreatorInput[] | AdUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: AdCreateOrConnectWithoutCreatorInput | AdCreateOrConnectWithoutCreatorInput[]
+    createMany?: AdCreateManyCreatorInputEnvelope
+    connect?: AdWhereUniqueInput | AdWhereUniqueInput[]
+  }
+
+  export type ArticleCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<ArticleCreateWithoutAuthorInput, ArticleUncheckedCreateWithoutAuthorInput> | ArticleCreateWithoutAuthorInput[] | ArticleUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: ArticleCreateOrConnectWithoutAuthorInput | ArticleCreateOrConnectWithoutAuthorInput[]
+    createMany?: ArticleCreateManyAuthorInputEnvelope
+    connect?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
+  }
+
+  export type ArticleActivityCreateNestedManyWithoutUserInput = {
+    create?: XOR<ArticleActivityCreateWithoutUserInput, ArticleActivityUncheckedCreateWithoutUserInput> | ArticleActivityCreateWithoutUserInput[] | ArticleActivityUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ArticleActivityCreateOrConnectWithoutUserInput | ArticleActivityCreateOrConnectWithoutUserInput[]
+    createMany?: ArticleActivityCreateManyUserInputEnvelope
+    connect?: ArticleActivityWhereUniqueInput | ArticleActivityWhereUniqueInput[]
+  }
+
+  export type MediaCreateNestedManyWithoutUploaderInput = {
+    create?: XOR<MediaCreateWithoutUploaderInput, MediaUncheckedCreateWithoutUploaderInput> | MediaCreateWithoutUploaderInput[] | MediaUncheckedCreateWithoutUploaderInput[]
+    connectOrCreate?: MediaCreateOrConnectWithoutUploaderInput | MediaCreateOrConnectWithoutUploaderInput[]
+    createMany?: MediaCreateManyUploaderInputEnvelope
+    connect?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
+  }
+
+  export type NotificationCreateNestedManyWithoutUserInput = {
+    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
+    createMany?: NotificationCreateManyUserInputEnvelope
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
+  export type SiteSettingCreateNestedManyWithoutUpdatedByUserInput = {
+    create?: XOR<SiteSettingCreateWithoutUpdatedByUserInput, SiteSettingUncheckedCreateWithoutUpdatedByUserInput> | SiteSettingCreateWithoutUpdatedByUserInput[] | SiteSettingUncheckedCreateWithoutUpdatedByUserInput[]
+    connectOrCreate?: SiteSettingCreateOrConnectWithoutUpdatedByUserInput | SiteSettingCreateOrConnectWithoutUpdatedByUserInput[]
+    createMany?: SiteSettingCreateManyUpdatedByUserInputEnvelope
+    connect?: SiteSettingWhereUniqueInput | SiteSettingWhereUniqueInput[]
+  }
+
   export type UserCreateNestedOneWithoutCreatedUsersInput = {
     create?: XOR<UserCreateWithoutCreatedUsersInput, UserUncheckedCreateWithoutCreatedUsersInput>
     connectOrCreate?: UserCreateOrConnectWithoutCreatedUsersInput
@@ -36644,81 +36686,11 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
   }
 
-  export type ArticleCreateNestedManyWithoutAuthorInput = {
-    create?: XOR<ArticleCreateWithoutAuthorInput, ArticleUncheckedCreateWithoutAuthorInput> | ArticleCreateWithoutAuthorInput[] | ArticleUncheckedCreateWithoutAuthorInput[]
-    connectOrCreate?: ArticleCreateOrConnectWithoutAuthorInput | ArticleCreateOrConnectWithoutAuthorInput[]
-    createMany?: ArticleCreateManyAuthorInputEnvelope
-    connect?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
-  }
-
   export type UserModulePermissionCreateNestedManyWithoutUserInput = {
     create?: XOR<UserModulePermissionCreateWithoutUserInput, UserModulePermissionUncheckedCreateWithoutUserInput> | UserModulePermissionCreateWithoutUserInput[] | UserModulePermissionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: UserModulePermissionCreateOrConnectWithoutUserInput | UserModulePermissionCreateOrConnectWithoutUserInput[]
     createMany?: UserModulePermissionCreateManyUserInputEnvelope
     connect?: UserModulePermissionWhereUniqueInput | UserModulePermissionWhereUniqueInput[]
-  }
-
-  export type NotificationCreateNestedManyWithoutUserInput = {
-    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
-    createMany?: NotificationCreateManyUserInputEnvelope
-    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-  }
-
-  export type AdCreateNestedManyWithoutCreatorInput = {
-    create?: XOR<AdCreateWithoutCreatorInput, AdUncheckedCreateWithoutCreatorInput> | AdCreateWithoutCreatorInput[] | AdUncheckedCreateWithoutCreatorInput[]
-    connectOrCreate?: AdCreateOrConnectWithoutCreatorInput | AdCreateOrConnectWithoutCreatorInput[]
-    createMany?: AdCreateManyCreatorInputEnvelope
-    connect?: AdWhereUniqueInput | AdWhereUniqueInput[]
-  }
-
-  export type ArticleActivityCreateNestedManyWithoutUserInput = {
-    create?: XOR<ArticleActivityCreateWithoutUserInput, ArticleActivityUncheckedCreateWithoutUserInput> | ArticleActivityCreateWithoutUserInput[] | ArticleActivityUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: ArticleActivityCreateOrConnectWithoutUserInput | ArticleActivityCreateOrConnectWithoutUserInput[]
-    createMany?: ArticleActivityCreateManyUserInputEnvelope
-    connect?: ArticleActivityWhereUniqueInput | ArticleActivityWhereUniqueInput[]
-  }
-
-  export type SiteSettingCreateNestedManyWithoutUpdatedByUserInput = {
-    create?: XOR<SiteSettingCreateWithoutUpdatedByUserInput, SiteSettingUncheckedCreateWithoutUpdatedByUserInput> | SiteSettingCreateWithoutUpdatedByUserInput[] | SiteSettingUncheckedCreateWithoutUpdatedByUserInput[]
-    connectOrCreate?: SiteSettingCreateOrConnectWithoutUpdatedByUserInput | SiteSettingCreateOrConnectWithoutUpdatedByUserInput[]
-    createMany?: SiteSettingCreateManyUpdatedByUserInputEnvelope
-    connect?: SiteSettingWhereUniqueInput | SiteSettingWhereUniqueInput[]
-  }
-
-  export type MediaCreateNestedManyWithoutUploaderInput = {
-    create?: XOR<MediaCreateWithoutUploaderInput, MediaUncheckedCreateWithoutUploaderInput> | MediaCreateWithoutUploaderInput[] | MediaUncheckedCreateWithoutUploaderInput[]
-    connectOrCreate?: MediaCreateOrConnectWithoutUploaderInput | MediaCreateOrConnectWithoutUploaderInput[]
-    createMany?: MediaCreateManyUploaderInputEnvelope
-    connect?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
-  }
-
-  export type UserUncheckedCreateNestedManyWithoutCreatorInput = {
-    create?: XOR<UserCreateWithoutCreatorInput, UserUncheckedCreateWithoutCreatorInput> | UserCreateWithoutCreatorInput[] | UserUncheckedCreateWithoutCreatorInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutCreatorInput | UserCreateOrConnectWithoutCreatorInput[]
-    createMany?: UserCreateManyCreatorInputEnvelope
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-  }
-
-  export type ArticleUncheckedCreateNestedManyWithoutAuthorInput = {
-    create?: XOR<ArticleCreateWithoutAuthorInput, ArticleUncheckedCreateWithoutAuthorInput> | ArticleCreateWithoutAuthorInput[] | ArticleUncheckedCreateWithoutAuthorInput[]
-    connectOrCreate?: ArticleCreateOrConnectWithoutAuthorInput | ArticleCreateOrConnectWithoutAuthorInput[]
-    createMany?: ArticleCreateManyAuthorInputEnvelope
-    connect?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
-  }
-
-  export type UserModulePermissionUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<UserModulePermissionCreateWithoutUserInput, UserModulePermissionUncheckedCreateWithoutUserInput> | UserModulePermissionCreateWithoutUserInput[] | UserModulePermissionUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: UserModulePermissionCreateOrConnectWithoutUserInput | UserModulePermissionCreateOrConnectWithoutUserInput[]
-    createMany?: UserModulePermissionCreateManyUserInputEnvelope
-    connect?: UserModulePermissionWhereUniqueInput | UserModulePermissionWhereUniqueInput[]
-  }
-
-  export type NotificationUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
-    createMany?: NotificationCreateManyUserInputEnvelope
-    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
   }
 
   export type AdUncheckedCreateNestedManyWithoutCreatorInput = {
@@ -36728,18 +36700,18 @@ export namespace Prisma {
     connect?: AdWhereUniqueInput | AdWhereUniqueInput[]
   }
 
+  export type ArticleUncheckedCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<ArticleCreateWithoutAuthorInput, ArticleUncheckedCreateWithoutAuthorInput> | ArticleCreateWithoutAuthorInput[] | ArticleUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: ArticleCreateOrConnectWithoutAuthorInput | ArticleCreateOrConnectWithoutAuthorInput[]
+    createMany?: ArticleCreateManyAuthorInputEnvelope
+    connect?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
+  }
+
   export type ArticleActivityUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<ArticleActivityCreateWithoutUserInput, ArticleActivityUncheckedCreateWithoutUserInput> | ArticleActivityCreateWithoutUserInput[] | ArticleActivityUncheckedCreateWithoutUserInput[]
     connectOrCreate?: ArticleActivityCreateOrConnectWithoutUserInput | ArticleActivityCreateOrConnectWithoutUserInput[]
     createMany?: ArticleActivityCreateManyUserInputEnvelope
     connect?: ArticleActivityWhereUniqueInput | ArticleActivityWhereUniqueInput[]
-  }
-
-  export type SiteSettingUncheckedCreateNestedManyWithoutUpdatedByUserInput = {
-    create?: XOR<SiteSettingCreateWithoutUpdatedByUserInput, SiteSettingUncheckedCreateWithoutUpdatedByUserInput> | SiteSettingCreateWithoutUpdatedByUserInput[] | SiteSettingUncheckedCreateWithoutUpdatedByUserInput[]
-    connectOrCreate?: SiteSettingCreateOrConnectWithoutUpdatedByUserInput | SiteSettingCreateOrConnectWithoutUpdatedByUserInput[]
-    createMany?: SiteSettingCreateManyUpdatedByUserInputEnvelope
-    connect?: SiteSettingWhereUniqueInput | SiteSettingWhereUniqueInput[]
   }
 
   export type MediaUncheckedCreateNestedManyWithoutUploaderInput = {
@@ -36749,12 +36721,124 @@ export namespace Prisma {
     connect?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
   }
 
+  export type NotificationUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
+    createMany?: NotificationCreateManyUserInputEnvelope
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
+  export type SiteSettingUncheckedCreateNestedManyWithoutUpdatedByUserInput = {
+    create?: XOR<SiteSettingCreateWithoutUpdatedByUserInput, SiteSettingUncheckedCreateWithoutUpdatedByUserInput> | SiteSettingCreateWithoutUpdatedByUserInput[] | SiteSettingUncheckedCreateWithoutUpdatedByUserInput[]
+    connectOrCreate?: SiteSettingCreateOrConnectWithoutUpdatedByUserInput | SiteSettingCreateOrConnectWithoutUpdatedByUserInput[]
+    createMany?: SiteSettingCreateManyUpdatedByUserInputEnvelope
+    connect?: SiteSettingWhereUniqueInput | SiteSettingWhereUniqueInput[]
+  }
+
+  export type UserUncheckedCreateNestedManyWithoutCreatorInput = {
+    create?: XOR<UserCreateWithoutCreatorInput, UserUncheckedCreateWithoutCreatorInput> | UserCreateWithoutCreatorInput[] | UserUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutCreatorInput | UserCreateOrConnectWithoutCreatorInput[]
+    createMany?: UserCreateManyCreatorInputEnvelope
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  }
+
+  export type UserModulePermissionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserModulePermissionCreateWithoutUserInput, UserModulePermissionUncheckedCreateWithoutUserInput> | UserModulePermissionCreateWithoutUserInput[] | UserModulePermissionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserModulePermissionCreateOrConnectWithoutUserInput | UserModulePermissionCreateOrConnectWithoutUserInput[]
+    createMany?: UserModulePermissionCreateManyUserInputEnvelope
+    connect?: UserModulePermissionWhereUniqueInput | UserModulePermissionWhereUniqueInput[]
+  }
+
   export type EnumRoleFieldUpdateOperationsInput = {
     set?: $Enums.Role
   }
 
   export type EnumUserStatusFieldUpdateOperationsInput = {
     set?: $Enums.UserStatus
+  }
+
+  export type AdUpdateManyWithoutCreatorNestedInput = {
+    create?: XOR<AdCreateWithoutCreatorInput, AdUncheckedCreateWithoutCreatorInput> | AdCreateWithoutCreatorInput[] | AdUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: AdCreateOrConnectWithoutCreatorInput | AdCreateOrConnectWithoutCreatorInput[]
+    upsert?: AdUpsertWithWhereUniqueWithoutCreatorInput | AdUpsertWithWhereUniqueWithoutCreatorInput[]
+    createMany?: AdCreateManyCreatorInputEnvelope
+    set?: AdWhereUniqueInput | AdWhereUniqueInput[]
+    disconnect?: AdWhereUniqueInput | AdWhereUniqueInput[]
+    delete?: AdWhereUniqueInput | AdWhereUniqueInput[]
+    connect?: AdWhereUniqueInput | AdWhereUniqueInput[]
+    update?: AdUpdateWithWhereUniqueWithoutCreatorInput | AdUpdateWithWhereUniqueWithoutCreatorInput[]
+    updateMany?: AdUpdateManyWithWhereWithoutCreatorInput | AdUpdateManyWithWhereWithoutCreatorInput[]
+    deleteMany?: AdScalarWhereInput | AdScalarWhereInput[]
+  }
+
+  export type ArticleUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<ArticleCreateWithoutAuthorInput, ArticleUncheckedCreateWithoutAuthorInput> | ArticleCreateWithoutAuthorInput[] | ArticleUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: ArticleCreateOrConnectWithoutAuthorInput | ArticleCreateOrConnectWithoutAuthorInput[]
+    upsert?: ArticleUpsertWithWhereUniqueWithoutAuthorInput | ArticleUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: ArticleCreateManyAuthorInputEnvelope
+    set?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
+    disconnect?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
+    delete?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
+    connect?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
+    update?: ArticleUpdateWithWhereUniqueWithoutAuthorInput | ArticleUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: ArticleUpdateManyWithWhereWithoutAuthorInput | ArticleUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: ArticleScalarWhereInput | ArticleScalarWhereInput[]
+  }
+
+  export type ArticleActivityUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ArticleActivityCreateWithoutUserInput, ArticleActivityUncheckedCreateWithoutUserInput> | ArticleActivityCreateWithoutUserInput[] | ArticleActivityUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ArticleActivityCreateOrConnectWithoutUserInput | ArticleActivityCreateOrConnectWithoutUserInput[]
+    upsert?: ArticleActivityUpsertWithWhereUniqueWithoutUserInput | ArticleActivityUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ArticleActivityCreateManyUserInputEnvelope
+    set?: ArticleActivityWhereUniqueInput | ArticleActivityWhereUniqueInput[]
+    disconnect?: ArticleActivityWhereUniqueInput | ArticleActivityWhereUniqueInput[]
+    delete?: ArticleActivityWhereUniqueInput | ArticleActivityWhereUniqueInput[]
+    connect?: ArticleActivityWhereUniqueInput | ArticleActivityWhereUniqueInput[]
+    update?: ArticleActivityUpdateWithWhereUniqueWithoutUserInput | ArticleActivityUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ArticleActivityUpdateManyWithWhereWithoutUserInput | ArticleActivityUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ArticleActivityScalarWhereInput | ArticleActivityScalarWhereInput[]
+  }
+
+  export type MediaUpdateManyWithoutUploaderNestedInput = {
+    create?: XOR<MediaCreateWithoutUploaderInput, MediaUncheckedCreateWithoutUploaderInput> | MediaCreateWithoutUploaderInput[] | MediaUncheckedCreateWithoutUploaderInput[]
+    connectOrCreate?: MediaCreateOrConnectWithoutUploaderInput | MediaCreateOrConnectWithoutUploaderInput[]
+    upsert?: MediaUpsertWithWhereUniqueWithoutUploaderInput | MediaUpsertWithWhereUniqueWithoutUploaderInput[]
+    createMany?: MediaCreateManyUploaderInputEnvelope
+    set?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
+    disconnect?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
+    delete?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
+    connect?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
+    update?: MediaUpdateWithWhereUniqueWithoutUploaderInput | MediaUpdateWithWhereUniqueWithoutUploaderInput[]
+    updateMany?: MediaUpdateManyWithWhereWithoutUploaderInput | MediaUpdateManyWithWhereWithoutUploaderInput[]
+    deleteMany?: MediaScalarWhereInput | MediaScalarWhereInput[]
+  }
+
+  export type NotificationUpdateManyWithoutUserNestedInput = {
+    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
+    upsert?: NotificationUpsertWithWhereUniqueWithoutUserInput | NotificationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: NotificationCreateManyUserInputEnvelope
+    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    update?: NotificationUpdateWithWhereUniqueWithoutUserInput | NotificationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: NotificationUpdateManyWithWhereWithoutUserInput | NotificationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
+  export type SiteSettingUpdateManyWithoutUpdatedByUserNestedInput = {
+    create?: XOR<SiteSettingCreateWithoutUpdatedByUserInput, SiteSettingUncheckedCreateWithoutUpdatedByUserInput> | SiteSettingCreateWithoutUpdatedByUserInput[] | SiteSettingUncheckedCreateWithoutUpdatedByUserInput[]
+    connectOrCreate?: SiteSettingCreateOrConnectWithoutUpdatedByUserInput | SiteSettingCreateOrConnectWithoutUpdatedByUserInput[]
+    upsert?: SiteSettingUpsertWithWhereUniqueWithoutUpdatedByUserInput | SiteSettingUpsertWithWhereUniqueWithoutUpdatedByUserInput[]
+    createMany?: SiteSettingCreateManyUpdatedByUserInputEnvelope
+    set?: SiteSettingWhereUniqueInput | SiteSettingWhereUniqueInput[]
+    disconnect?: SiteSettingWhereUniqueInput | SiteSettingWhereUniqueInput[]
+    delete?: SiteSettingWhereUniqueInput | SiteSettingWhereUniqueInput[]
+    connect?: SiteSettingWhereUniqueInput | SiteSettingWhereUniqueInput[]
+    update?: SiteSettingUpdateWithWhereUniqueWithoutUpdatedByUserInput | SiteSettingUpdateWithWhereUniqueWithoutUpdatedByUserInput[]
+    updateMany?: SiteSettingUpdateManyWithWhereWithoutUpdatedByUserInput | SiteSettingUpdateManyWithWhereWithoutUpdatedByUserInput[]
+    deleteMany?: SiteSettingScalarWhereInput | SiteSettingScalarWhereInput[]
   }
 
   export type UserUpdateOneWithoutCreatedUsersNestedInput = {
@@ -36781,20 +36865,6 @@ export namespace Prisma {
     deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
   }
 
-  export type ArticleUpdateManyWithoutAuthorNestedInput = {
-    create?: XOR<ArticleCreateWithoutAuthorInput, ArticleUncheckedCreateWithoutAuthorInput> | ArticleCreateWithoutAuthorInput[] | ArticleUncheckedCreateWithoutAuthorInput[]
-    connectOrCreate?: ArticleCreateOrConnectWithoutAuthorInput | ArticleCreateOrConnectWithoutAuthorInput[]
-    upsert?: ArticleUpsertWithWhereUniqueWithoutAuthorInput | ArticleUpsertWithWhereUniqueWithoutAuthorInput[]
-    createMany?: ArticleCreateManyAuthorInputEnvelope
-    set?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
-    disconnect?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
-    delete?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
-    connect?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
-    update?: ArticleUpdateWithWhereUniqueWithoutAuthorInput | ArticleUpdateWithWhereUniqueWithoutAuthorInput[]
-    updateMany?: ArticleUpdateManyWithWhereWithoutAuthorInput | ArticleUpdateManyWithWhereWithoutAuthorInput[]
-    deleteMany?: ArticleScalarWhereInput | ArticleScalarWhereInput[]
-  }
-
   export type UserModulePermissionUpdateManyWithoutUserNestedInput = {
     create?: XOR<UserModulePermissionCreateWithoutUserInput, UserModulePermissionUncheckedCreateWithoutUserInput> | UserModulePermissionCreateWithoutUserInput[] | UserModulePermissionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: UserModulePermissionCreateOrConnectWithoutUserInput | UserModulePermissionCreateOrConnectWithoutUserInput[]
@@ -36807,132 +36877,6 @@ export namespace Prisma {
     update?: UserModulePermissionUpdateWithWhereUniqueWithoutUserInput | UserModulePermissionUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: UserModulePermissionUpdateManyWithWhereWithoutUserInput | UserModulePermissionUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: UserModulePermissionScalarWhereInput | UserModulePermissionScalarWhereInput[]
-  }
-
-  export type NotificationUpdateManyWithoutUserNestedInput = {
-    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
-    upsert?: NotificationUpsertWithWhereUniqueWithoutUserInput | NotificationUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: NotificationCreateManyUserInputEnvelope
-    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    update?: NotificationUpdateWithWhereUniqueWithoutUserInput | NotificationUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: NotificationUpdateManyWithWhereWithoutUserInput | NotificationUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
-  }
-
-  export type AdUpdateManyWithoutCreatorNestedInput = {
-    create?: XOR<AdCreateWithoutCreatorInput, AdUncheckedCreateWithoutCreatorInput> | AdCreateWithoutCreatorInput[] | AdUncheckedCreateWithoutCreatorInput[]
-    connectOrCreate?: AdCreateOrConnectWithoutCreatorInput | AdCreateOrConnectWithoutCreatorInput[]
-    upsert?: AdUpsertWithWhereUniqueWithoutCreatorInput | AdUpsertWithWhereUniqueWithoutCreatorInput[]
-    createMany?: AdCreateManyCreatorInputEnvelope
-    set?: AdWhereUniqueInput | AdWhereUniqueInput[]
-    disconnect?: AdWhereUniqueInput | AdWhereUniqueInput[]
-    delete?: AdWhereUniqueInput | AdWhereUniqueInput[]
-    connect?: AdWhereUniqueInput | AdWhereUniqueInput[]
-    update?: AdUpdateWithWhereUniqueWithoutCreatorInput | AdUpdateWithWhereUniqueWithoutCreatorInput[]
-    updateMany?: AdUpdateManyWithWhereWithoutCreatorInput | AdUpdateManyWithWhereWithoutCreatorInput[]
-    deleteMany?: AdScalarWhereInput | AdScalarWhereInput[]
-  }
-
-  export type ArticleActivityUpdateManyWithoutUserNestedInput = {
-    create?: XOR<ArticleActivityCreateWithoutUserInput, ArticleActivityUncheckedCreateWithoutUserInput> | ArticleActivityCreateWithoutUserInput[] | ArticleActivityUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: ArticleActivityCreateOrConnectWithoutUserInput | ArticleActivityCreateOrConnectWithoutUserInput[]
-    upsert?: ArticleActivityUpsertWithWhereUniqueWithoutUserInput | ArticleActivityUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: ArticleActivityCreateManyUserInputEnvelope
-    set?: ArticleActivityWhereUniqueInput | ArticleActivityWhereUniqueInput[]
-    disconnect?: ArticleActivityWhereUniqueInput | ArticleActivityWhereUniqueInput[]
-    delete?: ArticleActivityWhereUniqueInput | ArticleActivityWhereUniqueInput[]
-    connect?: ArticleActivityWhereUniqueInput | ArticleActivityWhereUniqueInput[]
-    update?: ArticleActivityUpdateWithWhereUniqueWithoutUserInput | ArticleActivityUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: ArticleActivityUpdateManyWithWhereWithoutUserInput | ArticleActivityUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: ArticleActivityScalarWhereInput | ArticleActivityScalarWhereInput[]
-  }
-
-  export type SiteSettingUpdateManyWithoutUpdatedByUserNestedInput = {
-    create?: XOR<SiteSettingCreateWithoutUpdatedByUserInput, SiteSettingUncheckedCreateWithoutUpdatedByUserInput> | SiteSettingCreateWithoutUpdatedByUserInput[] | SiteSettingUncheckedCreateWithoutUpdatedByUserInput[]
-    connectOrCreate?: SiteSettingCreateOrConnectWithoutUpdatedByUserInput | SiteSettingCreateOrConnectWithoutUpdatedByUserInput[]
-    upsert?: SiteSettingUpsertWithWhereUniqueWithoutUpdatedByUserInput | SiteSettingUpsertWithWhereUniqueWithoutUpdatedByUserInput[]
-    createMany?: SiteSettingCreateManyUpdatedByUserInputEnvelope
-    set?: SiteSettingWhereUniqueInput | SiteSettingWhereUniqueInput[]
-    disconnect?: SiteSettingWhereUniqueInput | SiteSettingWhereUniqueInput[]
-    delete?: SiteSettingWhereUniqueInput | SiteSettingWhereUniqueInput[]
-    connect?: SiteSettingWhereUniqueInput | SiteSettingWhereUniqueInput[]
-    update?: SiteSettingUpdateWithWhereUniqueWithoutUpdatedByUserInput | SiteSettingUpdateWithWhereUniqueWithoutUpdatedByUserInput[]
-    updateMany?: SiteSettingUpdateManyWithWhereWithoutUpdatedByUserInput | SiteSettingUpdateManyWithWhereWithoutUpdatedByUserInput[]
-    deleteMany?: SiteSettingScalarWhereInput | SiteSettingScalarWhereInput[]
-  }
-
-  export type MediaUpdateManyWithoutUploaderNestedInput = {
-    create?: XOR<MediaCreateWithoutUploaderInput, MediaUncheckedCreateWithoutUploaderInput> | MediaCreateWithoutUploaderInput[] | MediaUncheckedCreateWithoutUploaderInput[]
-    connectOrCreate?: MediaCreateOrConnectWithoutUploaderInput | MediaCreateOrConnectWithoutUploaderInput[]
-    upsert?: MediaUpsertWithWhereUniqueWithoutUploaderInput | MediaUpsertWithWhereUniqueWithoutUploaderInput[]
-    createMany?: MediaCreateManyUploaderInputEnvelope
-    set?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
-    disconnect?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
-    delete?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
-    connect?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
-    update?: MediaUpdateWithWhereUniqueWithoutUploaderInput | MediaUpdateWithWhereUniqueWithoutUploaderInput[]
-    updateMany?: MediaUpdateManyWithWhereWithoutUploaderInput | MediaUpdateManyWithWhereWithoutUploaderInput[]
-    deleteMany?: MediaScalarWhereInput | MediaScalarWhereInput[]
-  }
-
-  export type UserUncheckedUpdateManyWithoutCreatorNestedInput = {
-    create?: XOR<UserCreateWithoutCreatorInput, UserUncheckedCreateWithoutCreatorInput> | UserCreateWithoutCreatorInput[] | UserUncheckedCreateWithoutCreatorInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutCreatorInput | UserCreateOrConnectWithoutCreatorInput[]
-    upsert?: UserUpsertWithWhereUniqueWithoutCreatorInput | UserUpsertWithWhereUniqueWithoutCreatorInput[]
-    createMany?: UserCreateManyCreatorInputEnvelope
-    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    update?: UserUpdateWithWhereUniqueWithoutCreatorInput | UserUpdateWithWhereUniqueWithoutCreatorInput[]
-    updateMany?: UserUpdateManyWithWhereWithoutCreatorInput | UserUpdateManyWithWhereWithoutCreatorInput[]
-    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
-  }
-
-  export type ArticleUncheckedUpdateManyWithoutAuthorNestedInput = {
-    create?: XOR<ArticleCreateWithoutAuthorInput, ArticleUncheckedCreateWithoutAuthorInput> | ArticleCreateWithoutAuthorInput[] | ArticleUncheckedCreateWithoutAuthorInput[]
-    connectOrCreate?: ArticleCreateOrConnectWithoutAuthorInput | ArticleCreateOrConnectWithoutAuthorInput[]
-    upsert?: ArticleUpsertWithWhereUniqueWithoutAuthorInput | ArticleUpsertWithWhereUniqueWithoutAuthorInput[]
-    createMany?: ArticleCreateManyAuthorInputEnvelope
-    set?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
-    disconnect?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
-    delete?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
-    connect?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
-    update?: ArticleUpdateWithWhereUniqueWithoutAuthorInput | ArticleUpdateWithWhereUniqueWithoutAuthorInput[]
-    updateMany?: ArticleUpdateManyWithWhereWithoutAuthorInput | ArticleUpdateManyWithWhereWithoutAuthorInput[]
-    deleteMany?: ArticleScalarWhereInput | ArticleScalarWhereInput[]
-  }
-
-  export type UserModulePermissionUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<UserModulePermissionCreateWithoutUserInput, UserModulePermissionUncheckedCreateWithoutUserInput> | UserModulePermissionCreateWithoutUserInput[] | UserModulePermissionUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: UserModulePermissionCreateOrConnectWithoutUserInput | UserModulePermissionCreateOrConnectWithoutUserInput[]
-    upsert?: UserModulePermissionUpsertWithWhereUniqueWithoutUserInput | UserModulePermissionUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: UserModulePermissionCreateManyUserInputEnvelope
-    set?: UserModulePermissionWhereUniqueInput | UserModulePermissionWhereUniqueInput[]
-    disconnect?: UserModulePermissionWhereUniqueInput | UserModulePermissionWhereUniqueInput[]
-    delete?: UserModulePermissionWhereUniqueInput | UserModulePermissionWhereUniqueInput[]
-    connect?: UserModulePermissionWhereUniqueInput | UserModulePermissionWhereUniqueInput[]
-    update?: UserModulePermissionUpdateWithWhereUniqueWithoutUserInput | UserModulePermissionUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: UserModulePermissionUpdateManyWithWhereWithoutUserInput | UserModulePermissionUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: UserModulePermissionScalarWhereInput | UserModulePermissionScalarWhereInput[]
-  }
-
-  export type NotificationUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
-    upsert?: NotificationUpsertWithWhereUniqueWithoutUserInput | NotificationUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: NotificationCreateManyUserInputEnvelope
-    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    update?: NotificationUpdateWithWhereUniqueWithoutUserInput | NotificationUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: NotificationUpdateManyWithWhereWithoutUserInput | NotificationUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
   }
 
   export type AdUncheckedUpdateManyWithoutCreatorNestedInput = {
@@ -36949,6 +36893,20 @@ export namespace Prisma {
     deleteMany?: AdScalarWhereInput | AdScalarWhereInput[]
   }
 
+  export type ArticleUncheckedUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<ArticleCreateWithoutAuthorInput, ArticleUncheckedCreateWithoutAuthorInput> | ArticleCreateWithoutAuthorInput[] | ArticleUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: ArticleCreateOrConnectWithoutAuthorInput | ArticleCreateOrConnectWithoutAuthorInput[]
+    upsert?: ArticleUpsertWithWhereUniqueWithoutAuthorInput | ArticleUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: ArticleCreateManyAuthorInputEnvelope
+    set?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
+    disconnect?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
+    delete?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
+    connect?: ArticleWhereUniqueInput | ArticleWhereUniqueInput[]
+    update?: ArticleUpdateWithWhereUniqueWithoutAuthorInput | ArticleUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: ArticleUpdateManyWithWhereWithoutAuthorInput | ArticleUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: ArticleScalarWhereInput | ArticleScalarWhereInput[]
+  }
+
   export type ArticleActivityUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<ArticleActivityCreateWithoutUserInput, ArticleActivityUncheckedCreateWithoutUserInput> | ArticleActivityCreateWithoutUserInput[] | ArticleActivityUncheckedCreateWithoutUserInput[]
     connectOrCreate?: ArticleActivityCreateOrConnectWithoutUserInput | ArticleActivityCreateOrConnectWithoutUserInput[]
@@ -36961,6 +36919,34 @@ export namespace Prisma {
     update?: ArticleActivityUpdateWithWhereUniqueWithoutUserInput | ArticleActivityUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: ArticleActivityUpdateManyWithWhereWithoutUserInput | ArticleActivityUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: ArticleActivityScalarWhereInput | ArticleActivityScalarWhereInput[]
+  }
+
+  export type MediaUncheckedUpdateManyWithoutUploaderNestedInput = {
+    create?: XOR<MediaCreateWithoutUploaderInput, MediaUncheckedCreateWithoutUploaderInput> | MediaCreateWithoutUploaderInput[] | MediaUncheckedCreateWithoutUploaderInput[]
+    connectOrCreate?: MediaCreateOrConnectWithoutUploaderInput | MediaCreateOrConnectWithoutUploaderInput[]
+    upsert?: MediaUpsertWithWhereUniqueWithoutUploaderInput | MediaUpsertWithWhereUniqueWithoutUploaderInput[]
+    createMany?: MediaCreateManyUploaderInputEnvelope
+    set?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
+    disconnect?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
+    delete?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
+    connect?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
+    update?: MediaUpdateWithWhereUniqueWithoutUploaderInput | MediaUpdateWithWhereUniqueWithoutUploaderInput[]
+    updateMany?: MediaUpdateManyWithWhereWithoutUploaderInput | MediaUpdateManyWithWhereWithoutUploaderInput[]
+    deleteMany?: MediaScalarWhereInput | MediaScalarWhereInput[]
+  }
+
+  export type NotificationUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
+    upsert?: NotificationUpsertWithWhereUniqueWithoutUserInput | NotificationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: NotificationCreateManyUserInputEnvelope
+    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    update?: NotificationUpdateWithWhereUniqueWithoutUserInput | NotificationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: NotificationUpdateManyWithWhereWithoutUserInput | NotificationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
   }
 
   export type SiteSettingUncheckedUpdateManyWithoutUpdatedByUserNestedInput = {
@@ -36977,18 +36963,32 @@ export namespace Prisma {
     deleteMany?: SiteSettingScalarWhereInput | SiteSettingScalarWhereInput[]
   }
 
-  export type MediaUncheckedUpdateManyWithoutUploaderNestedInput = {
-    create?: XOR<MediaCreateWithoutUploaderInput, MediaUncheckedCreateWithoutUploaderInput> | MediaCreateWithoutUploaderInput[] | MediaUncheckedCreateWithoutUploaderInput[]
-    connectOrCreate?: MediaCreateOrConnectWithoutUploaderInput | MediaCreateOrConnectWithoutUploaderInput[]
-    upsert?: MediaUpsertWithWhereUniqueWithoutUploaderInput | MediaUpsertWithWhereUniqueWithoutUploaderInput[]
-    createMany?: MediaCreateManyUploaderInputEnvelope
-    set?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
-    disconnect?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
-    delete?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
-    connect?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
-    update?: MediaUpdateWithWhereUniqueWithoutUploaderInput | MediaUpdateWithWhereUniqueWithoutUploaderInput[]
-    updateMany?: MediaUpdateManyWithWhereWithoutUploaderInput | MediaUpdateManyWithWhereWithoutUploaderInput[]
-    deleteMany?: MediaScalarWhereInput | MediaScalarWhereInput[]
+  export type UserUncheckedUpdateManyWithoutCreatorNestedInput = {
+    create?: XOR<UserCreateWithoutCreatorInput, UserUncheckedCreateWithoutCreatorInput> | UserCreateWithoutCreatorInput[] | UserUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutCreatorInput | UserCreateOrConnectWithoutCreatorInput[]
+    upsert?: UserUpsertWithWhereUniqueWithoutCreatorInput | UserUpsertWithWhereUniqueWithoutCreatorInput[]
+    createMany?: UserCreateManyCreatorInputEnvelope
+    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    update?: UserUpdateWithWhereUniqueWithoutCreatorInput | UserUpdateWithWhereUniqueWithoutCreatorInput[]
+    updateMany?: UserUpdateManyWithWhereWithoutCreatorInput | UserUpdateManyWithWhereWithoutCreatorInput[]
+    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  }
+
+  export type UserModulePermissionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserModulePermissionCreateWithoutUserInput, UserModulePermissionUncheckedCreateWithoutUserInput> | UserModulePermissionCreateWithoutUserInput[] | UserModulePermissionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserModulePermissionCreateOrConnectWithoutUserInput | UserModulePermissionCreateOrConnectWithoutUserInput[]
+    upsert?: UserModulePermissionUpsertWithWhereUniqueWithoutUserInput | UserModulePermissionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserModulePermissionCreateManyUserInputEnvelope
+    set?: UserModulePermissionWhereUniqueInput | UserModulePermissionWhereUniqueInput[]
+    disconnect?: UserModulePermissionWhereUniqueInput | UserModulePermissionWhereUniqueInput[]
+    delete?: UserModulePermissionWhereUniqueInput | UserModulePermissionWhereUniqueInput[]
+    connect?: UserModulePermissionWhereUniqueInput | UserModulePermissionWhereUniqueInput[]
+    update?: UserModulePermissionUpdateWithWhereUniqueWithoutUserInput | UserModulePermissionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserModulePermissionUpdateManyWithWhereWithoutUserInput | UserModulePermissionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserModulePermissionScalarWhereInput | UserModulePermissionScalarWhereInput[]
   }
 
   export type UserModulePermissionCreateNestedManyWithoutModuleInput = {
@@ -37033,24 +37033,16 @@ export namespace Prisma {
     deleteMany?: UserModulePermissionScalarWhereInput | UserModulePermissionScalarWhereInput[]
   }
 
-  export type UserCreateNestedOneWithoutModulesInput = {
-    create?: XOR<UserCreateWithoutModulesInput, UserUncheckedCreateWithoutModulesInput>
-    connectOrCreate?: UserCreateOrConnectWithoutModulesInput
-    connect?: UserWhereUniqueInput
-  }
-
   export type ModuleCreateNestedOneWithoutPermissionsInput = {
     create?: XOR<ModuleCreateWithoutPermissionsInput, ModuleUncheckedCreateWithoutPermissionsInput>
     connectOrCreate?: ModuleCreateOrConnectWithoutPermissionsInput
     connect?: ModuleWhereUniqueInput
   }
 
-  export type UserUpdateOneRequiredWithoutModulesNestedInput = {
+  export type UserCreateNestedOneWithoutModulesInput = {
     create?: XOR<UserCreateWithoutModulesInput, UserUncheckedCreateWithoutModulesInput>
     connectOrCreate?: UserCreateOrConnectWithoutModulesInput
-    upsert?: UserUpsertWithoutModulesInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutModulesInput, UserUpdateWithoutModulesInput>, UserUncheckedUpdateWithoutModulesInput>
   }
 
   export type ModuleUpdateOneRequiredWithoutPermissionsNestedInput = {
@@ -37059,6 +37051,14 @@ export namespace Prisma {
     upsert?: ModuleUpsertWithoutPermissionsInput
     connect?: ModuleWhereUniqueInput
     update?: XOR<XOR<ModuleUpdateToOneWithWhereWithoutPermissionsInput, ModuleUpdateWithoutPermissionsInput>, ModuleUncheckedUpdateWithoutPermissionsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutModulesNestedInput = {
+    create?: XOR<UserCreateWithoutModulesInput, UserUncheckedCreateWithoutModulesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutModulesInput
+    upsert?: UserUpsertWithoutModulesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutModulesInput, UserUpdateWithoutModulesInput>, UserUncheckedUpdateWithoutModulesInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -37509,14 +37509,14 @@ export namespace Prisma {
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    articles?: ArticleCreateNestedManyWithoutAuthorInput
+    articleActivities?: ArticleActivityCreateNestedManyWithoutUserInput
+    media?: MediaCreateNestedManyWithoutUploaderInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    settings?: SiteSettingCreateNestedManyWithoutUpdatedByUserInput
     creator?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatorInput
-    articles?: ArticleCreateNestedManyWithoutAuthorInput
     modules?: UserModulePermissionCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-    articleActivities?: ArticleActivityCreateNestedManyWithoutUserInput
-    settings?: SiteSettingCreateNestedManyWithoutUpdatedByUserInput
-    media?: MediaCreateNestedManyWithoutUploaderInput
   }
 
   export type UserUncheckedCreateWithoutAdsInput = {
@@ -37534,18 +37534,44 @@ export namespace Prisma {
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatorInput
     articles?: ArticleUncheckedCreateNestedManyWithoutAuthorInput
-    modules?: UserModulePermissionUncheckedCreateNestedManyWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     articleActivities?: ArticleActivityUncheckedCreateNestedManyWithoutUserInput
-    settings?: SiteSettingUncheckedCreateNestedManyWithoutUpdatedByUserInput
     media?: MediaUncheckedCreateNestedManyWithoutUploaderInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    settings?: SiteSettingUncheckedCreateNestedManyWithoutUpdatedByUserInput
+    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatorInput
+    modules?: UserModulePermissionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAdsInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutAdsInput, UserUncheckedCreateWithoutAdsInput>
+  }
+
+  export type AdAnalyticsCreateWithoutAdInput = {
+    id?: string
+    impressions?: number
+    clicks?: number
+    date?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type AdAnalyticsUncheckedCreateWithoutAdInput = {
+    id?: string
+    impressions?: number
+    clicks?: number
+    date?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type AdAnalyticsCreateOrConnectWithoutAdInput = {
+    where: AdAnalyticsWhereUniqueInput
+    create: XOR<AdAnalyticsCreateWithoutAdInput, AdAnalyticsUncheckedCreateWithoutAdInput>
+  }
+
+  export type AdAnalyticsCreateManyAdInputEnvelope = {
+    data: AdAnalyticsCreateManyAdInput | AdAnalyticsCreateManyAdInput[]
+    skipDuplicates?: boolean
   }
 
   export type AdPlacementCreateWithoutAdInput = {
@@ -37602,32 +37628,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type AdAnalyticsCreateWithoutAdInput = {
-    id?: string
-    impressions?: number
-    clicks?: number
-    date?: Date | string
-    createdAt?: Date | string
-  }
-
-  export type AdAnalyticsUncheckedCreateWithoutAdInput = {
-    id?: string
-    impressions?: number
-    clicks?: number
-    date?: Date | string
-    createdAt?: Date | string
-  }
-
-  export type AdAnalyticsCreateOrConnectWithoutAdInput = {
-    where: AdAnalyticsWhereUniqueInput
-    create: XOR<AdAnalyticsCreateWithoutAdInput, AdAnalyticsUncheckedCreateWithoutAdInput>
-  }
-
-  export type AdAnalyticsCreateManyAdInputEnvelope = {
-    data: AdAnalyticsCreateManyAdInput | AdAnalyticsCreateManyAdInput[]
-    skipDuplicates?: boolean
-  }
-
   export type UserUpsertWithoutAdsInput = {
     update: XOR<UserUpdateWithoutAdsInput, UserUncheckedUpdateWithoutAdsInput>
     create: XOR<UserCreateWithoutAdsInput, UserUncheckedCreateWithoutAdsInput>
@@ -37653,14 +37653,14 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    articles?: ArticleUpdateManyWithoutAuthorNestedInput
+    articleActivities?: ArticleActivityUpdateManyWithoutUserNestedInput
+    media?: MediaUpdateManyWithoutUploaderNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    settings?: SiteSettingUpdateManyWithoutUpdatedByUserNestedInput
     creator?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatorNestedInput
-    articles?: ArticleUpdateManyWithoutAuthorNestedInput
     modules?: UserModulePermissionUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
-    articleActivities?: ArticleActivityUpdateManyWithoutUserNestedInput
-    settings?: SiteSettingUpdateManyWithoutUpdatedByUserNestedInput
-    media?: MediaUpdateManyWithoutUploaderNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAdsInput = {
@@ -37678,13 +37678,41 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdUsers?: UserUncheckedUpdateManyWithoutCreatorNestedInput
     articles?: ArticleUncheckedUpdateManyWithoutAuthorNestedInput
-    modules?: UserModulePermissionUncheckedUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     articleActivities?: ArticleActivityUncheckedUpdateManyWithoutUserNestedInput
-    settings?: SiteSettingUncheckedUpdateManyWithoutUpdatedByUserNestedInput
     media?: MediaUncheckedUpdateManyWithoutUploaderNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    settings?: SiteSettingUncheckedUpdateManyWithoutUpdatedByUserNestedInput
+    createdUsers?: UserUncheckedUpdateManyWithoutCreatorNestedInput
+    modules?: UserModulePermissionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type AdAnalyticsUpsertWithWhereUniqueWithoutAdInput = {
+    where: AdAnalyticsWhereUniqueInput
+    update: XOR<AdAnalyticsUpdateWithoutAdInput, AdAnalyticsUncheckedUpdateWithoutAdInput>
+    create: XOR<AdAnalyticsCreateWithoutAdInput, AdAnalyticsUncheckedCreateWithoutAdInput>
+  }
+
+  export type AdAnalyticsUpdateWithWhereUniqueWithoutAdInput = {
+    where: AdAnalyticsWhereUniqueInput
+    data: XOR<AdAnalyticsUpdateWithoutAdInput, AdAnalyticsUncheckedUpdateWithoutAdInput>
+  }
+
+  export type AdAnalyticsUpdateManyWithWhereWithoutAdInput = {
+    where: AdAnalyticsScalarWhereInput
+    data: XOR<AdAnalyticsUpdateManyMutationInput, AdAnalyticsUncheckedUpdateManyWithoutAdInput>
+  }
+
+  export type AdAnalyticsScalarWhereInput = {
+    AND?: AdAnalyticsScalarWhereInput | AdAnalyticsScalarWhereInput[]
+    OR?: AdAnalyticsScalarWhereInput[]
+    NOT?: AdAnalyticsScalarWhereInput | AdAnalyticsScalarWhereInput[]
+    id?: StringFilter<"AdAnalytics"> | string
+    adId?: StringFilter<"AdAnalytics"> | string
+    impressions?: IntFilter<"AdAnalytics"> | number
+    clicks?: IntFilter<"AdAnalytics"> | number
+    date?: DateTimeFilter<"AdAnalytics"> | Date | string
+    createdAt?: DateTimeFilter<"AdAnalytics"> | Date | string
   }
 
   export type AdPlacementUpsertWithWhereUniqueWithoutAdInput = {
@@ -37744,34 +37772,6 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"ArticleAd"> | Date | string
   }
 
-  export type AdAnalyticsUpsertWithWhereUniqueWithoutAdInput = {
-    where: AdAnalyticsWhereUniqueInput
-    update: XOR<AdAnalyticsUpdateWithoutAdInput, AdAnalyticsUncheckedUpdateWithoutAdInput>
-    create: XOR<AdAnalyticsCreateWithoutAdInput, AdAnalyticsUncheckedCreateWithoutAdInput>
-  }
-
-  export type AdAnalyticsUpdateWithWhereUniqueWithoutAdInput = {
-    where: AdAnalyticsWhereUniqueInput
-    data: XOR<AdAnalyticsUpdateWithoutAdInput, AdAnalyticsUncheckedUpdateWithoutAdInput>
-  }
-
-  export type AdAnalyticsUpdateManyWithWhereWithoutAdInput = {
-    where: AdAnalyticsScalarWhereInput
-    data: XOR<AdAnalyticsUpdateManyMutationInput, AdAnalyticsUncheckedUpdateManyWithoutAdInput>
-  }
-
-  export type AdAnalyticsScalarWhereInput = {
-    AND?: AdAnalyticsScalarWhereInput | AdAnalyticsScalarWhereInput[]
-    OR?: AdAnalyticsScalarWhereInput[]
-    NOT?: AdAnalyticsScalarWhereInput | AdAnalyticsScalarWhereInput[]
-    id?: StringFilter<"AdAnalytics"> | string
-    adId?: StringFilter<"AdAnalytics"> | string
-    impressions?: IntFilter<"AdAnalytics"> | number
-    clicks?: IntFilter<"AdAnalytics"> | number
-    date?: DateTimeFilter<"AdAnalytics"> | Date | string
-    createdAt?: DateTimeFilter<"AdAnalytics"> | Date | string
-  }
-
   export type AdPlacementCreateWithoutAdSpaceInput = {
     id?: string
     order?: number
@@ -37828,17 +37828,17 @@ export namespace Prisma {
     endDate: Date | string
     status?: $Enums.AdStatus
     priority?: number
-    targetPage?: string | null
-    ratio?: string | null
-    pageName?: string | null
-    placementName?: string | null
     impressions?: number
     clicks?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    pageName?: string | null
+    placementName?: string | null
+    ratio?: string | null
+    targetPage?: string | null
     creator: UserCreateNestedOneWithoutAdsInput
-    articles?: ArticleAdCreateNestedManyWithoutAdInput
     analytics?: AdAnalyticsCreateNestedManyWithoutAdInput
+    articles?: ArticleAdCreateNestedManyWithoutAdInput
   }
 
   export type AdUncheckedCreateWithoutPlacementsInput = {
@@ -37853,17 +37853,17 @@ export namespace Prisma {
     endDate: Date | string
     status?: $Enums.AdStatus
     priority?: number
-    targetPage?: string | null
-    ratio?: string | null
-    pageName?: string | null
-    placementName?: string | null
     impressions?: number
     clicks?: number
     createdBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    articles?: ArticleAdUncheckedCreateNestedManyWithoutAdInput
+    pageName?: string | null
+    placementName?: string | null
+    ratio?: string | null
+    targetPage?: string | null
     analytics?: AdAnalyticsUncheckedCreateNestedManyWithoutAdInput
+    articles?: ArticleAdUncheckedCreateNestedManyWithoutAdInput
   }
 
   export type AdCreateOrConnectWithoutPlacementsInput = {
@@ -37921,17 +37921,17 @@ export namespace Prisma {
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumAdStatusFieldUpdateOperationsInput | $Enums.AdStatus
     priority?: IntFieldUpdateOperationsInput | number
-    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
-    ratio?: NullableStringFieldUpdateOperationsInput | string | null
-    pageName?: NullableStringFieldUpdateOperationsInput | string | null
-    placementName?: NullableStringFieldUpdateOperationsInput | string | null
     impressions?: IntFieldUpdateOperationsInput | number
     clicks?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
+    placementName?: NullableStringFieldUpdateOperationsInput | string | null
+    ratio?: NullableStringFieldUpdateOperationsInput | string | null
+    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
     creator?: UserUpdateOneRequiredWithoutAdsNestedInput
-    articles?: ArticleAdUpdateManyWithoutAdNestedInput
     analytics?: AdAnalyticsUpdateManyWithoutAdNestedInput
+    articles?: ArticleAdUpdateManyWithoutAdNestedInput
   }
 
   export type AdUncheckedUpdateWithoutPlacementsInput = {
@@ -37946,17 +37946,17 @@ export namespace Prisma {
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumAdStatusFieldUpdateOperationsInput | $Enums.AdStatus
     priority?: IntFieldUpdateOperationsInput | number
-    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
-    ratio?: NullableStringFieldUpdateOperationsInput | string | null
-    pageName?: NullableStringFieldUpdateOperationsInput | string | null
-    placementName?: NullableStringFieldUpdateOperationsInput | string | null
     impressions?: IntFieldUpdateOperationsInput | number
     clicks?: IntFieldUpdateOperationsInput | number
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    articles?: ArticleAdUncheckedUpdateManyWithoutAdNestedInput
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
+    placementName?: NullableStringFieldUpdateOperationsInput | string | null
+    ratio?: NullableStringFieldUpdateOperationsInput | string | null
+    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
     analytics?: AdAnalyticsUncheckedUpdateManyWithoutAdNestedInput
+    articles?: ArticleAdUncheckedUpdateManyWithoutAdNestedInput
   }
 
   export type AdSpaceUpsertWithoutPlacementsInput = {
@@ -37992,77 +37992,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ArticleCreateWithoutAdsInput = {
-    id?: string
-    title: string
-    slug: string
-    content: string
-    excerpt?: string | null
-    featuredImage?: string | null
-    featuredImageTitle?: string | null
-    status?: $Enums.ArticleStatus
-    isFeatured?: boolean
-    isBreakingNews?: boolean
-    isTopHeadline?: boolean
-    isTrending?: boolean
-    isUaeNews?: boolean
-    isSponsored?: boolean
-    isExclusiveNews?: boolean
-    viewCount?: number
-    scheduledAt?: Date | string | null
-    publishedAt?: Date | string | null
-    metaTitle?: string | null
-    metaDescription?: string | null
-    metaKeywords?: string | null
-    readingTime?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    authorName?: string | null
-    category?: CategoryCreateNestedOneWithoutArticlesInput
-    author: UserCreateNestedOneWithoutArticlesInput
-    tags?: ArticleTagCreateNestedManyWithoutArticleInput
-    comments?: CommentCreateNestedManyWithoutArticleInput
-    activities?: ArticleActivityCreateNestedManyWithoutArticleInput
-  }
-
-  export type ArticleUncheckedCreateWithoutAdsInput = {
-    id?: string
-    title: string
-    slug: string
-    content: string
-    excerpt?: string | null
-    featuredImage?: string | null
-    featuredImageTitle?: string | null
-    status?: $Enums.ArticleStatus
-    isFeatured?: boolean
-    isBreakingNews?: boolean
-    isTopHeadline?: boolean
-    isTrending?: boolean
-    isUaeNews?: boolean
-    isSponsored?: boolean
-    isExclusiveNews?: boolean
-    viewCount?: number
-    scheduledAt?: Date | string | null
-    publishedAt?: Date | string | null
-    metaTitle?: string | null
-    metaDescription?: string | null
-    metaKeywords?: string | null
-    readingTime?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    categoryId?: string | null
-    authorId: string
-    authorName?: string | null
-    tags?: ArticleTagUncheckedCreateNestedManyWithoutArticleInput
-    comments?: CommentUncheckedCreateNestedManyWithoutArticleInput
-    activities?: ArticleActivityUncheckedCreateNestedManyWithoutArticleInput
-  }
-
-  export type ArticleCreateOrConnectWithoutAdsInput = {
-    where: ArticleWhereUniqueInput
-    create: XOR<ArticleCreateWithoutAdsInput, ArticleUncheckedCreateWithoutAdsInput>
-  }
-
   export type AdCreateWithoutArticlesInput = {
     id?: string
     name: string
@@ -38075,17 +38004,17 @@ export namespace Prisma {
     endDate: Date | string
     status?: $Enums.AdStatus
     priority?: number
-    targetPage?: string | null
-    ratio?: string | null
-    pageName?: string | null
-    placementName?: string | null
     impressions?: number
     clicks?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    pageName?: string | null
+    placementName?: string | null
+    ratio?: string | null
+    targetPage?: string | null
     creator: UserCreateNestedOneWithoutAdsInput
-    placements?: AdPlacementCreateNestedManyWithoutAdInput
     analytics?: AdAnalyticsCreateNestedManyWithoutAdInput
+    placements?: AdPlacementCreateNestedManyWithoutAdInput
   }
 
   export type AdUncheckedCreateWithoutArticlesInput = {
@@ -38100,17 +38029,17 @@ export namespace Prisma {
     endDate: Date | string
     status?: $Enums.AdStatus
     priority?: number
-    targetPage?: string | null
-    ratio?: string | null
-    pageName?: string | null
-    placementName?: string | null
     impressions?: number
     clicks?: number
     createdBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    placements?: AdPlacementUncheckedCreateNestedManyWithoutAdInput
+    pageName?: string | null
+    placementName?: string | null
+    ratio?: string | null
+    targetPage?: string | null
     analytics?: AdAnalyticsUncheckedCreateNestedManyWithoutAdInput
+    placements?: AdPlacementUncheckedCreateNestedManyWithoutAdInput
   }
 
   export type AdCreateOrConnectWithoutArticlesInput = {
@@ -38118,81 +38047,75 @@ export namespace Prisma {
     create: XOR<AdCreateWithoutArticlesInput, AdUncheckedCreateWithoutArticlesInput>
   }
 
-  export type ArticleUpsertWithoutAdsInput = {
-    update: XOR<ArticleUpdateWithoutAdsInput, ArticleUncheckedUpdateWithoutAdsInput>
+  export type ArticleCreateWithoutAdsInput = {
+    id?: string
+    title: string
+    slug: string
+    content: string
+    excerpt?: string | null
+    featuredImage?: string | null
+    status?: $Enums.ArticleStatus
+    isFeatured?: boolean
+    isBreakingNews?: boolean
+    viewCount?: number
+    scheduledAt?: Date | string | null
+    publishedAt?: Date | string | null
+    metaTitle?: string | null
+    metaDescription?: string | null
+    metaKeywords?: string | null
+    readingTime?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    featuredImageTitle?: string | null
+    isSponsored?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isExclusiveNews?: boolean
+    authorName?: string | null
+    author: UserCreateNestedOneWithoutArticlesInput
+    category?: CategoryCreateNestedOneWithoutArticlesInput
+    activities?: ArticleActivityCreateNestedManyWithoutArticleInput
+    tags?: ArticleTagCreateNestedManyWithoutArticleInput
+    comments?: CommentCreateNestedManyWithoutArticleInput
+  }
+
+  export type ArticleUncheckedCreateWithoutAdsInput = {
+    id?: string
+    title: string
+    slug: string
+    content: string
+    excerpt?: string | null
+    featuredImage?: string | null
+    status?: $Enums.ArticleStatus
+    isFeatured?: boolean
+    isBreakingNews?: boolean
+    viewCount?: number
+    scheduledAt?: Date | string | null
+    publishedAt?: Date | string | null
+    metaTitle?: string | null
+    metaDescription?: string | null
+    metaKeywords?: string | null
+    readingTime?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    categoryId?: string | null
+    authorId: string
+    featuredImageTitle?: string | null
+    isSponsored?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isExclusiveNews?: boolean
+    authorName?: string | null
+    activities?: ArticleActivityUncheckedCreateNestedManyWithoutArticleInput
+    tags?: ArticleTagUncheckedCreateNestedManyWithoutArticleInput
+    comments?: CommentUncheckedCreateNestedManyWithoutArticleInput
+  }
+
+  export type ArticleCreateOrConnectWithoutAdsInput = {
+    where: ArticleWhereUniqueInput
     create: XOR<ArticleCreateWithoutAdsInput, ArticleUncheckedCreateWithoutAdsInput>
-    where?: ArticleWhereInput
-  }
-
-  export type ArticleUpdateToOneWithWhereWithoutAdsInput = {
-    where?: ArticleWhereInput
-    data: XOR<ArticleUpdateWithoutAdsInput, ArticleUncheckedUpdateWithoutAdsInput>
-  }
-
-  export type ArticleUpdateWithoutAdsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
-    featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
-    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
-    isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
-    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
-    isTrending?: BoolFieldUpdateOperationsInput | boolean
-    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
-    isSponsored?: BoolFieldUpdateOperationsInput | boolean
-    isExclusiveNews?: BoolFieldUpdateOperationsInput | boolean
-    viewCount?: IntFieldUpdateOperationsInput | number
-    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    metaKeywords?: NullableStringFieldUpdateOperationsInput | string | null
-    readingTime?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    authorName?: NullableStringFieldUpdateOperationsInput | string | null
-    category?: CategoryUpdateOneWithoutArticlesNestedInput
-    author?: UserUpdateOneRequiredWithoutArticlesNestedInput
-    tags?: ArticleTagUpdateManyWithoutArticleNestedInput
-    comments?: CommentUpdateManyWithoutArticleNestedInput
-    activities?: ArticleActivityUpdateManyWithoutArticleNestedInput
-  }
-
-  export type ArticleUncheckedUpdateWithoutAdsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
-    featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
-    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
-    isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
-    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
-    isTrending?: BoolFieldUpdateOperationsInput | boolean
-    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
-    isSponsored?: BoolFieldUpdateOperationsInput | boolean
-    isExclusiveNews?: BoolFieldUpdateOperationsInput | boolean
-    viewCount?: IntFieldUpdateOperationsInput | number
-    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    metaKeywords?: NullableStringFieldUpdateOperationsInput | string | null
-    readingTime?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
-    authorId?: StringFieldUpdateOperationsInput | string
-    authorName?: NullableStringFieldUpdateOperationsInput | string | null
-    tags?: ArticleTagUncheckedUpdateManyWithoutArticleNestedInput
-    comments?: CommentUncheckedUpdateManyWithoutArticleNestedInput
-    activities?: ArticleActivityUncheckedUpdateManyWithoutArticleNestedInput
   }
 
   export type AdUpsertWithoutArticlesInput = {
@@ -38218,17 +38141,17 @@ export namespace Prisma {
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumAdStatusFieldUpdateOperationsInput | $Enums.AdStatus
     priority?: IntFieldUpdateOperationsInput | number
-    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
-    ratio?: NullableStringFieldUpdateOperationsInput | string | null
-    pageName?: NullableStringFieldUpdateOperationsInput | string | null
-    placementName?: NullableStringFieldUpdateOperationsInput | string | null
     impressions?: IntFieldUpdateOperationsInput | number
     clicks?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
+    placementName?: NullableStringFieldUpdateOperationsInput | string | null
+    ratio?: NullableStringFieldUpdateOperationsInput | string | null
+    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
     creator?: UserUpdateOneRequiredWithoutAdsNestedInput
-    placements?: AdPlacementUpdateManyWithoutAdNestedInput
     analytics?: AdAnalyticsUpdateManyWithoutAdNestedInput
+    placements?: AdPlacementUpdateManyWithoutAdNestedInput
   }
 
   export type AdUncheckedUpdateWithoutArticlesInput = {
@@ -38243,17 +38166,94 @@ export namespace Prisma {
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumAdStatusFieldUpdateOperationsInput | $Enums.AdStatus
     priority?: IntFieldUpdateOperationsInput | number
-    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
-    ratio?: NullableStringFieldUpdateOperationsInput | string | null
-    pageName?: NullableStringFieldUpdateOperationsInput | string | null
-    placementName?: NullableStringFieldUpdateOperationsInput | string | null
     impressions?: IntFieldUpdateOperationsInput | number
     clicks?: IntFieldUpdateOperationsInput | number
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    placements?: AdPlacementUncheckedUpdateManyWithoutAdNestedInput
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
+    placementName?: NullableStringFieldUpdateOperationsInput | string | null
+    ratio?: NullableStringFieldUpdateOperationsInput | string | null
+    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
     analytics?: AdAnalyticsUncheckedUpdateManyWithoutAdNestedInput
+    placements?: AdPlacementUncheckedUpdateManyWithoutAdNestedInput
+  }
+
+  export type ArticleUpsertWithoutAdsInput = {
+    update: XOR<ArticleUpdateWithoutAdsInput, ArticleUncheckedUpdateWithoutAdsInput>
+    create: XOR<ArticleCreateWithoutAdsInput, ArticleUncheckedCreateWithoutAdsInput>
+    where?: ArticleWhereInput
+  }
+
+  export type ArticleUpdateToOneWithWhereWithoutAdsInput = {
+    where?: ArticleWhereInput
+    data: XOR<ArticleUpdateWithoutAdsInput, ArticleUncheckedUpdateWithoutAdsInput>
+  }
+
+  export type ArticleUpdateWithoutAdsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
+    viewCount?: IntFieldUpdateOperationsInput | number
+    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    metaKeywords?: NullableStringFieldUpdateOperationsInput | string | null
+    readingTime?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    isSponsored?: BoolFieldUpdateOperationsInput | boolean
+    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
+    isTrending?: BoolFieldUpdateOperationsInput | boolean
+    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
+    isExclusiveNews?: BoolFieldUpdateOperationsInput | boolean
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    author?: UserUpdateOneRequiredWithoutArticlesNestedInput
+    category?: CategoryUpdateOneWithoutArticlesNestedInput
+    activities?: ArticleActivityUpdateManyWithoutArticleNestedInput
+    tags?: ArticleTagUpdateManyWithoutArticleNestedInput
+    comments?: CommentUpdateManyWithoutArticleNestedInput
+  }
+
+  export type ArticleUncheckedUpdateWithoutAdsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
+    viewCount?: IntFieldUpdateOperationsInput | number
+    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    metaKeywords?: NullableStringFieldUpdateOperationsInput | string | null
+    readingTime?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    isSponsored?: BoolFieldUpdateOperationsInput | boolean
+    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
+    isTrending?: BoolFieldUpdateOperationsInput | boolean
+    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
+    isExclusiveNews?: BoolFieldUpdateOperationsInput | boolean
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    activities?: ArticleActivityUncheckedUpdateManyWithoutArticleNestedInput
+    tags?: ArticleTagUncheckedUpdateManyWithoutArticleNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutArticleNestedInput
   }
 
   export type AdCreateWithoutAnalyticsInput = {
@@ -38268,14 +38268,14 @@ export namespace Prisma {
     endDate: Date | string
     status?: $Enums.AdStatus
     priority?: number
-    targetPage?: string | null
-    ratio?: string | null
-    pageName?: string | null
-    placementName?: string | null
     impressions?: number
     clicks?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    pageName?: string | null
+    placementName?: string | null
+    ratio?: string | null
+    targetPage?: string | null
     creator: UserCreateNestedOneWithoutAdsInput
     placements?: AdPlacementCreateNestedManyWithoutAdInput
     articles?: ArticleAdCreateNestedManyWithoutAdInput
@@ -38293,15 +38293,15 @@ export namespace Prisma {
     endDate: Date | string
     status?: $Enums.AdStatus
     priority?: number
-    targetPage?: string | null
-    ratio?: string | null
-    pageName?: string | null
-    placementName?: string | null
     impressions?: number
     clicks?: number
     createdBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    pageName?: string | null
+    placementName?: string | null
+    ratio?: string | null
+    targetPage?: string | null
     placements?: AdPlacementUncheckedCreateNestedManyWithoutAdInput
     articles?: ArticleAdUncheckedCreateNestedManyWithoutAdInput
   }
@@ -38334,14 +38334,14 @@ export namespace Prisma {
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumAdStatusFieldUpdateOperationsInput | $Enums.AdStatus
     priority?: IntFieldUpdateOperationsInput | number
-    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
-    ratio?: NullableStringFieldUpdateOperationsInput | string | null
-    pageName?: NullableStringFieldUpdateOperationsInput | string | null
-    placementName?: NullableStringFieldUpdateOperationsInput | string | null
     impressions?: IntFieldUpdateOperationsInput | number
     clicks?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
+    placementName?: NullableStringFieldUpdateOperationsInput | string | null
+    ratio?: NullableStringFieldUpdateOperationsInput | string | null
+    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
     creator?: UserUpdateOneRequiredWithoutAdsNestedInput
     placements?: AdPlacementUpdateManyWithoutAdNestedInput
     articles?: ArticleAdUpdateManyWithoutAdNestedInput
@@ -38359,17 +38359,70 @@ export namespace Prisma {
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumAdStatusFieldUpdateOperationsInput | $Enums.AdStatus
     priority?: IntFieldUpdateOperationsInput | number
-    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
-    ratio?: NullableStringFieldUpdateOperationsInput | string | null
-    pageName?: NullableStringFieldUpdateOperationsInput | string | null
-    placementName?: NullableStringFieldUpdateOperationsInput | string | null
     impressions?: IntFieldUpdateOperationsInput | number
     clicks?: IntFieldUpdateOperationsInput | number
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
+    placementName?: NullableStringFieldUpdateOperationsInput | string | null
+    ratio?: NullableStringFieldUpdateOperationsInput | string | null
+    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
     placements?: AdPlacementUncheckedUpdateManyWithoutAdNestedInput
     articles?: ArticleAdUncheckedUpdateManyWithoutAdNestedInput
+  }
+
+  export type UserCreateWithoutArticlesInput = {
+    id?: string
+    email: string
+    password: string
+    name: string
+    role?: $Enums.Role
+    status?: $Enums.UserStatus
+    avatar?: string | null
+    bio?: string | null
+    canCreateUsers?: boolean
+    refreshToken?: string | null
+    lastLoginAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ads?: AdCreateNestedManyWithoutCreatorInput
+    articleActivities?: ArticleActivityCreateNestedManyWithoutUserInput
+    media?: MediaCreateNestedManyWithoutUploaderInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    settings?: SiteSettingCreateNestedManyWithoutUpdatedByUserInput
+    creator?: UserCreateNestedOneWithoutCreatedUsersInput
+    createdUsers?: UserCreateNestedManyWithoutCreatorInput
+    modules?: UserModulePermissionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutArticlesInput = {
+    id?: string
+    email: string
+    password: string
+    name: string
+    role?: $Enums.Role
+    status?: $Enums.UserStatus
+    avatar?: string | null
+    bio?: string | null
+    canCreateUsers?: boolean
+    createdBy?: string | null
+    refreshToken?: string | null
+    lastLoginAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ads?: AdUncheckedCreateNestedManyWithoutCreatorInput
+    articleActivities?: ArticleActivityUncheckedCreateNestedManyWithoutUserInput
+    media?: MediaUncheckedCreateNestedManyWithoutUploaderInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    settings?: SiteSettingUncheckedCreateNestedManyWithoutUpdatedByUserInput
+    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatorInput
+    modules?: UserModulePermissionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutArticlesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutArticlesInput, UserUncheckedCreateWithoutArticlesInput>
   }
 
   export type CategoryCreateWithoutArticlesInput = {
@@ -38411,57 +38464,56 @@ export namespace Prisma {
     create: XOR<CategoryCreateWithoutArticlesInput, CategoryUncheckedCreateWithoutArticlesInput>
   }
 
-  export type UserCreateWithoutArticlesInput = {
+  export type ArticleActivityCreateWithoutArticleInput = {
     id?: string
-    email: string
-    password: string
-    name: string
-    role?: $Enums.Role
-    status?: $Enums.UserStatus
-    avatar?: string | null
-    bio?: string | null
-    canCreateUsers?: boolean
-    refreshToken?: string | null
-    lastLoginAt?: Date | string | null
+    action: string
+    details?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
-    updatedAt?: Date | string
-    creator?: UserCreateNestedOneWithoutCreatedUsersInput
-    createdUsers?: UserCreateNestedManyWithoutCreatorInput
-    modules?: UserModulePermissionCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-    ads?: AdCreateNestedManyWithoutCreatorInput
-    articleActivities?: ArticleActivityCreateNestedManyWithoutUserInput
-    settings?: SiteSettingCreateNestedManyWithoutUpdatedByUserInput
-    media?: MediaCreateNestedManyWithoutUploaderInput
+    user: UserCreateNestedOneWithoutArticleActivitiesInput
   }
 
-  export type UserUncheckedCreateWithoutArticlesInput = {
+  export type ArticleActivityUncheckedCreateWithoutArticleInput = {
     id?: string
-    email: string
-    password: string
-    name: string
-    role?: $Enums.Role
-    status?: $Enums.UserStatus
-    avatar?: string | null
-    bio?: string | null
-    canCreateUsers?: boolean
-    createdBy?: string | null
-    refreshToken?: string | null
-    lastLoginAt?: Date | string | null
+    action: string
+    details?: NullableJsonNullValueInput | InputJsonValue
+    userId: string
     createdAt?: Date | string
-    updatedAt?: Date | string
-    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatorInput
-    modules?: UserModulePermissionUncheckedCreateNestedManyWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    ads?: AdUncheckedCreateNestedManyWithoutCreatorInput
-    articleActivities?: ArticleActivityUncheckedCreateNestedManyWithoutUserInput
-    settings?: SiteSettingUncheckedCreateNestedManyWithoutUpdatedByUserInput
-    media?: MediaUncheckedCreateNestedManyWithoutUploaderInput
   }
 
-  export type UserCreateOrConnectWithoutArticlesInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutArticlesInput, UserUncheckedCreateWithoutArticlesInput>
+  export type ArticleActivityCreateOrConnectWithoutArticleInput = {
+    where: ArticleActivityWhereUniqueInput
+    create: XOR<ArticleActivityCreateWithoutArticleInput, ArticleActivityUncheckedCreateWithoutArticleInput>
+  }
+
+  export type ArticleActivityCreateManyArticleInputEnvelope = {
+    data: ArticleActivityCreateManyArticleInput | ArticleActivityCreateManyArticleInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ArticleAdCreateWithoutArticleInput = {
+    id?: string
+    position: string
+    order?: number
+    createdAt?: Date | string
+    ad: AdCreateNestedOneWithoutArticlesInput
+  }
+
+  export type ArticleAdUncheckedCreateWithoutArticleInput = {
+    id?: string
+    adId: string
+    position: string
+    order?: number
+    createdAt?: Date | string
+  }
+
+  export type ArticleAdCreateOrConnectWithoutArticleInput = {
+    where: ArticleAdWhereUniqueInput
+    create: XOR<ArticleAdCreateWithoutArticleInput, ArticleAdUncheckedCreateWithoutArticleInput>
+  }
+
+  export type ArticleAdCreateManyArticleInputEnvelope = {
+    data: ArticleAdCreateManyArticleInput | ArticleAdCreateManyArticleInput[]
+    skipDuplicates?: boolean
   }
 
   export type ArticleTagCreateWithoutArticleInput = {
@@ -38518,56 +38570,63 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type ArticleAdCreateWithoutArticleInput = {
-    id?: string
-    position: string
-    order?: number
-    createdAt?: Date | string
-    ad: AdCreateNestedOneWithoutArticlesInput
+  export type UserUpsertWithoutArticlesInput = {
+    update: XOR<UserUpdateWithoutArticlesInput, UserUncheckedUpdateWithoutArticlesInput>
+    create: XOR<UserCreateWithoutArticlesInput, UserUncheckedCreateWithoutArticlesInput>
+    where?: UserWhereInput
   }
 
-  export type ArticleAdUncheckedCreateWithoutArticleInput = {
-    id?: string
-    adId: string
-    position: string
-    order?: number
-    createdAt?: Date | string
+  export type UserUpdateToOneWithWhereWithoutArticlesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutArticlesInput, UserUncheckedUpdateWithoutArticlesInput>
   }
 
-  export type ArticleAdCreateOrConnectWithoutArticleInput = {
-    where: ArticleAdWhereUniqueInput
-    create: XOR<ArticleAdCreateWithoutArticleInput, ArticleAdUncheckedCreateWithoutArticleInput>
+  export type UserUpdateWithoutArticlesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    canCreateUsers?: BoolFieldUpdateOperationsInput | boolean
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ads?: AdUpdateManyWithoutCreatorNestedInput
+    articleActivities?: ArticleActivityUpdateManyWithoutUserNestedInput
+    media?: MediaUpdateManyWithoutUploaderNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    settings?: SiteSettingUpdateManyWithoutUpdatedByUserNestedInput
+    creator?: UserUpdateOneWithoutCreatedUsersNestedInput
+    createdUsers?: UserUpdateManyWithoutCreatorNestedInput
+    modules?: UserModulePermissionUpdateManyWithoutUserNestedInput
   }
 
-  export type ArticleAdCreateManyArticleInputEnvelope = {
-    data: ArticleAdCreateManyArticleInput | ArticleAdCreateManyArticleInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type ArticleActivityCreateWithoutArticleInput = {
-    id?: string
-    action: string
-    details?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
-    user: UserCreateNestedOneWithoutArticleActivitiesInput
-  }
-
-  export type ArticleActivityUncheckedCreateWithoutArticleInput = {
-    id?: string
-    action: string
-    details?: NullableJsonNullValueInput | InputJsonValue
-    userId: string
-    createdAt?: Date | string
-  }
-
-  export type ArticleActivityCreateOrConnectWithoutArticleInput = {
-    where: ArticleActivityWhereUniqueInput
-    create: XOR<ArticleActivityCreateWithoutArticleInput, ArticleActivityUncheckedCreateWithoutArticleInput>
-  }
-
-  export type ArticleActivityCreateManyArticleInputEnvelope = {
-    data: ArticleActivityCreateManyArticleInput | ArticleActivityCreateManyArticleInput[]
-    skipDuplicates?: boolean
+  export type UserUncheckedUpdateWithoutArticlesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    canCreateUsers?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ads?: AdUncheckedUpdateManyWithoutCreatorNestedInput
+    articleActivities?: ArticleActivityUncheckedUpdateManyWithoutUserNestedInput
+    media?: MediaUncheckedUpdateManyWithoutUploaderNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    settings?: SiteSettingUncheckedUpdateManyWithoutUpdatedByUserNestedInput
+    createdUsers?: UserUncheckedUpdateManyWithoutCreatorNestedInput
+    modules?: UserModulePermissionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CategoryUpsertWithoutArticlesInput = {
@@ -38615,63 +38674,48 @@ export namespace Prisma {
     pageSeo?: PageSeoUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
-  export type UserUpsertWithoutArticlesInput = {
-    update: XOR<UserUpdateWithoutArticlesInput, UserUncheckedUpdateWithoutArticlesInput>
-    create: XOR<UserCreateWithoutArticlesInput, UserUncheckedCreateWithoutArticlesInput>
-    where?: UserWhereInput
+  export type ArticleActivityUpsertWithWhereUniqueWithoutArticleInput = {
+    where: ArticleActivityWhereUniqueInput
+    update: XOR<ArticleActivityUpdateWithoutArticleInput, ArticleActivityUncheckedUpdateWithoutArticleInput>
+    create: XOR<ArticleActivityCreateWithoutArticleInput, ArticleActivityUncheckedCreateWithoutArticleInput>
   }
 
-  export type UserUpdateToOneWithWhereWithoutArticlesInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutArticlesInput, UserUncheckedUpdateWithoutArticlesInput>
+  export type ArticleActivityUpdateWithWhereUniqueWithoutArticleInput = {
+    where: ArticleActivityWhereUniqueInput
+    data: XOR<ArticleActivityUpdateWithoutArticleInput, ArticleActivityUncheckedUpdateWithoutArticleInput>
   }
 
-  export type UserUpdateWithoutArticlesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    canCreateUsers?: BoolFieldUpdateOperationsInput | boolean
-    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
-    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    creator?: UserUpdateOneWithoutCreatedUsersNestedInput
-    createdUsers?: UserUpdateManyWithoutCreatorNestedInput
-    modules?: UserModulePermissionUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
-    ads?: AdUpdateManyWithoutCreatorNestedInput
-    articleActivities?: ArticleActivityUpdateManyWithoutUserNestedInput
-    settings?: SiteSettingUpdateManyWithoutUpdatedByUserNestedInput
-    media?: MediaUpdateManyWithoutUploaderNestedInput
+  export type ArticleActivityUpdateManyWithWhereWithoutArticleInput = {
+    where: ArticleActivityScalarWhereInput
+    data: XOR<ArticleActivityUpdateManyMutationInput, ArticleActivityUncheckedUpdateManyWithoutArticleInput>
   }
 
-  export type UserUncheckedUpdateWithoutArticlesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    canCreateUsers?: BoolFieldUpdateOperationsInput | boolean
-    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
-    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
-    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdUsers?: UserUncheckedUpdateManyWithoutCreatorNestedInput
-    modules?: UserModulePermissionUncheckedUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    ads?: AdUncheckedUpdateManyWithoutCreatorNestedInput
-    articleActivities?: ArticleActivityUncheckedUpdateManyWithoutUserNestedInput
-    settings?: SiteSettingUncheckedUpdateManyWithoutUpdatedByUserNestedInput
-    media?: MediaUncheckedUpdateManyWithoutUploaderNestedInput
+  export type ArticleActivityScalarWhereInput = {
+    AND?: ArticleActivityScalarWhereInput | ArticleActivityScalarWhereInput[]
+    OR?: ArticleActivityScalarWhereInput[]
+    NOT?: ArticleActivityScalarWhereInput | ArticleActivityScalarWhereInput[]
+    id?: StringFilter<"ArticleActivity"> | string
+    action?: StringFilter<"ArticleActivity"> | string
+    details?: JsonNullableFilter<"ArticleActivity">
+    userId?: StringFilter<"ArticleActivity"> | string
+    articleId?: StringNullableFilter<"ArticleActivity"> | string | null
+    createdAt?: DateTimeFilter<"ArticleActivity"> | Date | string
+  }
+
+  export type ArticleAdUpsertWithWhereUniqueWithoutArticleInput = {
+    where: ArticleAdWhereUniqueInput
+    update: XOR<ArticleAdUpdateWithoutArticleInput, ArticleAdUncheckedUpdateWithoutArticleInput>
+    create: XOR<ArticleAdCreateWithoutArticleInput, ArticleAdUncheckedCreateWithoutArticleInput>
+  }
+
+  export type ArticleAdUpdateWithWhereUniqueWithoutArticleInput = {
+    where: ArticleAdWhereUniqueInput
+    data: XOR<ArticleAdUpdateWithoutArticleInput, ArticleAdUncheckedUpdateWithoutArticleInput>
+  }
+
+  export type ArticleAdUpdateManyWithWhereWithoutArticleInput = {
+    where: ArticleAdScalarWhereInput
+    data: XOR<ArticleAdUpdateManyMutationInput, ArticleAdUncheckedUpdateManyWithoutArticleInput>
   }
 
   export type ArticleTagUpsertWithWhereUniqueWithoutArticleInput = {
@@ -38730,50 +38774,6 @@ export namespace Prisma {
     parentId?: StringNullableFilter<"Comment"> | string | null
   }
 
-  export type ArticleAdUpsertWithWhereUniqueWithoutArticleInput = {
-    where: ArticleAdWhereUniqueInput
-    update: XOR<ArticleAdUpdateWithoutArticleInput, ArticleAdUncheckedUpdateWithoutArticleInput>
-    create: XOR<ArticleAdCreateWithoutArticleInput, ArticleAdUncheckedCreateWithoutArticleInput>
-  }
-
-  export type ArticleAdUpdateWithWhereUniqueWithoutArticleInput = {
-    where: ArticleAdWhereUniqueInput
-    data: XOR<ArticleAdUpdateWithoutArticleInput, ArticleAdUncheckedUpdateWithoutArticleInput>
-  }
-
-  export type ArticleAdUpdateManyWithWhereWithoutArticleInput = {
-    where: ArticleAdScalarWhereInput
-    data: XOR<ArticleAdUpdateManyMutationInput, ArticleAdUncheckedUpdateManyWithoutArticleInput>
-  }
-
-  export type ArticleActivityUpsertWithWhereUniqueWithoutArticleInput = {
-    where: ArticleActivityWhereUniqueInput
-    update: XOR<ArticleActivityUpdateWithoutArticleInput, ArticleActivityUncheckedUpdateWithoutArticleInput>
-    create: XOR<ArticleActivityCreateWithoutArticleInput, ArticleActivityUncheckedCreateWithoutArticleInput>
-  }
-
-  export type ArticleActivityUpdateWithWhereUniqueWithoutArticleInput = {
-    where: ArticleActivityWhereUniqueInput
-    data: XOR<ArticleActivityUpdateWithoutArticleInput, ArticleActivityUncheckedUpdateWithoutArticleInput>
-  }
-
-  export type ArticleActivityUpdateManyWithWhereWithoutArticleInput = {
-    where: ArticleActivityScalarWhereInput
-    data: XOR<ArticleActivityUpdateManyMutationInput, ArticleActivityUncheckedUpdateManyWithoutArticleInput>
-  }
-
-  export type ArticleActivityScalarWhereInput = {
-    AND?: ArticleActivityScalarWhereInput | ArticleActivityScalarWhereInput[]
-    OR?: ArticleActivityScalarWhereInput[]
-    NOT?: ArticleActivityScalarWhereInput | ArticleActivityScalarWhereInput[]
-    id?: StringFilter<"ArticleActivity"> | string
-    action?: StringFilter<"ArticleActivity"> | string
-    details?: JsonNullableFilter<"ArticleActivity">
-    userId?: StringFilter<"ArticleActivity"> | string
-    articleId?: StringNullableFilter<"ArticleActivity"> | string | null
-    createdAt?: DateTimeFilter<"ArticleActivity"> | Date | string
-  }
-
   export type ArticleTagCreateWithoutTagInput = {
     assignedAt?: Date | string
     article: ArticleCreateNestedOneWithoutTagsInput
@@ -38817,15 +38817,9 @@ export namespace Prisma {
     content: string
     excerpt?: string | null
     featuredImage?: string | null
-    featuredImageTitle?: string | null
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
-    isTopHeadline?: boolean
-    isTrending?: boolean
-    isUaeNews?: boolean
-    isSponsored?: boolean
-    isExclusiveNews?: boolean
     viewCount?: number
     scheduledAt?: Date | string | null
     publishedAt?: Date | string | null
@@ -38835,12 +38829,18 @@ export namespace Prisma {
     readingTime?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    featuredImageTitle?: string | null
+    isSponsored?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isExclusiveNews?: boolean
     authorName?: string | null
-    category?: CategoryCreateNestedOneWithoutArticlesInput
     author: UserCreateNestedOneWithoutArticlesInput
-    comments?: CommentCreateNestedManyWithoutArticleInput
-    ads?: ArticleAdCreateNestedManyWithoutArticleInput
+    category?: CategoryCreateNestedOneWithoutArticlesInput
     activities?: ArticleActivityCreateNestedManyWithoutArticleInput
+    ads?: ArticleAdCreateNestedManyWithoutArticleInput
+    comments?: CommentCreateNestedManyWithoutArticleInput
   }
 
   export type ArticleUncheckedCreateWithoutTagsInput = {
@@ -38850,15 +38850,9 @@ export namespace Prisma {
     content: string
     excerpt?: string | null
     featuredImage?: string | null
-    featuredImageTitle?: string | null
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
-    isTopHeadline?: boolean
-    isTrending?: boolean
-    isUaeNews?: boolean
-    isSponsored?: boolean
-    isExclusiveNews?: boolean
     viewCount?: number
     scheduledAt?: Date | string | null
     publishedAt?: Date | string | null
@@ -38870,10 +38864,16 @@ export namespace Prisma {
     updatedAt?: Date | string
     categoryId?: string | null
     authorId: string
+    featuredImageTitle?: string | null
+    isSponsored?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isExclusiveNews?: boolean
     authorName?: string | null
-    comments?: CommentUncheckedCreateNestedManyWithoutArticleInput
-    ads?: ArticleAdUncheckedCreateNestedManyWithoutArticleInput
     activities?: ArticleActivityUncheckedCreateNestedManyWithoutArticleInput
+    ads?: ArticleAdUncheckedCreateNestedManyWithoutArticleInput
+    comments?: CommentUncheckedCreateNestedManyWithoutArticleInput
   }
 
   export type ArticleCreateOrConnectWithoutTagsInput = {
@@ -38922,15 +38922,9 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
-    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
-    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
-    isTrending?: BoolFieldUpdateOperationsInput | boolean
-    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
-    isSponsored?: BoolFieldUpdateOperationsInput | boolean
-    isExclusiveNews?: BoolFieldUpdateOperationsInput | boolean
     viewCount?: IntFieldUpdateOperationsInput | number
     scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -38940,12 +38934,18 @@ export namespace Prisma {
     readingTime?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    isSponsored?: BoolFieldUpdateOperationsInput | boolean
+    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
+    isTrending?: BoolFieldUpdateOperationsInput | boolean
+    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
+    isExclusiveNews?: BoolFieldUpdateOperationsInput | boolean
     authorName?: NullableStringFieldUpdateOperationsInput | string | null
-    category?: CategoryUpdateOneWithoutArticlesNestedInput
     author?: UserUpdateOneRequiredWithoutArticlesNestedInput
-    comments?: CommentUpdateManyWithoutArticleNestedInput
-    ads?: ArticleAdUpdateManyWithoutArticleNestedInput
+    category?: CategoryUpdateOneWithoutArticlesNestedInput
     activities?: ArticleActivityUpdateManyWithoutArticleNestedInput
+    ads?: ArticleAdUpdateManyWithoutArticleNestedInput
+    comments?: CommentUpdateManyWithoutArticleNestedInput
   }
 
   export type ArticleUncheckedUpdateWithoutTagsInput = {
@@ -38955,15 +38955,9 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
-    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
-    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
-    isTrending?: BoolFieldUpdateOperationsInput | boolean
-    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
-    isSponsored?: BoolFieldUpdateOperationsInput | boolean
-    isExclusiveNews?: BoolFieldUpdateOperationsInput | boolean
     viewCount?: IntFieldUpdateOperationsInput | number
     scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -38975,10 +38969,16 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     authorId?: StringFieldUpdateOperationsInput | string
+    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    isSponsored?: BoolFieldUpdateOperationsInput | boolean
+    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
+    isTrending?: BoolFieldUpdateOperationsInput | boolean
+    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
+    isExclusiveNews?: BoolFieldUpdateOperationsInput | boolean
     authorName?: NullableStringFieldUpdateOperationsInput | string | null
-    comments?: CommentUncheckedUpdateManyWithoutArticleNestedInput
-    ads?: ArticleAdUncheckedUpdateManyWithoutArticleNestedInput
     activities?: ArticleActivityUncheckedUpdateManyWithoutArticleNestedInput
+    ads?: ArticleAdUncheckedUpdateManyWithoutArticleNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutArticleNestedInput
   }
 
   export type TagUpsertWithoutArticlesInput = {
@@ -39010,6 +39010,77 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ArticleCreateWithoutActivitiesInput = {
+    id?: string
+    title: string
+    slug: string
+    content: string
+    excerpt?: string | null
+    featuredImage?: string | null
+    status?: $Enums.ArticleStatus
+    isFeatured?: boolean
+    isBreakingNews?: boolean
+    viewCount?: number
+    scheduledAt?: Date | string | null
+    publishedAt?: Date | string | null
+    metaTitle?: string | null
+    metaDescription?: string | null
+    metaKeywords?: string | null
+    readingTime?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    featuredImageTitle?: string | null
+    isSponsored?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isExclusiveNews?: boolean
+    authorName?: string | null
+    author: UserCreateNestedOneWithoutArticlesInput
+    category?: CategoryCreateNestedOneWithoutArticlesInput
+    ads?: ArticleAdCreateNestedManyWithoutArticleInput
+    tags?: ArticleTagCreateNestedManyWithoutArticleInput
+    comments?: CommentCreateNestedManyWithoutArticleInput
+  }
+
+  export type ArticleUncheckedCreateWithoutActivitiesInput = {
+    id?: string
+    title: string
+    slug: string
+    content: string
+    excerpt?: string | null
+    featuredImage?: string | null
+    status?: $Enums.ArticleStatus
+    isFeatured?: boolean
+    isBreakingNews?: boolean
+    viewCount?: number
+    scheduledAt?: Date | string | null
+    publishedAt?: Date | string | null
+    metaTitle?: string | null
+    metaDescription?: string | null
+    metaKeywords?: string | null
+    readingTime?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    categoryId?: string | null
+    authorId: string
+    featuredImageTitle?: string | null
+    isSponsored?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isExclusiveNews?: boolean
+    authorName?: string | null
+    ads?: ArticleAdUncheckedCreateNestedManyWithoutArticleInput
+    tags?: ArticleTagUncheckedCreateNestedManyWithoutArticleInput
+    comments?: CommentUncheckedCreateNestedManyWithoutArticleInput
+  }
+
+  export type ArticleCreateOrConnectWithoutActivitiesInput = {
+    where: ArticleWhereUniqueInput
+    create: XOR<ArticleCreateWithoutActivitiesInput, ArticleUncheckedCreateWithoutActivitiesInput>
+  }
+
   export type UserCreateWithoutArticleActivitiesInput = {
     id?: string
     email: string
@@ -39024,14 +39095,14 @@ export namespace Prisma {
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    ads?: AdCreateNestedManyWithoutCreatorInput
+    articles?: ArticleCreateNestedManyWithoutAuthorInput
+    media?: MediaCreateNestedManyWithoutUploaderInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    settings?: SiteSettingCreateNestedManyWithoutUpdatedByUserInput
     creator?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatorInput
-    articles?: ArticleCreateNestedManyWithoutAuthorInput
     modules?: UserModulePermissionCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-    ads?: AdCreateNestedManyWithoutCreatorInput
-    settings?: SiteSettingCreateNestedManyWithoutUpdatedByUserInput
-    media?: MediaCreateNestedManyWithoutUploaderInput
   }
 
   export type UserUncheckedCreateWithoutArticleActivitiesInput = {
@@ -39049,13 +39120,13 @@ export namespace Prisma {
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatorInput
-    articles?: ArticleUncheckedCreateNestedManyWithoutAuthorInput
-    modules?: UserModulePermissionUncheckedCreateNestedManyWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     ads?: AdUncheckedCreateNestedManyWithoutCreatorInput
-    settings?: SiteSettingUncheckedCreateNestedManyWithoutUpdatedByUserInput
+    articles?: ArticleUncheckedCreateNestedManyWithoutAuthorInput
     media?: MediaUncheckedCreateNestedManyWithoutUploaderInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    settings?: SiteSettingUncheckedCreateNestedManyWithoutUpdatedByUserInput
+    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatorInput
+    modules?: UserModulePermissionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutArticleActivitiesInput = {
@@ -39063,75 +39134,81 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutArticleActivitiesInput, UserUncheckedCreateWithoutArticleActivitiesInput>
   }
 
-  export type ArticleCreateWithoutActivitiesInput = {
-    id?: string
-    title: string
-    slug: string
-    content: string
-    excerpt?: string | null
-    featuredImage?: string | null
-    featuredImageTitle?: string | null
-    status?: $Enums.ArticleStatus
-    isFeatured?: boolean
-    isBreakingNews?: boolean
-    isTopHeadline?: boolean
-    isTrending?: boolean
-    isUaeNews?: boolean
-    isSponsored?: boolean
-    isExclusiveNews?: boolean
-    viewCount?: number
-    scheduledAt?: Date | string | null
-    publishedAt?: Date | string | null
-    metaTitle?: string | null
-    metaDescription?: string | null
-    metaKeywords?: string | null
-    readingTime?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    authorName?: string | null
-    category?: CategoryCreateNestedOneWithoutArticlesInput
-    author: UserCreateNestedOneWithoutArticlesInput
-    tags?: ArticleTagCreateNestedManyWithoutArticleInput
-    comments?: CommentCreateNestedManyWithoutArticleInput
-    ads?: ArticleAdCreateNestedManyWithoutArticleInput
-  }
-
-  export type ArticleUncheckedCreateWithoutActivitiesInput = {
-    id?: string
-    title: string
-    slug: string
-    content: string
-    excerpt?: string | null
-    featuredImage?: string | null
-    featuredImageTitle?: string | null
-    status?: $Enums.ArticleStatus
-    isFeatured?: boolean
-    isBreakingNews?: boolean
-    isTopHeadline?: boolean
-    isTrending?: boolean
-    isUaeNews?: boolean
-    isSponsored?: boolean
-    isExclusiveNews?: boolean
-    viewCount?: number
-    scheduledAt?: Date | string | null
-    publishedAt?: Date | string | null
-    metaTitle?: string | null
-    metaDescription?: string | null
-    metaKeywords?: string | null
-    readingTime?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    categoryId?: string | null
-    authorId: string
-    authorName?: string | null
-    tags?: ArticleTagUncheckedCreateNestedManyWithoutArticleInput
-    comments?: CommentUncheckedCreateNestedManyWithoutArticleInput
-    ads?: ArticleAdUncheckedCreateNestedManyWithoutArticleInput
-  }
-
-  export type ArticleCreateOrConnectWithoutActivitiesInput = {
-    where: ArticleWhereUniqueInput
+  export type ArticleUpsertWithoutActivitiesInput = {
+    update: XOR<ArticleUpdateWithoutActivitiesInput, ArticleUncheckedUpdateWithoutActivitiesInput>
     create: XOR<ArticleCreateWithoutActivitiesInput, ArticleUncheckedCreateWithoutActivitiesInput>
+    where?: ArticleWhereInput
+  }
+
+  export type ArticleUpdateToOneWithWhereWithoutActivitiesInput = {
+    where?: ArticleWhereInput
+    data: XOR<ArticleUpdateWithoutActivitiesInput, ArticleUncheckedUpdateWithoutActivitiesInput>
+  }
+
+  export type ArticleUpdateWithoutActivitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
+    viewCount?: IntFieldUpdateOperationsInput | number
+    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    metaKeywords?: NullableStringFieldUpdateOperationsInput | string | null
+    readingTime?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    isSponsored?: BoolFieldUpdateOperationsInput | boolean
+    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
+    isTrending?: BoolFieldUpdateOperationsInput | boolean
+    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
+    isExclusiveNews?: BoolFieldUpdateOperationsInput | boolean
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    author?: UserUpdateOneRequiredWithoutArticlesNestedInput
+    category?: CategoryUpdateOneWithoutArticlesNestedInput
+    ads?: ArticleAdUpdateManyWithoutArticleNestedInput
+    tags?: ArticleTagUpdateManyWithoutArticleNestedInput
+    comments?: CommentUpdateManyWithoutArticleNestedInput
+  }
+
+  export type ArticleUncheckedUpdateWithoutActivitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
+    viewCount?: IntFieldUpdateOperationsInput | number
+    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    metaKeywords?: NullableStringFieldUpdateOperationsInput | string | null
+    readingTime?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorId?: StringFieldUpdateOperationsInput | string
+    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    isSponsored?: BoolFieldUpdateOperationsInput | boolean
+    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
+    isTrending?: BoolFieldUpdateOperationsInput | boolean
+    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
+    isExclusiveNews?: BoolFieldUpdateOperationsInput | boolean
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    ads?: ArticleAdUncheckedUpdateManyWithoutArticleNestedInput
+    tags?: ArticleTagUncheckedUpdateManyWithoutArticleNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutArticleNestedInput
   }
 
   export type UserUpsertWithoutArticleActivitiesInput = {
@@ -39159,14 +39236,14 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ads?: AdUpdateManyWithoutCreatorNestedInput
+    articles?: ArticleUpdateManyWithoutAuthorNestedInput
+    media?: MediaUpdateManyWithoutUploaderNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    settings?: SiteSettingUpdateManyWithoutUpdatedByUserNestedInput
     creator?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatorNestedInput
-    articles?: ArticleUpdateManyWithoutAuthorNestedInput
     modules?: UserModulePermissionUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
-    ads?: AdUpdateManyWithoutCreatorNestedInput
-    settings?: SiteSettingUpdateManyWithoutUpdatedByUserNestedInput
-    media?: MediaUpdateManyWithoutUploaderNestedInput
   }
 
   export type UserUncheckedUpdateWithoutArticleActivitiesInput = {
@@ -39184,90 +39261,13 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdUsers?: UserUncheckedUpdateManyWithoutCreatorNestedInput
-    articles?: ArticleUncheckedUpdateManyWithoutAuthorNestedInput
-    modules?: UserModulePermissionUncheckedUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     ads?: AdUncheckedUpdateManyWithoutCreatorNestedInput
-    settings?: SiteSettingUncheckedUpdateManyWithoutUpdatedByUserNestedInput
+    articles?: ArticleUncheckedUpdateManyWithoutAuthorNestedInput
     media?: MediaUncheckedUpdateManyWithoutUploaderNestedInput
-  }
-
-  export type ArticleUpsertWithoutActivitiesInput = {
-    update: XOR<ArticleUpdateWithoutActivitiesInput, ArticleUncheckedUpdateWithoutActivitiesInput>
-    create: XOR<ArticleCreateWithoutActivitiesInput, ArticleUncheckedCreateWithoutActivitiesInput>
-    where?: ArticleWhereInput
-  }
-
-  export type ArticleUpdateToOneWithWhereWithoutActivitiesInput = {
-    where?: ArticleWhereInput
-    data: XOR<ArticleUpdateWithoutActivitiesInput, ArticleUncheckedUpdateWithoutActivitiesInput>
-  }
-
-  export type ArticleUpdateWithoutActivitiesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
-    featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
-    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
-    isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
-    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
-    isTrending?: BoolFieldUpdateOperationsInput | boolean
-    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
-    isSponsored?: BoolFieldUpdateOperationsInput | boolean
-    isExclusiveNews?: BoolFieldUpdateOperationsInput | boolean
-    viewCount?: IntFieldUpdateOperationsInput | number
-    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    metaKeywords?: NullableStringFieldUpdateOperationsInput | string | null
-    readingTime?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    authorName?: NullableStringFieldUpdateOperationsInput | string | null
-    category?: CategoryUpdateOneWithoutArticlesNestedInput
-    author?: UserUpdateOneRequiredWithoutArticlesNestedInput
-    tags?: ArticleTagUpdateManyWithoutArticleNestedInput
-    comments?: CommentUpdateManyWithoutArticleNestedInput
-    ads?: ArticleAdUpdateManyWithoutArticleNestedInput
-  }
-
-  export type ArticleUncheckedUpdateWithoutActivitiesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
-    featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
-    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
-    isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
-    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
-    isTrending?: BoolFieldUpdateOperationsInput | boolean
-    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
-    isSponsored?: BoolFieldUpdateOperationsInput | boolean
-    isExclusiveNews?: BoolFieldUpdateOperationsInput | boolean
-    viewCount?: IntFieldUpdateOperationsInput | number
-    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    metaKeywords?: NullableStringFieldUpdateOperationsInput | string | null
-    readingTime?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
-    authorId?: StringFieldUpdateOperationsInput | string
-    authorName?: NullableStringFieldUpdateOperationsInput | string | null
-    tags?: ArticleTagUncheckedUpdateManyWithoutArticleNestedInput
-    comments?: CommentUncheckedUpdateManyWithoutArticleNestedInput
-    ads?: ArticleAdUncheckedUpdateManyWithoutArticleNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    settings?: SiteSettingUncheckedUpdateManyWithoutUpdatedByUserNestedInput
+    createdUsers?: UserUncheckedUpdateManyWithoutCreatorNestedInput
+    modules?: UserModulePermissionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ArticleCreateWithoutCommentsInput = {
@@ -39277,15 +39277,9 @@ export namespace Prisma {
     content: string
     excerpt?: string | null
     featuredImage?: string | null
-    featuredImageTitle?: string | null
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
-    isTopHeadline?: boolean
-    isTrending?: boolean
-    isUaeNews?: boolean
-    isSponsored?: boolean
-    isExclusiveNews?: boolean
     viewCount?: number
     scheduledAt?: Date | string | null
     publishedAt?: Date | string | null
@@ -39295,12 +39289,18 @@ export namespace Prisma {
     readingTime?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    featuredImageTitle?: string | null
+    isSponsored?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isExclusiveNews?: boolean
     authorName?: string | null
-    category?: CategoryCreateNestedOneWithoutArticlesInput
     author: UserCreateNestedOneWithoutArticlesInput
-    tags?: ArticleTagCreateNestedManyWithoutArticleInput
-    ads?: ArticleAdCreateNestedManyWithoutArticleInput
+    category?: CategoryCreateNestedOneWithoutArticlesInput
     activities?: ArticleActivityCreateNestedManyWithoutArticleInput
+    ads?: ArticleAdCreateNestedManyWithoutArticleInput
+    tags?: ArticleTagCreateNestedManyWithoutArticleInput
   }
 
   export type ArticleUncheckedCreateWithoutCommentsInput = {
@@ -39310,15 +39310,9 @@ export namespace Prisma {
     content: string
     excerpt?: string | null
     featuredImage?: string | null
-    featuredImageTitle?: string | null
     status?: $Enums.ArticleStatus
     isFeatured?: boolean
     isBreakingNews?: boolean
-    isTopHeadline?: boolean
-    isTrending?: boolean
-    isUaeNews?: boolean
-    isSponsored?: boolean
-    isExclusiveNews?: boolean
     viewCount?: number
     scheduledAt?: Date | string | null
     publishedAt?: Date | string | null
@@ -39330,10 +39324,16 @@ export namespace Prisma {
     updatedAt?: Date | string
     categoryId?: string | null
     authorId: string
+    featuredImageTitle?: string | null
+    isSponsored?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isExclusiveNews?: boolean
     authorName?: string | null
-    tags?: ArticleTagUncheckedCreateNestedManyWithoutArticleInput
-    ads?: ArticleAdUncheckedCreateNestedManyWithoutArticleInput
     activities?: ArticleActivityUncheckedCreateNestedManyWithoutArticleInput
+    ads?: ArticleAdUncheckedCreateNestedManyWithoutArticleInput
+    tags?: ArticleTagUncheckedCreateNestedManyWithoutArticleInput
   }
 
   export type ArticleCreateOrConnectWithoutCommentsInput = {
@@ -39422,15 +39422,9 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
-    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
-    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
-    isTrending?: BoolFieldUpdateOperationsInput | boolean
-    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
-    isSponsored?: BoolFieldUpdateOperationsInput | boolean
-    isExclusiveNews?: BoolFieldUpdateOperationsInput | boolean
     viewCount?: IntFieldUpdateOperationsInput | number
     scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -39440,12 +39434,18 @@ export namespace Prisma {
     readingTime?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    isSponsored?: BoolFieldUpdateOperationsInput | boolean
+    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
+    isTrending?: BoolFieldUpdateOperationsInput | boolean
+    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
+    isExclusiveNews?: BoolFieldUpdateOperationsInput | boolean
     authorName?: NullableStringFieldUpdateOperationsInput | string | null
-    category?: CategoryUpdateOneWithoutArticlesNestedInput
     author?: UserUpdateOneRequiredWithoutArticlesNestedInput
-    tags?: ArticleTagUpdateManyWithoutArticleNestedInput
-    ads?: ArticleAdUpdateManyWithoutArticleNestedInput
+    category?: CategoryUpdateOneWithoutArticlesNestedInput
     activities?: ArticleActivityUpdateManyWithoutArticleNestedInput
+    ads?: ArticleAdUpdateManyWithoutArticleNestedInput
+    tags?: ArticleTagUpdateManyWithoutArticleNestedInput
   }
 
   export type ArticleUncheckedUpdateWithoutCommentsInput = {
@@ -39455,15 +39455,9 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     excerpt?: NullableStringFieldUpdateOperationsInput | string | null
     featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
-    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
-    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
-    isTrending?: BoolFieldUpdateOperationsInput | boolean
-    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
-    isSponsored?: BoolFieldUpdateOperationsInput | boolean
-    isExclusiveNews?: BoolFieldUpdateOperationsInput | boolean
     viewCount?: IntFieldUpdateOperationsInput | number
     scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -39475,10 +39469,16 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     authorId?: StringFieldUpdateOperationsInput | string
+    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    isSponsored?: BoolFieldUpdateOperationsInput | boolean
+    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
+    isTrending?: BoolFieldUpdateOperationsInput | boolean
+    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
+    isExclusiveNews?: BoolFieldUpdateOperationsInput | boolean
     authorName?: NullableStringFieldUpdateOperationsInput | string | null
-    tags?: ArticleTagUncheckedUpdateManyWithoutArticleNestedInput
-    ads?: ArticleAdUncheckedUpdateManyWithoutArticleNestedInput
     activities?: ArticleActivityUncheckedUpdateManyWithoutArticleNestedInput
+    ads?: ArticleAdUncheckedUpdateManyWithoutArticleNestedInput
+    tags?: ArticleTagUncheckedUpdateManyWithoutArticleNestedInput
   }
 
   export type CommentUpsertWithoutRepliesInput = {
@@ -39532,6 +39532,82 @@ export namespace Prisma {
     data: XOR<CommentUpdateManyMutationInput, CommentUncheckedUpdateManyWithoutParentInput>
   }
 
+  export type ArticleCreateWithoutCategoryInput = {
+    id?: string
+    title: string
+    slug: string
+    content: string
+    excerpt?: string | null
+    featuredImage?: string | null
+    status?: $Enums.ArticleStatus
+    isFeatured?: boolean
+    isBreakingNews?: boolean
+    viewCount?: number
+    scheduledAt?: Date | string | null
+    publishedAt?: Date | string | null
+    metaTitle?: string | null
+    metaDescription?: string | null
+    metaKeywords?: string | null
+    readingTime?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    featuredImageTitle?: string | null
+    isSponsored?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isExclusiveNews?: boolean
+    authorName?: string | null
+    author: UserCreateNestedOneWithoutArticlesInput
+    activities?: ArticleActivityCreateNestedManyWithoutArticleInput
+    ads?: ArticleAdCreateNestedManyWithoutArticleInput
+    tags?: ArticleTagCreateNestedManyWithoutArticleInput
+    comments?: CommentCreateNestedManyWithoutArticleInput
+  }
+
+  export type ArticleUncheckedCreateWithoutCategoryInput = {
+    id?: string
+    title: string
+    slug: string
+    content: string
+    excerpt?: string | null
+    featuredImage?: string | null
+    status?: $Enums.ArticleStatus
+    isFeatured?: boolean
+    isBreakingNews?: boolean
+    viewCount?: number
+    scheduledAt?: Date | string | null
+    publishedAt?: Date | string | null
+    metaTitle?: string | null
+    metaDescription?: string | null
+    metaKeywords?: string | null
+    readingTime?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    authorId: string
+    featuredImageTitle?: string | null
+    isSponsored?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isExclusiveNews?: boolean
+    authorName?: string | null
+    activities?: ArticleActivityUncheckedCreateNestedManyWithoutArticleInput
+    ads?: ArticleAdUncheckedCreateNestedManyWithoutArticleInput
+    tags?: ArticleTagUncheckedCreateNestedManyWithoutArticleInput
+    comments?: CommentUncheckedCreateNestedManyWithoutArticleInput
+  }
+
+  export type ArticleCreateOrConnectWithoutCategoryInput = {
+    where: ArticleWhereUniqueInput
+    create: XOR<ArticleCreateWithoutCategoryInput, ArticleUncheckedCreateWithoutCategoryInput>
+  }
+
+  export type ArticleCreateManyCategoryInputEnvelope = {
+    data: ArticleCreateManyCategoryInput | ArticleCreateManyCategoryInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CategoryCreateWithoutChildrenInput = {
     id?: string
     name: string
@@ -39544,8 +39620,8 @@ export namespace Prisma {
     metaDescription?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    parent?: CategoryCreateNestedOneWithoutChildrenInput
     articles?: ArticleCreateNestedManyWithoutCategoryInput
+    parent?: CategoryCreateNestedOneWithoutChildrenInput
     pageSeo?: PageSeoCreateNestedManyWithoutCategoryInput
   }
 
@@ -39583,8 +39659,8 @@ export namespace Prisma {
     metaDescription?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    children?: CategoryCreateNestedManyWithoutParentInput
     articles?: ArticleCreateNestedManyWithoutCategoryInput
+    children?: CategoryCreateNestedManyWithoutParentInput
     pageSeo?: PageSeoCreateNestedManyWithoutCategoryInput
   }
 
@@ -39600,8 +39676,8 @@ export namespace Prisma {
     metaDescription?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    children?: CategoryUncheckedCreateNestedManyWithoutParentInput
     articles?: ArticleUncheckedCreateNestedManyWithoutCategoryInput
+    children?: CategoryUncheckedCreateNestedManyWithoutParentInput
     pageSeo?: PageSeoUncheckedCreateNestedManyWithoutCategoryInput
   }
 
@@ -39612,82 +39688,6 @@ export namespace Prisma {
 
   export type CategoryCreateManyParentInputEnvelope = {
     data: CategoryCreateManyParentInput | CategoryCreateManyParentInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type ArticleCreateWithoutCategoryInput = {
-    id?: string
-    title: string
-    slug: string
-    content: string
-    excerpt?: string | null
-    featuredImage?: string | null
-    featuredImageTitle?: string | null
-    status?: $Enums.ArticleStatus
-    isFeatured?: boolean
-    isBreakingNews?: boolean
-    isTopHeadline?: boolean
-    isTrending?: boolean
-    isUaeNews?: boolean
-    isSponsored?: boolean
-    isExclusiveNews?: boolean
-    viewCount?: number
-    scheduledAt?: Date | string | null
-    publishedAt?: Date | string | null
-    metaTitle?: string | null
-    metaDescription?: string | null
-    metaKeywords?: string | null
-    readingTime?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    authorName?: string | null
-    author: UserCreateNestedOneWithoutArticlesInput
-    tags?: ArticleTagCreateNestedManyWithoutArticleInput
-    comments?: CommentCreateNestedManyWithoutArticleInput
-    ads?: ArticleAdCreateNestedManyWithoutArticleInput
-    activities?: ArticleActivityCreateNestedManyWithoutArticleInput
-  }
-
-  export type ArticleUncheckedCreateWithoutCategoryInput = {
-    id?: string
-    title: string
-    slug: string
-    content: string
-    excerpt?: string | null
-    featuredImage?: string | null
-    featuredImageTitle?: string | null
-    status?: $Enums.ArticleStatus
-    isFeatured?: boolean
-    isBreakingNews?: boolean
-    isTopHeadline?: boolean
-    isTrending?: boolean
-    isUaeNews?: boolean
-    isSponsored?: boolean
-    isExclusiveNews?: boolean
-    viewCount?: number
-    scheduledAt?: Date | string | null
-    publishedAt?: Date | string | null
-    metaTitle?: string | null
-    metaDescription?: string | null
-    metaKeywords?: string | null
-    readingTime?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    authorId: string
-    authorName?: string | null
-    tags?: ArticleTagUncheckedCreateNestedManyWithoutArticleInput
-    comments?: CommentUncheckedCreateNestedManyWithoutArticleInput
-    ads?: ArticleAdUncheckedCreateNestedManyWithoutArticleInput
-    activities?: ArticleActivityUncheckedCreateNestedManyWithoutArticleInput
-  }
-
-  export type ArticleCreateOrConnectWithoutCategoryInput = {
-    where: ArticleWhereUniqueInput
-    create: XOR<ArticleCreateWithoutCategoryInput, ArticleUncheckedCreateWithoutCategoryInput>
-  }
-
-  export type ArticleCreateManyCategoryInputEnvelope = {
-    data: ArticleCreateManyCategoryInput | ArticleCreateManyCategoryInput[]
     skipDuplicates?: boolean
   }
 
@@ -39747,6 +39747,55 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ArticleUpsertWithWhereUniqueWithoutCategoryInput = {
+    where: ArticleWhereUniqueInput
+    update: XOR<ArticleUpdateWithoutCategoryInput, ArticleUncheckedUpdateWithoutCategoryInput>
+    create: XOR<ArticleCreateWithoutCategoryInput, ArticleUncheckedCreateWithoutCategoryInput>
+  }
+
+  export type ArticleUpdateWithWhereUniqueWithoutCategoryInput = {
+    where: ArticleWhereUniqueInput
+    data: XOR<ArticleUpdateWithoutCategoryInput, ArticleUncheckedUpdateWithoutCategoryInput>
+  }
+
+  export type ArticleUpdateManyWithWhereWithoutCategoryInput = {
+    where: ArticleScalarWhereInput
+    data: XOR<ArticleUpdateManyMutationInput, ArticleUncheckedUpdateManyWithoutCategoryInput>
+  }
+
+  export type ArticleScalarWhereInput = {
+    AND?: ArticleScalarWhereInput | ArticleScalarWhereInput[]
+    OR?: ArticleScalarWhereInput[]
+    NOT?: ArticleScalarWhereInput | ArticleScalarWhereInput[]
+    id?: StringFilter<"Article"> | string
+    title?: StringFilter<"Article"> | string
+    slug?: StringFilter<"Article"> | string
+    content?: StringFilter<"Article"> | string
+    excerpt?: StringNullableFilter<"Article"> | string | null
+    featuredImage?: StringNullableFilter<"Article"> | string | null
+    status?: EnumArticleStatusFilter<"Article"> | $Enums.ArticleStatus
+    isFeatured?: BoolFilter<"Article"> | boolean
+    isBreakingNews?: BoolFilter<"Article"> | boolean
+    viewCount?: IntFilter<"Article"> | number
+    scheduledAt?: DateTimeNullableFilter<"Article"> | Date | string | null
+    publishedAt?: DateTimeNullableFilter<"Article"> | Date | string | null
+    metaTitle?: StringNullableFilter<"Article"> | string | null
+    metaDescription?: StringNullableFilter<"Article"> | string | null
+    metaKeywords?: StringNullableFilter<"Article"> | string | null
+    readingTime?: IntFilter<"Article"> | number
+    createdAt?: DateTimeFilter<"Article"> | Date | string
+    updatedAt?: DateTimeFilter<"Article"> | Date | string
+    categoryId?: StringNullableFilter<"Article"> | string | null
+    authorId?: StringFilter<"Article"> | string
+    featuredImageTitle?: StringNullableFilter<"Article"> | string | null
+    isSponsored?: BoolFilter<"Article"> | boolean
+    isTopHeadline?: BoolFilter<"Article"> | boolean
+    isTrending?: BoolFilter<"Article"> | boolean
+    isUaeNews?: BoolFilter<"Article"> | boolean
+    isExclusiveNews?: BoolFilter<"Article"> | boolean
+    authorName?: StringNullableFilter<"Article"> | string | null
+  }
+
   export type CategoryUpsertWithoutChildrenInput = {
     update: XOR<CategoryUpdateWithoutChildrenInput, CategoryUncheckedUpdateWithoutChildrenInput>
     create: XOR<CategoryCreateWithoutChildrenInput, CategoryUncheckedCreateWithoutChildrenInput>
@@ -39770,8 +39819,8 @@ export namespace Prisma {
     metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    parent?: CategoryUpdateOneWithoutChildrenNestedInput
     articles?: ArticleUpdateManyWithoutCategoryNestedInput
+    parent?: CategoryUpdateOneWithoutChildrenNestedInput
     pageSeo?: PageSeoUpdateManyWithoutCategoryNestedInput
   }
 
@@ -39824,55 +39873,6 @@ export namespace Prisma {
     metaDescription?: StringNullableFilter<"Category"> | string | null
     createdAt?: DateTimeFilter<"Category"> | Date | string
     updatedAt?: DateTimeFilter<"Category"> | Date | string
-  }
-
-  export type ArticleUpsertWithWhereUniqueWithoutCategoryInput = {
-    where: ArticleWhereUniqueInput
-    update: XOR<ArticleUpdateWithoutCategoryInput, ArticleUncheckedUpdateWithoutCategoryInput>
-    create: XOR<ArticleCreateWithoutCategoryInput, ArticleUncheckedCreateWithoutCategoryInput>
-  }
-
-  export type ArticleUpdateWithWhereUniqueWithoutCategoryInput = {
-    where: ArticleWhereUniqueInput
-    data: XOR<ArticleUpdateWithoutCategoryInput, ArticleUncheckedUpdateWithoutCategoryInput>
-  }
-
-  export type ArticleUpdateManyWithWhereWithoutCategoryInput = {
-    where: ArticleScalarWhereInput
-    data: XOR<ArticleUpdateManyMutationInput, ArticleUncheckedUpdateManyWithoutCategoryInput>
-  }
-
-  export type ArticleScalarWhereInput = {
-    AND?: ArticleScalarWhereInput | ArticleScalarWhereInput[]
-    OR?: ArticleScalarWhereInput[]
-    NOT?: ArticleScalarWhereInput | ArticleScalarWhereInput[]
-    id?: StringFilter<"Article"> | string
-    title?: StringFilter<"Article"> | string
-    slug?: StringFilter<"Article"> | string
-    content?: StringFilter<"Article"> | string
-    excerpt?: StringNullableFilter<"Article"> | string | null
-    featuredImage?: StringNullableFilter<"Article"> | string | null
-    featuredImageTitle?: StringNullableFilter<"Article"> | string | null
-    status?: EnumArticleStatusFilter<"Article"> | $Enums.ArticleStatus
-    isFeatured?: BoolFilter<"Article"> | boolean
-    isBreakingNews?: BoolFilter<"Article"> | boolean
-    isTopHeadline?: BoolFilter<"Article"> | boolean
-    isTrending?: BoolFilter<"Article"> | boolean
-    isUaeNews?: BoolFilter<"Article"> | boolean
-    isSponsored?: BoolFilter<"Article"> | boolean
-    isExclusiveNews?: BoolFilter<"Article"> | boolean
-    viewCount?: IntFilter<"Article"> | number
-    scheduledAt?: DateTimeNullableFilter<"Article"> | Date | string | null
-    publishedAt?: DateTimeNullableFilter<"Article"> | Date | string | null
-    metaTitle?: StringNullableFilter<"Article"> | string | null
-    metaDescription?: StringNullableFilter<"Article"> | string | null
-    metaKeywords?: StringNullableFilter<"Article"> | string | null
-    readingTime?: IntFilter<"Article"> | number
-    createdAt?: DateTimeFilter<"Article"> | Date | string
-    updatedAt?: DateTimeFilter<"Article"> | Date | string
-    categoryId?: StringNullableFilter<"Article"> | string | null
-    authorId?: StringFilter<"Article"> | string
-    authorName?: StringNullableFilter<"Article"> | string | null
   }
 
   export type PageSeoUpsertWithWhereUniqueWithoutCategoryInput = {
@@ -39932,14 +39932,14 @@ export namespace Prisma {
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    ads?: AdCreateNestedManyWithoutCreatorInput
+    articles?: ArticleCreateNestedManyWithoutAuthorInput
+    articleActivities?: ArticleActivityCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    settings?: SiteSettingCreateNestedManyWithoutUpdatedByUserInput
     creator?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatorInput
-    articles?: ArticleCreateNestedManyWithoutAuthorInput
     modules?: UserModulePermissionCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-    ads?: AdCreateNestedManyWithoutCreatorInput
-    articleActivities?: ArticleActivityCreateNestedManyWithoutUserInput
-    settings?: SiteSettingCreateNestedManyWithoutUpdatedByUserInput
   }
 
   export type UserUncheckedCreateWithoutMediaInput = {
@@ -39957,13 +39957,13 @@ export namespace Prisma {
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatorInput
-    articles?: ArticleUncheckedCreateNestedManyWithoutAuthorInput
-    modules?: UserModulePermissionUncheckedCreateNestedManyWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     ads?: AdUncheckedCreateNestedManyWithoutCreatorInput
+    articles?: ArticleUncheckedCreateNestedManyWithoutAuthorInput
     articleActivities?: ArticleActivityUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     settings?: SiteSettingUncheckedCreateNestedManyWithoutUpdatedByUserInput
+    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatorInput
+    modules?: UserModulePermissionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMediaInput = {
@@ -39996,14 +39996,14 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ads?: AdUpdateManyWithoutCreatorNestedInput
+    articles?: ArticleUpdateManyWithoutAuthorNestedInput
+    articleActivities?: ArticleActivityUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    settings?: SiteSettingUpdateManyWithoutUpdatedByUserNestedInput
     creator?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatorNestedInput
-    articles?: ArticleUpdateManyWithoutAuthorNestedInput
     modules?: UserModulePermissionUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
-    ads?: AdUpdateManyWithoutCreatorNestedInput
-    articleActivities?: ArticleActivityUpdateManyWithoutUserNestedInput
-    settings?: SiteSettingUpdateManyWithoutUpdatedByUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMediaInput = {
@@ -40021,13 +40021,13 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdUsers?: UserUncheckedUpdateManyWithoutCreatorNestedInput
-    articles?: ArticleUncheckedUpdateManyWithoutAuthorNestedInput
-    modules?: UserModulePermissionUncheckedUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     ads?: AdUncheckedUpdateManyWithoutCreatorNestedInput
+    articles?: ArticleUncheckedUpdateManyWithoutAuthorNestedInput
     articleActivities?: ArticleActivityUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     settings?: SiteSettingUncheckedUpdateManyWithoutUpdatedByUserNestedInput
+    createdUsers?: UserUncheckedUpdateManyWithoutCreatorNestedInput
+    modules?: UserModulePermissionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutNotificationsInput = {
@@ -40044,14 +40044,14 @@ export namespace Prisma {
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    ads?: AdCreateNestedManyWithoutCreatorInput
+    articles?: ArticleCreateNestedManyWithoutAuthorInput
+    articleActivities?: ArticleActivityCreateNestedManyWithoutUserInput
+    media?: MediaCreateNestedManyWithoutUploaderInput
+    settings?: SiteSettingCreateNestedManyWithoutUpdatedByUserInput
     creator?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatorInput
-    articles?: ArticleCreateNestedManyWithoutAuthorInput
     modules?: UserModulePermissionCreateNestedManyWithoutUserInput
-    ads?: AdCreateNestedManyWithoutCreatorInput
-    articleActivities?: ArticleActivityCreateNestedManyWithoutUserInput
-    settings?: SiteSettingCreateNestedManyWithoutUpdatedByUserInput
-    media?: MediaCreateNestedManyWithoutUploaderInput
   }
 
   export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -40069,13 +40069,13 @@ export namespace Prisma {
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatorInput
-    articles?: ArticleUncheckedCreateNestedManyWithoutAuthorInput
-    modules?: UserModulePermissionUncheckedCreateNestedManyWithoutUserInput
     ads?: AdUncheckedCreateNestedManyWithoutCreatorInput
+    articles?: ArticleUncheckedCreateNestedManyWithoutAuthorInput
     articleActivities?: ArticleActivityUncheckedCreateNestedManyWithoutUserInput
-    settings?: SiteSettingUncheckedCreateNestedManyWithoutUpdatedByUserInput
     media?: MediaUncheckedCreateNestedManyWithoutUploaderInput
+    settings?: SiteSettingUncheckedCreateNestedManyWithoutUpdatedByUserInput
+    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatorInput
+    modules?: UserModulePermissionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -40108,14 +40108,14 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ads?: AdUpdateManyWithoutCreatorNestedInput
+    articles?: ArticleUpdateManyWithoutAuthorNestedInput
+    articleActivities?: ArticleActivityUpdateManyWithoutUserNestedInput
+    media?: MediaUpdateManyWithoutUploaderNestedInput
+    settings?: SiteSettingUpdateManyWithoutUpdatedByUserNestedInput
     creator?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatorNestedInput
-    articles?: ArticleUpdateManyWithoutAuthorNestedInput
     modules?: UserModulePermissionUpdateManyWithoutUserNestedInput
-    ads?: AdUpdateManyWithoutCreatorNestedInput
-    articleActivities?: ArticleActivityUpdateManyWithoutUserNestedInput
-    settings?: SiteSettingUpdateManyWithoutUpdatedByUserNestedInput
-    media?: MediaUpdateManyWithoutUploaderNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -40133,13 +40133,13 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdUsers?: UserUncheckedUpdateManyWithoutCreatorNestedInput
-    articles?: ArticleUncheckedUpdateManyWithoutAuthorNestedInput
-    modules?: UserModulePermissionUncheckedUpdateManyWithoutUserNestedInput
     ads?: AdUncheckedUpdateManyWithoutCreatorNestedInput
+    articles?: ArticleUncheckedUpdateManyWithoutAuthorNestedInput
     articleActivities?: ArticleActivityUncheckedUpdateManyWithoutUserNestedInput
-    settings?: SiteSettingUncheckedUpdateManyWithoutUpdatedByUserNestedInput
     media?: MediaUncheckedUpdateManyWithoutUploaderNestedInput
+    settings?: SiteSettingUncheckedUpdateManyWithoutUpdatedByUserNestedInput
+    createdUsers?: UserUncheckedUpdateManyWithoutCreatorNestedInput
+    modules?: UserModulePermissionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CategoryCreateWithoutPageSeoInput = {
@@ -40154,9 +40154,9 @@ export namespace Prisma {
     metaDescription?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    articles?: ArticleCreateNestedManyWithoutCategoryInput
     parent?: CategoryCreateNestedOneWithoutChildrenInput
     children?: CategoryCreateNestedManyWithoutParentInput
-    articles?: ArticleCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryUncheckedCreateWithoutPageSeoInput = {
@@ -40172,8 +40172,8 @@ export namespace Prisma {
     metaDescription?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    children?: CategoryUncheckedCreateNestedManyWithoutParentInput
     articles?: ArticleUncheckedCreateNestedManyWithoutCategoryInput
+    children?: CategoryUncheckedCreateNestedManyWithoutParentInput
   }
 
   export type CategoryCreateOrConnectWithoutPageSeoInput = {
@@ -40204,9 +40204,9 @@ export namespace Prisma {
     metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    articles?: ArticleUpdateManyWithoutCategoryNestedInput
     parent?: CategoryUpdateOneWithoutChildrenNestedInput
     children?: CategoryUpdateManyWithoutParentNestedInput
-    articles?: ArticleUpdateManyWithoutCategoryNestedInput
   }
 
   export type CategoryUncheckedUpdateWithoutPageSeoInput = {
@@ -40222,8 +40222,8 @@ export namespace Prisma {
     metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    children?: CategoryUncheckedUpdateManyWithoutParentNestedInput
     articles?: ArticleUncheckedUpdateManyWithoutCategoryNestedInput
+    children?: CategoryUncheckedUpdateManyWithoutParentNestedInput
   }
 
   export type UserCreateWithoutSettingsInput = {
@@ -40240,14 +40240,14 @@ export namespace Prisma {
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    creator?: UserCreateNestedOneWithoutCreatedUsersInput
-    createdUsers?: UserCreateNestedManyWithoutCreatorInput
-    articles?: ArticleCreateNestedManyWithoutAuthorInput
-    modules?: UserModulePermissionCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
     ads?: AdCreateNestedManyWithoutCreatorInput
+    articles?: ArticleCreateNestedManyWithoutAuthorInput
     articleActivities?: ArticleActivityCreateNestedManyWithoutUserInput
     media?: MediaCreateNestedManyWithoutUploaderInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    creator?: UserCreateNestedOneWithoutCreatedUsersInput
+    createdUsers?: UserCreateNestedManyWithoutCreatorInput
+    modules?: UserModulePermissionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSettingsInput = {
@@ -40265,13 +40265,13 @@ export namespace Prisma {
     lastLoginAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatorInput
-    articles?: ArticleUncheckedCreateNestedManyWithoutAuthorInput
-    modules?: UserModulePermissionUncheckedCreateNestedManyWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     ads?: AdUncheckedCreateNestedManyWithoutCreatorInput
+    articles?: ArticleUncheckedCreateNestedManyWithoutAuthorInput
     articleActivities?: ArticleActivityUncheckedCreateNestedManyWithoutUserInput
     media?: MediaUncheckedCreateNestedManyWithoutUploaderInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatorInput
+    modules?: UserModulePermissionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSettingsInput = {
@@ -40304,14 +40304,14 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    creator?: UserUpdateOneWithoutCreatedUsersNestedInput
-    createdUsers?: UserUpdateManyWithoutCreatorNestedInput
-    articles?: ArticleUpdateManyWithoutAuthorNestedInput
-    modules?: UserModulePermissionUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
     ads?: AdUpdateManyWithoutCreatorNestedInput
+    articles?: ArticleUpdateManyWithoutAuthorNestedInput
     articleActivities?: ArticleActivityUpdateManyWithoutUserNestedInput
     media?: MediaUpdateManyWithoutUploaderNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    creator?: UserUpdateOneWithoutCreatedUsersNestedInput
+    createdUsers?: UserUpdateManyWithoutCreatorNestedInput
+    modules?: UserModulePermissionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSettingsInput = {
@@ -40329,264 +40329,13 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdUsers?: UserUncheckedUpdateManyWithoutCreatorNestedInput
-    articles?: ArticleUncheckedUpdateManyWithoutAuthorNestedInput
-    modules?: UserModulePermissionUncheckedUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     ads?: AdUncheckedUpdateManyWithoutCreatorNestedInput
+    articles?: ArticleUncheckedUpdateManyWithoutAuthorNestedInput
     articleActivities?: ArticleActivityUncheckedUpdateManyWithoutUserNestedInput
     media?: MediaUncheckedUpdateManyWithoutUploaderNestedInput
-  }
-
-  export type UserCreateWithoutCreatedUsersInput = {
-    id?: string
-    email: string
-    password: string
-    name: string
-    role?: $Enums.Role
-    status?: $Enums.UserStatus
-    avatar?: string | null
-    bio?: string | null
-    canCreateUsers?: boolean
-    refreshToken?: string | null
-    lastLoginAt?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    creator?: UserCreateNestedOneWithoutCreatedUsersInput
-    articles?: ArticleCreateNestedManyWithoutAuthorInput
-    modules?: UserModulePermissionCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-    ads?: AdCreateNestedManyWithoutCreatorInput
-    articleActivities?: ArticleActivityCreateNestedManyWithoutUserInput
-    settings?: SiteSettingCreateNestedManyWithoutUpdatedByUserInput
-    media?: MediaCreateNestedManyWithoutUploaderInput
-  }
-
-  export type UserUncheckedCreateWithoutCreatedUsersInput = {
-    id?: string
-    email: string
-    password: string
-    name: string
-    role?: $Enums.Role
-    status?: $Enums.UserStatus
-    avatar?: string | null
-    bio?: string | null
-    canCreateUsers?: boolean
-    createdBy?: string | null
-    refreshToken?: string | null
-    lastLoginAt?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    articles?: ArticleUncheckedCreateNestedManyWithoutAuthorInput
-    modules?: UserModulePermissionUncheckedCreateNestedManyWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    ads?: AdUncheckedCreateNestedManyWithoutCreatorInput
-    articleActivities?: ArticleActivityUncheckedCreateNestedManyWithoutUserInput
-    settings?: SiteSettingUncheckedCreateNestedManyWithoutUpdatedByUserInput
-    media?: MediaUncheckedCreateNestedManyWithoutUploaderInput
-  }
-
-  export type UserCreateOrConnectWithoutCreatedUsersInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutCreatedUsersInput, UserUncheckedCreateWithoutCreatedUsersInput>
-  }
-
-  export type UserCreateWithoutCreatorInput = {
-    id?: string
-    email: string
-    password: string
-    name: string
-    role?: $Enums.Role
-    status?: $Enums.UserStatus
-    avatar?: string | null
-    bio?: string | null
-    canCreateUsers?: boolean
-    refreshToken?: string | null
-    lastLoginAt?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    createdUsers?: UserCreateNestedManyWithoutCreatorInput
-    articles?: ArticleCreateNestedManyWithoutAuthorInput
-    modules?: UserModulePermissionCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-    ads?: AdCreateNestedManyWithoutCreatorInput
-    articleActivities?: ArticleActivityCreateNestedManyWithoutUserInput
-    settings?: SiteSettingCreateNestedManyWithoutUpdatedByUserInput
-    media?: MediaCreateNestedManyWithoutUploaderInput
-  }
-
-  export type UserUncheckedCreateWithoutCreatorInput = {
-    id?: string
-    email: string
-    password: string
-    name: string
-    role?: $Enums.Role
-    status?: $Enums.UserStatus
-    avatar?: string | null
-    bio?: string | null
-    canCreateUsers?: boolean
-    refreshToken?: string | null
-    lastLoginAt?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatorInput
-    articles?: ArticleUncheckedCreateNestedManyWithoutAuthorInput
-    modules?: UserModulePermissionUncheckedCreateNestedManyWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    ads?: AdUncheckedCreateNestedManyWithoutCreatorInput
-    articleActivities?: ArticleActivityUncheckedCreateNestedManyWithoutUserInput
-    settings?: SiteSettingUncheckedCreateNestedManyWithoutUpdatedByUserInput
-    media?: MediaUncheckedCreateNestedManyWithoutUploaderInput
-  }
-
-  export type UserCreateOrConnectWithoutCreatorInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutCreatorInput, UserUncheckedCreateWithoutCreatorInput>
-  }
-
-  export type UserCreateManyCreatorInputEnvelope = {
-    data: UserCreateManyCreatorInput | UserCreateManyCreatorInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type ArticleCreateWithoutAuthorInput = {
-    id?: string
-    title: string
-    slug: string
-    content: string
-    excerpt?: string | null
-    featuredImage?: string | null
-    featuredImageTitle?: string | null
-    status?: $Enums.ArticleStatus
-    isFeatured?: boolean
-    isBreakingNews?: boolean
-    isTopHeadline?: boolean
-    isTrending?: boolean
-    isUaeNews?: boolean
-    isSponsored?: boolean
-    isExclusiveNews?: boolean
-    viewCount?: number
-    scheduledAt?: Date | string | null
-    publishedAt?: Date | string | null
-    metaTitle?: string | null
-    metaDescription?: string | null
-    metaKeywords?: string | null
-    readingTime?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    authorName?: string | null
-    category?: CategoryCreateNestedOneWithoutArticlesInput
-    tags?: ArticleTagCreateNestedManyWithoutArticleInput
-    comments?: CommentCreateNestedManyWithoutArticleInput
-    ads?: ArticleAdCreateNestedManyWithoutArticleInput
-    activities?: ArticleActivityCreateNestedManyWithoutArticleInput
-  }
-
-  export type ArticleUncheckedCreateWithoutAuthorInput = {
-    id?: string
-    title: string
-    slug: string
-    content: string
-    excerpt?: string | null
-    featuredImage?: string | null
-    featuredImageTitle?: string | null
-    status?: $Enums.ArticleStatus
-    isFeatured?: boolean
-    isBreakingNews?: boolean
-    isTopHeadline?: boolean
-    isTrending?: boolean
-    isUaeNews?: boolean
-    isSponsored?: boolean
-    isExclusiveNews?: boolean
-    viewCount?: number
-    scheduledAt?: Date | string | null
-    publishedAt?: Date | string | null
-    metaTitle?: string | null
-    metaDescription?: string | null
-    metaKeywords?: string | null
-    readingTime?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    categoryId?: string | null
-    authorName?: string | null
-    tags?: ArticleTagUncheckedCreateNestedManyWithoutArticleInput
-    comments?: CommentUncheckedCreateNestedManyWithoutArticleInput
-    ads?: ArticleAdUncheckedCreateNestedManyWithoutArticleInput
-    activities?: ArticleActivityUncheckedCreateNestedManyWithoutArticleInput
-  }
-
-  export type ArticleCreateOrConnectWithoutAuthorInput = {
-    where: ArticleWhereUniqueInput
-    create: XOR<ArticleCreateWithoutAuthorInput, ArticleUncheckedCreateWithoutAuthorInput>
-  }
-
-  export type ArticleCreateManyAuthorInputEnvelope = {
-    data: ArticleCreateManyAuthorInput | ArticleCreateManyAuthorInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type UserModulePermissionCreateWithoutUserInput = {
-    id?: string
-    canView?: boolean
-    canCreate?: boolean
-    canEdit?: boolean
-    canDelete?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    module: ModuleCreateNestedOneWithoutPermissionsInput
-  }
-
-  export type UserModulePermissionUncheckedCreateWithoutUserInput = {
-    id?: string
-    moduleId: string
-    canView?: boolean
-    canCreate?: boolean
-    canEdit?: boolean
-    canDelete?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type UserModulePermissionCreateOrConnectWithoutUserInput = {
-    where: UserModulePermissionWhereUniqueInput
-    create: XOR<UserModulePermissionCreateWithoutUserInput, UserModulePermissionUncheckedCreateWithoutUserInput>
-  }
-
-  export type UserModulePermissionCreateManyUserInputEnvelope = {
-    data: UserModulePermissionCreateManyUserInput | UserModulePermissionCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type NotificationCreateWithoutUserInput = {
-    id?: string
-    title: string
-    message: string
-    type?: $Enums.NotificationType
-    isRead?: boolean
-    link?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type NotificationUncheckedCreateWithoutUserInput = {
-    id?: string
-    title: string
-    message: string
-    type?: $Enums.NotificationType
-    isRead?: boolean
-    link?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type NotificationCreateOrConnectWithoutUserInput = {
-    where: NotificationWhereUniqueInput
-    create: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput>
-  }
-
-  export type NotificationCreateManyUserInputEnvelope = {
-    data: NotificationCreateManyUserInput | NotificationCreateManyUserInput[]
-    skipDuplicates?: boolean
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    createdUsers?: UserUncheckedUpdateManyWithoutCreatorNestedInput
+    modules?: UserModulePermissionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AdCreateWithoutCreatorInput = {
@@ -40601,17 +40350,17 @@ export namespace Prisma {
     endDate: Date | string
     status?: $Enums.AdStatus
     priority?: number
-    targetPage?: string | null
-    ratio?: string | null
-    pageName?: string | null
-    placementName?: string | null
     impressions?: number
     clicks?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    pageName?: string | null
+    placementName?: string | null
+    ratio?: string | null
+    targetPage?: string | null
+    analytics?: AdAnalyticsCreateNestedManyWithoutAdInput
     placements?: AdPlacementCreateNestedManyWithoutAdInput
     articles?: ArticleAdCreateNestedManyWithoutAdInput
-    analytics?: AdAnalyticsCreateNestedManyWithoutAdInput
   }
 
   export type AdUncheckedCreateWithoutCreatorInput = {
@@ -40626,17 +40375,17 @@ export namespace Prisma {
     endDate: Date | string
     status?: $Enums.AdStatus
     priority?: number
-    targetPage?: string | null
-    ratio?: string | null
-    pageName?: string | null
-    placementName?: string | null
     impressions?: number
     clicks?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    pageName?: string | null
+    placementName?: string | null
+    ratio?: string | null
+    targetPage?: string | null
+    analytics?: AdAnalyticsUncheckedCreateNestedManyWithoutAdInput
     placements?: AdPlacementUncheckedCreateNestedManyWithoutAdInput
     articles?: ArticleAdUncheckedCreateNestedManyWithoutAdInput
-    analytics?: AdAnalyticsUncheckedCreateNestedManyWithoutAdInput
   }
 
   export type AdCreateOrConnectWithoutCreatorInput = {
@@ -40646,6 +40395,82 @@ export namespace Prisma {
 
   export type AdCreateManyCreatorInputEnvelope = {
     data: AdCreateManyCreatorInput | AdCreateManyCreatorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ArticleCreateWithoutAuthorInput = {
+    id?: string
+    title: string
+    slug: string
+    content: string
+    excerpt?: string | null
+    featuredImage?: string | null
+    status?: $Enums.ArticleStatus
+    isFeatured?: boolean
+    isBreakingNews?: boolean
+    viewCount?: number
+    scheduledAt?: Date | string | null
+    publishedAt?: Date | string | null
+    metaTitle?: string | null
+    metaDescription?: string | null
+    metaKeywords?: string | null
+    readingTime?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    featuredImageTitle?: string | null
+    isSponsored?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isExclusiveNews?: boolean
+    authorName?: string | null
+    category?: CategoryCreateNestedOneWithoutArticlesInput
+    activities?: ArticleActivityCreateNestedManyWithoutArticleInput
+    ads?: ArticleAdCreateNestedManyWithoutArticleInput
+    tags?: ArticleTagCreateNestedManyWithoutArticleInput
+    comments?: CommentCreateNestedManyWithoutArticleInput
+  }
+
+  export type ArticleUncheckedCreateWithoutAuthorInput = {
+    id?: string
+    title: string
+    slug: string
+    content: string
+    excerpt?: string | null
+    featuredImage?: string | null
+    status?: $Enums.ArticleStatus
+    isFeatured?: boolean
+    isBreakingNews?: boolean
+    viewCount?: number
+    scheduledAt?: Date | string | null
+    publishedAt?: Date | string | null
+    metaTitle?: string | null
+    metaDescription?: string | null
+    metaKeywords?: string | null
+    readingTime?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    categoryId?: string | null
+    featuredImageTitle?: string | null
+    isSponsored?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isExclusiveNews?: boolean
+    authorName?: string | null
+    activities?: ArticleActivityUncheckedCreateNestedManyWithoutArticleInput
+    ads?: ArticleAdUncheckedCreateNestedManyWithoutArticleInput
+    tags?: ArticleTagUncheckedCreateNestedManyWithoutArticleInput
+    comments?: CommentUncheckedCreateNestedManyWithoutArticleInput
+  }
+
+  export type ArticleCreateOrConnectWithoutAuthorInput = {
+    where: ArticleWhereUniqueInput
+    create: XOR<ArticleCreateWithoutAuthorInput, ArticleUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type ArticleCreateManyAuthorInputEnvelope = {
+    data: ArticleCreateManyAuthorInput | ArticleCreateManyAuthorInput[]
     skipDuplicates?: boolean
   }
 
@@ -40672,38 +40497,6 @@ export namespace Prisma {
 
   export type ArticleActivityCreateManyUserInputEnvelope = {
     data: ArticleActivityCreateManyUserInput | ArticleActivityCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type SiteSettingCreateWithoutUpdatedByUserInput = {
-    id?: string
-    key: string
-    value: JsonNullValueInput | InputJsonValue
-    type?: $Enums.SettingType
-    description?: string | null
-    isPublic?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type SiteSettingUncheckedCreateWithoutUpdatedByUserInput = {
-    id?: string
-    key: string
-    value: JsonNullValueInput | InputJsonValue
-    type?: $Enums.SettingType
-    description?: string | null
-    isPublic?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type SiteSettingCreateOrConnectWithoutUpdatedByUserInput = {
-    where: SiteSettingWhereUniqueInput
-    create: XOR<SiteSettingCreateWithoutUpdatedByUserInput, SiteSettingUncheckedCreateWithoutUpdatedByUserInput>
-  }
-
-  export type SiteSettingCreateManyUpdatedByUserInputEnvelope = {
-    data: SiteSettingCreateManyUpdatedByUserInput | SiteSettingCreateManyUpdatedByUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -40749,6 +40542,385 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type NotificationCreateWithoutUserInput = {
+    id?: string
+    title: string
+    message: string
+    type?: $Enums.NotificationType
+    isRead?: boolean
+    link?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type NotificationUncheckedCreateWithoutUserInput = {
+    id?: string
+    title: string
+    message: string
+    type?: $Enums.NotificationType
+    isRead?: boolean
+    link?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type NotificationCreateOrConnectWithoutUserInput = {
+    where: NotificationWhereUniqueInput
+    create: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput>
+  }
+
+  export type NotificationCreateManyUserInputEnvelope = {
+    data: NotificationCreateManyUserInput | NotificationCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SiteSettingCreateWithoutUpdatedByUserInput = {
+    id?: string
+    key: string
+    value: JsonNullValueInput | InputJsonValue
+    type?: $Enums.SettingType
+    description?: string | null
+    isPublic?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SiteSettingUncheckedCreateWithoutUpdatedByUserInput = {
+    id?: string
+    key: string
+    value: JsonNullValueInput | InputJsonValue
+    type?: $Enums.SettingType
+    description?: string | null
+    isPublic?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SiteSettingCreateOrConnectWithoutUpdatedByUserInput = {
+    where: SiteSettingWhereUniqueInput
+    create: XOR<SiteSettingCreateWithoutUpdatedByUserInput, SiteSettingUncheckedCreateWithoutUpdatedByUserInput>
+  }
+
+  export type SiteSettingCreateManyUpdatedByUserInputEnvelope = {
+    data: SiteSettingCreateManyUpdatedByUserInput | SiteSettingCreateManyUpdatedByUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserCreateWithoutCreatedUsersInput = {
+    id?: string
+    email: string
+    password: string
+    name: string
+    role?: $Enums.Role
+    status?: $Enums.UserStatus
+    avatar?: string | null
+    bio?: string | null
+    canCreateUsers?: boolean
+    refreshToken?: string | null
+    lastLoginAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ads?: AdCreateNestedManyWithoutCreatorInput
+    articles?: ArticleCreateNestedManyWithoutAuthorInput
+    articleActivities?: ArticleActivityCreateNestedManyWithoutUserInput
+    media?: MediaCreateNestedManyWithoutUploaderInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    settings?: SiteSettingCreateNestedManyWithoutUpdatedByUserInput
+    creator?: UserCreateNestedOneWithoutCreatedUsersInput
+    modules?: UserModulePermissionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutCreatedUsersInput = {
+    id?: string
+    email: string
+    password: string
+    name: string
+    role?: $Enums.Role
+    status?: $Enums.UserStatus
+    avatar?: string | null
+    bio?: string | null
+    canCreateUsers?: boolean
+    createdBy?: string | null
+    refreshToken?: string | null
+    lastLoginAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ads?: AdUncheckedCreateNestedManyWithoutCreatorInput
+    articles?: ArticleUncheckedCreateNestedManyWithoutAuthorInput
+    articleActivities?: ArticleActivityUncheckedCreateNestedManyWithoutUserInput
+    media?: MediaUncheckedCreateNestedManyWithoutUploaderInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    settings?: SiteSettingUncheckedCreateNestedManyWithoutUpdatedByUserInput
+    modules?: UserModulePermissionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutCreatedUsersInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCreatedUsersInput, UserUncheckedCreateWithoutCreatedUsersInput>
+  }
+
+  export type UserCreateWithoutCreatorInput = {
+    id?: string
+    email: string
+    password: string
+    name: string
+    role?: $Enums.Role
+    status?: $Enums.UserStatus
+    avatar?: string | null
+    bio?: string | null
+    canCreateUsers?: boolean
+    refreshToken?: string | null
+    lastLoginAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ads?: AdCreateNestedManyWithoutCreatorInput
+    articles?: ArticleCreateNestedManyWithoutAuthorInput
+    articleActivities?: ArticleActivityCreateNestedManyWithoutUserInput
+    media?: MediaCreateNestedManyWithoutUploaderInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    settings?: SiteSettingCreateNestedManyWithoutUpdatedByUserInput
+    createdUsers?: UserCreateNestedManyWithoutCreatorInput
+    modules?: UserModulePermissionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutCreatorInput = {
+    id?: string
+    email: string
+    password: string
+    name: string
+    role?: $Enums.Role
+    status?: $Enums.UserStatus
+    avatar?: string | null
+    bio?: string | null
+    canCreateUsers?: boolean
+    refreshToken?: string | null
+    lastLoginAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ads?: AdUncheckedCreateNestedManyWithoutCreatorInput
+    articles?: ArticleUncheckedCreateNestedManyWithoutAuthorInput
+    articleActivities?: ArticleActivityUncheckedCreateNestedManyWithoutUserInput
+    media?: MediaUncheckedCreateNestedManyWithoutUploaderInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    settings?: SiteSettingUncheckedCreateNestedManyWithoutUpdatedByUserInput
+    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatorInput
+    modules?: UserModulePermissionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutCreatorInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCreatorInput, UserUncheckedCreateWithoutCreatorInput>
+  }
+
+  export type UserCreateManyCreatorInputEnvelope = {
+    data: UserCreateManyCreatorInput | UserCreateManyCreatorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserModulePermissionCreateWithoutUserInput = {
+    id?: string
+    canView?: boolean
+    canCreate?: boolean
+    canEdit?: boolean
+    canDelete?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    module: ModuleCreateNestedOneWithoutPermissionsInput
+  }
+
+  export type UserModulePermissionUncheckedCreateWithoutUserInput = {
+    id?: string
+    moduleId: string
+    canView?: boolean
+    canCreate?: boolean
+    canEdit?: boolean
+    canDelete?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserModulePermissionCreateOrConnectWithoutUserInput = {
+    where: UserModulePermissionWhereUniqueInput
+    create: XOR<UserModulePermissionCreateWithoutUserInput, UserModulePermissionUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserModulePermissionCreateManyUserInputEnvelope = {
+    data: UserModulePermissionCreateManyUserInput | UserModulePermissionCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AdUpsertWithWhereUniqueWithoutCreatorInput = {
+    where: AdWhereUniqueInput
+    update: XOR<AdUpdateWithoutCreatorInput, AdUncheckedUpdateWithoutCreatorInput>
+    create: XOR<AdCreateWithoutCreatorInput, AdUncheckedCreateWithoutCreatorInput>
+  }
+
+  export type AdUpdateWithWhereUniqueWithoutCreatorInput = {
+    where: AdWhereUniqueInput
+    data: XOR<AdUpdateWithoutCreatorInput, AdUncheckedUpdateWithoutCreatorInput>
+  }
+
+  export type AdUpdateManyWithWhereWithoutCreatorInput = {
+    where: AdScalarWhereInput
+    data: XOR<AdUpdateManyMutationInput, AdUncheckedUpdateManyWithoutCreatorInput>
+  }
+
+  export type AdScalarWhereInput = {
+    AND?: AdScalarWhereInput | AdScalarWhereInput[]
+    OR?: AdScalarWhereInput[]
+    NOT?: AdScalarWhereInput | AdScalarWhereInput[]
+    id?: StringFilter<"Ad"> | string
+    name?: StringFilter<"Ad"> | string
+    description?: StringNullableFilter<"Ad"> | string | null
+    type?: EnumAdTypeFilter<"Ad"> | $Enums.AdType
+    imageUrl?: StringNullableFilter<"Ad"> | string | null
+    videoUrl?: StringNullableFilter<"Ad"> | string | null
+    redirectUrl?: StringNullableFilter<"Ad"> | string | null
+    startDate?: DateTimeFilter<"Ad"> | Date | string
+    endDate?: DateTimeFilter<"Ad"> | Date | string
+    status?: EnumAdStatusFilter<"Ad"> | $Enums.AdStatus
+    priority?: IntFilter<"Ad"> | number
+    impressions?: IntFilter<"Ad"> | number
+    clicks?: IntFilter<"Ad"> | number
+    createdBy?: StringFilter<"Ad"> | string
+    createdAt?: DateTimeFilter<"Ad"> | Date | string
+    updatedAt?: DateTimeFilter<"Ad"> | Date | string
+    pageName?: StringNullableFilter<"Ad"> | string | null
+    placementName?: StringNullableFilter<"Ad"> | string | null
+    ratio?: StringNullableFilter<"Ad"> | string | null
+    targetPage?: StringNullableFilter<"Ad"> | string | null
+  }
+
+  export type ArticleUpsertWithWhereUniqueWithoutAuthorInput = {
+    where: ArticleWhereUniqueInput
+    update: XOR<ArticleUpdateWithoutAuthorInput, ArticleUncheckedUpdateWithoutAuthorInput>
+    create: XOR<ArticleCreateWithoutAuthorInput, ArticleUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type ArticleUpdateWithWhereUniqueWithoutAuthorInput = {
+    where: ArticleWhereUniqueInput
+    data: XOR<ArticleUpdateWithoutAuthorInput, ArticleUncheckedUpdateWithoutAuthorInput>
+  }
+
+  export type ArticleUpdateManyWithWhereWithoutAuthorInput = {
+    where: ArticleScalarWhereInput
+    data: XOR<ArticleUpdateManyMutationInput, ArticleUncheckedUpdateManyWithoutAuthorInput>
+  }
+
+  export type ArticleActivityUpsertWithWhereUniqueWithoutUserInput = {
+    where: ArticleActivityWhereUniqueInput
+    update: XOR<ArticleActivityUpdateWithoutUserInput, ArticleActivityUncheckedUpdateWithoutUserInput>
+    create: XOR<ArticleActivityCreateWithoutUserInput, ArticleActivityUncheckedCreateWithoutUserInput>
+  }
+
+  export type ArticleActivityUpdateWithWhereUniqueWithoutUserInput = {
+    where: ArticleActivityWhereUniqueInput
+    data: XOR<ArticleActivityUpdateWithoutUserInput, ArticleActivityUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ArticleActivityUpdateManyWithWhereWithoutUserInput = {
+    where: ArticleActivityScalarWhereInput
+    data: XOR<ArticleActivityUpdateManyMutationInput, ArticleActivityUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type MediaUpsertWithWhereUniqueWithoutUploaderInput = {
+    where: MediaWhereUniqueInput
+    update: XOR<MediaUpdateWithoutUploaderInput, MediaUncheckedUpdateWithoutUploaderInput>
+    create: XOR<MediaCreateWithoutUploaderInput, MediaUncheckedCreateWithoutUploaderInput>
+  }
+
+  export type MediaUpdateWithWhereUniqueWithoutUploaderInput = {
+    where: MediaWhereUniqueInput
+    data: XOR<MediaUpdateWithoutUploaderInput, MediaUncheckedUpdateWithoutUploaderInput>
+  }
+
+  export type MediaUpdateManyWithWhereWithoutUploaderInput = {
+    where: MediaScalarWhereInput
+    data: XOR<MediaUpdateManyMutationInput, MediaUncheckedUpdateManyWithoutUploaderInput>
+  }
+
+  export type MediaScalarWhereInput = {
+    AND?: MediaScalarWhereInput | MediaScalarWhereInput[]
+    OR?: MediaScalarWhereInput[]
+    NOT?: MediaScalarWhereInput | MediaScalarWhereInput[]
+    id?: StringFilter<"Media"> | string
+    filename?: StringFilter<"Media"> | string
+    originalName?: StringFilter<"Media"> | string
+    mimeType?: StringFilter<"Media"> | string
+    size?: IntFilter<"Media"> | number
+    url?: StringFilter<"Media"> | string
+    thumbnailUrl?: StringNullableFilter<"Media"> | string | null
+    width?: IntNullableFilter<"Media"> | number | null
+    height?: IntNullableFilter<"Media"> | number | null
+    alt?: StringNullableFilter<"Media"> | string | null
+    type?: EnumMediaTypeFilter<"Media"> | $Enums.MediaType
+    uploadedBy?: StringFilter<"Media"> | string
+    createdAt?: DateTimeFilter<"Media"> | Date | string
+    updatedAt?: DateTimeFilter<"Media"> | Date | string
+  }
+
+  export type NotificationUpsertWithWhereUniqueWithoutUserInput = {
+    where: NotificationWhereUniqueInput
+    update: XOR<NotificationUpdateWithoutUserInput, NotificationUncheckedUpdateWithoutUserInput>
+    create: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput>
+  }
+
+  export type NotificationUpdateWithWhereUniqueWithoutUserInput = {
+    where: NotificationWhereUniqueInput
+    data: XOR<NotificationUpdateWithoutUserInput, NotificationUncheckedUpdateWithoutUserInput>
+  }
+
+  export type NotificationUpdateManyWithWhereWithoutUserInput = {
+    where: NotificationScalarWhereInput
+    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type NotificationScalarWhereInput = {
+    AND?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+    OR?: NotificationScalarWhereInput[]
+    NOT?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+    id?: StringFilter<"Notification"> | string
+    title?: StringFilter<"Notification"> | string
+    message?: StringFilter<"Notification"> | string
+    type?: EnumNotificationTypeFilter<"Notification"> | $Enums.NotificationType
+    isRead?: BoolFilter<"Notification"> | boolean
+    link?: StringNullableFilter<"Notification"> | string | null
+    userId?: StringFilter<"Notification"> | string
+    createdAt?: DateTimeFilter<"Notification"> | Date | string
+    updatedAt?: DateTimeFilter<"Notification"> | Date | string
+  }
+
+  export type SiteSettingUpsertWithWhereUniqueWithoutUpdatedByUserInput = {
+    where: SiteSettingWhereUniqueInput
+    update: XOR<SiteSettingUpdateWithoutUpdatedByUserInput, SiteSettingUncheckedUpdateWithoutUpdatedByUserInput>
+    create: XOR<SiteSettingCreateWithoutUpdatedByUserInput, SiteSettingUncheckedCreateWithoutUpdatedByUserInput>
+  }
+
+  export type SiteSettingUpdateWithWhereUniqueWithoutUpdatedByUserInput = {
+    where: SiteSettingWhereUniqueInput
+    data: XOR<SiteSettingUpdateWithoutUpdatedByUserInput, SiteSettingUncheckedUpdateWithoutUpdatedByUserInput>
+  }
+
+  export type SiteSettingUpdateManyWithWhereWithoutUpdatedByUserInput = {
+    where: SiteSettingScalarWhereInput
+    data: XOR<SiteSettingUpdateManyMutationInput, SiteSettingUncheckedUpdateManyWithoutUpdatedByUserInput>
+  }
+
+  export type SiteSettingScalarWhereInput = {
+    AND?: SiteSettingScalarWhereInput | SiteSettingScalarWhereInput[]
+    OR?: SiteSettingScalarWhereInput[]
+    NOT?: SiteSettingScalarWhereInput | SiteSettingScalarWhereInput[]
+    id?: StringFilter<"SiteSetting"> | string
+    key?: StringFilter<"SiteSetting"> | string
+    value?: JsonFilter<"SiteSetting">
+    type?: EnumSettingTypeFilter<"SiteSetting"> | $Enums.SettingType
+    description?: StringNullableFilter<"SiteSetting"> | string | null
+    isPublic?: BoolFilter<"SiteSetting"> | boolean
+    updatedBy?: StringNullableFilter<"SiteSetting"> | string | null
+    createdAt?: DateTimeFilter<"SiteSetting"> | Date | string
+    updatedAt?: DateTimeFilter<"SiteSetting"> | Date | string
+  }
+
   export type UserUpsertWithoutCreatedUsersInput = {
     update: XOR<UserUpdateWithoutCreatedUsersInput, UserUncheckedUpdateWithoutCreatedUsersInput>
     create: XOR<UserCreateWithoutCreatedUsersInput, UserUncheckedCreateWithoutCreatedUsersInput>
@@ -40774,14 +40946,14 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    creator?: UserUpdateOneWithoutCreatedUsersNestedInput
-    articles?: ArticleUpdateManyWithoutAuthorNestedInput
-    modules?: UserModulePermissionUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
     ads?: AdUpdateManyWithoutCreatorNestedInput
+    articles?: ArticleUpdateManyWithoutAuthorNestedInput
     articleActivities?: ArticleActivityUpdateManyWithoutUserNestedInput
-    settings?: SiteSettingUpdateManyWithoutUpdatedByUserNestedInput
     media?: MediaUpdateManyWithoutUploaderNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    settings?: SiteSettingUpdateManyWithoutUpdatedByUserNestedInput
+    creator?: UserUpdateOneWithoutCreatedUsersNestedInput
+    modules?: UserModulePermissionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedUsersInput = {
@@ -40799,13 +40971,13 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    articles?: ArticleUncheckedUpdateManyWithoutAuthorNestedInput
-    modules?: UserModulePermissionUncheckedUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     ads?: AdUncheckedUpdateManyWithoutCreatorNestedInput
+    articles?: ArticleUncheckedUpdateManyWithoutAuthorNestedInput
     articleActivities?: ArticleActivityUncheckedUpdateManyWithoutUserNestedInput
-    settings?: SiteSettingUncheckedUpdateManyWithoutUpdatedByUserNestedInput
     media?: MediaUncheckedUpdateManyWithoutUploaderNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    settings?: SiteSettingUncheckedUpdateManyWithoutUpdatedByUserNestedInput
+    modules?: UserModulePermissionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithWhereUniqueWithoutCreatorInput = {
@@ -40844,22 +41016,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
   }
 
-  export type ArticleUpsertWithWhereUniqueWithoutAuthorInput = {
-    where: ArticleWhereUniqueInput
-    update: XOR<ArticleUpdateWithoutAuthorInput, ArticleUncheckedUpdateWithoutAuthorInput>
-    create: XOR<ArticleCreateWithoutAuthorInput, ArticleUncheckedCreateWithoutAuthorInput>
-  }
-
-  export type ArticleUpdateWithWhereUniqueWithoutAuthorInput = {
-    where: ArticleWhereUniqueInput
-    data: XOR<ArticleUpdateWithoutAuthorInput, ArticleUncheckedUpdateWithoutAuthorInput>
-  }
-
-  export type ArticleUpdateManyWithWhereWithoutAuthorInput = {
-    where: ArticleScalarWhereInput
-    data: XOR<ArticleUpdateManyMutationInput, ArticleUncheckedUpdateManyWithoutAuthorInput>
-  }
-
   export type UserModulePermissionUpsertWithWhereUniqueWithoutUserInput = {
     where: UserModulePermissionWhereUniqueInput
     update: XOR<UserModulePermissionUpdateWithoutUserInput, UserModulePermissionUncheckedUpdateWithoutUserInput>
@@ -40889,162 +41045,6 @@ export namespace Prisma {
     canDelete?: BoolFilter<"UserModulePermission"> | boolean
     createdAt?: DateTimeFilter<"UserModulePermission"> | Date | string
     updatedAt?: DateTimeFilter<"UserModulePermission"> | Date | string
-  }
-
-  export type NotificationUpsertWithWhereUniqueWithoutUserInput = {
-    where: NotificationWhereUniqueInput
-    update: XOR<NotificationUpdateWithoutUserInput, NotificationUncheckedUpdateWithoutUserInput>
-    create: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput>
-  }
-
-  export type NotificationUpdateWithWhereUniqueWithoutUserInput = {
-    where: NotificationWhereUniqueInput
-    data: XOR<NotificationUpdateWithoutUserInput, NotificationUncheckedUpdateWithoutUserInput>
-  }
-
-  export type NotificationUpdateManyWithWhereWithoutUserInput = {
-    where: NotificationScalarWhereInput
-    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type NotificationScalarWhereInput = {
-    AND?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
-    OR?: NotificationScalarWhereInput[]
-    NOT?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
-    id?: StringFilter<"Notification"> | string
-    title?: StringFilter<"Notification"> | string
-    message?: StringFilter<"Notification"> | string
-    type?: EnumNotificationTypeFilter<"Notification"> | $Enums.NotificationType
-    isRead?: BoolFilter<"Notification"> | boolean
-    link?: StringNullableFilter<"Notification"> | string | null
-    userId?: StringFilter<"Notification"> | string
-    createdAt?: DateTimeFilter<"Notification"> | Date | string
-    updatedAt?: DateTimeFilter<"Notification"> | Date | string
-  }
-
-  export type AdUpsertWithWhereUniqueWithoutCreatorInput = {
-    where: AdWhereUniqueInput
-    update: XOR<AdUpdateWithoutCreatorInput, AdUncheckedUpdateWithoutCreatorInput>
-    create: XOR<AdCreateWithoutCreatorInput, AdUncheckedCreateWithoutCreatorInput>
-  }
-
-  export type AdUpdateWithWhereUniqueWithoutCreatorInput = {
-    where: AdWhereUniqueInput
-    data: XOR<AdUpdateWithoutCreatorInput, AdUncheckedUpdateWithoutCreatorInput>
-  }
-
-  export type AdUpdateManyWithWhereWithoutCreatorInput = {
-    where: AdScalarWhereInput
-    data: XOR<AdUpdateManyMutationInput, AdUncheckedUpdateManyWithoutCreatorInput>
-  }
-
-  export type AdScalarWhereInput = {
-    AND?: AdScalarWhereInput | AdScalarWhereInput[]
-    OR?: AdScalarWhereInput[]
-    NOT?: AdScalarWhereInput | AdScalarWhereInput[]
-    id?: StringFilter<"Ad"> | string
-    name?: StringFilter<"Ad"> | string
-    description?: StringNullableFilter<"Ad"> | string | null
-    type?: EnumAdTypeFilter<"Ad"> | $Enums.AdType
-    imageUrl?: StringNullableFilter<"Ad"> | string | null
-    videoUrl?: StringNullableFilter<"Ad"> | string | null
-    redirectUrl?: StringNullableFilter<"Ad"> | string | null
-    startDate?: DateTimeFilter<"Ad"> | Date | string
-    endDate?: DateTimeFilter<"Ad"> | Date | string
-    status?: EnumAdStatusFilter<"Ad"> | $Enums.AdStatus
-    priority?: IntFilter<"Ad"> | number
-    targetPage?: StringNullableFilter<"Ad"> | string | null
-    ratio?: StringNullableFilter<"Ad"> | string | null
-    pageName?: StringNullableFilter<"Ad"> | string | null
-    placementName?: StringNullableFilter<"Ad"> | string | null
-    impressions?: IntFilter<"Ad"> | number
-    clicks?: IntFilter<"Ad"> | number
-    createdBy?: StringFilter<"Ad"> | string
-    createdAt?: DateTimeFilter<"Ad"> | Date | string
-    updatedAt?: DateTimeFilter<"Ad"> | Date | string
-  }
-
-  export type ArticleActivityUpsertWithWhereUniqueWithoutUserInput = {
-    where: ArticleActivityWhereUniqueInput
-    update: XOR<ArticleActivityUpdateWithoutUserInput, ArticleActivityUncheckedUpdateWithoutUserInput>
-    create: XOR<ArticleActivityCreateWithoutUserInput, ArticleActivityUncheckedCreateWithoutUserInput>
-  }
-
-  export type ArticleActivityUpdateWithWhereUniqueWithoutUserInput = {
-    where: ArticleActivityWhereUniqueInput
-    data: XOR<ArticleActivityUpdateWithoutUserInput, ArticleActivityUncheckedUpdateWithoutUserInput>
-  }
-
-  export type ArticleActivityUpdateManyWithWhereWithoutUserInput = {
-    where: ArticleActivityScalarWhereInput
-    data: XOR<ArticleActivityUpdateManyMutationInput, ArticleActivityUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type SiteSettingUpsertWithWhereUniqueWithoutUpdatedByUserInput = {
-    where: SiteSettingWhereUniqueInput
-    update: XOR<SiteSettingUpdateWithoutUpdatedByUserInput, SiteSettingUncheckedUpdateWithoutUpdatedByUserInput>
-    create: XOR<SiteSettingCreateWithoutUpdatedByUserInput, SiteSettingUncheckedCreateWithoutUpdatedByUserInput>
-  }
-
-  export type SiteSettingUpdateWithWhereUniqueWithoutUpdatedByUserInput = {
-    where: SiteSettingWhereUniqueInput
-    data: XOR<SiteSettingUpdateWithoutUpdatedByUserInput, SiteSettingUncheckedUpdateWithoutUpdatedByUserInput>
-  }
-
-  export type SiteSettingUpdateManyWithWhereWithoutUpdatedByUserInput = {
-    where: SiteSettingScalarWhereInput
-    data: XOR<SiteSettingUpdateManyMutationInput, SiteSettingUncheckedUpdateManyWithoutUpdatedByUserInput>
-  }
-
-  export type SiteSettingScalarWhereInput = {
-    AND?: SiteSettingScalarWhereInput | SiteSettingScalarWhereInput[]
-    OR?: SiteSettingScalarWhereInput[]
-    NOT?: SiteSettingScalarWhereInput | SiteSettingScalarWhereInput[]
-    id?: StringFilter<"SiteSetting"> | string
-    key?: StringFilter<"SiteSetting"> | string
-    value?: JsonFilter<"SiteSetting">
-    type?: EnumSettingTypeFilter<"SiteSetting"> | $Enums.SettingType
-    description?: StringNullableFilter<"SiteSetting"> | string | null
-    isPublic?: BoolFilter<"SiteSetting"> | boolean
-    updatedBy?: StringNullableFilter<"SiteSetting"> | string | null
-    createdAt?: DateTimeFilter<"SiteSetting"> | Date | string
-    updatedAt?: DateTimeFilter<"SiteSetting"> | Date | string
-  }
-
-  export type MediaUpsertWithWhereUniqueWithoutUploaderInput = {
-    where: MediaWhereUniqueInput
-    update: XOR<MediaUpdateWithoutUploaderInput, MediaUncheckedUpdateWithoutUploaderInput>
-    create: XOR<MediaCreateWithoutUploaderInput, MediaUncheckedCreateWithoutUploaderInput>
-  }
-
-  export type MediaUpdateWithWhereUniqueWithoutUploaderInput = {
-    where: MediaWhereUniqueInput
-    data: XOR<MediaUpdateWithoutUploaderInput, MediaUncheckedUpdateWithoutUploaderInput>
-  }
-
-  export type MediaUpdateManyWithWhereWithoutUploaderInput = {
-    where: MediaScalarWhereInput
-    data: XOR<MediaUpdateManyMutationInput, MediaUncheckedUpdateManyWithoutUploaderInput>
-  }
-
-  export type MediaScalarWhereInput = {
-    AND?: MediaScalarWhereInput | MediaScalarWhereInput[]
-    OR?: MediaScalarWhereInput[]
-    NOT?: MediaScalarWhereInput | MediaScalarWhereInput[]
-    id?: StringFilter<"Media"> | string
-    filename?: StringFilter<"Media"> | string
-    originalName?: StringFilter<"Media"> | string
-    mimeType?: StringFilter<"Media"> | string
-    size?: IntFilter<"Media"> | number
-    url?: StringFilter<"Media"> | string
-    thumbnailUrl?: StringNullableFilter<"Media"> | string | null
-    width?: IntNullableFilter<"Media"> | number | null
-    height?: IntNullableFilter<"Media"> | number | null
-    alt?: StringNullableFilter<"Media"> | string | null
-    type?: EnumMediaTypeFilter<"Media"> | $Enums.MediaType
-    uploadedBy?: StringFilter<"Media"> | string
-    createdAt?: DateTimeFilter<"Media"> | Date | string
-    updatedAt?: DateTimeFilter<"Media"> | Date | string
   }
 
   export type UserModulePermissionCreateWithoutModuleInput = {
@@ -41095,59 +41095,6 @@ export namespace Prisma {
     data: XOR<UserModulePermissionUpdateManyMutationInput, UserModulePermissionUncheckedUpdateManyWithoutModuleInput>
   }
 
-  export type UserCreateWithoutModulesInput = {
-    id?: string
-    email: string
-    password: string
-    name: string
-    role?: $Enums.Role
-    status?: $Enums.UserStatus
-    avatar?: string | null
-    bio?: string | null
-    canCreateUsers?: boolean
-    refreshToken?: string | null
-    lastLoginAt?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    creator?: UserCreateNestedOneWithoutCreatedUsersInput
-    createdUsers?: UserCreateNestedManyWithoutCreatorInput
-    articles?: ArticleCreateNestedManyWithoutAuthorInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-    ads?: AdCreateNestedManyWithoutCreatorInput
-    articleActivities?: ArticleActivityCreateNestedManyWithoutUserInput
-    settings?: SiteSettingCreateNestedManyWithoutUpdatedByUserInput
-    media?: MediaCreateNestedManyWithoutUploaderInput
-  }
-
-  export type UserUncheckedCreateWithoutModulesInput = {
-    id?: string
-    email: string
-    password: string
-    name: string
-    role?: $Enums.Role
-    status?: $Enums.UserStatus
-    avatar?: string | null
-    bio?: string | null
-    canCreateUsers?: boolean
-    createdBy?: string | null
-    refreshToken?: string | null
-    lastLoginAt?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatorInput
-    articles?: ArticleUncheckedCreateNestedManyWithoutAuthorInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    ads?: AdUncheckedCreateNestedManyWithoutCreatorInput
-    articleActivities?: ArticleActivityUncheckedCreateNestedManyWithoutUserInput
-    settings?: SiteSettingUncheckedCreateNestedManyWithoutUpdatedByUserInput
-    media?: MediaUncheckedCreateNestedManyWithoutUploaderInput
-  }
-
-  export type UserCreateOrConnectWithoutModulesInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutModulesInput, UserUncheckedCreateWithoutModulesInput>
-  }
-
   export type ModuleCreateWithoutPermissionsInput = {
     id?: string
     name: string
@@ -41177,63 +41124,57 @@ export namespace Prisma {
     create: XOR<ModuleCreateWithoutPermissionsInput, ModuleUncheckedCreateWithoutPermissionsInput>
   }
 
-  export type UserUpsertWithoutModulesInput = {
-    update: XOR<UserUpdateWithoutModulesInput, UserUncheckedUpdateWithoutModulesInput>
+  export type UserCreateWithoutModulesInput = {
+    id?: string
+    email: string
+    password: string
+    name: string
+    role?: $Enums.Role
+    status?: $Enums.UserStatus
+    avatar?: string | null
+    bio?: string | null
+    canCreateUsers?: boolean
+    refreshToken?: string | null
+    lastLoginAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ads?: AdCreateNestedManyWithoutCreatorInput
+    articles?: ArticleCreateNestedManyWithoutAuthorInput
+    articleActivities?: ArticleActivityCreateNestedManyWithoutUserInput
+    media?: MediaCreateNestedManyWithoutUploaderInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    settings?: SiteSettingCreateNestedManyWithoutUpdatedByUserInput
+    creator?: UserCreateNestedOneWithoutCreatedUsersInput
+    createdUsers?: UserCreateNestedManyWithoutCreatorInput
+  }
+
+  export type UserUncheckedCreateWithoutModulesInput = {
+    id?: string
+    email: string
+    password: string
+    name: string
+    role?: $Enums.Role
+    status?: $Enums.UserStatus
+    avatar?: string | null
+    bio?: string | null
+    canCreateUsers?: boolean
+    createdBy?: string | null
+    refreshToken?: string | null
+    lastLoginAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ads?: AdUncheckedCreateNestedManyWithoutCreatorInput
+    articles?: ArticleUncheckedCreateNestedManyWithoutAuthorInput
+    articleActivities?: ArticleActivityUncheckedCreateNestedManyWithoutUserInput
+    media?: MediaUncheckedCreateNestedManyWithoutUploaderInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    settings?: SiteSettingUncheckedCreateNestedManyWithoutUpdatedByUserInput
+    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatorInput
+  }
+
+  export type UserCreateOrConnectWithoutModulesInput = {
+    where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutModulesInput, UserUncheckedCreateWithoutModulesInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutModulesInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutModulesInput, UserUncheckedUpdateWithoutModulesInput>
-  }
-
-  export type UserUpdateWithoutModulesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    canCreateUsers?: BoolFieldUpdateOperationsInput | boolean
-    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
-    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    creator?: UserUpdateOneWithoutCreatedUsersNestedInput
-    createdUsers?: UserUpdateManyWithoutCreatorNestedInput
-    articles?: ArticleUpdateManyWithoutAuthorNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
-    ads?: AdUpdateManyWithoutCreatorNestedInput
-    articleActivities?: ArticleActivityUpdateManyWithoutUserNestedInput
-    settings?: SiteSettingUpdateManyWithoutUpdatedByUserNestedInput
-    media?: MediaUpdateManyWithoutUploaderNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutModulesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    canCreateUsers?: BoolFieldUpdateOperationsInput | boolean
-    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
-    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
-    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdUsers?: UserUncheckedUpdateManyWithoutCreatorNestedInput
-    articles?: ArticleUncheckedUpdateManyWithoutAuthorNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    ads?: AdUncheckedUpdateManyWithoutCreatorNestedInput
-    articleActivities?: ArticleActivityUncheckedUpdateManyWithoutUserNestedInput
-    settings?: SiteSettingUncheckedUpdateManyWithoutUpdatedByUserNestedInput
-    media?: MediaUncheckedUpdateManyWithoutUploaderNestedInput
   }
 
   export type ModuleUpsertWithoutPermissionsInput = {
@@ -41271,6 +41212,73 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type UserUpsertWithoutModulesInput = {
+    update: XOR<UserUpdateWithoutModulesInput, UserUncheckedUpdateWithoutModulesInput>
+    create: XOR<UserCreateWithoutModulesInput, UserUncheckedCreateWithoutModulesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutModulesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutModulesInput, UserUncheckedUpdateWithoutModulesInput>
+  }
+
+  export type UserUpdateWithoutModulesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    canCreateUsers?: BoolFieldUpdateOperationsInput | boolean
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ads?: AdUpdateManyWithoutCreatorNestedInput
+    articles?: ArticleUpdateManyWithoutAuthorNestedInput
+    articleActivities?: ArticleActivityUpdateManyWithoutUserNestedInput
+    media?: MediaUpdateManyWithoutUploaderNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    settings?: SiteSettingUpdateManyWithoutUpdatedByUserNestedInput
+    creator?: UserUpdateOneWithoutCreatedUsersNestedInput
+    createdUsers?: UserUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutModulesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    canCreateUsers?: BoolFieldUpdateOperationsInput | boolean
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ads?: AdUncheckedUpdateManyWithoutCreatorNestedInput
+    articles?: ArticleUncheckedUpdateManyWithoutAuthorNestedInput
+    articleActivities?: ArticleActivityUncheckedUpdateManyWithoutUserNestedInput
+    media?: MediaUncheckedUpdateManyWithoutUploaderNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    settings?: SiteSettingUncheckedUpdateManyWithoutUpdatedByUserNestedInput
+    createdUsers?: UserUncheckedUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type AdAnalyticsCreateManyAdInput = {
+    id?: string
+    impressions?: number
+    clicks?: number
+    date?: Date | string
+    createdAt?: Date | string
+  }
+
   export type AdPlacementCreateManyAdInput = {
     id?: string
     adSpaceId: string
@@ -41288,12 +41296,28 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type AdAnalyticsCreateManyAdInput = {
-    id?: string
-    impressions?: number
-    clicks?: number
-    date?: Date | string
-    createdAt?: Date | string
+  export type AdAnalyticsUpdateWithoutAdInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    impressions?: IntFieldUpdateOperationsInput | number
+    clicks?: IntFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AdAnalyticsUncheckedUpdateWithoutAdInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    impressions?: IntFieldUpdateOperationsInput | number
+    clicks?: IntFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AdAnalyticsUncheckedUpdateManyWithoutAdInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    impressions?: IntFieldUpdateOperationsInput | number
+    clicks?: IntFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AdPlacementUpdateWithoutAdInput = {
@@ -41347,30 +41371,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type AdAnalyticsUpdateWithoutAdInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    impressions?: IntFieldUpdateOperationsInput | number
-    clicks?: IntFieldUpdateOperationsInput | number
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type AdAnalyticsUncheckedUpdateWithoutAdInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    impressions?: IntFieldUpdateOperationsInput | number
-    clicks?: IntFieldUpdateOperationsInput | number
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type AdAnalyticsUncheckedUpdateManyWithoutAdInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    impressions?: IntFieldUpdateOperationsInput | number
-    clicks?: IntFieldUpdateOperationsInput | number
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type AdPlacementCreateManyAdSpaceInput = {
     id?: string
     adId: string
@@ -41407,6 +41407,22 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ArticleActivityCreateManyArticleInput = {
+    id?: string
+    action: string
+    details?: NullableJsonNullValueInput | InputJsonValue
+    userId: string
+    createdAt?: Date | string
+  }
+
+  export type ArticleAdCreateManyArticleInput = {
+    id?: string
+    adId: string
+    position: string
+    order?: number
+    createdAt?: Date | string
+  }
+
   export type ArticleTagCreateManyArticleInput = {
     tagId: string
     assignedAt?: Date | string
@@ -41423,20 +41439,52 @@ export namespace Prisma {
     parentId?: string | null
   }
 
-  export type ArticleAdCreateManyArticleInput = {
-    id?: string
-    adId: string
-    position: string
-    order?: number
-    createdAt?: Date | string
+  export type ArticleActivityUpdateWithoutArticleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    details?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutArticleActivitiesNestedInput
   }
 
-  export type ArticleActivityCreateManyArticleInput = {
-    id?: string
-    action: string
+  export type ArticleActivityUncheckedUpdateWithoutArticleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
     details?: NullableJsonNullValueInput | InputJsonValue
-    userId: string
-    createdAt?: Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ArticleActivityUncheckedUpdateManyWithoutArticleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    details?: NullableJsonNullValueInput | InputJsonValue
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ArticleAdUpdateWithoutArticleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    position?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ad?: AdUpdateOneRequiredWithoutArticlesNestedInput
+  }
+
+  export type ArticleAdUncheckedUpdateWithoutArticleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    adId?: StringFieldUpdateOperationsInput | string
+    position?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ArticleAdUncheckedUpdateManyWithoutArticleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    adId?: StringFieldUpdateOperationsInput | string
+    position?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ArticleTagUpdateWithoutArticleInput = {
@@ -41487,54 +41535,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type ArticleAdUpdateWithoutArticleInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    position?: StringFieldUpdateOperationsInput | string
-    order?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ad?: AdUpdateOneRequiredWithoutArticlesNestedInput
-  }
-
-  export type ArticleAdUncheckedUpdateWithoutArticleInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    adId?: StringFieldUpdateOperationsInput | string
-    position?: StringFieldUpdateOperationsInput | string
-    order?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ArticleAdUncheckedUpdateManyWithoutArticleInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    adId?: StringFieldUpdateOperationsInput | string
-    position?: StringFieldUpdateOperationsInput | string
-    order?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ArticleActivityUpdateWithoutArticleInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    action?: StringFieldUpdateOperationsInput | string
-    details?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutArticleActivitiesNestedInput
-  }
-
-  export type ArticleActivityUncheckedUpdateWithoutArticleInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    action?: StringFieldUpdateOperationsInput | string
-    details?: NullableJsonNullValueInput | InputJsonValue
-    userId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ArticleActivityUncheckedUpdateManyWithoutArticleInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    action?: StringFieldUpdateOperationsInput | string
-    details?: NullableJsonNullValueInput | InputJsonValue
-    userId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ArticleTagCreateManyTagInput = {
@@ -41603,6 +41603,35 @@ export namespace Prisma {
     articleId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type ArticleCreateManyCategoryInput = {
+    id?: string
+    title: string
+    slug: string
+    content: string
+    excerpt?: string | null
+    featuredImage?: string | null
+    status?: $Enums.ArticleStatus
+    isFeatured?: boolean
+    isBreakingNews?: boolean
+    viewCount?: number
+    scheduledAt?: Date | string | null
+    publishedAt?: Date | string | null
+    metaTitle?: string | null
+    metaDescription?: string | null
+    metaKeywords?: string | null
+    readingTime?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    authorId: string
+    featuredImageTitle?: string | null
+    isSponsored?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isExclusiveNews?: boolean
+    authorName?: string | null
+  }
+
   export type CategoryCreateManyParentInput = {
     id?: string
     name: string
@@ -41615,35 +41644,6 @@ export namespace Prisma {
     metaDescription?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-  }
-
-  export type ArticleCreateManyCategoryInput = {
-    id?: string
-    title: string
-    slug: string
-    content: string
-    excerpt?: string | null
-    featuredImage?: string | null
-    featuredImageTitle?: string | null
-    status?: $Enums.ArticleStatus
-    isFeatured?: boolean
-    isBreakingNews?: boolean
-    isTopHeadline?: boolean
-    isTrending?: boolean
-    isUaeNews?: boolean
-    isSponsored?: boolean
-    isExclusiveNews?: boolean
-    viewCount?: number
-    scheduledAt?: Date | string | null
-    publishedAt?: Date | string | null
-    metaTitle?: string | null
-    metaDescription?: string | null
-    metaKeywords?: string | null
-    readingTime?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    authorId: string
-    authorName?: string | null
   }
 
   export type PageSeoCreateManyCategoryInput = {
@@ -41669,6 +41669,101 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type ArticleUpdateWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
+    viewCount?: IntFieldUpdateOperationsInput | number
+    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    metaKeywords?: NullableStringFieldUpdateOperationsInput | string | null
+    readingTime?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    isSponsored?: BoolFieldUpdateOperationsInput | boolean
+    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
+    isTrending?: BoolFieldUpdateOperationsInput | boolean
+    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
+    isExclusiveNews?: BoolFieldUpdateOperationsInput | boolean
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    author?: UserUpdateOneRequiredWithoutArticlesNestedInput
+    activities?: ArticleActivityUpdateManyWithoutArticleNestedInput
+    ads?: ArticleAdUpdateManyWithoutArticleNestedInput
+    tags?: ArticleTagUpdateManyWithoutArticleNestedInput
+    comments?: CommentUpdateManyWithoutArticleNestedInput
+  }
+
+  export type ArticleUncheckedUpdateWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
+    viewCount?: IntFieldUpdateOperationsInput | number
+    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    metaKeywords?: NullableStringFieldUpdateOperationsInput | string | null
+    readingTime?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    isSponsored?: BoolFieldUpdateOperationsInput | boolean
+    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
+    isTrending?: BoolFieldUpdateOperationsInput | boolean
+    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
+    isExclusiveNews?: BoolFieldUpdateOperationsInput | boolean
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    activities?: ArticleActivityUncheckedUpdateManyWithoutArticleNestedInput
+    ads?: ArticleAdUncheckedUpdateManyWithoutArticleNestedInput
+    tags?: ArticleTagUncheckedUpdateManyWithoutArticleNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutArticleNestedInput
+  }
+
+  export type ArticleUncheckedUpdateManyWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
+    viewCount?: IntFieldUpdateOperationsInput | number
+    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    metaKeywords?: NullableStringFieldUpdateOperationsInput | string | null
+    readingTime?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    isSponsored?: BoolFieldUpdateOperationsInput | boolean
+    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
+    isTrending?: BoolFieldUpdateOperationsInput | boolean
+    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
+    isExclusiveNews?: BoolFieldUpdateOperationsInput | boolean
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type CategoryUpdateWithoutParentInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -41681,8 +41776,8 @@ export namespace Prisma {
     metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    children?: CategoryUpdateManyWithoutParentNestedInput
     articles?: ArticleUpdateManyWithoutCategoryNestedInput
+    children?: CategoryUpdateManyWithoutParentNestedInput
     pageSeo?: PageSeoUpdateManyWithoutCategoryNestedInput
   }
 
@@ -41698,8 +41793,8 @@ export namespace Prisma {
     metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    children?: CategoryUncheckedUpdateManyWithoutParentNestedInput
     articles?: ArticleUncheckedUpdateManyWithoutCategoryNestedInput
+    children?: CategoryUncheckedUpdateManyWithoutParentNestedInput
     pageSeo?: PageSeoUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
@@ -41715,101 +41810,6 @@ export namespace Prisma {
     metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ArticleUpdateWithoutCategoryInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
-    featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
-    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
-    isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
-    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
-    isTrending?: BoolFieldUpdateOperationsInput | boolean
-    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
-    isSponsored?: BoolFieldUpdateOperationsInput | boolean
-    isExclusiveNews?: BoolFieldUpdateOperationsInput | boolean
-    viewCount?: IntFieldUpdateOperationsInput | number
-    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    metaKeywords?: NullableStringFieldUpdateOperationsInput | string | null
-    readingTime?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    authorName?: NullableStringFieldUpdateOperationsInput | string | null
-    author?: UserUpdateOneRequiredWithoutArticlesNestedInput
-    tags?: ArticleTagUpdateManyWithoutArticleNestedInput
-    comments?: CommentUpdateManyWithoutArticleNestedInput
-    ads?: ArticleAdUpdateManyWithoutArticleNestedInput
-    activities?: ArticleActivityUpdateManyWithoutArticleNestedInput
-  }
-
-  export type ArticleUncheckedUpdateWithoutCategoryInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
-    featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
-    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
-    isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
-    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
-    isTrending?: BoolFieldUpdateOperationsInput | boolean
-    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
-    isSponsored?: BoolFieldUpdateOperationsInput | boolean
-    isExclusiveNews?: BoolFieldUpdateOperationsInput | boolean
-    viewCount?: IntFieldUpdateOperationsInput | number
-    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    metaKeywords?: NullableStringFieldUpdateOperationsInput | string | null
-    readingTime?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    authorId?: StringFieldUpdateOperationsInput | string
-    authorName?: NullableStringFieldUpdateOperationsInput | string | null
-    tags?: ArticleTagUncheckedUpdateManyWithoutArticleNestedInput
-    comments?: CommentUncheckedUpdateManyWithoutArticleNestedInput
-    ads?: ArticleAdUncheckedUpdateManyWithoutArticleNestedInput
-    activities?: ArticleActivityUncheckedUpdateManyWithoutArticleNestedInput
-  }
-
-  export type ArticleUncheckedUpdateManyWithoutCategoryInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
-    featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
-    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
-    isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
-    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
-    isTrending?: BoolFieldUpdateOperationsInput | boolean
-    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
-    isSponsored?: BoolFieldUpdateOperationsInput | boolean
-    isExclusiveNews?: BoolFieldUpdateOperationsInput | boolean
-    viewCount?: IntFieldUpdateOperationsInput | number
-    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    metaKeywords?: NullableStringFieldUpdateOperationsInput | string | null
-    readingTime?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    authorId?: StringFieldUpdateOperationsInput | string
-    authorName?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type PageSeoUpdateWithoutCategoryInput = {
@@ -41881,73 +41881,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type UserCreateManyCreatorInput = {
-    id?: string
-    email: string
-    password: string
-    name: string
-    role?: $Enums.Role
-    status?: $Enums.UserStatus
-    avatar?: string | null
-    bio?: string | null
-    canCreateUsers?: boolean
-    refreshToken?: string | null
-    lastLoginAt?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type ArticleCreateManyAuthorInput = {
-    id?: string
-    title: string
-    slug: string
-    content: string
-    excerpt?: string | null
-    featuredImage?: string | null
-    featuredImageTitle?: string | null
-    status?: $Enums.ArticleStatus
-    isFeatured?: boolean
-    isBreakingNews?: boolean
-    isTopHeadline?: boolean
-    isTrending?: boolean
-    isUaeNews?: boolean
-    isSponsored?: boolean
-    isExclusiveNews?: boolean
-    viewCount?: number
-    scheduledAt?: Date | string | null
-    publishedAt?: Date | string | null
-    metaTitle?: string | null
-    metaDescription?: string | null
-    metaKeywords?: string | null
-    readingTime?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    categoryId?: string | null
-    authorName?: string | null
-  }
-
-  export type UserModulePermissionCreateManyUserInput = {
-    id?: string
-    moduleId: string
-    canView?: boolean
-    canCreate?: boolean
-    canEdit?: boolean
-    canDelete?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type NotificationCreateManyUserInput = {
-    id?: string
-    title: string
-    message: string
-    type?: $Enums.NotificationType
-    isRead?: boolean
-    link?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
   export type AdCreateManyCreatorInput = {
     id?: string
     name: string
@@ -41960,14 +41893,43 @@ export namespace Prisma {
     endDate: Date | string
     status?: $Enums.AdStatus
     priority?: number
-    targetPage?: string | null
-    ratio?: string | null
-    pageName?: string | null
-    placementName?: string | null
     impressions?: number
     clicks?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    pageName?: string | null
+    placementName?: string | null
+    ratio?: string | null
+    targetPage?: string | null
+  }
+
+  export type ArticleCreateManyAuthorInput = {
+    id?: string
+    title: string
+    slug: string
+    content: string
+    excerpt?: string | null
+    featuredImage?: string | null
+    status?: $Enums.ArticleStatus
+    isFeatured?: boolean
+    isBreakingNews?: boolean
+    viewCount?: number
+    scheduledAt?: Date | string | null
+    publishedAt?: Date | string | null
+    metaTitle?: string | null
+    metaDescription?: string | null
+    metaKeywords?: string | null
+    readingTime?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    categoryId?: string | null
+    featuredImageTitle?: string | null
+    isSponsored?: boolean
+    isTopHeadline?: boolean
+    isTrending?: boolean
+    isUaeNews?: boolean
+    isExclusiveNews?: boolean
+    authorName?: string | null
   }
 
   export type ArticleActivityCreateManyUserInput = {
@@ -41976,17 +41938,6 @@ export namespace Prisma {
     details?: NullableJsonNullValueInput | InputJsonValue
     articleId?: string | null
     createdAt?: Date | string
-  }
-
-  export type SiteSettingCreateManyUpdatedByUserInput = {
-    id?: string
-    key: string
-    value: JsonNullValueInput | InputJsonValue
-    type?: $Enums.SettingType
-    description?: string | null
-    isPublic?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
   }
 
   export type MediaCreateManyUploaderInput = {
@@ -42005,229 +41956,53 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type UserUpdateWithoutCreatorInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    canCreateUsers?: BoolFieldUpdateOperationsInput | boolean
-    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
-    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdUsers?: UserUpdateManyWithoutCreatorNestedInput
-    articles?: ArticleUpdateManyWithoutAuthorNestedInput
-    modules?: UserModulePermissionUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
-    ads?: AdUpdateManyWithoutCreatorNestedInput
-    articleActivities?: ArticleActivityUpdateManyWithoutUserNestedInput
-    settings?: SiteSettingUpdateManyWithoutUpdatedByUserNestedInput
-    media?: MediaUpdateManyWithoutUploaderNestedInput
+  export type NotificationCreateManyUserInput = {
+    id?: string
+    title: string
+    message: string
+    type?: $Enums.NotificationType
+    isRead?: boolean
+    link?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
-  export type UserUncheckedUpdateWithoutCreatorInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    canCreateUsers?: BoolFieldUpdateOperationsInput | boolean
-    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
-    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdUsers?: UserUncheckedUpdateManyWithoutCreatorNestedInput
-    articles?: ArticleUncheckedUpdateManyWithoutAuthorNestedInput
-    modules?: UserModulePermissionUncheckedUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    ads?: AdUncheckedUpdateManyWithoutCreatorNestedInput
-    articleActivities?: ArticleActivityUncheckedUpdateManyWithoutUserNestedInput
-    settings?: SiteSettingUncheckedUpdateManyWithoutUpdatedByUserNestedInput
-    media?: MediaUncheckedUpdateManyWithoutUploaderNestedInput
+  export type SiteSettingCreateManyUpdatedByUserInput = {
+    id?: string
+    key: string
+    value: JsonNullValueInput | InputJsonValue
+    type?: $Enums.SettingType
+    description?: string | null
+    isPublic?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
-  export type UserUncheckedUpdateManyWithoutCreatorInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    avatar?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    canCreateUsers?: BoolFieldUpdateOperationsInput | boolean
-    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
-    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  export type UserCreateManyCreatorInput = {
+    id?: string
+    email: string
+    password: string
+    name: string
+    role?: $Enums.Role
+    status?: $Enums.UserStatus
+    avatar?: string | null
+    bio?: string | null
+    canCreateUsers?: boolean
+    refreshToken?: string | null
+    lastLoginAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
-  export type ArticleUpdateWithoutAuthorInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
-    featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
-    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
-    isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
-    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
-    isTrending?: BoolFieldUpdateOperationsInput | boolean
-    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
-    isSponsored?: BoolFieldUpdateOperationsInput | boolean
-    isExclusiveNews?: BoolFieldUpdateOperationsInput | boolean
-    viewCount?: IntFieldUpdateOperationsInput | number
-    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    metaKeywords?: NullableStringFieldUpdateOperationsInput | string | null
-    readingTime?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    authorName?: NullableStringFieldUpdateOperationsInput | string | null
-    category?: CategoryUpdateOneWithoutArticlesNestedInput
-    tags?: ArticleTagUpdateManyWithoutArticleNestedInput
-    comments?: CommentUpdateManyWithoutArticleNestedInput
-    ads?: ArticleAdUpdateManyWithoutArticleNestedInput
-    activities?: ArticleActivityUpdateManyWithoutArticleNestedInput
-  }
-
-  export type ArticleUncheckedUpdateWithoutAuthorInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
-    featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
-    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
-    isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
-    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
-    isTrending?: BoolFieldUpdateOperationsInput | boolean
-    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
-    isSponsored?: BoolFieldUpdateOperationsInput | boolean
-    isExclusiveNews?: BoolFieldUpdateOperationsInput | boolean
-    viewCount?: IntFieldUpdateOperationsInput | number
-    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    metaKeywords?: NullableStringFieldUpdateOperationsInput | string | null
-    readingTime?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
-    authorName?: NullableStringFieldUpdateOperationsInput | string | null
-    tags?: ArticleTagUncheckedUpdateManyWithoutArticleNestedInput
-    comments?: CommentUncheckedUpdateManyWithoutArticleNestedInput
-    ads?: ArticleAdUncheckedUpdateManyWithoutArticleNestedInput
-    activities?: ArticleActivityUncheckedUpdateManyWithoutArticleNestedInput
-  }
-
-  export type ArticleUncheckedUpdateManyWithoutAuthorInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
-    featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
-    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
-    isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
-    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
-    isTrending?: BoolFieldUpdateOperationsInput | boolean
-    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
-    isSponsored?: BoolFieldUpdateOperationsInput | boolean
-    isExclusiveNews?: BoolFieldUpdateOperationsInput | boolean
-    viewCount?: IntFieldUpdateOperationsInput | number
-    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    metaKeywords?: NullableStringFieldUpdateOperationsInput | string | null
-    readingTime?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
-    authorName?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type UserModulePermissionUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    canView?: BoolFieldUpdateOperationsInput | boolean
-    canCreate?: BoolFieldUpdateOperationsInput | boolean
-    canEdit?: BoolFieldUpdateOperationsInput | boolean
-    canDelete?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    module?: ModuleUpdateOneRequiredWithoutPermissionsNestedInput
-  }
-
-  export type UserModulePermissionUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    moduleId?: StringFieldUpdateOperationsInput | string
-    canView?: BoolFieldUpdateOperationsInput | boolean
-    canCreate?: BoolFieldUpdateOperationsInput | boolean
-    canEdit?: BoolFieldUpdateOperationsInput | boolean
-    canDelete?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type UserModulePermissionUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    moduleId?: StringFieldUpdateOperationsInput | string
-    canView?: BoolFieldUpdateOperationsInput | boolean
-    canCreate?: BoolFieldUpdateOperationsInput | boolean
-    canEdit?: BoolFieldUpdateOperationsInput | boolean
-    canDelete?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type NotificationUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
-    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
-    isRead?: BoolFieldUpdateOperationsInput | boolean
-    link?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type NotificationUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
-    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
-    isRead?: BoolFieldUpdateOperationsInput | boolean
-    link?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type NotificationUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
-    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
-    isRead?: BoolFieldUpdateOperationsInput | boolean
-    link?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  export type UserModulePermissionCreateManyUserInput = {
+    id?: string
+    moduleId: string
+    canView?: boolean
+    canCreate?: boolean
+    canEdit?: boolean
+    canDelete?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type AdUpdateWithoutCreatorInput = {
@@ -42242,17 +42017,17 @@ export namespace Prisma {
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumAdStatusFieldUpdateOperationsInput | $Enums.AdStatus
     priority?: IntFieldUpdateOperationsInput | number
-    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
-    ratio?: NullableStringFieldUpdateOperationsInput | string | null
-    pageName?: NullableStringFieldUpdateOperationsInput | string | null
-    placementName?: NullableStringFieldUpdateOperationsInput | string | null
     impressions?: IntFieldUpdateOperationsInput | number
     clicks?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
+    placementName?: NullableStringFieldUpdateOperationsInput | string | null
+    ratio?: NullableStringFieldUpdateOperationsInput | string | null
+    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
+    analytics?: AdAnalyticsUpdateManyWithoutAdNestedInput
     placements?: AdPlacementUpdateManyWithoutAdNestedInput
     articles?: ArticleAdUpdateManyWithoutAdNestedInput
-    analytics?: AdAnalyticsUpdateManyWithoutAdNestedInput
   }
 
   export type AdUncheckedUpdateWithoutCreatorInput = {
@@ -42267,17 +42042,17 @@ export namespace Prisma {
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumAdStatusFieldUpdateOperationsInput | $Enums.AdStatus
     priority?: IntFieldUpdateOperationsInput | number
-    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
-    ratio?: NullableStringFieldUpdateOperationsInput | string | null
-    pageName?: NullableStringFieldUpdateOperationsInput | string | null
-    placementName?: NullableStringFieldUpdateOperationsInput | string | null
     impressions?: IntFieldUpdateOperationsInput | number
     clicks?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
+    placementName?: NullableStringFieldUpdateOperationsInput | string | null
+    ratio?: NullableStringFieldUpdateOperationsInput | string | null
+    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
+    analytics?: AdAnalyticsUncheckedUpdateManyWithoutAdNestedInput
     placements?: AdPlacementUncheckedUpdateManyWithoutAdNestedInput
     articles?: ArticleAdUncheckedUpdateManyWithoutAdNestedInput
-    analytics?: AdAnalyticsUncheckedUpdateManyWithoutAdNestedInput
   }
 
   export type AdUncheckedUpdateManyWithoutCreatorInput = {
@@ -42292,14 +42067,109 @@ export namespace Prisma {
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumAdStatusFieldUpdateOperationsInput | $Enums.AdStatus
     priority?: IntFieldUpdateOperationsInput | number
-    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
-    ratio?: NullableStringFieldUpdateOperationsInput | string | null
-    pageName?: NullableStringFieldUpdateOperationsInput | string | null
-    placementName?: NullableStringFieldUpdateOperationsInput | string | null
     impressions?: IntFieldUpdateOperationsInput | number
     clicks?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
+    placementName?: NullableStringFieldUpdateOperationsInput | string | null
+    ratio?: NullableStringFieldUpdateOperationsInput | string | null
+    targetPage?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ArticleUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
+    viewCount?: IntFieldUpdateOperationsInput | number
+    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    metaKeywords?: NullableStringFieldUpdateOperationsInput | string | null
+    readingTime?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    isSponsored?: BoolFieldUpdateOperationsInput | boolean
+    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
+    isTrending?: BoolFieldUpdateOperationsInput | boolean
+    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
+    isExclusiveNews?: BoolFieldUpdateOperationsInput | boolean
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: CategoryUpdateOneWithoutArticlesNestedInput
+    activities?: ArticleActivityUpdateManyWithoutArticleNestedInput
+    ads?: ArticleAdUpdateManyWithoutArticleNestedInput
+    tags?: ArticleTagUpdateManyWithoutArticleNestedInput
+    comments?: CommentUpdateManyWithoutArticleNestedInput
+  }
+
+  export type ArticleUncheckedUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
+    viewCount?: IntFieldUpdateOperationsInput | number
+    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    metaKeywords?: NullableStringFieldUpdateOperationsInput | string | null
+    readingTime?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    isSponsored?: BoolFieldUpdateOperationsInput | boolean
+    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
+    isTrending?: BoolFieldUpdateOperationsInput | boolean
+    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
+    isExclusiveNews?: BoolFieldUpdateOperationsInput | boolean
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
+    activities?: ArticleActivityUncheckedUpdateManyWithoutArticleNestedInput
+    ads?: ArticleAdUncheckedUpdateManyWithoutArticleNestedInput
+    tags?: ArticleTagUncheckedUpdateManyWithoutArticleNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutArticleNestedInput
+  }
+
+  export type ArticleUncheckedUpdateManyWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    featuredImage?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    isBreakingNews?: BoolFieldUpdateOperationsInput | boolean
+    viewCount?: IntFieldUpdateOperationsInput | number
+    scheduledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    metaKeywords?: NullableStringFieldUpdateOperationsInput | string | null
+    readingTime?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    featuredImageTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    isSponsored?: BoolFieldUpdateOperationsInput | boolean
+    isTopHeadline?: BoolFieldUpdateOperationsInput | boolean
+    isTrending?: BoolFieldUpdateOperationsInput | boolean
+    isUaeNews?: BoolFieldUpdateOperationsInput | boolean
+    isExclusiveNews?: BoolFieldUpdateOperationsInput | boolean
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ArticleActivityUpdateWithoutUserInput = {
@@ -42324,39 +42194,6 @@ export namespace Prisma {
     details?: NullableJsonNullValueInput | InputJsonValue
     articleId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type SiteSettingUpdateWithoutUpdatedByUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    key?: StringFieldUpdateOperationsInput | string
-    value?: JsonNullValueInput | InputJsonValue
-    type?: EnumSettingTypeFieldUpdateOperationsInput | $Enums.SettingType
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    isPublic?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type SiteSettingUncheckedUpdateWithoutUpdatedByUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    key?: StringFieldUpdateOperationsInput | string
-    value?: JsonNullValueInput | InputJsonValue
-    type?: EnumSettingTypeFieldUpdateOperationsInput | $Enums.SettingType
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    isPublic?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type SiteSettingUncheckedUpdateManyWithoutUpdatedByUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    key?: StringFieldUpdateOperationsInput | string
-    value?: JsonNullValueInput | InputJsonValue
-    type?: EnumSettingTypeFieldUpdateOperationsInput | $Enums.SettingType
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    isPublic?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MediaUpdateWithoutUploaderInput = {
@@ -42403,6 +42240,169 @@ export namespace Prisma {
     height?: NullableIntFieldUpdateOperationsInput | number | null
     alt?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumMediaTypeFieldUpdateOperationsInput | $Enums.MediaType
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SiteSettingUpdateWithoutUpdatedByUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    value?: JsonNullValueInput | InputJsonValue
+    type?: EnumSettingTypeFieldUpdateOperationsInput | $Enums.SettingType
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SiteSettingUncheckedUpdateWithoutUpdatedByUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    value?: JsonNullValueInput | InputJsonValue
+    type?: EnumSettingTypeFieldUpdateOperationsInput | $Enums.SettingType
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SiteSettingUncheckedUpdateManyWithoutUpdatedByUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    value?: JsonNullValueInput | InputJsonValue
+    type?: EnumSettingTypeFieldUpdateOperationsInput | $Enums.SettingType
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserUpdateWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    canCreateUsers?: BoolFieldUpdateOperationsInput | boolean
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ads?: AdUpdateManyWithoutCreatorNestedInput
+    articles?: ArticleUpdateManyWithoutAuthorNestedInput
+    articleActivities?: ArticleActivityUpdateManyWithoutUserNestedInput
+    media?: MediaUpdateManyWithoutUploaderNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    settings?: SiteSettingUpdateManyWithoutUpdatedByUserNestedInput
+    createdUsers?: UserUpdateManyWithoutCreatorNestedInput
+    modules?: UserModulePermissionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    canCreateUsers?: BoolFieldUpdateOperationsInput | boolean
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ads?: AdUncheckedUpdateManyWithoutCreatorNestedInput
+    articles?: ArticleUncheckedUpdateManyWithoutAuthorNestedInput
+    articleActivities?: ArticleActivityUncheckedUpdateManyWithoutUserNestedInput
+    media?: MediaUncheckedUpdateManyWithoutUploaderNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    settings?: SiteSettingUncheckedUpdateManyWithoutUpdatedByUserNestedInput
+    createdUsers?: UserUncheckedUpdateManyWithoutCreatorNestedInput
+    modules?: UserModulePermissionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateManyWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    canCreateUsers?: BoolFieldUpdateOperationsInput | boolean
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserModulePermissionUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    canView?: BoolFieldUpdateOperationsInput | boolean
+    canCreate?: BoolFieldUpdateOperationsInput | boolean
+    canEdit?: BoolFieldUpdateOperationsInput | boolean
+    canDelete?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    module?: ModuleUpdateOneRequiredWithoutPermissionsNestedInput
+  }
+
+  export type UserModulePermissionUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    moduleId?: StringFieldUpdateOperationsInput | string
+    canView?: BoolFieldUpdateOperationsInput | boolean
+    canCreate?: BoolFieldUpdateOperationsInput | boolean
+    canEdit?: BoolFieldUpdateOperationsInput | boolean
+    canDelete?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserModulePermissionUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    moduleId?: StringFieldUpdateOperationsInput | string
+    canView?: BoolFieldUpdateOperationsInput | boolean
+    canCreate?: BoolFieldUpdateOperationsInput | boolean
+    canEdit?: BoolFieldUpdateOperationsInput | boolean
+    canDelete?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

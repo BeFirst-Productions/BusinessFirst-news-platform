@@ -1,7 +1,5 @@
-// Ad, AdSpace, AdPlacement models
-
 model Ad {
-  id            String   @id @default(uuid())
+  id            String        @id @default(uuid())
   name          String
   description   String?
   type          AdType
@@ -10,22 +8,21 @@ model Ad {
   redirectUrl   String?
   startDate     DateTime
   endDate       DateTime
-  status        AdStatus @default(ACTIVE)
-  priority      Int      @default(0)
-  targetPage    String?
-  ratio         String?
+  status        AdStatus      @default(ACTIVE)
+  priority      Int           @default(0)
+  impressions   Int           @default(0)
+  clicks        Int           @default(0)
+  createdBy     String
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
   pageName      String?
   placementName String?
-  impressions   Int      @default(0)
-  clicks        Int      @default(0)
-  createdBy     String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  creator    User          @relation(fields: [createdBy], references: [id])
-  placements AdPlacement[]
-  articles   ArticleAd[]
-  analytics  AdAnalytics[]
+  ratio         String?
+  targetPage    String?
+  creator       User          @relation(fields: [createdBy], references: [id])
+  analytics     AdAnalytics[]
+  placements    AdPlacement[]
+  articles      ArticleAd[]
 
   @@index([status])
   @@index([startDate, endDate])
@@ -33,16 +30,15 @@ model Ad {
 }
 
 model AdSpace {
-  id          String   @id @default(uuid())
-  name        String   @unique
-  code        String   @unique
+  id          String        @id @default(uuid())
+  name        String        @unique
+  code        String        @unique
   description String?
-  maxAds      Int      @default(1)
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  placements AdPlacement[]
+  maxAds      Int           @default(1)
+  isActive    Boolean       @default(true)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  placements  AdPlacement[]
 
   @@index([code])
   @@index([isActive])
@@ -56,9 +52,8 @@ model AdPlacement {
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  ad      Ad      @relation(fields: [adId], references: [id], onDelete: Cascade)
-  adSpace AdSpace @relation(fields: [adSpaceId], references: [id], onDelete: Cascade)
+  ad        Ad       @relation(fields: [adId], references: [id], onDelete: Cascade)
+  adSpace   AdSpace  @relation(fields: [adSpaceId], references: [id], onDelete: Cascade)
 
   @@unique([adId, adSpaceId])
   @@index([adSpaceId])
@@ -72,9 +67,8 @@ model ArticleAd {
   position  String
   order     Int      @default(0)
   createdAt DateTime @default(now())
-
-  article Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
-  ad      Ad      @relation(fields: [adId], references: [id], onDelete: Cascade)
+  ad        Ad       @relation(fields: [adId], references: [id], onDelete: Cascade)
+  article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
 
   @@unique([articleId, adId, position])
   @@index([articleId])
@@ -88,50 +82,46 @@ model AdAnalytics {
   clicks      Int      @default(0)
   date        DateTime @default(now())
   createdAt   DateTime @default(now())
-
-  ad Ad @relation(fields: [adId], references: [id], onDelete: Cascade)
+  ad          Ad       @relation(fields: [adId], references: [id], onDelete: Cascade)
 
   @@index([adId, date])
   @@index([date])
 }
 
-// Article, Comment, Tag models
-
 model Article {
-  id                 String        @id @default(uuid())
+  id                 String            @id @default(uuid())
   title              String
-  slug               String        @unique
+  slug               String            @unique
   content            String
   excerpt            String?
   featuredImage      String?
-  featuredImageTitle String?
-  status             ArticleStatus @default(DRAFT)
-  isFeatured         Boolean       @default(false)
-  isBreakingNews     Boolean       @default(false)
-  isTopHeadline      Boolean       @default(false)
-  isTrending         Boolean       @default(false)
-  isUaeNews          Boolean       @default(false)
-  isSponsored        Boolean       @default(false)
-  isExclusiveNews    Boolean       @default(false)
-  viewCount          Int           @default(0)
+  status             ArticleStatus     @default(DRAFT)
+  isFeatured         Boolean           @default(false)
+  isBreakingNews     Boolean           @default(false)
+  viewCount          Int               @default(0)
   scheduledAt        DateTime?
   publishedAt        DateTime?
   metaTitle          String?
   metaDescription    String?
   metaKeywords       String?
-  readingTime        Int           @default(0)
-  createdAt          DateTime      @default(now())
-  updatedAt          DateTime      @updatedAt
-
-  categoryId String?
-  category   Category?         @relation(fields: [categoryId], references: [id], onDelete: SetNull)
-  authorId   String
-  author     User              @relation(fields: [authorId], references: [id])
-  authorName String?
-  tags       ArticleTag[]
-  comments   Comment[]
-  ads        ArticleAd[]
-  activities ArticleActivity[]
+  readingTime        Int               @default(0)
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+  categoryId         String?
+  authorId           String
+  featuredImageTitle String?
+  isSponsored        Boolean           @default(false)
+  isTopHeadline      Boolean           @default(false)
+  isTrending         Boolean           @default(false)
+  isUaeNews          Boolean           @default(false)
+  isExclusiveNews    Boolean           @default(false)
+  authorName         String?
+  author             User              @relation(fields: [authorId], references: [id])
+  category           Category?         @relation(fields: [categoryId], references: [id])
+  activities         ArticleActivity[]
+  ads                ArticleAd[]
+  tags               ArticleTag[]
+  comments           Comment[]
 
   @@index([slug])
   @@index([status])
@@ -145,14 +135,13 @@ model Article {
 }
 
 model Tag {
-  id          String   @id @default(uuid())
-  name        String   @unique
-  slug        String   @unique
+  id          String       @id @default(uuid())
+  name        String       @unique
+  slug        String       @unique
   description String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  articles ArticleTag[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  articles    ArticleTag[]
 
   @@index([slug])
   @@index([name])
@@ -177,9 +166,8 @@ model ArticleActivity {
   userId    String
   articleId String?
   createdAt DateTime @default(now())
-
-  user    User     @relation(fields: [userId], references: [id])
-  article Article? @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  article   Article? @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id])
 
   @@index([articleId])
   @@index([userId])
@@ -187,19 +175,18 @@ model ArticleActivity {
 }
 
 model Comment {
-  id         String   @id @default(uuid())
+  id         String    @id @default(uuid())
   content    String
   userName   String
   userEmail  String
-  isApproved Boolean  @default(false)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-
-  articleId String
-  article   Article   @relation(fields: [articleId], references: [id], onDelete: Cascade)
-  parentId  String?
-  parent    Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: SetNull)
-  replies   Comment[] @relation("CommentReplies")
+  isApproved Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  articleId  String
+  parentId   String?
+  article    Article   @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  parent     Comment?  @relation("CommentReplies", fields: [parentId], references: [id])
+  replies    Comment[] @relation("CommentReplies")
 
   @@index([articleId])
   @@index([parentId])
@@ -207,16 +194,12 @@ model Comment {
   @@index([createdAt])
 }
 
-// Category model
-
 model Category {
   id              String     @id @default(uuid())
   name            String     @unique
   slug            String     @unique
   description     String?
   parentId        String?
-  parent          Category?  @relation("SubCategories", fields: [parentId], references: [id], onDelete: SetNull)
-  children        Category[] @relation("SubCategories")
   image           String?
   order           Int        @default(0)
   isActive        Boolean    @default(true)
@@ -224,17 +207,16 @@ model Category {
   metaDescription String?
   createdAt       DateTime   @default(now())
   updatedAt       DateTime   @updatedAt
-
-  articles Article[]
-  pageSeo  PageSeo[] @relation("CategorySeo")
+  articles        Article[]
+  parent          Category?  @relation("SubCategories", fields: [parentId], references: [id])
+  children        Category[] @relation("SubCategories")
+  pageSeo         PageSeo[]  @relation("CategorySeo")
 
   @@index([slug])
   @@index([parentId])
   @@index([isActive])
   @@index([order])
 }
-
-// Contact message model
 
 model ContactMessage {
   id        String    @id @default(uuid())
@@ -256,8 +238,6 @@ model ContactMessage {
   @@index([createdAt])
   @@index([email])
 }
-
-// All enums for the application
 
 enum Role {
   SUPERADMIN
@@ -281,8 +261,8 @@ enum ArticleStatus {
 enum AdType {
   IMAGE
   VIDEO
-  GIF
   BOTH
+  GIF
 }
 
 enum AdStatus {
@@ -333,15 +313,13 @@ enum PageType {
   CUSTOM
 }
 
-// Event model for Events Coverage Section
-
 model Event {
   id        String   @id @default(uuid())
   title     String
-  badge     String? // e.g., "LIVE COVERAGE"
+  badge     String?
   image     String?
-  linkUrl   String? // e.g., "/news?category=Events"
-  linkText  String? // e.g., "Explore Events"
+  linkUrl   String?
+  linkText  String?
   isActive  Boolean  @default(true)
   order     Int      @default(0)
   createdAt DateTime @default(now())
@@ -358,14 +336,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  // URL is provided via prisma.config.ts or adapter configuration
 }
-
-// Import all schema modules
-// Note: Prisma doesn't support imports natively, 
-// so we'll use a build script to merge them
-
-// Media model
 
 model Media {
   id           String    @id @default(uuid())
@@ -382,8 +353,7 @@ model Media {
   uploadedBy   String
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
-
-  uploader User @relation(fields: [uploadedBy], references: [id])
+  uploader     User      @relation(fields: [uploadedBy], references: [id])
 
   @@index([uploadedBy])
   @@index([mimeType])
@@ -391,7 +361,6 @@ model Media {
   @@index([createdAt])
 }
 
-// Newsletter subscriber model
 model Newsletter {
   id             String    @id @default(uuid())
   email          String    @unique
@@ -408,11 +377,10 @@ model Newsletter {
   @@index([token])
 }
 
-// Newsletter campaign model (tracks bulk email sends)
 model NewsletterCampaign {
   id          String         @id @default(uuid())
   subject     String
-  htmlContent String         @db.Text
+  htmlContent String
   status      CampaignStatus @default(DRAFT)
   sentCount   Int            @default(0)
   failedCount Int            @default(0)
@@ -425,8 +393,6 @@ model NewsletterCampaign {
   @@index([createdAt])
 }
 
-// Notification model
-
 model Notification {
   id        String           @id @default(uuid())
   title     String
@@ -437,73 +403,41 @@ model Notification {
   userId    String
   createdAt DateTime         @default(now())
   updatedAt DateTime         @updatedAt
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, isRead])
   @@index([createdAt])
 }
 
-// ======================================================
-// PageSeo – stores SEO metadata for each static website
-// page (home, contact, policy pages, category pages, etc.)
-//
-// NOTE: Article-level SEO is handled per-article during
-//       creation and is stored on the Article model.
-//       This model only manages STATIC PAGE SEO.
-// ======================================================
-
 model PageSeo {
-  id String @id @default(uuid())
-
-  // Identifier – the canonical slug without leading slash
-  // Examples: "", "contact", "policy/privacy", "category/tech"
-  slug String @unique
-
-  // Human-readable label shown in the admin list
-  label String
-
-  // Page type – drives the admin UI grouping and auto-linking
-  pageType PageType @default(CUSTOM)
-
-  // If pageType = CATEGORY, this links to the Category record
-  categoryId String?
-  category   Category? @relation("CategorySeo", fields: [categoryId], references: [id], onDelete: SetNull)
-
-  // Core SEO fields
+  id                 String          @id @default(uuid())
+  slug               String          @unique
+  label              String
+  pageType           PageType        @default(CUSTOM)
+  categoryId         String?
   metaTitle          String
-  metaDescription    String          @db.Text
+  metaDescription    String
   canonicalUrl       String?
   ogTitle            String?
-  ogDescription      String?         @db.Text
+  ogDescription      String?
   ogImage            String?
   twitterCard        TwitterCardType @default(SUMMARY_LARGE_IMAGE)
   twitterTitle       String?
-  twitterDescription String?         @db.Text
+  twitterDescription String?
   twitterImage       String?
+  structuredData     Json?
+  robots             String?         @default("index, follow")
+  extraMeta          Json?
+  isActive           Boolean         @default(true)
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+  category           Category?       @relation("CategorySeo", fields: [categoryId], references: [id])
 
-  // Structured data / JSON-LD blob (optional)
-  structuredData Json?
-
-  // Robots directive e.g. "index, follow" | "noindex, nofollow"
-  robots String? @default("index, follow")
-
-  // Extra <meta> tags stored as JSON array: [{name:string, content:string}]
-  extraMeta Json?
-
-  // Audit fields
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // Indexes for fast slug lookups (main query path on the web app side)
   @@index([slug])
   @@index([pageType])
   @@index([categoryId])
   @@index([isActive])
 }
-
-// Site settings model
 
 model SiteSetting {
   id            String      @id @default(uuid())
@@ -513,39 +447,38 @@ model SiteSetting {
   description   String?
   isPublic      Boolean     @default(false)
   updatedBy     String?
-  updatedByUser User?       @relation(fields: [updatedBy], references: [id])
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
+  updatedByUser User?       @relation(fields: [updatedBy], references: [id])
 
   @@index([key])
   @@index([isPublic])
 }
 
 model User {
-  id             String     @id @default(uuid())
-  email          String     @unique
-  password       String
-  name           String
-  role           Role       @default(EDITOR)
-  status         UserStatus @default(ACTIVE)
-  avatar         String?
-  bio            String?
-  canCreateUsers Boolean    @default(false)
-  createdBy      String?
-  creator        User?      @relation("UserCreations", fields: [createdBy], references: [id])
-  createdUsers   User[]     @relation("UserCreations")
-  refreshToken   String?
-  lastLoginAt    DateTime?
-  createdAt      DateTime   @default(now())
-  updatedAt      DateTime   @updatedAt
-
-  articles          Article[]
-  modules           UserModulePermission[]
-  notifications     Notification[]
+  id                String                 @id @default(uuid())
+  email             String                 @unique
+  password          String
+  name              String
+  role              Role                   @default(EDITOR)
+  status            UserStatus             @default(ACTIVE)
+  avatar            String?
+  bio               String?
+  canCreateUsers    Boolean                @default(false)
+  createdBy         String?
+  refreshToken      String?
+  lastLoginAt       DateTime?
+  createdAt         DateTime               @default(now())
+  updatedAt         DateTime               @updatedAt
   ads               Ad[]
+  articles          Article[]
   articleActivities ArticleActivity[]
-  settings          SiteSetting[]
   media             Media[]
+  notifications     Notification[]
+  settings          SiteSetting[]
+  creator           User?                  @relation("UserCreations", fields: [createdBy], references: [id])
+  createdUsers      User[]                 @relation("UserCreations")
+  modules           UserModulePermission[]
 
   @@index([email])
   @@index([role])
@@ -554,16 +487,15 @@ model User {
 }
 
 model Module {
-  id          String   @id @default(uuid())
-  name        String   @unique
-  code        String   @unique
+  id          String                 @id @default(uuid())
+  name        String                 @unique
+  code        String                 @unique
   description String?
   icon        String?
-  order       Int      @default(0)
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
+  order       Int                    @default(0)
+  isActive    Boolean                @default(true)
+  createdAt   DateTime               @default(now())
+  updatedAt   DateTime               @updatedAt
   permissions UserModulePermission[]
 
   @@index([code])
@@ -580,9 +512,8 @@ model UserModulePermission {
   canDelete Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  module Module @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  module    Module   @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, moduleId])
   @@index([userId])
