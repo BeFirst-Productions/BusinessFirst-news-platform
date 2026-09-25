@@ -251,27 +251,32 @@ class ApiClient {
     }
 
     // Parse JSON response
-    let data: ApiResponse<T>;
+    let data: any;
     try {
       data = await response.json();
     } catch {
       throw new ServerError('Invalid response format');
     }
 
-    // Handle API errors
-    if (!response.ok || !data.success) {
+    // Handle API errors: only fail if HTTP status is not OK (2xx) or explicit success === false
+    if (!response.ok || data?.success === false) {
       this.handleErrorResponse(response.status, data);
     }
 
-    return data.data as T;
+    // Return unwrapped data.data if wrapper present, otherwise raw data payload
+    if (data && typeof data === 'object' && 'data' in data && data.data !== undefined) {
+      return data.data as T;
+    }
+
+    return data as T;
   }
 
   private handleErrorResponse(statusCode: number, data: ApiResponse): never {
-    const message = data.message || 'An error occurred';
+    const message = data?.message || 'An error occurred';
 
     switch (statusCode) {
       case 400:
-        throw new ValidationError(message, data.error);
+        throw new ValidationError(message, data?.error);
       case 401:
         this.clearAuthToken();
         throw new AuthenticationError(message);
@@ -282,7 +287,7 @@ class ApiClient {
       case 409:
         throw new ApiClientError(message, 409);
       case 422:
-        throw new ValidationError(message, data.error);
+        throw new ValidationError(message, data?.error);
       case 429:
         throw new ApiClientError('Too many requests. Please try again later.', 429);
       case 500:
@@ -290,7 +295,7 @@ class ApiClient {
       case 503:
         throw new ServerError(message);
       default:
-        throw new ApiClientError(message, statusCode);
+        throw new ApiClientError(message, statusCode, data);
     }
   }
 

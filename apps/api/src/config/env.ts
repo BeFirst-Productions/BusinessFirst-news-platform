@@ -28,6 +28,7 @@ const envSchema = z.object({
   TEST_WEB_URL: z.string().url().optional(),
   TEST_ADMIN_URL: z.string().url().optional(),
   API_URL: z.string().url().default('http://localhost:8083'),
+  WEB_URL_VARIENT: z.string().url().default('https://www.businessfirstnews.com'),
 
   // SMTP
   SMTP_HOST: z.string().default('smtp.gmail.com'),

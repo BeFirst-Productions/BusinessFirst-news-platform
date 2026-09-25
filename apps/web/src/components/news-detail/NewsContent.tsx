@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import ArticleShareBar from './ArticleShareBar';
 
 interface NewsContentProps {
   imageUrl?: string;
@@ -37,13 +38,16 @@ const NewsContent: React.FC<NewsContentProps> = ({
   }
 
   return (
-    <article className="w-full flex flex-col gap-6">
+    <article className="w-full flex flex-col gap-2">
       {/* Header if provided */}
       {header && (
         <div className="block">
           {header}
         </div>
       )}
+
+      {/* Share and Copy Link Bar - Placed just above the main featured image */}
+      <ArticleShareBar title={title} />
 
       {/* Main Featured Image */}
       {imageUrl && (

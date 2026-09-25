@@ -1,4 +1,5 @@
-"use client"
+"use client";
+
 import React, { useRef, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -10,6 +11,10 @@ import { Skeleton } from './ui/Skeleton';
 
 const TopHeadlines = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const isHoveredRef = useRef<boolean>(false);
+  const isManualScrollingRef = useRef<boolean>(false);
+  const manualTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const animationFrameRef = useRef<number | null>(null);
 
   // Fetch live Top Headline articles from Express API
   const { data: articlesRes, isLoading } = useArticles({
@@ -26,7 +31,7 @@ const TopHeadlines = () => {
     category: h.category?.name || 'News',
     date: h.publishedAt
       ? new Date(h.publishedAt).toLocaleDateString('en-US', {
-        month: 'long',
+        month: 'short',
         day: 'numeric',
         year: 'numeric',
       })
@@ -35,13 +40,12 @@ const TopHeadlines = () => {
     slug: h.slug,
   }));
 
-  // Ensure we repeat the headlines list enough times to have at least 15 items.
-  // This guarantees there is always enough scroll range for infinite loop resets.
+  // Ensure we repeat the headlines list enough times to have at least 15 items
   const minRequiredItems = 15;
   const replicateCount = headlines.length > 0 ? Math.max(3, Math.ceil(minRequiredItems / headlines.length)) : 0;
   const listToRender = headlines.length > 0 ? Array(replicateCount).fill(headlines).flat() : [];
 
-  // Scroll to the start of the second cycle on load to allow scrolling left and right immediately
+  // Scroll to the start of the second cycle on load
   useEffect(() => {
     if (headlines.length === 0) return;
 
@@ -53,51 +57,55 @@ const TopHeadlines = () => {
     }
   }, [headlines.length]);
 
-  // Set up the auto-scrolling interval
+  // Continuous smooth auto-scrolling ticker with requestAnimationFrame
   useEffect(() => {
     if (headlines.length === 0) return;
 
-    let intervalId: NodeJS.Timeout;
+    const scrollAmount = window.innerWidth >= 768 ? 340 + 16 : 300 + 16;
+    const singleSetWidth = headlines.length * scrollAmount;
 
-    const startAutoScroll = () => {
-      intervalId = setInterval(() => {
-        if (scrollRef.current) {
-          const container = scrollRef.current;
-          const scrollAmount = window.innerWidth >= 768 ? 340 + 16 : 300 + 16;
-          container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    const step = () => {
+      if (
+        scrollRef.current && 
+        !isHoveredRef.current && 
+        !isManualScrollingRef.current
+      ) {
+        const container = scrollRef.current;
+        // Continuous smooth sub-pixel scroll increment
+        container.scrollLeft += 0.75;
+
+        // Seamless infinite loop reset
+        if (container.scrollLeft >= singleSetWidth * 2) {
+          container.scrollLeft -= singleSetWidth;
+        } else if (container.scrollLeft <= 0) {
+          container.scrollLeft += singleSetWidth;
         }
-      }, 3000); // 3 seconds interval
+      }
+      animationFrameRef.current = requestAnimationFrame(step);
     };
 
-    startAutoScroll();
-
-    const handleResize = () => {
-      clearInterval(intervalId);
-      startAutoScroll();
-    };
-
-    window.addEventListener('resize', handleResize);
+    animationFrameRef.current = requestAnimationFrame(step);
 
     return () => {
-      clearInterval(intervalId);
-      window.removeEventListener('resize', handleResize);
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+      if (manualTimeoutRef.current) {
+        clearTimeout(manualTimeoutRef.current);
+      }
     };
   }, [headlines.length]);
 
-  // Handle manual wrapping when scrolling past Cycle boundaries
+  // Handle manual wrapping when scrolling past boundaries
   const handleScroll = () => {
     if (scrollRef.current) {
       const container = scrollRef.current;
       const scrollAmount = window.innerWidth >= 768 ? 340 + 16 : 300 + 16;
       const singleSetWidth = headlines.length * scrollAmount;
 
-      // Wrapping logic:
-      // If we scroll past the end of Cycle 2 (entering Cycle 3), subtract singleSetWidth
       if (container.scrollLeft >= singleSetWidth * 2) {
         container.scrollLeft = container.scrollLeft - singleSetWidth;
-      }
-      // If we scroll past the start of Cycle 2 (entering Cycle 1), add singleSetWidth
-      else if (container.scrollLeft <= 0) {
+      } else if (container.scrollLeft <= 0) {
         container.scrollLeft = container.scrollLeft + singleSetWidth;
       }
     }
@@ -105,11 +113,22 @@ const TopHeadlines = () => {
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
-      const scrollAmount = 350 + 16; // card width + gap
+      // Temporarily pause auto-ticker so smooth button scrolling works cleanly
+      isManualScrollingRef.current = true;
+      if (manualTimeoutRef.current) clearTimeout(manualTimeoutRef.current);
+
+      const cardWidth = window.innerWidth >= 768 ? 340 + 16 : 300 + 16;
+      const delta = direction === 'left' ? -cardWidth : cardWidth;
+      
       scrollRef.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        left: delta,
         behavior: 'smooth'
       });
+
+      // Resume auto-ticker 1.2s after manual scroll
+      manualTimeoutRef.current = setTimeout(() => {
+        isManualScrollingRef.current = false;
+      }, 1200);
     }
   };
 
@@ -150,53 +169,68 @@ const TopHeadlines = () => {
       <SectionTitle title="Top Headlines" />
 
       {/* Carousel Container */}
-      <div className="relative group px-0 md:px-12">
-        {/* Left Arrow */}
+      <div 
+        className="relative group px-0 md:px-12"
+        onMouseEnter={() => { isHoveredRef.current = true; }}
+        onMouseLeave={() => { isHoveredRef.current = false; }}
+      >
+        {/* Left Arrow Button */}
         <button
-          onClick={() => scroll('left')}
-          className="hidden md:block absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-[#cd2027] hover:bg-[#a61a1f] text-white p-1.5 md:p-2 rounded-full shadow-md transition-colors"
+          onClick={(e) => {
+            e.stopPropagation();
+            scroll('left');
+          }}
+          className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-[#cd2027] hover:bg-[#a61a1f] text-white p-2.5 rounded-full shadow-lg transition-all duration-200 cursor-pointer items-center justify-center hover:scale-110 active:scale-95"
           aria-label="Scroll left"
         >
           <ChevronLeft size={20} />
         </button>
 
-        {/* Scrollable Area */}
+        {/* Scrollable Continuous Area */}
         <div
           ref={scrollRef}
           onScroll={handleScroll}
-          className="flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory py-2 px-4 md:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+          className="flex gap-4 overflow-x-auto scrollbar-hide py-2 px-4 md:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
         >
           {listToRender.map((item, index) => (
             <Link
               href={`/news/${item.slug}`}
               key={`${item.id}-${index}`}
-              className="flex bg-white rounded-lg border border-gray-200 overflow-hidden w-[300px] md:w-[340px] shrink-0 h-[100px] shadow-sm hover:shadow-md transition-shadow snap-start cursor-pointer"
+              className="flex bg-white rounded-lg border border-gray-200 overflow-hidden w-[300px] md:w-[340px] shrink-0 h-[100px] shadow-sm hover:shadow-md transition-all cursor-pointer group/card"
             >
-              <div className="relative w-2/5 h-full">
+              <div className="relative w-2/5 h-full overflow-hidden">
                 <Image
                   src={item.image}
                   alt={item.title}
                   fill
-                  className="object-cover"
+                  className="object-cover group-hover/card:scale-105 transition-transform duration-300"
                   sizes="150px"
                 />
               </div>
-              <div className="w-3/5 p-3 flex flex-col justify-between bg-white">
-                <h3 className="text-[#24214c] font-bold text-xs sm:text-sm md:text-[16px] leading-snug line-clamp-2 hover:text-[#cd2027] transition-colors font-newsreader">
+              <div className="w-3/5 p-2.5 flex flex-col justify-between bg-white overflow-hidden">
+                <h3 className="text-[#24214c] font-bold text-xs sm:text-sm leading-snug line-clamp-2 group-hover/card:text-[#cd2027] transition-colors font-newsreader">
                   {item.title}
                 </h3>
-                <span className="text-[10px] md:text-[11px] text-gray-500 font-medium">
-                  {item.category} | {item.date}
-                </span>
+                <div className="flex flex-col gap-0.5 mt-1 shrink-0">
+                  <span className="text-[10px] md:text-[11px] font-bold text-[#cd2027] uppercase tracking-wider truncate">
+                    {item.category}
+                  </span>
+                  <span className="text-[10px] text-gray-500 font-medium whitespace-nowrap truncate">
+                    {item.date}
+                  </span>
+                </div>
               </div>
             </Link>
           ))}
         </div>
 
-        {/* Right Arrow */}
+        {/* Right Arrow Button */}
         <button
-          onClick={() => scroll('right')}
-          className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-[#cd2027] hover:bg-[#a61a1f] text-white p-1.5 md:p-2 rounded-full shadow-md transition-colors"
+          onClick={(e) => {
+            e.stopPropagation();
+            scroll('right');
+          }}
+          className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-[#cd2027] hover:bg-[#a61a1f] text-white p-2.5 rounded-full shadow-lg transition-all duration-200 cursor-pointer items-center justify-center hover:scale-110 active:scale-95"
           aria-label="Scroll right"
         >
           <ChevronRight size={20} />

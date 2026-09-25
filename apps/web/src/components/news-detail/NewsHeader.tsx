@@ -11,7 +11,7 @@ const NewsHeader: React.FC<NewsHeaderProps> = ({ title, description, author, dat
   const metaText = [author, date].filter(Boolean).join(' | ');
 
   return (
-    <div className="flex flex-col gap-4 mb-8">
+    <div className="flex flex-col gap-4 mb-2">
       <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#BF2025] leading-tight font-newsreader">
         {title}
       </h1>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Merriweather } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -16,6 +17,9 @@ const merriweather = Merriweather({
 export const metadata: Metadata = {
   title: "Business First",
   description: "News Platform",
+  verification: {
+    google: "7pGvKdN-HajcDRziuuSmBLQpU_68TH3Es6n8CfFoIg0",
+  },
   icons: {
     icon: [
       { url: '/logo/logo.svg', type: 'image/svg+xml' },
@@ -48,6 +52,21 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col relative font-sans">
+        {/* Google Analytics (gtag.js) */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-FF43EBK0GL"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-FF43EBK0GL');
+          `}
+        </Script>
+
         <Providers>
           <Header />
           {children}

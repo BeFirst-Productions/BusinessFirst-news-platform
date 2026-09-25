@@ -67,9 +67,14 @@ const NewsColumn: React.FC<NewsColumnProps> = ({
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
                 />
               </div>
-              <span className="text-xs text-gray-500 font-medium mt-1">
-                {featured.category ? `${featured.category} | ` : ''}{featured.date}
-              </span>
+              <div className="flex flex-col gap-0.5 mt-1">
+                <span className="text-[11px] md:text-[12px] font-bold text-[#cd2027] uppercase tracking-wider truncate">
+                  {featured.category}
+                </span>
+                <span className="text-[11px] md:text-[12px] text-gray-500 font-medium whitespace-nowrap">
+                  {featured.date}
+                </span>
+              </div>
               <h3 className="text-[#24214c] font-bold text-lg xl:text-[22px] leading-tight group-hover:text-[#cd2027] transition-colors line-clamp-2 min-h-0 md:min-h-[45px] break-words font-newsreader">
                 {featured.title}
               </h3>
@@ -93,9 +98,14 @@ const NewsColumn: React.FC<NewsColumnProps> = ({
                     <h4 className="text-[#24214c] font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#cd2027] transition-colors line-clamp-2 min-h-0 md:min-h-[2.4rem] break-words font-newsreader">
                       {item.title}
                     </h4>
-                    <span className="text-[10px] md:text-[11px] text-gray-500 font-medium mt-auto">
-                      {item.category ? `${item.category} | ` : ''}{item.date}
-                    </span>
+                    <div className="flex flex-col gap-0.5 mt-auto">
+                      <span className="text-[10px] md:text-[11px] font-bold text-[#cd2027] uppercase tracking-wider truncate">
+                        {item.category}
+                      </span>
+                      <span className="text-[10px] md:text-[11px] text-gray-500 font-medium whitespace-nowrap truncate">
+                        {item.date}
+                      </span>
+                    </div>
                   </div>
                 </Link>
               ))}
@@ -123,9 +133,14 @@ const NewsColumn: React.FC<NewsColumnProps> = ({
                     <h4 className="text-[#24214c] font-bold text-xs sm:text-sm md:text-[16px] leading-snug group-hover:text-[#cd2027] transition-colors line-clamp-2 font-newsreader">
                       {item.title}
                     </h4>
-                    <span className="text-[10px] md:text-[11px] text-gray-500 font-medium leading-tight">
-                      {item.category ? `${item.category} | ` : ''}{item.date}
-                    </span>
+                    <div className="flex flex-col gap-0.5 mt-auto">
+                      <span className="text-[10px] md:text-[11px] font-bold text-[#cd2027] uppercase tracking-wider truncate">
+                        {item.category}
+                      </span>
+                      <span className="text-[10px] md:text-[11px] text-gray-500 font-medium whitespace-nowrap truncate">
+                        {item.date}
+                      </span>
+                    </div>
                   </div>
                 </Link>
               ))}
