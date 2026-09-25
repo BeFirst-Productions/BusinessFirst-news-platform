@@ -47,7 +47,7 @@ async function bootstrap() {
   }));
 
   // CORS configuration
-  const allowedOrigins = [env.WEB_URL, env.ADMIN_URL];
+  const allowedOrigins = [env.WEB_URL, env.ADMIN_URL, env.WEB_URL_VARIENT];
   if (env.TEST_WEB_URL) allowedOrigins.push(env.TEST_WEB_URL);
   if (env.TEST_ADMIN_URL) allowedOrigins.push(env.TEST_ADMIN_URL);
 
