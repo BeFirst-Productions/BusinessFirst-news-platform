@@ -37,11 +37,11 @@ const AdvertiseSidebar: React.FC<AdvertiseSidebarProps> = ({ onOpenMediaKit }) =
             </div>
             <div className="flex flex-col">
               <span className="text-white/60 text-xs font-semibold uppercase tracking-wider">Email Inquiry</span>
-              <a 
-                href="mailto:advertise@businessfirstnews.com" 
+              <a
+                href="mailto:ads@businessfirstnews.com"
                 className="text-sm font-semibold hover:text-[#fbbf24] transition break-all mt-0.5"
               >
-                advertise@businessfirstnews.com
+                ads@businessfirstnews.com
               </a>
               <span className="text-[11px] text-white/50">info@businessfirstnews.com</span>
             </div>
@@ -54,16 +54,16 @@ const AdvertiseSidebar: React.FC<AdvertiseSidebarProps> = ({ onOpenMediaKit }) =
             </div>
             <div className="flex flex-col">
               <span className="text-white/60 text-xs font-semibold uppercase tracking-wider">Call / WhatsApp</span>
-              <a 
-                href="tel:+97141234567" 
+              <a
+                href="tel:+97141234567"
                 className="text-sm font-semibold hover:text-emerald-400 transition mt-0.5"
               >
-                +971 4 123 4567
+                +971 58 898 4455
               </a>
-              <a 
-                href="https://wa.me/97141234567" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <a
+                href="https://wa.me/97141234567"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-xs text-emerald-400 hover:underline inline-flex items-center gap-1 mt-0.5 font-medium"
               >
                 <MessageSquare size={12} /> Chat on WhatsApp
@@ -120,8 +120,8 @@ const AdvertiseSidebar: React.FC<AdvertiseSidebarProps> = ({ onOpenMediaKit }) =
           <span className="text-white/60 text-xs font-semibold uppercase tracking-wider">Follow Us</span>
           <div className="flex items-center gap-3">
             {/* Instagram */}
-            <a 
-              href="https://www.instagram.com/businessfirstuae" 
+            <a
+              href="https://www.instagram.com/businessfirstuae"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Instagram"
@@ -131,8 +131,8 @@ const AdvertiseSidebar: React.FC<AdvertiseSidebarProps> = ({ onOpenMediaKit }) =
             </a>
 
             {/* LinkedIn */}
-            <a 
-              href="https://www.linkedin.com/company/109375094/" 
+            <a
+              href="https://www.linkedin.com/company/109375094/"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"
@@ -142,8 +142,8 @@ const AdvertiseSidebar: React.FC<AdvertiseSidebarProps> = ({ onOpenMediaKit }) =
             </a>
 
             {/* Facebook */}
-            <a 
-              href="https://www.facebook.com/businessfirstuae" 
+            <a
+              href="https://www.facebook.com/businessfirstuae"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Facebook"
@@ -153,8 +153,8 @@ const AdvertiseSidebar: React.FC<AdvertiseSidebarProps> = ({ onOpenMediaKit }) =
             </a>
 
             {/* X */}
-            <a 
-              href="https://x.com/businessfirstuae" 
+            <a
+              href="https://x.com/businessfirstuae"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="X (Twitter)"

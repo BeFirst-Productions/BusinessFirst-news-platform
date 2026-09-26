@@ -40,7 +40,7 @@ const ContactSocials = () => {
             <div className="flex flex-col gap-1">
               <span className="text-white/60 text-xs font-semibold uppercase tracking-wider">Phone</span>
               <a href="tel:+97141234567" className="text-sm font-medium hover:text-[#fbbf24] transition-colors">
-                +971 4 123 4567
+                +971 58 898 4455
               </a>
             </div>
           </div> */}
@@ -67,8 +67,8 @@ const ContactSocials = () => {
           <span className="text-white/60 text-xs font-semibold uppercase tracking-wider">Follow Us</span>
           <div className="flex items-center gap-4">
             {/* Instagram */}
-            <a 
-              href="https://www.instagram.com/businessfirstuae" 
+            <a
+              href="https://www.instagram.com/businessfirstuae"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Instagram"
@@ -78,8 +78,8 @@ const ContactSocials = () => {
             </a>
 
             {/* X (Twitter) */}
-            <a 
-              href="https://x.com" 
+            <a
+              href="https://x.com"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="X (Twitter)"
@@ -89,8 +89,8 @@ const ContactSocials = () => {
             </a>
 
             {/* LinkedIn */}
-            <a 
-              href="https://www.linkedin.com/company/109375094" 
+            <a
+              href="https://www.linkedin.com/company/109375094"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"
@@ -100,8 +100,8 @@ const ContactSocials = () => {
             </a>
 
             {/* Facebook */}
-            <a 
-              href="https://www.facebook.com/businessfirstuae" 
+            <a
+              href="https://www.facebook.com/businessfirstuae"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Facebook"

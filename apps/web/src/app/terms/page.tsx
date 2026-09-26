@@ -792,8 +792,8 @@ export default function TermsPage() {
                     </div>
                     <div>
                       <p className="text-white/50 text-[11px] uppercase font-bold">Advertising &amp; Commercial</p>
-                      <a href="mailto:advertise@businessfirstnews.com" className="text-white hover:text-[#fbbf24] font-semibold break-all">
-                        advertise@businessfirstnews.com
+                      <a href="mailto:ads@businessfirstnews.com" className="text-white hover:text-[#fbbf24] font-semibold break-all">
+                        ads@businessfirstnews.com
                       </a>
                     </div>
                   </div>
@@ -861,7 +861,7 @@ export default function TermsPage() {
       </SectionContainer>
 
       {/* Ad Banner */}
-     
+
     </main>
   );
 }

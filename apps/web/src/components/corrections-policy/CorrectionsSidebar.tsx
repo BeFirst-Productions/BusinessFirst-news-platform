@@ -130,8 +130,8 @@ const CorrectionsSidebar = () => {
             </div>
             <div>
               <p className="text-white/50 text-[11px]">Advertising &amp; Commercial:</p>
-              <a href="mailto:advertise@businessfirstnews.com" className="hover:text-[#fbbf24] font-medium break-all">
-                advertise@businessfirstnews.com
+              <a href="mailto:ads@businessfirstnews.com" className="hover:text-[#fbbf24] font-medium break-all">
+                ads@businessfirstnews.com
               </a>
             </div>
           </div>

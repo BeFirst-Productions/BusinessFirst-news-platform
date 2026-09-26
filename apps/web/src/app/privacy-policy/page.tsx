@@ -21,7 +21,7 @@ export default function PrivacyPolicyPage() {
   return (
     <main className="min-h-screen bg-white flex flex-col items-center w-full  py-8 md:py-12">
       <ServerSeo slug="policy/privacy" />
-      
+
       {/* Breadcrumbs matching website design */}
       <SectionContainer className="bg-white py-4 mt-4">
         <div className="flex items-center text-xs md:text-sm font-semibold tracking-wide text-[#24214c]">
@@ -120,7 +120,7 @@ export default function PrivacyPolicyPage() {
                   <p className="text-gray-700">
                     <strong>Telephone:</strong>{' '}
                     <a href="tel:+97141234567" className="text-gray-800 hover:text-[#FF0202]">
-                      +971 4 123 4567
+                      +971 58 898 4455
                     </a>
                   </p>
                   <p className="text-gray-700">
@@ -742,7 +742,7 @@ export default function PrivacyPolicyPage() {
                     <p className="text-gray-700">
                       <strong className="text-[#24214c]">Privacy / DPO:</strong>{' '}
                       <a href="mailto:legal@businessfirstnews.com" className="text-[#FF0202] hover:underline">
-legal@businessfirstnews.com
+                        legal@businessfirstnews.com
                       </a>
                     </p>
                     <p className="text-gray-700">
@@ -754,7 +754,7 @@ legal@businessfirstnews.com
                     <p className="text-gray-700">
                       <strong className="text-[#24214c]">Telephone:</strong>{' '}
                       <a href="tel:+97141234567" className="text-gray-800 hover:text-[#FF0202]">
-                        +971 4 123 4567
+                        +971 58 898 4455
                       </a>
                     </p>
                   </div>
@@ -784,7 +784,7 @@ legal@businessfirstnews.com
         </div>
 
         {/* Ad Banner matching website standards */}
-      
+
       </SectionContainer>
     </main>
   );
