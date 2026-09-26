@@ -3,140 +3,19 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, notFound } from 'next/navigation';
 import { ChevronLeft, ChevronRight, Search } from 'lucide-react';
 import SectionContainer from './SectionContainer';
 import FullWidthAdBanner from './FullWidthAdBanner';
 import { DynamicAd } from './ads/DynamicAd';
 import { useArticles } from '@/hooks/use-articles';
 import { useCategories } from '@/hooks/use-categories';
+import {
+  SECTION_MAPPINGS,
+  findCategory,
+  isCategoryValid,
+} from '@/lib/category-validation';
 
-// Normalized categorization mappings to handle section clicks
-const SECTION_MAPPINGS: Record<string, string[]> = {
-  'Region': ['UAE News', 'MENA', 'Economy & Policy', 'International'],
-  'Key Sectors': [
-    'Oil, Gas & Energy',
-    'Real Estate & Construction',
-    'Technology & Innovation',
-    'Logistics & Trade',
-    'Banking & Finance'
-  ],
-  'Other Sectors': [
-    'Education & Training',
-    'Aviation & Aerospace',
-    'Manufacturing & Industrial',
-    'Sustainability & CSR'
-  ],
-  'Lifestyle': [
-    'Media & Entertainment',
-    'Tourism & Hospitality',
-    'Retail & E-commerce',
-    'Healthcare & Pharma',
-    'Sports & Recreation',
-    'Lifestyle & Culture'
-  ],
-  'Exclusive Segments': [
-    'Featured Analysis',
-    'Sponsored Contents',
-    // 'Events & Coverage',
-    // 'Business & Beyond',
-    'Daily Insights',
-    // 'Careers'
-  ]
-};
-
-const normalizeWords = (str: string) =>
-  str
-    .toLowerCase()
-    .replace(/&/g, 'and')
-    .replace(/[^\w\s]/g, ' ')
-    .split(/\s+/)
-    .filter((w) => w.length > 0 && w !== 'and')
-    .sort()
-    .join(' ');
-
-const CATEGORY_ALIASES: Record<string, string[]> = {
-  'culture & lifestyle': ['lifestyle & culture', 'lifestyle-culture', 'culture-lifestyle', 'lifestyle', 'culture'],
-  'lifestyle & culture': ['culture & lifestyle', 'lifestyle-culture', 'culture-lifestyle', 'lifestyle', 'culture'],
-  'media & entertainment': ['media and entertainment', 'media-entertainment', 'media', 'entertainment', 'media coverage'],
-  'media and entertainment': ['media & entertainment', 'media-entertainment', 'media', 'entertainment', 'media coverage'],
-  'daily insights': ['insights', 'daily-insights', 'daily insight', 'insight'],
-  'insights': ['daily insights', 'daily-insights', 'daily insight', 'insight'],
-  'events': ['events & coverage', 'events-coverage', 'events and coverage', 'event'],
-  'events & coverage': ['events', 'events-coverage', 'events and coverage', 'event'],
-  'economy & policy': ['economy and policy', 'economy-policy', 'economy', 'policy'],
-  'economy and policy': ['economy & policy', 'economy-policy', 'economy', 'policy'],
-  'real estate & construction': ['real estate and construction', 'real estate', 'construction', 'real-estate-construction'],
-  'real estate and construction': ['real estate & construction', 'real estate', 'construction', 'real-estate-construction'],
-  'technology & innovation': ['technology and innovation', 'tech', 'technology', 'innovation', 'technology-innovation'],
-  'technology and innovation': ['technology & innovation', 'tech', 'technology', 'innovation', 'technology-innovation'],
-  'logistics & trade': ['logistics and trade', 'logistics', 'trade', 'logistics-trade'],
-  'logistics and trade': ['logistics & trade', 'logistics', 'trade', 'logistics-trade'],
-  'aviation & aerospace': ['aviation and aerospace', 'aviation', 'aerospace', 'aviation-aerospace'],
-  'aviation and aerospace': ['aviation & aerospace', 'aviation', 'aerospace', 'aviation-aerospace'],
-  'banking & finance': ['banking and finance', 'banking', 'finance', 'banking-finance'],
-  'banking and finance': ['banking & finance', 'banking', 'finance', 'banking-finance'],
-  'oil, gas & energy': ['oil and gas', 'oil & gas', 'energy', 'oil-gas-energy', 'oil', 'gas'],
-  'oil & gas': ['oil, gas & energy', 'oil and gas', 'energy', 'oil-gas-energy', 'oil', 'gas'],
-  'healthcare & pharma': ['healthcare and pharma', 'healthcare', 'pharma', 'health', 'healthcare-pharma'],
-  'healthcare and pharma': ['healthcare & pharma', 'healthcare', 'pharma', 'health', 'healthcare-pharma'],
-  'tourism & hospitality': ['tourism and hospitality', 'tourism', 'hospitality', 'tourism-hospitality'],
-  'tourism and hospitality': ['tourism & hospitality', 'tourism', 'hospitality', 'tourism-hospitality'],
-  'sports & recreation': ['sports and recreation', 'sports', 'recreation', 'sports-recreation'],
-  'sports and recreation': ['sports & recreation', 'sports', 'recreation', 'sports-recreation'],
-};
-
-const findCategory = (categories: any[] | undefined, targetName: string) => {
-  if (!categories || !targetName) return undefined;
-  const target = targetName.toLowerCase().trim();
-  const targetSlug = target.replace(/[^\w\s-]/g, '').replace(/[\s_]+/g, '-');
-  const targetNorm = normalizeWords(target);
-  const aliases = CATEGORY_ALIASES[target] || [];
-
-  // 1. Exact name or slug match
-  const exact = categories.find(
-    (c: any) =>
-      c.name?.toLowerCase().trim() === target ||
-      c.slug?.toLowerCase().trim() === targetSlug ||
-      c.slug?.toLowerCase().trim() === target
-  );
-  if (exact) return exact;
-
-  // 2. Normalized words match (e.g. "Culture & Lifestyle" matches "Lifestyle & Culture")
-  const normMatch = categories.find(
-    (c: any) => normalizeWords(c.name || '') === targetNorm || normalizeWords(c.slug || '') === targetNorm
-  );
-  if (normMatch) return normMatch;
-
-  // 3. Known aliases match
-  const aliasMatch = categories.find((c: any) => {
-    const cName = c.name?.toLowerCase().trim();
-    const cSlug = c.slug?.toLowerCase().trim();
-    return (
-      aliases.includes(cName) ||
-      aliases.includes(cSlug) ||
-      (CATEGORY_ALIASES[cName] && (CATEGORY_ALIASES[cName].includes(target) || CATEGORY_ALIASES[cName].includes(targetSlug)))
-    );
-  });
-  if (aliasMatch) return aliasMatch;
-
-  // 4. Word subset match
-  const targetWords = targetNorm.split(' ').filter(Boolean);
-  const subsetMatch = categories.find((c: any) => {
-    const cWords = normalizeWords(c.name || '').split(' ').filter(Boolean);
-    return targetWords.length > 0 && (
-      cWords.every((w) => targetWords.includes(w)) ||
-      targetWords.every((w) => cWords.includes(w))
-    );
-  });
-  if (subsetMatch) return subsetMatch;
-
-  // 5. Substring match
-  return categories.find((c: any) => {
-    const cName = c.name?.toLowerCase().trim();
-    return cName && (cName.includes(target) || target.includes(cName));
-  });
-};
 
 const CategoryListing: React.FC = () => {
   const searchParams = useSearchParams();
@@ -158,14 +37,14 @@ const CategoryListing: React.FC = () => {
   const categoryName = isSearchMode
     ? `Search: "${searchQuery}"`
     : isSponsored
-    ? 'Sponsored Contents'
-    : isFeatured
-    ? 'Featured Analysis'
-    : isTrending
-    ? 'Trending News'
-    : isUaeNews
-    ? 'UAE News'
-    : (rawCategoryName || 'Latest News');
+      ? 'Sponsored Contents'
+      : isFeatured
+        ? 'Featured Analysis'
+        : isTrending
+          ? 'Trending News'
+          : isUaeNews
+            ? 'UAE News'
+            : (rawCategoryName || 'Latest News');
 
   const pageParam = searchParams.get('page');
   const currentPage = pageParam ? parseInt(pageParam, 10) : 1;
@@ -173,6 +52,14 @@ const CategoryListing: React.FC = () => {
 
   // Fetch all categories to get matched category & ID
   const { data: categories, isLoading: isCategoriesLoading } = useCategories();
+
+  const isSpecialParam = isSponsored || isTrending || isUaeNews || isFeatured;
+  if (rawCategoryName && !isSearchMode && !isSpecialParam && !isCategoriesLoading) {
+    if (!isCategoryValid(rawCategoryName, categories || [])) {
+      notFound();
+    }
+  }
+
   const matchedCategory = findCategory(categories, categoryName);
 
   const isFeaturedAnalysis = categoryName === 'Featured Analysis';
@@ -182,6 +69,7 @@ const CategoryListing: React.FC = () => {
   const isSpecialCategory = isSearchMode || isSponsored || isTrending || isUaeNews || isFeatured || categoryName === 'Latest News';
   const isArticlesEnabled = isSpecialCategory || !isCategoriesLoading;
 
+
   // Fetch live published articles from Express API (/api/v1/website/articles)
   const { data: apiResponse, isLoading: isArticlesLoading } = useArticles(
     {
@@ -190,16 +78,16 @@ const CategoryListing: React.FC = () => {
       ...(isSearchMode
         ? { search: searchQuery }
         : isSponsored
-        ? { isSponsored: true }
-        : isTrending
-        ? { isTrending: true }
-        : isUaeNews
-        ? { isUaeNews: true }
-        : targetCategoryId
-        ? { categoryId: targetCategoryId }
-        : categoryName !== 'Latest News'
-        ? { search: categoryName }
-        : {}),
+          ? { isSponsored: true }
+          : isTrending
+            ? { isTrending: true }
+            : isUaeNews
+              ? { isUaeNews: true }
+              : targetCategoryId
+                ? { categoryId: targetCategoryId }
+                : categoryName !== 'Latest News'
+                  ? { search: categoryName }
+                  : {}),
     },
     { enabled: isArticlesEnabled }
   );
@@ -215,13 +103,13 @@ const CategoryListing: React.FC = () => {
   const categoryDescription = isSearchMode
     ? `Showing search results for "${searchQuery}".`
     : matchedCategory?.description ||
-      (categoryName === 'Featured Analysis'
-        ? 'Explore in-depth business perspectives, expert insights, and featured analyses.'
-        : categoryName === 'Trending News'
+    (categoryName === 'Featured Analysis'
+      ? 'Explore in-depth business perspectives, expert insights, and featured analyses.'
+      : categoryName === 'Trending News'
         ? 'Stay informed with the most popular and trending business stories right now.'
         : categoryName === 'UAE News'
-        ? 'Comprehensive coverage of business, economy, and leadership across the United Arab Emirates.'
-        : `Explore the latest news, insights, and expert analysis on ${categoryName}.`);
+          ? 'Comprehensive coverage of business, economy, and leadership across the United Arab Emirates.'
+          : `Explore the latest news, insights, and expert analysis on ${categoryName}.`);
 
   // Extract live articles from API strictly for this category
   const rawApiArticles = apiResponse?.data || [];
@@ -300,12 +188,12 @@ const CategoryListing: React.FC = () => {
       const itemCatName = item.category?.name?.toLowerCase().trim();
       const itemCatSlug = item.category?.slug?.toLowerCase().trim();
       const currentCat = categoryName?.toLowerCase().trim();
-      
+
       // Exclude articles belonging to the currently viewed category (e.g. MENA)
       if (currentCat && (itemCatName === currentCat || itemCatSlug === currentCat)) {
         return false;
       }
-      
+
       // Exclude articles already displayed in the main list or sidebar
       if (
         displayArticles.some((a: any) => a.id === item.id || a.id === item.slug) ||
@@ -313,7 +201,7 @@ const CategoryListing: React.FC = () => {
       ) {
         return false;
       }
-      
+
       return true;
     })
     .slice(0, 4)

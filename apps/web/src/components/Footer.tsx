@@ -134,11 +134,11 @@ Business First is a UAE-focused digital business news and media platform built f
                   Advertise with us
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link href="/complaint" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
                   Submit a complaint
                 </Link>
-              </li>
+              </li> */}
           
             </ul>
           </div>
@@ -153,8 +153,9 @@ Business First is a UAE-focused digital business news and media platform built f
                 </Link>
               </li>
               <li>
-                <Link href="/news?category=Telecom%20%26%20Digital" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
-                  Telecom &amp; Digital
+                <Link href="/news?category=Aviation%20%26%20Aerospace" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
+                    Aviation  &amp; Aerospace
+                
                 </Link>
               </li>
               <li>
@@ -168,8 +169,9 @@ Business First is a UAE-focused digital business news and media platform built f
                 </Link>
               </li>
               <li>
-                <Link href="/news?category=Defense%20%26%20Security" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
-                  Defense &amp; Security
+                <Link href="/news?category=Healthcare%20%26%20Pharma" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
+                  Healthcare &amp; Pharma
+
                 </Link>
               </li>
               <li>

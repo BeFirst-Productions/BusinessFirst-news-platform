@@ -118,11 +118,11 @@ const Footer = () => {
                   Advertise with us
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link href="/complaint" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
                   Submit a complaint
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </div>
 

@@ -49,7 +49,7 @@ export const dynamic = 'force-dynamic';
 // ==================== PAGE COMPONENT ====================
 
 export default async function HomePage() {
-  const queryClient = createQueryClient(); 
+  const queryClient = createQueryClient();
 
   // Prefetch all required data on the server
   await Promise.all([
@@ -146,7 +146,7 @@ export default async function HomePage() {
 
           {/* Category News Section */}
           <div className="order-2 lg:order-3 w-full">
-            <Suspense fallback={<NewsGridSkeleton />}>    
+            <Suspense fallback={<NewsGridSkeleton />}>
               <CategoryNewsSection />
             </Suspense>
           </div>
@@ -188,7 +188,7 @@ export default async function HomePage() {
         <Suspense fallback={<SectionSkeleton />}>
           <EventsSection />
         </Suspense>
-{/* 
+        {/* 
         <Suspense fallback={<SectionSkeleton />}>
           <MediaCoverageSection />
         </Suspense> */}
