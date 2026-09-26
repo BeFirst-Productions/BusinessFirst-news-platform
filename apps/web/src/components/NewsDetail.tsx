@@ -1,6 +1,7 @@
-'use client';
+﻿'use client';
 
 import React from 'react';
+import { notFound } from 'next/navigation';
 import SectionContainer from './SectionContainer';
 import NewsBreadcrumbs from './news-detail/NewsBreadcrumbs';
 import NewsHeader from './news-detail/NewsHeader';
@@ -32,12 +33,9 @@ const NewsDetail: React.FC<NewsDetailProps> = ({ articleId }) => {
   }
 
   if (error || !article) {
-    return (
-      <SectionContainer className="bg-white py-8 md:py-12 min-h-screen flex items-center justify-center">
-        <h2 className="text-2xl font-bold text-gray-700">Article not found</h2>
-      </SectionContainer>
-    );
+    notFound();
   }
+
 
   const authorName = (article.authorName && article.authorName !== 'Super Admin')
     ? article.authorName

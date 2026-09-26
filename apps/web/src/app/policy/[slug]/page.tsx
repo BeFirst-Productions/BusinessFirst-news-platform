@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { notFound, redirect } from 'next/navigation';
 import { getPageSeoProps } from '@/lib/fetchPageSeo';
 import { buildMetadata } from '@/components/seo/seo.types';
 import SectionContainer from '@/components/SectionContainer';
@@ -8,6 +9,7 @@ import ServerSeo from '@/components/seo/ServerSeo';
 interface Props {
   params: { slug: string };
 }
+
 
 export async function generateMetadata({ params }: Props) {
   const seoProps = await getPageSeoProps(`policy/${params.slug}`);
@@ -62,9 +64,8 @@ const POLICY_CONTENT: Record<string, { title: string; subtitle: string; content:
 
 };
 
-import { redirect } from 'next/navigation';
-
 export default function PolicyPage({ params }: Props) {
+
   const policyKey = params.slug.toLowerCase();
   if (policyKey === 'privacy') {
     redirect('/privacy-policy');
@@ -87,15 +88,12 @@ export default function PolicyPage({ params }: Props) {
   if (policyKey === 'corrections' || policyKey === 'corrections-policy' || policyKey === 'complaints' || policyKey === 'complaints-policy') {
     redirect('/corrections-policy');
   }
-  const policy = POLICY_CONTENT[policyKey] || {
-    title: 'Policy Document',
-    subtitle: 'Legal guidelines and corporate agreements.',
-    content: (
-      <div className="space-y-6 text-gray-700 text-sm md:text-base leading-relaxed font-normal">
-        <p>The requested policy document is currently being updated by the BusinessFirst legal team. Please check back later.</p>
-      </div>
-    )
-  };
+
+  const policy = POLICY_CONTENT[policyKey];
+  if (!policy) {
+    notFound();
+  }
+
 
   return (
     <main className="min-h-screen bg-[#f9f9fb] flex flex-col items-center w-full py-12">

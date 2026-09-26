@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import NewsDetail from "@/components/NewsDetail";
 import { apiClient } from '@/lib/api-client';
 import type { Article } from '@businessfirst/shared-types';
@@ -15,9 +16,9 @@ export async function generateMetadata(
 
   try {
     const article = await apiClient.get<Article>(`/articles/slug/${id}`);
-    
+
     if (!article) {
-      return { title: 'Article Not Found' };
+      return { title: '404 - Page Not Found | Business First' };
     }
 
     return {
@@ -34,16 +35,26 @@ export async function generateMetadata(
       },
     };
   } catch (error) {
-    return { title: 'Business First News' };
+    return { title: '404 - Page Not Found | Business First' };
   }
 }
 
 export default async function NewsDetailPage({ params }: PageProps) {
   const { id } = await params;
-  
+
+  try {
+    const article = await apiClient.get<Article>(`/articles/slug/${id}`);
+    if (!article) {
+      notFound();
+    }
+  } catch (error) {
+    notFound();
+  }
+
   return (
     <main className="min-h-screen bg-white flex flex-col items-center w-full">
       <NewsDetail articleId={id} />
     </main>
   );
 }
+
