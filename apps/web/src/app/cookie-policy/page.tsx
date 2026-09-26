@@ -579,7 +579,7 @@ export default function CookiePolicyPage() {
                     </p>
                     <p className="text-gray-700">
                       <strong className="text-[#24214c]">Telephone:</strong>{' '}
-                      <a href="tel:+97141234567" className="text-gray-800 hover:text-[#FF0202]">
+                      <a href="tel:+971588984455" className="text-gray-800 hover:text-[#FF0202]">
                         +971 58 898 4455
                       </a>
                     </p>

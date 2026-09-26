@@ -55,7 +55,7 @@ const AdvertiseSidebar: React.FC<AdvertiseSidebarProps> = ({ onOpenMediaKit }) =
             <div className="flex flex-col">
               <span className="text-white/60 text-xs font-semibold uppercase tracking-wider">Call / WhatsApp</span>
               <a
-                href="tel:+97141234567"
+                href="tel:+971588984455"
                 className="text-sm font-semibold hover:text-emerald-400 transition mt-0.5"
               >
                 +971 58 898 4455

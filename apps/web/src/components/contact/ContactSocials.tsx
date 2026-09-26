@@ -39,7 +39,7 @@ const ContactSocials = () => {
             </div>
             <div className="flex flex-col gap-1">
               <span className="text-white/60 text-xs font-semibold uppercase tracking-wider">Phone</span>
-              <a href="tel:+97141234567" className="text-sm font-medium hover:text-[#fbbf24] transition-colors">
+              <a href="tel:+971588984455" className="text-sm font-medium hover:text-[#fbbf24] transition-colors">
                 +971 58 898 4455
               </a>
             </div>
