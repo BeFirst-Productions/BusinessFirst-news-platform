@@ -335,4 +335,18 @@ export class WebsiteController {
       next(error);
     }
   }
+
+  static async getSitemapEntries(req: Request, res: Response, next: NextFunction) {
+    try {
+      const data = await WebsiteService.getSitemapEntries();
+      res.status(200).json({
+        success: true,
+        message: 'Sitemap entries retrieved successfully',
+        data,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
+

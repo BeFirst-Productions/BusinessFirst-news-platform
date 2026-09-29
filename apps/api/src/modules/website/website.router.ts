@@ -12,6 +12,9 @@ router.get('/articles/slug/:slug', WebsiteController.getArticleBySlug);
 router.get('/articles/:id/related', WebsiteController.getRelatedArticles);
 router.post('/articles/:id/view', WebsiteController.incrementArticleView);
 
+// Sitemap endpoint
+router.get('/sitemap-entries', WebsiteController.getSitemapEntries);
+
 // Category endpoints
 router.get('/categories', WebsiteController.getCategories);
 router.get('/categories/tree', WebsiteController.getCategoryTree);
