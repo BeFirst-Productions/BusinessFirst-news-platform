@@ -7,6 +7,7 @@ import { ChevronDown } from 'lucide-react';
 import SectionContainer from './SectionContainer';
 import type { Article, Category } from '@businessfirst/shared-types';
 import { Skeleton } from './ui/Skeleton';
+import { getCategoryUrl, getArticleUrl } from '@/lib/category-utils';
 
 
 
@@ -101,7 +102,7 @@ function FeaturedArticle({ article, imageClassName, showExcerpt = false }: Featu
   const excerptText = article.excerpt || (article as any).content?.replace(/<[^>]*>/g, '').trim();
 
   return (
-    <Link href={`/news/${article.slug}`} className="flex flex-col gap-1.5 group cursor-pointer">
+    <Link href={getArticleUrl(article)} className="flex flex-col gap-1.5 group cursor-pointer">
       <div className={`relative w-full overflow-hidden rounded ${imageClassName || 'aspect-[16/9]'}`}>
         {article.featuredImage ? (
           <Image
@@ -147,7 +148,7 @@ function HorizontalArticleItem({
 
   return (
     <Link
-      href={`/news/${article.slug}`}
+      href={getArticleUrl(article)}
       className={`group cursor-pointer py-1 flex items-start ${isSidebar ? 'gap-3 xl:gap-4' : 'gap-4 sm:gap-5'}`}
     >
       <div
@@ -205,7 +206,7 @@ function VerticalArticleItem({ article, isFirst = false }: VerticalArticleItemPr
   const excerptText = article.excerpt || (article as any).content?.replace(/<[^>]*>/g, '').trim();
 
   return (
-    <Link href={`/news/${article.slug}`} className="flex flex-col gap-1.5 group cursor-pointer flex-1">
+    <Link href={getArticleUrl(article)} className="flex flex-col gap-1.5 group cursor-pointer flex-1">
       <div className={`relative w-full overflow-hidden rounded ${isFirst ? 'aspect-[4/3]' : 'aspect-video'}`}>
         {article.featuredImage ? (
           <Image
@@ -354,7 +355,7 @@ const CategoryNewsSection = () => {
             </div>
             {leftCategory && (
               <Link
-                href={`/news?category=${encodeURIComponent(leftCategory.name)}`}
+                href={getCategoryUrl(leftCategory.slug || leftCategory.name)}
                 className="flex items-center text-[#24214c] font-bold text-xs sm:text-sm hover:opacity-80 transition-opacity shrink-0 whitespace-nowrap pb-0.5"
               >
                 View All{' '}
@@ -420,7 +421,7 @@ const CategoryNewsSection = () => {
                 </div>
                 {rightCategory && (
                   <Link
-                    href={`/news?category=${encodeURIComponent(rightCategory.name)}`}
+                    href={getCategoryUrl(rightCategory.slug || rightCategory.name)}
                     className="flex items-center text-[#24214c] font-bold text-xs sm:text-sm hover:opacity-80 transition-opacity shrink-0 whitespace-nowrap lg:mt-1 xl:mt-0 pb-0.5"
                   >
                     View All{' '}

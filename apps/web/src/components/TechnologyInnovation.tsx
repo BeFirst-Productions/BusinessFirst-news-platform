@@ -7,6 +7,7 @@ import SectionContainer from './SectionContainer';
 import { ChevronDown } from 'lucide-react';
 import { DynamicAd } from './ads/DynamicAd';
 import { useHomeCategories, useArticles } from '@/hooks/use-articles';
+import { getCategoryUrl, getArticleUrl } from '@/lib/category-utils';
 
 const EmptyCategoryState = ({ categoryName }: { categoryName: string }) => (
   <div className="w-full py-12 flex flex-col items-center justify-center bg-gray-50/50 border border-dashed border-gray-200 rounded-lg text-center my-4">
@@ -57,7 +58,7 @@ const TechnologyInnovation = () => {
         <h2 className="text-[#FF0202] text-xl sm:text-2xl md:text-3xl font-bold font-newsreader min-w-0 break-words leading-tight">
           {categoryName}
         </h2>
-        <Link href={`/news?category=${encodeURIComponent(categoryName)}`} className="text-[#24214c] font-bold text-xs sm:text-sm flex items-center gap-1 hover:text-[#cd2027] transition shrink-0 whitespace-nowrap pb-0.5">
+        <Link href={getCategoryUrl(categoryName)} className="text-[#24214c] font-bold text-xs sm:text-sm flex items-center gap-1 hover:text-[#cd2027] transition shrink-0 whitespace-nowrap pb-0.5">
           View All <ChevronDown size={16} strokeWidth={2.5} />
         </Link>
       </div>
@@ -70,7 +71,7 @@ const TechnologyInnovation = () => {
           <div className="lg:col-span-7 flex flex-col justify-between h-full">
             {/* Main Top Article */}
             {mainArticle && (
-              <Link href={`/news/${mainArticle.slug || mainArticle.id}`} className="flex flex-col group cursor-pointer">
+              <Link href={getArticleUrl(mainArticle, 'technology-innovation')} className="flex flex-col group cursor-pointer">
                 <div className="relative w-full aspect-[16/9] mb-3 overflow-hidden rounded-lg bg-gray-100">
                   <Image
                     src={mainArticle.featuredImage || '/placeholder-news.jpg'}
@@ -97,7 +98,7 @@ const TechnologyInnovation = () => {
             {bottomArticles.length > 0 && (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 mt-4 pt-3 border-t border-gray-100">
                 {bottomArticles.map((article) => (
-                  <Link key={article.id} href={`/news/${article.slug || article.id}`} className="flex flex-col group cursor-pointer">
+                  <Link key={article.id} href={getArticleUrl(article, 'technology-innovation')} className="flex flex-col group cursor-pointer">
                     <div className="relative w-full aspect-[16/9] mb-3 overflow-hidden rounded-lg bg-gray-100">
                       <Image
                         src={article.featuredImage || '/placeholder-news.jpg'}
@@ -123,7 +124,7 @@ const TechnologyInnovation = () => {
             {sidebarArticles.length > 0 && (
               <div className="flex flex-col justify-between flex-1 gap-2.5 sm:gap-3 lg:gap-2 xl:gap-2.5 2xl:gap-3 mb-4">
                 {sidebarArticles.map((article) => (
-                  <Link key={article.id} href={`/news/${article.slug || article.id}`} className="flex gap-2.5 lg:gap-3 xl:gap-3.5 group cursor-pointer items-start">
+                  <Link key={article.id} href={getArticleUrl(article, 'technology-innovation')} className="flex gap-2.5 lg:gap-3 xl:gap-3.5 group cursor-pointer items-start">
                     <div className="relative w-[85px] sm:w-[95px] lg:w-[84px] xl:w-[98px] 2xl:w-[115px] shrink-0 aspect-[4/3] overflow-hidden rounded-md lg:rounded-lg bg-gray-100">
                       <Image
                         src={article.featuredImage || '/placeholder-news.jpg'}

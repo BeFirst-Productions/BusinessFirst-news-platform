@@ -28,11 +28,7 @@ import {
 
 export async function generateMetadata() {
   const seoProps = await getPageSeoProps(`policy/corrections`);
-  return buildMetadata({
-    ...seoProps,
-    title: 'Corrections & Complaints Policy | Business First UAE',
-    description: 'Learn how Business First handles editorial corrections, clarifications, and complaints fairly, promptly, and transparently.',
-  });
+  return buildMetadata(seoProps);
 }
 
 export default function CorrectionsPolicyPage() {

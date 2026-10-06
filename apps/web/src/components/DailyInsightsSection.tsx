@@ -7,6 +7,7 @@ import SectionTitle from './SectionTitle';
 
 import Link from 'next/link';
 import { useHomeCategories } from '@/hooks/use-articles';
+import { getArticleUrl } from '@/lib/category-utils';
 
 const DailyInsightsSection = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -20,6 +21,7 @@ const DailyInsightsSection = () => {
     slug: article.slug,
     title: article.title,
     category: article.category?.name || 'Daily Insights',
+    url: getArticleUrl(article, 'daily-insights'),
     date: article.publishedAt
       ? new Date(article.publishedAt).toLocaleDateString('en-US', {
         month: 'short',
@@ -72,7 +74,7 @@ const DailyInsightsSection = () => {
               >
                 {insights.map((item, idx) => (
                   <Link
-                    href={`/news/${item.slug || item.id}`}
+                    href={item.url}
                     key={`${item.id}-${idx}`}
                     className="relative snap-center shrink-0 w-[240px] md:w-[260px] aspect-[4/5] rounded-[10px] overflow-hidden cursor-pointer group/card shadow-[0_4px_10px_rgba(0,0,0,0.1)] border border-gray-100 bg-white"
                   >
@@ -112,7 +114,7 @@ const DailyInsightsSection = () => {
             </div>
 
             {/* View All Button */}
-            <Link href={`/news?category=${encodeURIComponent('Daily Insights')}`} className="bg-[#FF0202] hover:bg-[#d00000] text-white font-bold text-[13px] px-8 py-2.5 rounded transition-colors flex items-center justify-center mt-2 shadow-sm">
+            <Link href="/daily-insights" className="bg-[#FF0202] hover:bg-[#d00000] text-white font-bold text-[13px] px-8 py-2.5 rounded transition-colors flex items-center justify-center mt-2 shadow-sm">
               View All <ArrowUpRight size={16} className="ml-1" />
             </Link>
           </>

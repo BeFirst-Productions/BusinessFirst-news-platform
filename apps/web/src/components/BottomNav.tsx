@@ -6,6 +6,7 @@ import Link from 'next/link';
 
 import SectionContainer from './SectionContainer';
 import { NavbarSearch } from './search/NavbarSearch';
+import { getCategoryUrl } from '@/lib/category-utils';
 
 const BottomNav = () => {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
@@ -81,7 +82,7 @@ const BottomNav = () => {
                 onMouseLeave={() => setActiveMenu(null)}
               >
                 <Link
-                  href={item.name === 'Contact Us' ? '/contact' : `/news?category=${encodeURIComponent(item.name)}`}
+                  href={item.name === 'Contact Us' ? '/contact' : getCategoryUrl(item.name)}
                   className="flex items-center hover:text-gray-300 font-medium transition cursor-pointer"
                 >
                   {item.name} <ChevronDown size={14} className="ml-1" />
@@ -93,7 +94,7 @@ const BottomNav = () => {
                       {item.items.map((subItem, idx) => {
                         const href = item.name === 'Contact Us'
                           ? (subItem.toLowerCase().includes('advertise') ? '/advertise' : '/contact')
-                          : `/news?category=${encodeURIComponent(subItem)}`;
+                          : getCategoryUrl(subItem);
                         return (
                           <Link
                             key={idx}

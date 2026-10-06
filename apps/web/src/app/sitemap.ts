@@ -8,6 +8,9 @@ interface SitemapArticle {
   slug: string;
   updatedAt?: string | null;
   publishedAt?: string | null;
+  category?: {
+    slug?: string | null;
+  } | null;
 }
 
 interface SitemapCategory {
@@ -118,19 +121,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     if (response?.articles && Array.isArray(response.articles)) {
       articleRoutes = response.articles
         .filter((article) => Boolean(article?.slug))
-        .map((article) => ({
-          url: `${baseUrl}/news/${encodeURIComponent(article.slug)}`,
-          lastModified: parseSafeDate(article.updatedAt || article.publishedAt),
-          changeFrequency: 'daily',
-          priority: 0.8,
-        }));
+        .map((article) => {
+          const catSegment = article.category?.slug
+            ? encodeURIComponent(article.category.slug)
+            : 'news';
+          return {
+            url: `${baseUrl}/${catSegment}/${encodeURIComponent(article.slug)}`,
+            lastModified: parseSafeDate(article.updatedAt || article.publishedAt),
+            changeFrequency: 'daily',
+            priority: 0.8,
+          };
+        });
     }
 
     if (response?.categories && Array.isArray(response.categories)) {
       categoryRoutes = response.categories
         .filter((category) => Boolean(category?.slug))
         .map((category) => ({
-          url: `${baseUrl}/news?category=${encodeURIComponent(category.slug)}`,
+          url: `${baseUrl}/${encodeURIComponent(category.slug)}`,
           lastModified: parseSafeDate(category.updatedAt),
           changeFrequency: 'daily',
           priority: 0.7,
@@ -145,19 +153,31 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Curated prominent landing sections
   const curatedSections: MetadataRoute.Sitemap = [
     {
-      url: `${baseUrl}/news?category=uae-news`,
+      url: `${baseUrl}/uae-news`,
       lastModified: new Date(),
       changeFrequency: 'hourly',
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/news?category=trending`,
+      url: `${baseUrl}/trending`,
       lastModified: new Date(),
       changeFrequency: 'hourly',
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/news?category=sponsored`,
+      url: `${baseUrl}/sponsored`,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/featured-analysis`,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/daily-insights`,
       lastModified: new Date(),
       changeFrequency: 'daily',
       priority: 0.7,

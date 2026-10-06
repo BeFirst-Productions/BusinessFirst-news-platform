@@ -1,11 +1,9 @@
 import React, { Suspense } from 'react';
-import { notFound } from 'next/navigation';
+import { permanentRedirect } from 'next/navigation';
 import { getPageSeoProps } from '@/lib/fetchPageSeo';
 import { buildMetadata } from '@/components/seo/seo.types';
-import CategoryListing from "@/components/CategoryListing";
-import { apiClient } from '@/lib/api-client';
-import { isCategoryValid } from '@/lib/category-validation';
-import type { Category } from '@businessfirst/shared-types';
+import CategoryListing from '@/components/CategoryListing';
+import { getCategoryUrl, getCategorySlug } from '@/lib/category-utils';
 
 interface Props {
   searchParams: {
@@ -16,6 +14,7 @@ interface Props {
     isTrending?: string;
     isUaeNews?: string;
     isFeatured?: string;
+    page?: string;
   };
 }
 
@@ -29,86 +28,63 @@ export async function generateMetadata({ searchParams }: Props) {
     });
   }
 
-  const isSponsoredParam = searchParams.isSponsored === 'true';
-  const isTrendingParam = searchParams.isTrending === 'true';
-  const isUaeNewsParam = searchParams.isUaeNews === 'true';
-  const rawCat = searchParams.category || '';
+  const isSponsored = searchParams.isSponsored === 'true';
+  const isTrending = searchParams.isTrending === 'true';
+  const isUaeNews = searchParams.isUaeNews === 'true';
+  const isFeatured = searchParams.isFeatured === 'true';
+  const rawCat = searchParams.category;
 
-  if (rawCat && !isSponsoredParam && !isTrendingParam && !isUaeNewsParam && searchParams.isFeatured !== 'true') {
-    let categories: Category[] = [];
-    try {
-      categories = await apiClient.get<Category[]>('/categories', {
-        params: { isActive: true },
-        next: { revalidate: 3600, tags: ['categories'] },
-      });
-    } catch {
-      // ignore
-    }
+  if (rawCat || isSponsored || isTrending || isUaeNews || isFeatured) {
+    let target = rawCat || '';
+    if (isSponsored) target = 'sponsored';
+    else if (isTrending) target = 'trending';
+    else if (isUaeNews) target = 'uae-news';
+    else if (isFeatured) target = 'featured-analysis';
 
-    if (!isCategoryValid(rawCat, categories)) {
-      return { title: '404 - Page Not Found | Business First' };
-    }
+    const slug = getCategorySlug(target);
+    const seoProps = await getPageSeoProps(slug);
+    return buildMetadata({
+      ...seoProps,
+      canonicalUrl: `/${slug}`,
+    });
   }
 
-  const isTrending = isTrendingParam || rawCat.toLowerCase() === 'trending news' || rawCat.toLowerCase() === 'trending';
-  const isUaeNews = isUaeNewsParam || rawCat.toLowerCase() === 'uae news' || rawCat.toLowerCase() === 'uae';
-  const isSponsored = isSponsoredParam || rawCat.toLowerCase() === 'sponsored contents' || rawCat.toLowerCase() === 'sponsored';
-
-  const categoryName = isSponsored
-    ? 'Sponsored Contents'
-    : isTrending
-      ? 'Trending News'
-      : isUaeNews
-        ? 'UAE News'
-        : (searchParams.category || 'Latest News');
-
-  let categorySlug = 'news';
-  if (isSponsored) {
-    categorySlug = 'sponsored';
-  } else if (isUaeNews) {
-    categorySlug = 'uae-news';
-  } else if (isTrending) {
-    categorySlug = 'trending';
-  } else if (categoryName !== 'Latest News') {
-    categorySlug = `category/${categoryName.toLowerCase().trim().replace(/[^\w\s-]/g, '').replace(/[\s_]+/g, '-').replace(/-+/g, '-').replace(/^-+|-+$/g, '')}`;
-  }
-
-  const seoProps = await getPageSeoProps(categorySlug);
+  const seoProps = await getPageSeoProps('news');
   return buildMetadata(seoProps);
 }
 
 export default async function NewsPage({ searchParams }: Props) {
-  const rawCat = searchParams.category || '';
   const searchQuery = (searchParams.search || searchParams.q || '').trim();
-  const isSpecialParam =
-    searchParams.isSponsored === 'true' ||
-    searchParams.isTrending === 'true' ||
-    searchParams.isUaeNews === 'true' ||
-    searchParams.isFeatured === 'true';
+  const rawCat = searchParams.category;
+  const isSponsored = searchParams.isSponsored === 'true';
+  const isTrending = searchParams.isTrending === 'true';
+  const isUaeNews = searchParams.isUaeNews === 'true';
+  const isFeatured = searchParams.isFeatured === 'true';
 
-  if (rawCat && !searchQuery && !isSpecialParam) {
-    let categories: Category[] = [];
-    try {
-      categories = await apiClient.get<Category[]>('/categories', {
-        params: { isActive: true },
-        next: { revalidate: 3600, tags: ['categories'] },
-      });
-    } catch {
-      // ignore
-    }
+  // Issue 301 Permanent Redirect for legacy query parameter URLs to clean URLs
+  if (!searchQuery && (rawCat || isSponsored || isTrending || isUaeNews || isFeatured)) {
+    let targetCategory = rawCat || '';
+    if (isSponsored) targetCategory = 'sponsored';
+    else if (isTrending) targetCategory = 'trending';
+    else if (isUaeNews) targetCategory = 'uae-news';
+    else if (isFeatured) targetCategory = 'featured-analysis';
 
-    if (!isCategoryValid(rawCat, categories)) {
-      notFound();
+    let targetUrl = getCategoryUrl(targetCategory);
+    if (searchParams.page && parseInt(searchParams.page, 10) > 1) {
+      targetUrl += `?page=${searchParams.page}`;
     }
+    permanentRedirect(targetUrl);
   }
 
   return (
     <main className="min-h-screen bg-white flex flex-col items-center w-full">
-      <Suspense fallback={
-        <div className="min-h-screen flex items-center justify-center text-[#24214c] font-semibold text-lg">
-          Loading News...
-        </div>
-      }>
+      <Suspense
+        fallback={
+          <div className="min-h-screen flex items-center justify-center text-[#24214c] font-semibold text-lg">
+            Loading News...
+          </div>
+        }
+      >
         <CategoryListing />
       </Suspense>
     </main>

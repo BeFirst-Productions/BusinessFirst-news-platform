@@ -84,6 +84,38 @@ export class CategoriesService {
       },
     });
 
+    // Automatically generate and link default SEO record for the newly created category
+    try {
+      await prisma.pageSeo.upsert({
+        where: { slug: `category/${category.slug}` },
+        create: {
+          slug: `category/${category.slug}`,
+          label: `Category: ${category.name}`,
+          pageType: 'CATEGORY',
+          categoryId: category.id,
+          metaTitle: `${category.name} – Latest News & Updates | BusinessFirst`,
+          metaDescription: category.description
+            ? `${category.description} Read the latest ${category.name} news, in-depth analysis, market updates, and insights on BusinessFirst.`
+            : `Read the latest ${category.name} news, in-depth analysis, market updates, and insights from BusinessFirst.`,
+          canonicalUrl: `https://businessfirstnews.com/${category.slug}`,
+          robots: 'index, follow',
+          twitterCard: 'SUMMARY_LARGE_IMAGE',
+          isActive: category.isActive ?? true,
+          extraMeta: [
+            {
+              name: 'keywords',
+              content: `${category.name}, ${category.name} news, UAE ${category.name}, latest ${category.name} updates, BusinessFirst`,
+            },
+          ],
+        },
+        update: {
+          categoryId: category.id,
+        },
+      });
+    } catch (seoErr) {
+      console.error('Failed to auto-create PageSeo for new category:', seoErr);
+    }
+
     // Invalidate website cache asynchronously
     WebsiteService.invalidateCache().catch((err) =>
       console.error('Failed to invalidate website cache on category creation:', err)
@@ -157,6 +189,31 @@ export class CategoriesService {
       data: updateData,
     });
 
+    // Keep associated PageSeo record in sync
+    if (updateData.name || updateData.slug) {
+      try {
+        const seoRecord = await prisma.pageSeo.findFirst({
+          where: { categoryId: id },
+        });
+        if (seoRecord) {
+          await prisma.pageSeo.update({
+            where: { id: seoRecord.id },
+            data: {
+              ...(updateData.slug ? {
+                slug: `category/${updatedCategory.slug}`,
+                canonicalUrl: `https://businessfirstnews.com/${updatedCategory.slug}`,
+              } : {}),
+              ...(updateData.name ? {
+                label: `Category: ${updatedCategory.name}`,
+              } : {}),
+            },
+          });
+        }
+      } catch (seoErr) {
+        console.error('Failed to sync PageSeo on category update:', seoErr);
+      }
+    }
+
     // Invalidate website cache asynchronously
     WebsiteService.invalidateCache().catch((err) =>
       console.error('Failed to invalidate website cache on category update:', err)
@@ -191,6 +248,16 @@ export class CategoriesService {
     if (articlesCount > 0) {
       throw new ConflictError('Cannot delete category with associated articles');
     }
+
+    // Clean up associated PageSeo record before deleting category
+    await prisma.pageSeo.deleteMany({
+      where: {
+        OR: [
+          { categoryId: id },
+          { slug: `category/${category.slug}` },
+        ],
+      },
+    }).catch((err) => console.error('Failed to cleanup category PageSeo:', err));
 
     await prisma.category.delete({
       where: { id },

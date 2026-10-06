@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { ChevronDown } from 'lucide-react';
 import FullWidthAdBanner from './FullWidthAdBanner';
 import { useHomeCategories } from '@/hooks/use-articles';
+import { getCategoryUrl, getArticleUrl } from '@/lib/category-utils';
 
 const EmptyCategoryState = ({ categoryName, isDark = false }: { categoryName: string; isDark?: boolean }) => (
   <div className={`w-full py-12 flex flex-col items-center justify-center border border-dashed rounded-lg text-center my-4 ${isDark ? 'bg-white/5 border-gray-800 text-gray-400' : 'bg-gray-50/50 border-gray-200 text-gray-400'}`}>
@@ -43,9 +44,7 @@ const CultureLifestyleSection = () => {
               {cultureData?.categoryName || 'Culture & Lifestyle'}
             </h2>
             <Link
-              href={`/news?category=${encodeURIComponent(
-                cultureArticles[0]?.category?.name || cultureData?.categoryName || 'Lifestyle & Culture'
-              )}`}
+              href={getCategoryUrl(cultureData?.categorySlug || cultureArticles[0]?.category?.name || cultureData?.categoryName || 'Lifestyle & Culture')}
               className="text-[#24214c] font-bold text-xs sm:text-sm flex items-center hover:text-[#FF0202] transition-colors shrink-0 whitespace-nowrap pb-0.5"
             >
               View All <ChevronDown size={18} className="ml-1" strokeWidth={3} />
@@ -59,7 +58,7 @@ const CultureLifestyleSection = () => {
               {cultureArticles.slice(0, 6).map((item) => (
                 <Link
                   key={item.id}
-                  href={`/news/${item.slug || item.id}`}
+                  href={getArticleUrl(item, cultureData?.categorySlug || 'culture-lifestyle')}
                   className="group cursor-pointer flex flex-col justify-between"
                 >
                   <div className="flex flex-col gap-1.5">
@@ -93,9 +92,7 @@ const CultureLifestyleSection = () => {
                 {mediaData?.categoryName || 'Media and Entertainment'}
               </h2>
               <Link
-                href={`/news?category=${encodeURIComponent(
-                  mediaArticles[0]?.category?.name || mediaData?.categoryName || 'Media & Entertainment'
-                )}`}
+                href={getCategoryUrl(mediaData?.categorySlug || mediaArticles[0]?.category?.name || mediaData?.categoryName || 'Media & Entertainment')}
                 className="text-white font-bold text-xs sm:text-sm flex items-center hover:text-[#FF0202] transition-colors shrink-0 whitespace-nowrap pb-0.5"
               >
                 View All <ChevronDown size={18} className="ml-1" strokeWidth={3} />
@@ -109,7 +106,7 @@ const CultureLifestyleSection = () => {
                 {mediaArticles.slice(0, 6).map((item) => (
                   <Link
                     key={item.id}
-                    href={`/news/${item.slug || item.id}`}
+                    href={getArticleUrl(item, mediaData?.categorySlug || 'media-entertainment')}
                     className="py-2 xl:py-2.5 first:pt-1 last:pb-0 group cursor-pointer flex gap-3 sm:gap-3.5 xl:gap-4 items-center flex-1"
                   >
                     <div className="relative w-28 sm:w-32 xl:w-36 aspect-[16/9] shrink-0 overflow-hidden bg-gray-800 rounded">

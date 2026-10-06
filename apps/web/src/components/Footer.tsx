@@ -7,11 +7,12 @@ import { ChevronRight, ArrowUpRight } from 'lucide-react';
 import SectionContainer from './SectionContainer';
 import { useNewsletterSubscribe } from '@/hooks/use-newsletter';
 import { useArticles } from '@/hooks/use-articles';
+import { getArticleUrl } from '@/lib/category-utils';
 
 const FALLBACK_STORIES = [
-  { title: 'UAE Economy Grows 4.3% in 2025, Driven by Non-Oil Sectors', href: '/news?category=UAE%20News' },
-  { title: 'Dubai Tops MENA Region in Global Business Competitiveness Index', href: '/news?category=MENA' },
-  { title: 'Abu Dhabi Launches $2B Fund to Boost Tech Startups Across the Gulf', href: '/news?category=Finance' },
+  { title: 'UAE Economy Grows 4.3% in 2025, Driven by Non-Oil Sectors', href: '/uae-news' },
+  { title: 'Dubai Tops MENA Region in Global Business Competitiveness Index', href: '/mena' },
+  { title: 'Abu Dhabi Launches $2B Fund to Boost Tech Startups Across the Gulf', href: '/banking-finance' },
 ];
 
 const Footer = () => {
@@ -26,7 +27,7 @@ const Footer = () => {
 
   const topStories = articlesData?.data?.slice(0, 3).map((article) => ({
     title: article.title,
-    href: `/news/${article.slug}`,
+    href: getArticleUrl(article),
   })) ?? FALLBACK_STORIES;
 
   const handleSubscribe = (e: React.FormEvent) => {
@@ -110,17 +111,17 @@ Business First is a UAE-focused digital business news and media platform built f
                 </Link>
               </li>
               <li>
-                <Link href="/news?category=UAE%20News" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
+                <Link href="/uae-news" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
                  Latest News
                 </Link>
               </li>
               <li>
-                <Link href="/news?category=MENA" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
+                <Link href="/mena" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
                   MENA
                 </Link>
               </li>
               <li>
-                <Link href="/news?category=International" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
+                <Link href="/international" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
                   International
                 </Link>
               </li>
@@ -148,34 +149,33 @@ Business First is a UAE-focused digital business news and media platform built f
             <h3 className="text-[#fbbf24] font-bold text-[15px] 2xl:text-[18px]">Other Categories</h3>
             <ul className="flex flex-col gap-2 mt-2">
               <li>
-                <Link href="/news?category=Retail%20%26%20E-commerce" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
+                <Link href="/retail-e-commerce" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
                   Retail &amp; E-commerce
                 </Link>
               </li>
               <li>
-                <Link href="/news?category=Aviation%20%26%20Aerospace" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
+                <Link href="/aviation-aerospace" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
                     Aviation  &amp; Aerospace
                 
                 </Link>
               </li>
               <li>
-                <Link href="/news?category=Education%20%26%20Training" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
+                <Link href="/education-training" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
                   Education &amp; Training
                 </Link>
               </li>
               <li>
-                <Link href="/news?category=Sports%20%26%20Recreation" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
+                <Link href="/sports-recreation" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
                   Sports &amp; Recreation
                 </Link>
               </li>
               <li>
-                <Link href="/news?category=Healthcare%20%26%20Pharma" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
+                <Link href="/healthcare-pharma" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
                   Healthcare &amp; Pharma
-
                 </Link>
               </li>
               <li>
-                <Link href="/news?category=Manufacturing%20%26%20Industrial" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
+                <Link href="/manufacturing-industrial" className="text-gray-300 hover:text-[#fbbf24] text-[13px] 2xl:text-[15px] transition-colors">
                   Manufacturing &amp; Industrial
                 </Link>
               </li>

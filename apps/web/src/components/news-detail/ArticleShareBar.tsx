@@ -39,8 +39,8 @@ export const ArticleShareBar: React.FC<ArticleShareBarProps> = ({ title, url: cu
     setTimeout(() => setToastMessage(null), 3000);
   };
 
-  const handleCopyLink = async () => {
-    if (!currentUrl) return;
+  const copyToClipboard = async (showDefaultToast = true): Promise<boolean> => {
+    if (!currentUrl) return false;
     try {
       if (navigator.clipboard && navigator.clipboard.writeText) {
         await navigator.clipboard.writeText(currentUrl);
@@ -53,12 +53,18 @@ export const ArticleShareBar: React.FC<ArticleShareBarProps> = ({ title, url: cu
         document.body.removeChild(input);
       }
       setCopied(true);
-      showToast('Link copied to clipboard!');
       setTimeout(() => setCopied(false), 2500);
+      if (showDefaultToast) {
+        showToast('Link copied to clipboard!');
+      }
+      return true;
     } catch (err) {
       console.error('Failed to copy link: ', err);
+      return false;
     }
   };
+
+  const handleCopyLink = () => copyToClipboard(true);
 
   const shareOptions = [
     {
@@ -107,8 +113,25 @@ export const ArticleShareBar: React.FC<ArticleShareBarProps> = ({ title, url: cu
       bgColor: 'bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] hover:opacity-90',
       textColor: 'text-white',
       action: () => {
-        handleCopyLink();
-        showToast('Link copied! Paste it in your Instagram post or story.');
+        copyToClipboard(false);
+        const isMobile = typeof navigator !== 'undefined' && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+        if (isMobile && typeof navigator !== 'undefined' && 'share' in navigator) {
+          setIsShareModalOpen(false);
+          navigator.share({
+            title: title,
+            text: `${title}\n\n${currentUrl}`,
+            url: currentUrl,
+          }).catch(() => {
+            // If user dismissed, fall back to opening Instagram
+            window.open('https://www.instagram.com/', '_blank', 'noopener,noreferrer');
+          });
+          return;
+        }
+
+        showToast('Link copied! Opening Instagram to share...');
+        setIsShareModalOpen(false);
+        window.open('https://www.instagram.com/', '_blank', 'noopener,noreferrer');
       },
     },
     {

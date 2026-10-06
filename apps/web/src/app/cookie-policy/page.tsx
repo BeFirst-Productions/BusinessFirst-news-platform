@@ -10,11 +10,7 @@ import { ShieldCheck, Cookie } from 'lucide-react';
 
 export async function generateMetadata() {
   const seoProps = await getPageSeoProps(`policy/cookie`);
-  return buildMetadata({
-    ...seoProps,
-    title: 'Cookie Policy | Business First UAE',
-    description: 'Learn how Business First, a division of Befirst Media Productions, uses cookies and similar technologies to manage sessions, understand readership, and enhance digital services.',
-  });
+  return buildMetadata(seoProps);
 }
 
 export default function CookiePolicyPage() {

@@ -790,7 +790,12 @@ export class WebsiteService {
       const [articles, categories] = await Promise.all([
         prisma.article.findMany({
           where: { status: 'PUBLISHED' },
-          select: { slug: true, updatedAt: true, publishedAt: true },
+          select: {
+            slug: true,
+            updatedAt: true,
+            publishedAt: true,
+            category: { select: { slug: true } },
+          },
           orderBy: { publishedAt: 'desc' },
         }),
         prisma.category.findMany({

@@ -8,6 +8,9 @@ interface ArticleSummary {
   title: string;
   slug: string;
   excerpt?: string | null;
+  category?: {
+    slug?: string | null;
+  } | null;
 }
 
 export async function GET() {
@@ -33,7 +36,8 @@ export async function GET() {
         .filter((a) => Boolean(a?.title && a?.slug))
         .map((a) => {
           const cleanExcerpt = (a.excerpt || '').replace(/[\r\n]+/g, ' ').trim();
-          return `- [${a.title}](${baseUrl}/news/${encodeURIComponent(a.slug)})${cleanExcerpt ? `: ${cleanExcerpt}` : ''}`;
+          const catSegment = a.category?.slug ? encodeURIComponent(a.category.slug) : 'news';
+          return `- [${a.title}](${baseUrl}/${catSegment}/${encodeURIComponent(a.slug)})${cleanExcerpt ? `: ${cleanExcerpt}` : ''}`;
         })
         .join('\n')
     : `- Visit [Latest News](${baseUrl}/news) for current coverage.`;
@@ -45,12 +49,12 @@ export async function GET() {
 Business First is an independent digital news publication providing breaking business news, key sector insights, economic analysis, and exclusive corporate coverage.
 
 ## Core Categories
-- [Real Estate & Construction](${baseUrl}/news?category=real-estate-construction): Property deals, developments, and infrastructure.
-- [Economy & Policy](${baseUrl}/news?category=economy-policy): Macroeconomic trends, fiscal policies, and government initiatives.
-- [Technology & Innovation](${baseUrl}/news?category=technology-innovation): Digital transformation, tech investments, and AI.
-- [Banking & Finance](${baseUrl}/news?category=banking-finance): Financial markets, fintech, and banking sector updates.
-- [Oil, Gas & Energy](${baseUrl}/news?category=oil-gas-energy): Energy sector, renewables, and petroleum news.
-- [UAE News](${baseUrl}/news?category=uae-news): Local regional developments across Dubai, Abu Dhabi, and the Emirates.
+- [Real Estate & Construction](${baseUrl}/real-estate-construction): Property deals, developments, and infrastructure.
+- [Economy & Policy](${baseUrl}/economy-policy): Macroeconomic trends, fiscal policies, and government initiatives.
+- [Technology & Innovation](${baseUrl}/technology-innovation): Digital transformation, tech investments, and AI.
+- [Banking & Finance](${baseUrl}/banking-finance): Financial markets, fintech, and banking sector updates.
+- [Oil, Gas & Energy](${baseUrl}/oil-gas-energy): Energy sector, renewables, and petroleum news.
+- [UAE News](${baseUrl}/uae-news): Local regional developments across Dubai, Abu Dhabi, and the Emirates.
 
 ## Latest Published Stories
 ${articlesMarkdown}

@@ -9,6 +9,7 @@ import MagazineCarousel from './MagazineCarousel';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useArticles } from '../hooks/use-articles';
+import { getArticleUrl } from '@/lib/category-utils';
 import { Skeleton } from './ui/Skeleton';
 
 const NewsGridSection = () => {
@@ -25,7 +26,10 @@ const NewsGridSection = () => {
   });
 
   const mapToNewsItem = (article: any): NewsItem => ({
-    id: article.slug,
+    id: article.slug || article.id,
+    slug: article.slug,
+    categorySlug: article.category?.slug,
+    url: getArticleUrl(article),
     title: article.title,
     category: article.category?.name || 'News',
     date: article.publishedAt
@@ -83,7 +87,7 @@ const NewsGridSection = () => {
             title="Trending News"
             titleColor="#FF0202"
             articles={trendingList}
-            viewAllHref="/news?category=Trending%20News"
+            viewAllHref="/trending"
           />
         </div>
 
@@ -93,7 +97,7 @@ const NewsGridSection = () => {
             title="UAE News"
             titleColor="#FF0202"
             articles={uaeList}
-            viewAllHref="/news?category=UAE%20News"
+            viewAllHref="/uae-news"
           />
         </div>
 
