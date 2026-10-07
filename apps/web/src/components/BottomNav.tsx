@@ -24,7 +24,8 @@ const BottomNav = () => {
         'Real Estate & Construction',
         'Technology & Innovation',
         'Logistics & Trade',
-        'Banking & Finance'
+        'Banking & Finance',
+        'Business & Corporate'
       ]
     },
     {
