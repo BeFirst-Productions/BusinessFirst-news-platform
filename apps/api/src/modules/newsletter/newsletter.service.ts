@@ -43,6 +43,9 @@ export class NewsletterService {
           isActive: true,
           token,
           name: data.name ?? existing.name,
+          category: data.category ?? existing.category ?? 'All Categories',
+          isLead: data.isLead !== undefined ? data.isLead : (existing.isLead ?? false),
+          source: data.source ?? existing.source ?? 'NEWSLETTER',
           subscribedAt: new Date(),
           unsubscribedAt: null,
         },
@@ -65,6 +68,9 @@ export class NewsletterService {
       data: {
         email: data.email,
         name: data.name ?? null,
+        category: data.category ?? 'All Categories',
+        isLead: data.isLead ?? false,
+        source: data.source ?? 'NEWSLETTER',
         token,
         isActive: true,
       },
@@ -105,7 +111,7 @@ export class NewsletterService {
 
   // ── Admin: Get subscribers (paginated + searchable) ───────────────────────
   static async getSubscribers(query: NewsletterQueryInput) {
-    const { page, limit, search, isActive } = query;
+    const { page, limit, search, isActive, isLead, category } = query;
     const skip = (page - 1) * limit;
 
     const where: Prisma.NewsletterWhereInput = {};
@@ -114,10 +120,19 @@ export class NewsletterService {
       where.isActive = isActive;
     }
 
+    if (typeof isLead === 'boolean') {
+      where.isLead = isLead;
+    }
+
+    if (category) {
+      where.category = category;
+    }
+
     if (search) {
       where.OR = [
         { email: { contains: search, mode: 'insensitive' } },
         { name: { contains: search, mode: 'insensitive' } },
+        { category: { contains: search, mode: 'insensitive' } },
       ];
     }
 
@@ -131,6 +146,9 @@ export class NewsletterService {
           id: true,
           email: true,
           name: true,
+          category: true,
+          isLead: true,
+          source: true,
           isActive: true,
           subscribedAt: true,
           unsubscribedAt: true,
@@ -145,13 +163,15 @@ export class NewsletterService {
 
   // ── Admin: Subscriber stats ──────────────────────────────────────────────
   static async getSubscriberStats() {
-    const [total, active, unsubscribed] = await Promise.all([
+    const [total, active, unsubscribed, leads, newsletter] = await Promise.all([
       prisma.newsletter.count(),
       prisma.newsletter.count({ where: { isActive: true } }),
       prisma.newsletter.count({ where: { isActive: false } }),
+      prisma.newsletter.count({ where: { isLead: true } }),
+      prisma.newsletter.count({ where: { isLead: false } }),
     ]);
 
-    return { total, active, unsubscribed };
+    return { total, active, unsubscribed, leads, newsletter };
   }
 
   // ── Admin: Delete a single subscriber ────────────────────────────────────
@@ -176,14 +196,21 @@ export class NewsletterService {
     const subscribers = await prisma.newsletter.findMany({
       where: { isActive: true },
       orderBy: { subscribedAt: 'asc' },
-      select: { email: true, name: true, subscribedAt: true },
+      select: {
+        email: true,
+        name: true,
+        category: true,
+        isLead: true,
+        source: true,
+        subscribedAt: true,
+      },
     });
 
-    const header = 'Email,Name,Subscribed At\n';
+    const header = 'Email,Name,Category,Type,Source,Subscribed At\n';
     const rows = subscribers
       .map(
         (s) =>
-          `"${s.email}","${s.name ?? ''}","${s.subscribedAt.toISOString()}"`,
+          `"${s.email}","${s.name ?? ''}","${s.category ?? 'All Categories'}","${s.isLead ? 'Lead' : 'Newsletter'}","${s.source ?? 'NEWSLETTER'}","${s.subscribedAt.toISOString()}"`,
       )
       .join('\n');
 

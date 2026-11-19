@@ -4,6 +4,9 @@ import { z } from 'zod';
 export const subscribeSchema = z.object({
   email: z.string().email('Please provide a valid email address'),
   name: z.string().min(1).max(100).optional(),
+  category: z.string().max(100).optional(),
+  isLead: z.boolean().optional(),
+  source: z.string().max(100).optional(),
 });
 
 export type SubscribeInput = z.infer<typeof subscribeSchema>;
@@ -17,6 +20,11 @@ export const newsletterQuerySchema = z.object({
     .string()
     .transform((v) => (v === 'true' ? true : v === 'false' ? false : undefined))
     .optional(),
+  isLead: z
+    .string()
+    .transform((v) => (v === 'true' ? true : v === 'false' ? false : undefined))
+    .optional(),
+  category: z.string().optional(),
 });
 
 export type NewsletterQueryInput = z.infer<typeof newsletterQuerySchema>;

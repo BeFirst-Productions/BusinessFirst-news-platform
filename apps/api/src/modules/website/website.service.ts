@@ -598,25 +598,33 @@ export class WebsiteService {
   }
 
   // Subscribe Newsletter
-  static async subscribeNewsletter(email: string, name?: string) {
+  static async subscribeNewsletter(
+    email: string,
+    name?: string,
+    category?: string,
+    isLead?: boolean,
+    source?: string
+  ) {
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       throw new BadRequestError('Invalid email address');
     }
 
-    const existing = await prisma.newsletter.findUnique({
-      where: { email },
-    });
-
-    if (existing && existing.isActive) {
-      return { success: true, subscriber: existing };
-    }
-
     const subscriber = await prisma.newsletter.upsert({
       where: { email },
-      update: { isActive: true },
+      update: {
+        isActive: true,
+        ...(name ? { name } : {}),
+        ...(category ? { category } : {}),
+        ...(isLead !== undefined ? { isLead } : {}),
+        ...(source ? { source } : {}),
+        unsubscribedAt: null,
+      },
       create: {
         email,
         name: name || null,
+        category: category || 'All Categories',
+        isLead: isLead ?? false,
+        source: source || 'WEBSITE',
         isActive: true,
       },
     });

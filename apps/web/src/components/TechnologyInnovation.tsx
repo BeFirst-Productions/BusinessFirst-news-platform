@@ -154,7 +154,7 @@ const TechnologyInnovation = () => {
                 fallback={
                   <Link href="https://nextmedia.ae" target="_blank" rel="noopener noreferrer" className="block w-full h-full relative">
                     <Image
-                      src="/ads/Business_First_600X250.jpeg"
+                      src="/ads/Business_First_600X250.png"
                       alt="Next Media - Branding & Marketing Solutions"
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-500"

@@ -7,6 +7,7 @@ import Link from 'next/link';
 import SectionContainer from './SectionContainer';
 import { DynamicAd } from './ads/DynamicAd';
 import { NavbarSearch } from './search/NavbarSearch';
+import TopBarSubscribeButton from './TopBarSubscribeButton';
 
 const MobileHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -191,6 +192,10 @@ const MobileHeader = () => {
                   </div>
                 );
               })}
+
+              <div className="pt-4 pb-2">
+                <TopBarSubscribeButton className="w-full bg-[#FF0202] hover:bg-[#d80000] text-white py-2.5 rounded-xl font-bold text-sm uppercase tracking-wider transition text-center flex items-center justify-center gap-2 cursor-pointer shadow-md" />
+              </div>
             </div>
           </div>
         )}

@@ -3,6 +3,7 @@ import { CloudSun, Calendar } from 'lucide-react';
 import { FaFacebookF, FaLinkedinIn, FaInstagram, FaXTwitter } from 'react-icons/fa6';
 
 import SectionContainer from './SectionContainer';
+import TopBarSubscribeButton from './TopBarSubscribeButton';
 
 const TopBar = async () => {
   // Fetch Dubai weather (revalidate every 1 hour)
@@ -83,12 +84,7 @@ const TopBar = async () => {
             <FaInstagram size={14} />
           </a>
         </div>
-        <a 
-          href="#newsletter-section"
-          className="bg-[#24214c] hover:bg-[#1a183d] text-white px-8 py-1.5 rounded-full font-bold text-xs uppercase tracking-wider transition text-center min-w-[120px]"
-        >
-          Subscribe
-        </a>
+        <TopBarSubscribeButton />
         {/* <button className="bg-[#cd2027] hover:bg-[#a61a1f] text-white px-6 py-1.5 rounded-full font-bold text-xs uppercase tracking-wider transition">
           Login
         </button> */}

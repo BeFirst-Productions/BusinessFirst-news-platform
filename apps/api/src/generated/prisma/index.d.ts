@@ -19867,6 +19867,9 @@ export namespace Prisma {
     id: string | null
     email: string | null
     name: string | null
+    category: string | null
+    isLead: boolean | null
+    source: string | null
     isActive: boolean | null
     token: string | null
     subscribedAt: Date | null
@@ -19879,6 +19882,9 @@ export namespace Prisma {
     id: string | null
     email: string | null
     name: string | null
+    category: string | null
+    isLead: boolean | null
+    source: string | null
     isActive: boolean | null
     token: string | null
     subscribedAt: Date | null
@@ -19891,6 +19897,9 @@ export namespace Prisma {
     id: number
     email: number
     name: number
+    category: number
+    isLead: number
+    source: number
     isActive: number
     token: number
     subscribedAt: number
@@ -19905,6 +19914,9 @@ export namespace Prisma {
     id?: true
     email?: true
     name?: true
+    category?: true
+    isLead?: true
+    source?: true
     isActive?: true
     token?: true
     subscribedAt?: true
@@ -19917,6 +19929,9 @@ export namespace Prisma {
     id?: true
     email?: true
     name?: true
+    category?: true
+    isLead?: true
+    source?: true
     isActive?: true
     token?: true
     subscribedAt?: true
@@ -19929,6 +19944,9 @@ export namespace Prisma {
     id?: true
     email?: true
     name?: true
+    category?: true
+    isLead?: true
+    source?: true
     isActive?: true
     token?: true
     subscribedAt?: true
@@ -20014,6 +20032,9 @@ export namespace Prisma {
     id: string
     email: string
     name: string | null
+    category: string | null
+    isLead: boolean
+    source: string | null
     isActive: boolean
     token: string | null
     subscribedAt: Date
@@ -20043,6 +20064,9 @@ export namespace Prisma {
     id?: boolean
     email?: boolean
     name?: boolean
+    category?: boolean
+    isLead?: boolean
+    source?: boolean
     isActive?: boolean
     token?: boolean
     subscribedAt?: boolean
@@ -20055,6 +20079,9 @@ export namespace Prisma {
     id?: boolean
     email?: boolean
     name?: boolean
+    category?: boolean
+    isLead?: boolean
+    source?: boolean
     isActive?: boolean
     token?: boolean
     subscribedAt?: boolean
@@ -20067,6 +20094,9 @@ export namespace Prisma {
     id?: boolean
     email?: boolean
     name?: boolean
+    category?: boolean
+    isLead?: boolean
+    source?: boolean
     isActive?: boolean
     token?: boolean
     subscribedAt?: boolean
@@ -20079,6 +20109,9 @@ export namespace Prisma {
     id?: boolean
     email?: boolean
     name?: boolean
+    category?: boolean
+    isLead?: boolean
+    source?: boolean
     isActive?: boolean
     token?: boolean
     subscribedAt?: boolean
@@ -20087,7 +20120,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type NewsletterOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "isActive" | "token" | "subscribedAt" | "unsubscribedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["newsletter"]>
+  export type NewsletterOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "category" | "isLead" | "source" | "isActive" | "token" | "subscribedAt" | "unsubscribedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["newsletter"]>
 
   export type $NewsletterPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Newsletter"
@@ -20096,6 +20129,9 @@ export namespace Prisma {
       id: string
       email: string
       name: string | null
+      category: string | null
+      isLead: boolean
+      source: string | null
       isActive: boolean
       token: string | null
       subscribedAt: Date
@@ -20528,6 +20564,9 @@ export namespace Prisma {
     readonly id: FieldRef<"Newsletter", 'String'>
     readonly email: FieldRef<"Newsletter", 'String'>
     readonly name: FieldRef<"Newsletter", 'String'>
+    readonly category: FieldRef<"Newsletter", 'String'>
+    readonly isLead: FieldRef<"Newsletter", 'Boolean'>
+    readonly source: FieldRef<"Newsletter", 'String'>
     readonly isActive: FieldRef<"Newsletter", 'Boolean'>
     readonly token: FieldRef<"Newsletter", 'String'>
     readonly subscribedAt: FieldRef<"Newsletter", 'DateTime'>
@@ -29493,6 +29532,9 @@ export namespace Prisma {
     id: 'id',
     email: 'email',
     name: 'name',
+    category: 'category',
+    isLead: 'isLead',
+    source: 'source',
     isActive: 'isActive',
     token: 'token',
     subscribedAt: 'subscribedAt',
@@ -31142,6 +31184,9 @@ export namespace Prisma {
     id?: StringFilter<"Newsletter"> | string
     email?: StringFilter<"Newsletter"> | string
     name?: StringNullableFilter<"Newsletter"> | string | null
+    category?: StringNullableFilter<"Newsletter"> | string | null
+    isLead?: BoolFilter<"Newsletter"> | boolean
+    source?: StringNullableFilter<"Newsletter"> | string | null
     isActive?: BoolFilter<"Newsletter"> | boolean
     token?: StringNullableFilter<"Newsletter"> | string | null
     subscribedAt?: DateTimeFilter<"Newsletter"> | Date | string
@@ -31154,6 +31199,9 @@ export namespace Prisma {
     id?: SortOrder
     email?: SortOrder
     name?: SortOrderInput | SortOrder
+    category?: SortOrderInput | SortOrder
+    isLead?: SortOrder
+    source?: SortOrderInput | SortOrder
     isActive?: SortOrder
     token?: SortOrderInput | SortOrder
     subscribedAt?: SortOrder
@@ -31170,6 +31218,9 @@ export namespace Prisma {
     OR?: NewsletterWhereInput[]
     NOT?: NewsletterWhereInput | NewsletterWhereInput[]
     name?: StringNullableFilter<"Newsletter"> | string | null
+    category?: StringNullableFilter<"Newsletter"> | string | null
+    isLead?: BoolFilter<"Newsletter"> | boolean
+    source?: StringNullableFilter<"Newsletter"> | string | null
     isActive?: BoolFilter<"Newsletter"> | boolean
     subscribedAt?: DateTimeFilter<"Newsletter"> | Date | string
     unsubscribedAt?: DateTimeNullableFilter<"Newsletter"> | Date | string | null
@@ -31181,6 +31232,9 @@ export namespace Prisma {
     id?: SortOrder
     email?: SortOrder
     name?: SortOrderInput | SortOrder
+    category?: SortOrderInput | SortOrder
+    isLead?: SortOrder
+    source?: SortOrderInput | SortOrder
     isActive?: SortOrder
     token?: SortOrderInput | SortOrder
     subscribedAt?: SortOrder
@@ -31199,6 +31253,9 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Newsletter"> | string
     email?: StringWithAggregatesFilter<"Newsletter"> | string
     name?: StringNullableWithAggregatesFilter<"Newsletter"> | string | null
+    category?: StringNullableWithAggregatesFilter<"Newsletter"> | string | null
+    isLead?: BoolWithAggregatesFilter<"Newsletter"> | boolean
+    source?: StringNullableWithAggregatesFilter<"Newsletter"> | string | null
     isActive?: BoolWithAggregatesFilter<"Newsletter"> | boolean
     token?: StringNullableWithAggregatesFilter<"Newsletter"> | string | null
     subscribedAt?: DateTimeWithAggregatesFilter<"Newsletter"> | Date | string
@@ -33214,6 +33271,9 @@ export namespace Prisma {
     id?: string
     email: string
     name?: string | null
+    category?: string | null
+    isLead?: boolean
+    source?: string | null
     isActive?: boolean
     token?: string | null
     subscribedAt?: Date | string
@@ -33226,6 +33286,9 @@ export namespace Prisma {
     id?: string
     email: string
     name?: string | null
+    category?: string | null
+    isLead?: boolean
+    source?: string | null
     isActive?: boolean
     token?: string | null
     subscribedAt?: Date | string
@@ -33238,6 +33301,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    isLead?: BoolFieldUpdateOperationsInput | boolean
+    source?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     token?: NullableStringFieldUpdateOperationsInput | string | null
     subscribedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33250,6 +33316,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    isLead?: BoolFieldUpdateOperationsInput | boolean
+    source?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     token?: NullableStringFieldUpdateOperationsInput | string | null
     subscribedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33262,6 +33331,9 @@ export namespace Prisma {
     id?: string
     email: string
     name?: string | null
+    category?: string | null
+    isLead?: boolean
+    source?: string | null
     isActive?: boolean
     token?: string | null
     subscribedAt?: Date | string
@@ -33274,6 +33346,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    isLead?: BoolFieldUpdateOperationsInput | boolean
+    source?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     token?: NullableStringFieldUpdateOperationsInput | string | null
     subscribedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33286,6 +33361,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    isLead?: BoolFieldUpdateOperationsInput | boolean
+    source?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     token?: NullableStringFieldUpdateOperationsInput | string | null
     subscribedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35142,6 +35220,9 @@ export namespace Prisma {
     id?: SortOrder
     email?: SortOrder
     name?: SortOrder
+    category?: SortOrder
+    isLead?: SortOrder
+    source?: SortOrder
     isActive?: SortOrder
     token?: SortOrder
     subscribedAt?: SortOrder
@@ -35154,6 +35235,9 @@ export namespace Prisma {
     id?: SortOrder
     email?: SortOrder
     name?: SortOrder
+    category?: SortOrder
+    isLead?: SortOrder
+    source?: SortOrder
     isActive?: SortOrder
     token?: SortOrder
     subscribedAt?: SortOrder
@@ -35166,6 +35250,9 @@ export namespace Prisma {
     id?: SortOrder
     email?: SortOrder
     name?: SortOrder
+    category?: SortOrder
+    isLead?: SortOrder
+    source?: SortOrder
     isActive?: SortOrder
     token?: SortOrder
     subscribedAt?: SortOrder

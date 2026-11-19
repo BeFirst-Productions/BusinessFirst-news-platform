@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Providers } from "@/app/providers";
 import ScrollToTop from "@/components/ScrollToTop";
+import SubscriptionModal from "@/components/SubscriptionModal";
 
 const merriweather = Merriweather({
   weight: ["300", "400", "700", "900"],
@@ -72,6 +73,7 @@ export default function RootLayout({
           {children}
           <Footer />
           <ScrollToTop />
+          <SubscriptionModal />
         </Providers>
       </body>
     </html>
