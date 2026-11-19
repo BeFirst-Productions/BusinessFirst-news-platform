@@ -290,11 +290,11 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
           >
             <X className="w-5 h-5 pointer-events-none" />
           </button>
-
+{/* 
           <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#fcb827]/20 text-[#fcb827] text-xs font-semibold uppercase tracking-wider mb-2">
             <Sparkles className="w-3.5 h-3.5" />
             <span>Newsletter</span>
-          </div>
+          </div> */}
 
           <h2 className="text-xl font-bold font-newsreader text-white leading-tight">
             Subscribe to Business First
