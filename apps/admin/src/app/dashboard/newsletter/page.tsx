@@ -41,6 +41,9 @@ interface Subscriber {
   id: string;
   email: string;
   name: string | null;
+  category?: string | null;
+  isLead?: boolean;
+  source?: string | null;
   isActive: boolean;
   subscribedAt: string;
   unsubscribedAt: string | null;
@@ -50,6 +53,8 @@ interface SubscriberStats {
   total: number;
   active: number;
   unsubscribed: number;
+  leads?: number;
+  newsletter?: number;
 }
 
 interface Campaign {
@@ -336,7 +341,7 @@ function ComposeCampaign({ activeCount, onClose, onSuccess }: ComposeCampaignPro
 
 export default function NewsletterPage() {
   const queryClient = useQueryClient();
-  const [activeTab, setActiveTab] = useState<'subscribers' | 'campaigns'>('subscribers');
+  const [activeTab, setActiveTab] = useState<'all' | 'subscribers' | 'leads' | 'campaigns'>('all');
 
   // Subscribers state
   const [search, setSearch] = useState('');
@@ -367,8 +372,10 @@ export default function NewsletterPage() {
     },
   });
 
+  const isLeadFilter = activeTab === 'leads' ? 'true' : activeTab === 'subscribers' ? 'false' : undefined;
+
   const { data: subscribersRes, isLoading: subLoading, refetch: refetchSubs } = useQuery<PaginatedResponse<Subscriber>>({
-    queryKey: ['newsletter-subscribers', subscriberPage, debouncedSearch, isActiveFilter],
+    queryKey: ['newsletter-subscribers', subscriberPage, debouncedSearch, isActiveFilter, activeTab],
     queryFn: async () => {
       const params: Record<string, string | number> = {
         page: subscriberPage,
@@ -377,6 +384,7 @@ export default function NewsletterPage() {
       if (debouncedSearch) params['search'] = debouncedSearch;
       if (isActiveFilter === 'active') params['isActive'] = 'true';
       if (isActiveFilter === 'inactive') params['isActive'] = 'false';
+      if (isLeadFilter !== undefined) params['isLead'] = isLeadFilter;
       const res = await apiClient.get('/newsletter/subscribers', { params });
       return { data: res.data.data, metadata: res.data.metadata };
     },
@@ -480,9 +488,10 @@ export default function NewsletterPage() {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {[
           { label: 'Total Subscribers', value: stats?.total ?? 0, icon: Users, color: 'text-blue-600 bg-blue-100 dark:bg-blue-950' },
+          { label: 'Leads (Modal / Forms)', value: stats?.leads ?? 0, icon: TrendingUp, color: 'text-amber-600 bg-amber-100 dark:bg-amber-950' },
           { label: 'Active Subscribers', value: stats?.active ?? 0, icon: UserCheck, color: 'text-emerald-600 bg-emerald-100 dark:bg-emerald-950' },
           { label: 'Unsubscribed', value: stats?.unsubscribed ?? 0, icon: UserMinus, color: 'text-rose-600 bg-rose-100 dark:bg-rose-950' },
         ].map((stat) => (
@@ -504,10 +513,10 @@ export default function NewsletterPage() {
 
       {/* Tabs */}
       <div className="flex gap-1 p-1 bg-muted rounded-xl w-fit">
-        {(['subscribers', 'campaigns'] as const).map((tab) => (
+        {(['all', 'subscribers', 'leads', 'campaigns'] as const).map((tab) => (
           <button
             key={tab}
-            onClick={() => setActiveTab(tab)}
+            onClick={() => { setActiveTab(tab); setSubscriberPage(1); setSelectedIds(new Set()); }}
             className={cn(
               'px-5 py-2 text-sm font-medium rounded-lg capitalize transition-all',
               activeTab === tab
@@ -515,13 +524,33 @@ export default function NewsletterPage() {
                 : 'text-muted-foreground hover:text-foreground'
             )}
           >
-            {tab === 'subscribers' ? (
+            {tab === 'all' ? (
               <span className="flex items-center gap-2">
                 <Users className="h-4 w-4" />
-                Subscribers
+                All
                 {stats && (
                   <span className="text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded-full font-semibold">
-                    {stats.active}
+                    {stats.total}
+                  </span>
+                )}
+              </span>
+            ) : tab === 'subscribers' ? (
+              <span className="flex items-center gap-2">
+                <Users className="h-4 w-4" />
+                Newsletter
+                {stats && (
+                  <span className="text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded-full font-semibold">
+                    {stats.newsletter ?? (stats.total - (stats.leads ?? 0))}
+                  </span>
+                )}
+              </span>
+            ) : tab === 'leads' ? (
+              <span className="flex items-center gap-2">
+                <TrendingUp className="h-4 w-4 text-amber-500" />
+                Leads
+                {stats && (
+                  <span className="text-[10px] bg-amber-500/10 text-amber-600 dark:text-amber-400 px-1.5 py-0.5 rounded-full font-semibold">
+                    {stats.leads ?? 0}
                   </span>
                 )}
               </span>
@@ -535,12 +564,38 @@ export default function NewsletterPage() {
         ))}
       </div>
 
-      {/* ── Subscribers Tab ─────────────────────────────────────────────── */}
-      {activeTab === 'subscribers' && (
+      {/* ── Subscribers & Leads Tab ─────────────────────────────────────── */}
+      {activeTab !== 'campaigns' && (
         <Card>
           <CardHeader className="pb-3 border-b">
             <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
-              <CardTitle className="text-base">Subscriber List</CardTitle>
+              <div>
+                <CardTitle className="text-base flex items-center gap-2">
+                  {activeTab === 'leads' ? (
+                    <>
+                      <TrendingUp className="h-4 w-4 text-amber-500" />
+                      <span>Leads List (Modal & Forms)</span>
+                    </>
+                  ) : activeTab === 'subscribers' ? (
+                    <>
+                      <Users className="h-4 w-4 text-primary" />
+                      <span>Newsletter Subscribers</span>
+                    </>
+                  ) : (
+                    <>
+                      <Users className="h-4 w-4 text-primary" />
+                      <span>All Subscribers & Leads</span>
+                    </>
+                  )}
+                </CardTitle>
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  {activeTab === 'leads'
+                    ? 'Showing visitors who submitted their name, category, and email via the subscription modal.'
+                    : activeTab === 'subscribers'
+                      ? 'Showing standard newsletter subscribers.'
+                      : 'Showing complete list of newsletter subscribers and form leads.'}
+                </p>
+              </div>
               <div className="flex flex-wrap gap-2">
                 {selectedIds.size > 0 && (
                   <Button
@@ -578,7 +633,7 @@ export default function NewsletterPage() {
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <input
                   type="text"
-                  placeholder="Search by email..."
+                  placeholder="Search by email, name, or category..."
                   value={search}
                   onChange={(e) => handleSearchChange(e.target.value)}
                   className="w-full pl-9 pr-4 h-9 text-sm rounded-lg border border-input bg-background focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
@@ -611,9 +666,15 @@ export default function NewsletterPage() {
             ) : subscribers.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-20 text-center">
                 <Users className="h-10 w-10 text-muted-foreground/40 mb-3" />
-                <p className="text-muted-foreground font-medium">No subscribers found</p>
+                <p className="text-muted-foreground font-medium">
+                  {activeTab === 'leads' ? 'No leads found' : 'No subscribers found'}
+                </p>
                 <p className="text-xs text-muted-foreground/70 mt-1">
-                  {debouncedSearch ? 'Try adjusting your search' : 'Subscribers will appear here once someone signs up'}
+                  {debouncedSearch
+                    ? 'Try adjusting your search'
+                    : activeTab === 'leads'
+                      ? 'Leads will appear here once visitors submit the subscription modal'
+                      : 'Subscribers will appear here once someone signs up'}
                 </p>
               </div>
             ) : (
@@ -626,7 +687,10 @@ export default function NewsletterPage() {
                           {allSelected ? <CheckSquare className="h-4 w-4 text-primary" /> : <Square className="h-4 w-4" />}
                         </button>
                       </th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide">Name</th>
                       <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide">Email</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide">Category</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide">Type</th>
                       <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide">Status</th>
                       <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide hidden sm:table-cell">Subscribed</th>
                       <th className="px-4 py-3 text-right text-xs font-semibold text-muted-foreground uppercase tracking-wide">Actions</th>
@@ -642,7 +706,24 @@ export default function NewsletterPage() {
                               : <Square className="h-4 w-4" />}
                           </button>
                         </td>
-                        <td className="px-4 py-3 font-medium">{sub.email}</td>
+                        <td className="px-4 py-3 font-medium">
+                          {sub.name ? (
+                            <span className="font-semibold text-foreground">{sub.name}</span>
+                          ) : (
+                            <span className="text-muted-foreground text-xs italic">—</span>
+                          )}
+                        </td>
+                        <td className="px-4 py-3 text-foreground font-mono text-xs sm:text-sm">{sub.email}</td>
+                        <td className="px-4 py-3">
+                          <Badge variant="outline" className="text-[11px] font-normal">
+                            {sub.category || 'All Categories'}
+                          </Badge>
+                        </td>
+                        <td className="px-4 py-3">
+                          <Badge variant={sub.isLead ? 'warning' : 'default'} className="text-[11px]">
+                            {sub.isLead ? 'Lead' : 'Newsletter'}
+                          </Badge>
+                        </td>
                         <td className="px-4 py-3">
                           <Badge variant={sub.isActive ? 'success' : 'secondary'} className="text-[11px]">
                             {sub.isActive ? 'Active' : 'Unsubscribed'}

@@ -43,7 +43,7 @@ const AdvertiseSidebar: React.FC<AdvertiseSidebarProps> = ({ onOpenMediaKit }) =
               >
                 ads@businessfirstnews.com
               </a>
-              <span className="text-[11px] text-white/50">info@businessfirstnews.com</span>
+              {/* <span className="text-[11px] text-white/50">info@businessfirstnews.com</span> */}
             </div>
           </div>
 

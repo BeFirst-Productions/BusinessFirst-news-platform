@@ -294,8 +294,8 @@ export class WebsiteController {
 
   static async subscribeNewsletter(req: Request, res: Response, next: NextFunction) {
     try {
-      const { email, name } = req.body;
-      const result = await WebsiteService.subscribeNewsletter(email, name);
+      const { email, name, category, isLead, source } = req.body;
+      const result = await WebsiteService.subscribeNewsletter(email, name, category, isLead, source);
 
       res.status(200).json({
         success: true,

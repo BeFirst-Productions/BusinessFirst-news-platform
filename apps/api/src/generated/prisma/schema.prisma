@@ -365,6 +365,9 @@ model Newsletter {
   id             String    @id @default(uuid())
   email          String    @unique
   name           String?
+  category       String?   @default("All Categories")
+  isLead         Boolean   @default(false)
+  source         String?   @default("NEWSLETTER")
   isActive       Boolean   @default(true)
   token          String?   @unique
   subscribedAt   DateTime  @default(now())
@@ -375,6 +378,8 @@ model Newsletter {
   @@index([email])
   @@index([isActive])
   @@index([token])
+  @@index([isLead])
+  @@index([category])
 }
 
 model NewsletterCampaign {
