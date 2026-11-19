@@ -789,4 +789,34 @@ export class WebsiteService {
       }
     });
   }
+
+  // Lightweight Sitemap Entries Generator
+  static async getSitemapEntries() {
+    const cacheKey = 'website:sitemap-entries';
+
+    return this.getCachedOrFetch(cacheKey, 1800, async () => {
+      const [articles, categories] = await Promise.all([
+        prisma.article.findMany({
+          where: { status: 'PUBLISHED' },
+          select: {
+            slug: true,
+            updatedAt: true,
+            publishedAt: true,
+            category: { select: { slug: true } },
+          },
+          orderBy: { publishedAt: 'desc' },
+        }),
+        prisma.category.findMany({
+          where: { isActive: true },
+          select: { slug: true, updatedAt: true },
+        }),
+      ]);
+
+      return {
+        articles,
+        categories,
+      };
+    });
+  }
 }
+

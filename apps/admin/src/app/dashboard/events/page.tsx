@@ -338,7 +338,7 @@ export default function EventsPage() {
               label="Redirect Link"
               value={formData.linkUrl}
               onChange={(e) => setFormData({ ...formData, linkUrl: e.target.value })}
-              placeholder="e.g. /news?category=Events"
+              placeholder="e.g. /events"
             />
             <div className="flex items-center gap-2">
               <input

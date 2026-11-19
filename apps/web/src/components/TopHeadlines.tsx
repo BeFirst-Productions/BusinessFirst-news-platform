@@ -7,6 +7,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import SectionContainer from './SectionContainer';
 import SectionTitle from './SectionTitle';
 import { useArticles } from '../hooks/use-articles';
+import { getArticleUrl } from '@/lib/category-utils';
 import { Skeleton } from './ui/Skeleton';
 
 const TopHeadlines = () => {
@@ -38,6 +39,7 @@ const TopHeadlines = () => {
       : '',
     image: h.featuredImage || '/placeholder-news.jpg',
     slug: h.slug,
+    url: getArticleUrl(h),
   }));
 
   // Ensure we repeat the headlines list enough times to have at least 15 items
@@ -194,7 +196,7 @@ const TopHeadlines = () => {
         >
           {listToRender.map((item, index) => (
             <Link
-              href={`/news/${item.slug}`}
+              href={item.url}
               key={`${item.id}-${index}`}
               className="flex bg-white rounded-lg border border-gray-200 overflow-hidden w-[300px] md:w-[340px] shrink-0 h-[100px] shadow-sm hover:shadow-md transition-all cursor-pointer group/card"
             >

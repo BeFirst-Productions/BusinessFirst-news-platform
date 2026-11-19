@@ -78,13 +78,21 @@ export function mapPageSeoToHeadProps(seo: PageSeoData): SeoHeadProps {
 }
 
 export function buildMetadata(props: SeoHeadProps): Metadata {
-  const fullTitle = `${props.title} | ${SITE_NAME}`;
+  const fullTitle =
+    props.title && (props.title.includes(SITE_NAME) || props.title.toLowerCase().includes('businessfirst') || props.title.toLowerCase().includes('business first'))
+      ? props.title
+      : `${props.title} | ${SITE_NAME}`;
   const ogTitle   = props.ogTitle ?? props.title;
   const ogDesc    = props.ogDescription ?? props.description;
+  const keywordsItem = props.extraMeta?.find((m) => m.name.toLowerCase() === 'keywords');
+  const keywords = keywordsItem?.content
+    ? keywordsItem.content.split(',').map((s) => s.trim()).filter(Boolean)
+    : undefined;
 
   return {
     title: fullTitle,
     description: props.description,
+    ...(keywords && keywords.length > 0 && { keywords }),
     ...(props.canonicalUrl && {
       alternates: { canonical: props.canonicalUrl },
     }),

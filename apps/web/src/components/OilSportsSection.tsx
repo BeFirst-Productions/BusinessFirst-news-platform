@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { ChevronDown } from 'lucide-react';
 import SectionContainer from './SectionContainer';
 import { useHomeCategories } from '@/hooks/use-articles';
+import { getCategoryUrl, getArticleUrl } from '@/lib/category-utils';
 
 const EmptyCategoryState = ({ categoryName }: { categoryName: string }) => (
   <div className="w-full py-12 flex flex-col items-center justify-center bg-gray-50/50 border border-dashed border-gray-200 rounded-lg text-center my-4">
@@ -49,9 +50,7 @@ const OilSportsSection: React.FC = () => {
               <div className="absolute -bottom-[9px] left-0 w-full max-w-[200px] h-[3px] bg-[#FF0202]"></div>
             </div>
             <Link
-              href={`/news?category=${encodeURIComponent(
-                oilData?.categoryName || 'Oil, Gas & Energy'
-              )}`}
+              href={getCategoryUrl(oilData?.categorySlug || oilData?.categoryName || 'Oil, Gas & Energy')}
               className="flex items-center text-[#24214c] font-bold text-xs sm:text-sm hover:opacity-80 transition-opacity shrink-0 whitespace-nowrap pb-0.5"
             >
               View All <ChevronDown size={16} className="ml-1 text-gray-500" />
@@ -65,7 +64,7 @@ const OilSportsSection: React.FC = () => {
               {/* Featured Article - Big Image on Top */}
               {oilFeatured && (
                 <Link
-                  href={`/news/${oilFeatured.slug || oilFeatured.id}`}
+                  href={getArticleUrl(oilFeatured, oilData?.categorySlug || 'oil-gas-energy')}
                   className="flex flex-col gap-2 group cursor-pointer w-full"
                 >
                   <div className="relative w-full aspect-[16/9] overflow-hidden bg-gray-200">
@@ -91,7 +90,7 @@ const OilSportsSection: React.FC = () => {
                   {oilSmall.map((item) => (
                     <Link
                       key={item.id}
-                      href={`/news/${item.slug || item.id}`}
+                      href={getArticleUrl(item, oilData?.categorySlug || 'oil-gas-energy')}
                       className="flex gap-4 group cursor-pointer items-center"
                     >
                       <div className="relative w-28 md:w-36 h-20 shrink-0 overflow-hidden bg-gray-200">
@@ -129,9 +128,7 @@ const OilSportsSection: React.FC = () => {
               <div className="absolute -bottom-[9px] left-0 w-full max-w-[200px] h-[3px] bg-[#FF0202]"></div>
             </div>
             <Link
-              href={`/news?category=${encodeURIComponent(
-                sportsData?.categoryName || 'Sports & Recreation'
-              )}`}
+              href={getCategoryUrl(sportsData?.categorySlug || sportsData?.categoryName || 'Sports & Recreation')}
               className="flex items-center text-[#24214c] font-bold text-xs sm:text-sm hover:opacity-80 transition-opacity shrink-0 whitespace-nowrap pb-0.5"
             >
               View All <ChevronDown size={16} className="ml-1 text-gray-500" />
@@ -145,7 +142,7 @@ const OilSportsSection: React.FC = () => {
               {/* Featured Article - Big Image on Top */}
               {sportsFeatured && (
                 <Link
-                  href={`/news/${sportsFeatured.slug || sportsFeatured.id}`}
+                  href={getArticleUrl(sportsFeatured, sportsData?.categorySlug || 'sports-recreation')}
                   className="flex flex-col gap-2 group cursor-pointer w-full"
                 >
                   <div className="relative w-full aspect-[16/9] overflow-hidden bg-gray-200">
@@ -171,7 +168,7 @@ const OilSportsSection: React.FC = () => {
                   {sportsSmall.map((item) => (
                     <Link
                       key={item.id}
-                      href={`/news/${item.slug || item.id}`}
+                      href={getArticleUrl(item, sportsData?.categorySlug || 'sports-recreation')}
                       className="flex gap-4 group cursor-pointer items-center"
                     >
                       <div className="relative w-28 md:w-36 h-20 shrink-0 overflow-hidden bg-gray-200">

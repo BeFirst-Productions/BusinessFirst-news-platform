@@ -19,7 +19,7 @@ export interface PageSeoRecord {
   label: string;
   pageType: PageType;
   categoryId: string | null;
-  category: { id: string; name: string; slug: string } | null;
+  category: { id: string; name: string; slug: string; _count?: { articles: number } } | null;
   metaTitle: string;
   metaDescription: string;
   canonicalUrl: string | null;

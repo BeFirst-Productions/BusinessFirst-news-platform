@@ -2,6 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import { ChevronDown } from 'lucide-react';
 import Link from 'next/link';
+import { getCategoryUrl, getArticleUrl } from '@/lib/category-utils';
 
 export interface NewsItem {
   id: string | number;
@@ -9,6 +10,9 @@ export interface NewsItem {
   category: string;
   date: string;
   imageUrl: string;
+  url?: string;
+  slug?: string;
+  categorySlug?: string;
 }
 
 interface NewsColumnProps {
@@ -35,7 +39,7 @@ const NewsColumn: React.FC<NewsColumnProps> = ({
   const smallList = articles ? articles.slice(5, 8) : propSmallList;
 
   const hasArticles = Boolean(featured || mediumGrid.length > 0 || smallList.length > 0);
-  const href = viewAllHref || `/news?category=${encodeURIComponent(title)}`;
+  const href = viewAllHref || getCategoryUrl(title);
 
   return (
     <div className="flex flex-col gap-6 w-full">
@@ -58,7 +62,7 @@ const NewsColumn: React.FC<NewsColumnProps> = ({
         <>
           {/* Featured Large Card */}
           {featured && (
-            <Link href={`/news/${featured.id}`} className="flex flex-col gap-2 group cursor-pointer w-full">
+            <Link href={featured.url || getArticleUrl(featured, title)} className="flex flex-col gap-2 group cursor-pointer w-full">
               <div className="relative w-full aspect-[16/9] overflow-hidden rounded">
                 <Image
                   src={featured.imageUrl}
@@ -85,7 +89,7 @@ const NewsColumn: React.FC<NewsColumnProps> = ({
           {mediumGrid.length > 0 && (
             <div className="grid grid-cols-2 gap-3 xl:gap-4">
               {mediumGrid.slice(0, 4).map((item) => (
-                <Link href={`/news/${item.id}`} key={item.id} className="flex flex-col group cursor-pointer h-full">
+                <Link href={item.url || getArticleUrl(item, title)} key={item.id} className="flex flex-col group cursor-pointer h-full">
                   <div className="relative w-full aspect-video overflow-hidden rounded mb-2">
                     <Image
                       src={item.imageUrl}
@@ -115,9 +119,9 @@ const NewsColumn: React.FC<NewsColumnProps> = ({
           {/* Small Horizontal List */}
           {smallList.length > 0 && (
             <div className="flex flex-col gap-3 xl:gap-4">
-              {smallList.slice(0, 3).map((item, index) => (
+              {smallList.slice(0, 3).map((item) => (
                 <Link
-                  href={`/news/${item.id}`}
+                  href={item.url || getArticleUrl(item, title)}
                   key={item.id}
                   className="flex gap-2.5 sm:gap-3 group cursor-pointer items-center"
                 >

@@ -19,11 +19,19 @@ const API_BASE = RAW_API_URL.replace(/\/website\/?$/, '');
  *               e.g. "" (home), "contact", "category/tech"
  */
 export async function fetchPageSeo(slug: string): Promise<PageSeoData | null> {
-  const encodedSlug = encodeURIComponent(slug);
+  const cleanSlug = slug.replace(/^\/+/, '');
+  const encodedSlug = encodeURIComponent(cleanSlug);
   try {
-    const res = await fetch(`${API_BASE}/seo/public/by-slug/${encodedSlug}`, {
+    let res = await fetch(`${API_BASE}/seo/public/by-slug/${encodedSlug}`, {
       cache: 'no-store', // Always fetch fresh data
     });
+
+    if (!res.ok && !cleanSlug.startsWith('category/')) {
+      const catEncoded = encodeURIComponent(`category/${cleanSlug}`);
+      res = await fetch(`${API_BASE}/seo/public/by-slug/${catEncoded}`, {
+        cache: 'no-store',
+      });
+    }
 
     if (!res.ok) return null;
 

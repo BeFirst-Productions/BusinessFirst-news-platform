@@ -164,9 +164,11 @@ class ApiClient {
     
     if (method === 'GET') {
       this.pendingRequests.set(requestKey, requestPromise);
-      requestPromise.finally(() => {
-        this.pendingRequests.delete(requestKey);
-      });
+      requestPromise
+        .catch(() => {})
+        .finally(() => {
+          this.pendingRequests.delete(requestKey);
+        });
     }
 
     return requestPromise;

@@ -9,6 +9,7 @@ import SectionTitle from './SectionTitle';
 import { useArticles } from '../hooks/use-articles';
 import { useCategories } from '../hooks/use-categories';
 import { Skeleton } from './ui/Skeleton';
+import { getArticleUrl } from '@/lib/category-utils';
 
 const FEATURED_ANALYSIS_CATEGORY_ID = '79db4f54-ed90-4bae-9866-ef5f97a348c2';
 
@@ -37,7 +38,7 @@ const SponsoredContents = () => {
   const rawFeatured = featuredRes?.data || [];
   const rawSponsored = sponsoredRes?.data || [];
 
-  const mapArticle = (h: any) => ({
+  const mapArticle = (h: any, fallbackCat?: string) => ({
     id: h.id,
     title: h.title,
     date: h.publishedAt
@@ -48,11 +49,11 @@ const SponsoredContents = () => {
       })}`
       : '',
     image: h.featuredImage || '/placeholder-news.jpg',
-    slug: `/news/${h.slug}`,
+    slug: getArticleUrl(h, fallbackCat),
   });
 
-  const featuredArticles = rawFeatured.map(mapArticle);
-  const sponsoredArticles = rawSponsored.map(mapArticle);
+  const featuredArticles = rawFeatured.map((h: any) => mapArticle(h, 'featured-analysis'));
+  const sponsoredArticles = rawSponsored.map((h: any) => mapArticle(h, 'sponsored'));
 
   const isLoading = isFeaturedLoading || isSponsoredLoading;
 
@@ -72,7 +73,7 @@ const SponsoredContents = () => {
               borderColor="border-gray-800"
               titleColor="#FF0202"
               underlineColor="#FF0202"
-              viewAllHref="/news?category=Featured Analysis"
+              viewAllHref="/featured-analysis"
               viewAllColor="#ffffff"
               viewAllHoverColor="hover:text-[#FF0202]"
               viewAllIcon={<ChevronRight size={16} strokeWidth={2.5} />}
@@ -98,7 +99,7 @@ const SponsoredContents = () => {
               borderColor="border-gray-800"
               titleColor="#FF0202"
               underlineColor="#FF0202"
-              viewAllHref="/news?isSponsored=true"
+              viewAllHref="/sponsored"
               viewAllColor="#ffffff"
               viewAllHoverColor="hover:text-[#FF0202]"
               viewAllIcon={<ChevronRight size={16} strokeWidth={2.5} />}
@@ -135,7 +136,7 @@ const SponsoredContents = () => {
             borderColor="border-gray-800"
             titleColor="#FF0202"
             underlineColor="#FF0202"
-            viewAllHref="/news?category=Featured Analysis"
+            viewAllHref="/featured-analysis"
             viewAllColor="#ffffff"
             viewAllHoverColor="hover:text-[#FF0202]"
             viewAllIcon={<ChevronRight size={16} strokeWidth={2.5} />}
@@ -184,7 +185,7 @@ const SponsoredContents = () => {
             borderColor="border-gray-800"
             titleColor="#FF0202"
             underlineColor="#FF0202"
-            viewAllHref="/news?isSponsored=true"
+            viewAllHref="/sponsored"
             viewAllColor="#ffffff"
             viewAllHoverColor="hover:text-[#FF0202]"
             viewAllIcon={<ChevronRight size={16} strokeWidth={2.5} />}

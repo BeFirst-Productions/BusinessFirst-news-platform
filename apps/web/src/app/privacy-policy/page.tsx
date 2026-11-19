@@ -10,11 +10,7 @@ import { ShieldCheck, Lock, UserCheck, Mail, Phone, Globe, Building2 } from 'luc
 
 export async function generateMetadata() {
   const seoProps = await getPageSeoProps(`policy/privacy`);
-  return buildMetadata({
-    ...seoProps,
-    title: 'Privacy Policy | Business First UAE',
-    description: 'Read the official Privacy Policy of Business First, a division of Befirst Media Productions, in accordance with UAE Federal Decree-Law No. 45 of 2021.',
-  });
+  return buildMetadata(seoProps);
 }
 
 export default function PrivacyPolicyPage() {

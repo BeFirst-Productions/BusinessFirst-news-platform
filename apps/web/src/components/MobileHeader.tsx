@@ -8,6 +8,7 @@ import SectionContainer from './SectionContainer';
 import { DynamicAd } from './ads/DynamicAd';
 import { NavbarSearch } from './search/NavbarSearch';
 import TopBarSubscribeButton from './TopBarSubscribeButton';
+import { getCategoryUrl } from '@/lib/category-utils';
 
 const MobileHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -31,7 +32,8 @@ const MobileHeader = () => {
         'Real Estate & Construction',
         'Technology & Innovation',
         'Logistics & Trade',
-        'Banking & Finance'
+        'Banking & Finance',
+        'Business & Corporate'
       ]
     },
     {
@@ -132,7 +134,7 @@ const MobileHeader = () => {
                       <div>
                         <div className="flex justify-between items-center py-[14px] w-full">
                           <Link
-                            href={item.name === 'Contact Us' ? '/contact' : `/news?category=${encodeURIComponent(item.name)}`}
+                            href={item.name === 'Contact Us' ? '/contact' : getCategoryUrl(item.name)}
                             className="font-medium text-[15px] hover:text-gray-300 transition flex-1 cursor-pointer"
                             onClick={() => {
                               setIsMenuOpen(false);
@@ -159,7 +161,7 @@ const MobileHeader = () => {
                             {item.items?.map((subItem, idx) => {
                               const href = item.name === 'Contact Us'
                                 ? (subItem.toLowerCase().includes('advertise') ? '/advertise' : '/contact')
-                                : `/news?category=${encodeURIComponent(subItem)}`;
+                                : getCategoryUrl(subItem);
                               return (
                                 <Link
                                   key={idx}

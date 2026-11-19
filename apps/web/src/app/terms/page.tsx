@@ -27,11 +27,7 @@ import {
 
 export async function generateMetadata() {
   const seoProps = await getPageSeoProps(`policy/terms`);
-  return buildMetadata({
-    ...seoProps,
-    title: 'Terms & Conditions | Business First UAE',
-    description: 'Read the official Terms & Conditions governing access to Business First news, advertising, sponsored content, and media services in the UAE.',
-  });
+  return buildMetadata(seoProps);
 }
 
 export default function TermsPage() {

@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React from 'react';
 import { notFound } from 'next/navigation';
@@ -48,7 +48,7 @@ const NewsDetail: React.FC<NewsDetailProps> = ({ articleId }) => {
   return (
     <SectionContainer className="bg-white py-8 md:py-12">
       {/* Breadcrumbs */}
-      <NewsBreadcrumbs category={article.category?.name || 'News'} />
+      <NewsBreadcrumbs category={article.category?.name || 'News'} categorySlug={article.category?.slug} />
 
       {/* 2-Column Layout with JS-driven sticky sidebar scroll behavior */}
       <ArticleLayoutWithStickySidebar

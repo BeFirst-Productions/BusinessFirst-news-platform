@@ -7,6 +7,7 @@ import { ChevronDown } from 'lucide-react';
 import SectionContainer from './SectionContainer';
 import FullWidthAdBanner from './FullWidthAdBanner';
 import { useHomeCategories, useArticles } from '@/hooks/use-articles';
+import { getCategoryUrl, getArticleUrl } from '@/lib/category-utils';
 
 const EmptyCategoryState = ({ categoryName, isDark = false }: { categoryName: string; isDark?: boolean }) => (
   <div className={`w-full py-12 flex flex-col items-center justify-center border border-dashed rounded-lg text-center my-4 ${isDark ? 'bg-white/5 border-gray-700 text-gray-400' : 'bg-gray-50/50 border-gray-200 text-gray-400'}`}>
@@ -85,9 +86,7 @@ const LogisticsAviationSection: React.FC = () => {
               <div className="absolute -bottom-[9px] left-0 w-full max-w-[200px] h-[3px] bg-[#FF0202]"></div>
             </div>
             <Link
-              href={`/news?category=${encodeURIComponent(
-                logisticsData?.categoryName || 'Logistics & Trade'
-              )}`}
+              href={getCategoryUrl(logisticsData?.categorySlug || logisticsData?.categoryName || 'Logistics & Trade')}
               className="flex items-center text-[#24214c] font-bold text-xs sm:text-sm hover:opacity-80 transition-opacity shrink-0 whitespace-nowrap pb-0.5"
             >
               View All <ChevronDown size={16} className="ml-1 text-gray-500" />
@@ -101,7 +100,7 @@ const LogisticsAviationSection: React.FC = () => {
               {/* Featured Article */}
               {logisticsFeatured && (
                 <Link
-                  href={`/news/${logisticsFeatured.slug || logisticsFeatured.id}`}
+                  href={getArticleUrl(logisticsFeatured, logisticsData?.categorySlug || 'logistics-trade')}
                   className="flex flex-col sm:flex-row gap-4 group cursor-pointer pb-2"
                 >
                   <div className="relative w-full sm:w-[45%] aspect-[4/3] overflow-hidden shrink-0 bg-gray-200 rounded">
@@ -134,7 +133,7 @@ const LogisticsAviationSection: React.FC = () => {
                   {logisticsSmall.map((item) => (
                     <Link
                       key={item.id}
-                      href={`/news/${item.slug || item.id}`}
+                      href={getArticleUrl(item, logisticsData?.categorySlug || 'logistics-trade')}
                       className="flex flex-col group cursor-pointer h-full"
                     >
                       <div className="relative w-full aspect-[16/10] shrink-0 overflow-hidden bg-gray-200 rounded mb-2">
@@ -172,9 +171,7 @@ const LogisticsAviationSection: React.FC = () => {
               <div className="absolute -bottom-[9px] left-0 w-full max-w-[200px] h-[3px] bg-[#FF0202]"></div>
             </div>
             <Link
-              href={`/news?category=${encodeURIComponent(
-                aviationData?.categoryName || 'Aviation & Aerospace'
-              )}`}
+              href={getCategoryUrl(aviationData?.categorySlug || aviationData?.categoryName || 'Aviation & Aerospace')}
               className="flex items-center text-[#FBB03B] font-bold text-xs sm:text-sm hover:opacity-80 transition-opacity shrink-0 whitespace-nowrap pb-0.5"
             >
               View All <ChevronDown size={16} className="ml-1 text-[#FBB03B]" />
@@ -188,7 +185,7 @@ const LogisticsAviationSection: React.FC = () => {
               {/* Featured Article */}
               {aviationFeatured && (
                 <Link
-                  href={`/news/${aviationFeatured.slug || aviationFeatured.id}`}
+                  href={getArticleUrl(aviationFeatured, aviationData?.categorySlug || 'aviation-aerospace')}
                   className="flex flex-col sm:flex-row gap-4 group cursor-pointer pb-2"
                 >
                   <div className="relative w-full sm:w-[45%] aspect-[4/3] overflow-hidden shrink-0 bg-gray-800 rounded">
@@ -221,7 +218,7 @@ const LogisticsAviationSection: React.FC = () => {
                   {aviationSmall.map((item) => (
                     <Link
                       key={item.id}
-                      href={`/news/${item.slug || item.id}`}
+                      href={getArticleUrl(item, aviationData?.categorySlug || 'aviation-aerospace')}
                       className="flex flex-col group cursor-pointer h-full"
                     >
                       <div className="relative w-full aspect-[16/10] shrink-0 overflow-hidden bg-gray-800 rounded mb-2">

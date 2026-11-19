@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { Search, X, Loader2, ArrowRight, Calendar, Newspaper } from 'lucide-react';
 import { useArticles } from '@/hooks/use-articles';
 import type { Article } from '@businessfirst/shared-types';
+import { getArticleUrl } from '@/lib/category-utils';
 
 interface NavbarSearchProps {
   variant?: 'desktop' | 'mobile';
@@ -111,9 +112,7 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({
       e.preventDefault();
       if (selectedIndex >= 0 && articles[selectedIndex]) {
         const target = articles[selectedIndex];
-        setIsOpen(false);
-        if (onClose) onClose();
-        router.push(`/news/${target.slug || target.id}`);
+        handleSelectArticle(target);
       } else {
         handleSubmit();
       }
@@ -127,10 +126,10 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({
     inputRef.current?.focus();
   };
 
-  const handleSelectArticle = (slugOrId: string) => {
+  const handleSelectArticle = (article: any) => {
     setIsOpen(false);
     if (onClose) onClose();
-    router.push(`/news/${slugOrId}`);
+    router.push(getArticleUrl(article));
   };
 
   // Helper to format date
@@ -238,7 +237,7 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({
                   return (
                     <div
                       key={article.id}
-                      onClick={() => handleSelectArticle(article.slug || article.id)}
+                      onClick={() => handleSelectArticle(article)}
                       onMouseEnter={() => setSelectedIndex(idx)}
                       className={`flex items-start gap-3 p-3 transition-colors cursor-pointer group ${
                         isSelected ? 'bg-red-50/70' : 'hover:bg-gray-50'
@@ -387,7 +386,7 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({
               articles.map((article) => (
                 <div
                   key={article.id}
-                  onClick={() => handleSelectArticle(article.slug || article.id)}
+                  onClick={() => handleSelectArticle(article)}
                   className="flex items-start gap-3 p-3 hover:bg-gray-50 active:bg-red-50/50 cursor-pointer transition-colors"
                 >
                   <div className="relative w-14 h-11 shrink-0 overflow-hidden rounded bg-gray-100 border border-gray-100">

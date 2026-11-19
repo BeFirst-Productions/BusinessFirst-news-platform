@@ -10,11 +10,7 @@ import { Copyright, ShieldCheck, FileCheck2, AlertCircle, Sparkles, Scale, Share
 
 export async function generateMetadata() {
   const seoProps = await getPageSeoProps(`policy/copyright`);
-  return buildMetadata({
-    ...seoProps,
-    title: 'Copyright & Content Licensing Policy | Business First UAE',
-    description: 'Understand how Business First content may and may not be used, shared, quoted, republished, or commercially licensed under UAE Federal Decree-Law No. 38 of 2021.',
-  });
+  return buildMetadata(seoProps);
 }
 
 export default function CopyrightPolicyPage() {

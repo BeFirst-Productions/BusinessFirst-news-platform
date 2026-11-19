@@ -9,6 +9,7 @@ import FullWidthAdBanner from './FullWidthAdBanner';
 import { useHomeCategories } from '@/hooks/use-articles';
 import { useQuery } from '@tanstack/react-query';
 import { apiClient } from '@/lib/api-client';
+import { getArticleUrl } from '@/lib/category-utils';
 
 const EmptyCategoryState = ({ categoryName }: { categoryName: string }) => (
   <div className="w-full py-12 flex flex-col items-center justify-center bg-gray-50/50 border border-dashed border-gray-200 rounded-lg text-center my-4">
@@ -38,7 +39,7 @@ const EventsSection = () => {
       title: 'Global Business Forum Dubai 2026',
       badge: 'FEATURED EVENT',
       image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=80',
-      linkUrl: '/news?category=Events',
+      linkUrl: '/events',
       linkText: 'Explore Events',
     },
   ];
@@ -57,6 +58,7 @@ const EventsSection = () => {
   }, [eventsList]);
 
   const eventsData = homeCategories?.['events'];
+  const eventsSlug = eventsData?.categorySlug || 'events';
   const eventsArticles = eventsData?.articles || [];
 
   const mainArticle = eventsArticles[0];
@@ -83,9 +85,7 @@ const EventsSection = () => {
               {eventsData?.categoryName || 'Events'}
             </h2>
             <Link
-              href={`/news?category=${encodeURIComponent(
-                eventsData?.categoryName || 'Events'
-              )}`}
+              href="/events"
               className="text-[#24214c] font-bold text-xs sm:text-sm flex items-center hover:text-[#FF0202] transition-colors shrink-0 whitespace-nowrap pb-0.5"
             >
               View All <ChevronDown size={18} className="ml-1" strokeWidth={3} />
@@ -101,7 +101,7 @@ const EventsSection = () => {
                 {/* Large Article */}
                 {mainArticle && (
                   <div className="md:col-span-2 group cursor-pointer flex flex-col gap-3">
-                    <Link href={`/news/${mainArticle.slug || mainArticle.id}`} className="flex flex-col gap-3">
+                    <Link href={getArticleUrl(mainArticle, eventsSlug)} className="flex flex-col gap-3">
                       <div className="relative w-full aspect-[16/10] overflow-hidden bg-gray-200 rounded">
                         <Image
                           src={mainArticle.featuredImage || '/placeholder-news.jpg'}
@@ -124,7 +124,7 @@ const EventsSection = () => {
                 {stackedArticles.length > 0 && (
                   <div className="md:col-span-1 flex flex-col gap-6">
                     {stackedArticles.map((item) => (
-                      <Link key={item.id} href={`/news/${item.slug || item.id}`} className="group cursor-pointer flex flex-col gap-2">
+                      <Link key={item.id} href={getArticleUrl(item, eventsSlug)} className="group cursor-pointer flex flex-col gap-2">
                         <div className="relative w-full aspect-[16/10] overflow-hidden bg-gray-200 rounded">
                           <Image
                             src={item.featuredImage || '/placeholder-news.jpg'}
@@ -149,7 +149,7 @@ const EventsSection = () => {
               {bottomArticles.length > 0 && (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-gray-200">
                   {bottomArticles.map((item) => (
-                    <Link key={item.id} href={`/news/${item.slug || item.id}`} className="group cursor-pointer flex flex-col gap-2">
+                    <Link key={item.id} href={getArticleUrl(item, eventsSlug)} className="group cursor-pointer flex flex-col gap-2">
                       <div className="relative w-full aspect-[16/10] overflow-hidden bg-gray-200 rounded">
                         <Image
                           src={item.featuredImage || '/placeholder-news.jpg'}
@@ -185,7 +185,7 @@ const EventsSection = () => {
               {eventsList.map((event: any, index: number) => (
                 <Link
                   key={event.id || index}
-                  href={event.linkUrl || "/news?category=Events"}
+                  href={event.linkUrl || "/events"}
                   className={`absolute inset-0 cursor-pointer transition-opacity duration-1000 ${index === currentEventIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
                     }`}
                 >

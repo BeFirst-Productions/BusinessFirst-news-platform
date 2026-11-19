@@ -2,6 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { DynamicAd } from '../ads/DynamicAd';
+import { getArticleUrl } from '@/lib/category-utils';
 
 import { useArticles } from '@/hooks/use-articles';
 
@@ -17,7 +18,8 @@ const NewsSidebar = () => {
     title: item.title,
     category: item.category?.name || 'News',
     date: item.publishedAt ? new Date(item.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '',
-    image: item.featuredImage || 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=150&h=150&q=80'
+    image: item.featuredImage || 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=150&h=150&q=80',
+    url: getArticleUrl(item)
   }));
 
   return (
@@ -31,7 +33,7 @@ const NewsSidebar = () => {
         <div className="flex flex-col divide-y divide-gray-100">
           {recentPosts.map((post) => (
             <Link
-              href={`/news/${post.id}`}
+              href={post.url}
               key={post.id}
               className="flex gap-4 p-4 hover:bg-gray-50 transition-all duration-300 group"
             >

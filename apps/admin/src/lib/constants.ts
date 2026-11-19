@@ -1,4 +1,4 @@
-const rawApiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8083/api/v1';
+const rawApiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8083/api/v1').replace(/\/+$/, '');
 export const API_URL = rawApiUrl.endsWith('/api/v1') ? rawApiUrl : `${rawApiUrl}/api/v1`;
 
 export const ROLES = {

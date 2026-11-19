@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronDown } from 'lucide-react';
 import { useHomeCategories } from '@/hooks/use-articles';
+import { getCategoryUrl, getArticleUrl } from '@/lib/category-utils';
 
 const EmptyCategoryState = ({ categoryName }: { categoryName: string }) => (
   <div className="w-full py-12 flex flex-col items-center justify-center bg-gray-50/50 border border-dashed border-gray-200 rounded-lg text-center my-4">
@@ -47,9 +48,7 @@ const HealthcareTourismSection = () => {
               {healthData?.categoryName || 'Healthcare & Pharma'}
             </h2>
             <Link
-              href={`/news?category=${encodeURIComponent(
-                healthData?.categoryName || 'Healthcare & Pharma'
-              )}`}
+              href={getCategoryUrl(healthData?.categorySlug || healthData?.categoryName || 'Healthcare & Pharma')}
               className="text-[#24214c] font-bold text-xs sm:text-sm flex items-center hover:text-[#FF0202] transition-colors shrink-0 whitespace-nowrap pb-0.5"
             >
               View All <ChevronDown size={18} className="ml-1" strokeWidth={3} />
@@ -62,7 +61,7 @@ const HealthcareTourismSection = () => {
             <>
               {/* Featured Main Article */}
               {healthFeatured && (
-                <Link href={`/news/${healthFeatured.slug || healthFeatured.id}`} className="group cursor-pointer flex flex-col">
+                <Link href={getArticleUrl(healthFeatured, healthData?.categorySlug || 'healthcare-pharma')} className="group cursor-pointer flex flex-col">
                   <div className="relative w-full aspect-[2/1] overflow-hidden bg-gray-200 rounded-md">
                     <Image
                       src={healthFeatured.featuredImage || '/placeholder-news.jpg'}
@@ -84,7 +83,7 @@ const HealthcareTourismSection = () => {
               {healthGrid.length > 0 && (
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-4 gap-y-5 mt-2">
                   {healthGrid.map((item) => (
-                    <Link key={item.id} href={`/news/${item.slug || item.id}`} className="group cursor-pointer flex flex-col">
+                    <Link key={item.id} href={getArticleUrl(item, healthData?.categorySlug || 'healthcare-pharma')} className="group cursor-pointer flex flex-col">
                       <div className="relative w-full aspect-[16/9] overflow-hidden bg-gray-200 rounded-md">
                         <Image
                           src={item.featuredImage || '/placeholder-news.jpg'}
@@ -115,9 +114,7 @@ const HealthcareTourismSection = () => {
               {tourismData?.categoryName || 'Tourism & Hospitality'}
             </h2>
             <Link
-              href={`/news?category=${encodeURIComponent(
-                tourismData?.categoryName || 'Tourism & Hospitality'
-              )}`}
+              href={getCategoryUrl(tourismData?.categorySlug || tourismData?.categoryName || 'Tourism & Hospitality')}
               className="text-[#24214c] font-bold text-xs sm:text-sm flex items-center hover:text-[#FF0202] transition-colors shrink-0 whitespace-nowrap pb-0.5"
             >
               View All <ChevronDown size={18} className="ml-1" strokeWidth={3} />
@@ -130,7 +127,7 @@ const HealthcareTourismSection = () => {
             <div className="flex flex-col gap-6">
               {/* Top Featured Large Article */}
               {tourismFeatured && (
-                <Link href={`/news/${tourismFeatured.slug || tourismFeatured.id}`} className="group cursor-pointer flex flex-col">
+                <Link href={getArticleUrl(tourismFeatured, tourismData?.categorySlug || 'tourism-hospitality')} className="group cursor-pointer flex flex-col">
                   <div className="relative w-full aspect-[16/9] overflow-hidden bg-gray-200 rounded-md">
                     <Image
                       src={tourismFeatured.featuredImage || '/placeholder-news.jpg'}
@@ -154,7 +151,7 @@ const HealthcareTourismSection = () => {
                   {tourismList.map((item, index) => (
                     <Link
                       key={item.id}
-                      href={`/news/${item.slug || item.id}`}
+                      href={getArticleUrl(item, tourismData?.categorySlug || 'tourism-hospitality')}
                       className={`flex gap-3.5 items-center group cursor-pointer ${
                         index === 3 ? 'lg:hidden xl:flex' : ''
                       }`}

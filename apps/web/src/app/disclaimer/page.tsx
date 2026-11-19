@@ -10,11 +10,7 @@ import { AlertCircle, ShieldAlert, CheckCircle2 } from 'lucide-react';
 
 export async function generateMetadata() {
   const seoProps = await getPageSeoProps(`policy/disclaimer`);
-  return buildMetadata({
-    ...seoProps,
-    title: 'Disclaimer | Business First UAE',
-    description: 'Read the official disclaimer for Business First, a division of Befirst Media Productions. Understand our editorial standards, financial risk notices, and general news disclaimers.',
-  });
+  return buildMetadata(seoProps);
 }
 
 export default function DisclaimerPage() {

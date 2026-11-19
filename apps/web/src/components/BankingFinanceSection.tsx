@@ -8,6 +8,7 @@ import SectionContainer from './SectionContainer';
 import { DynamicAd } from './ads/DynamicAd';
 import NewsletterWidget from './NewsletterWidget';
 import { useHomeCategories } from '@/hooks/use-articles';
+import { getCategoryUrl, getArticleUrl } from '@/lib/category-utils';
 
 const EmptyCategoryState = ({ categoryName }: { categoryName: string }) => (
   <div className="w-full py-12 flex flex-col items-center justify-center bg-gray-50/50 border border-dashed border-gray-200 rounded-lg text-center my-4">
@@ -26,6 +27,7 @@ const BankingFinanceSection: React.FC = () => {
   const mediumArticles = articles.slice(4, 7);
 
   const categoryName = bankingData?.categoryName || 'Banking & Finance';
+  const categorySlug = bankingData?.categorySlug || 'banking-finance';
 
   const formatDate = (dateStr?: string) =>
     dateStr
@@ -48,7 +50,7 @@ const BankingFinanceSection: React.FC = () => {
               <div className="absolute -bottom-[9.5px] left-0 w-full max-w-[200px] h-[2.5px] bg-[#FF0202]"></div>
             </h2>
             <Link
-              href={`/news?category=${encodeURIComponent(categoryName)}`}
+              href={getCategoryUrl(categoryName)}
               className="flex items-center text-[#24214c] font-bold text-xs sm:text-sm hover:opacity-80 transition-opacity shrink-0 whitespace-nowrap pb-0.5"
             >
               View All <ChevronDown size={16} className="ml-1 text-[#24214c]" />
@@ -65,7 +67,7 @@ const BankingFinanceSection: React.FC = () => {
                   {/* Main Featured Article */}
                   {mainFeatured && (
                     <Link
-                      href={`/news/${mainFeatured.slug || mainFeatured.id}`}
+                      href={getArticleUrl(mainFeatured, categorySlug)}
                       className="flex flex-col group cursor-pointer w-full"
                     >
                       <div className="relative w-full aspect-[16/9] overflow-hidden shrink-0 bg-gray-100 rounded">
@@ -93,7 +95,7 @@ const BankingFinanceSection: React.FC = () => {
                       {smallArticles.map((item) => (
                         <Link
                           key={item.id}
-                          href={`/news/${item.slug || item.id}`}
+                          href={getArticleUrl(item, categorySlug)}
                           className="flex gap-4 group cursor-pointer items-center"
                         >
                           <div className="relative w-[35%] aspect-[4/3] shrink-0 overflow-hidden bg-gray-100 rounded">
@@ -124,7 +126,7 @@ const BankingFinanceSection: React.FC = () => {
                     {mediumArticles.map((item) => (
                       <Link
                         key={item.id}
-                        href={`/news/${item.slug || item.id}`}
+                        href={getArticleUrl(item, categorySlug)}
                         className="flex flex-col group cursor-pointer w-full flex-1"
                       >
                         <div className="relative w-full flex-1 min-h-[90px] overflow-hidden bg-gray-100 rounded mb-2">

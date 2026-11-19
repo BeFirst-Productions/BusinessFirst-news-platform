@@ -24,10 +24,11 @@ const MobileHeader = () => {
       name: 'Key Sectors', 
       items: [
         'Oil, Gas & Energy',
-        'Real Estate &Construction',
+        'Real Estate & Construction',
         'Technology & Innovation',
         'Logistics & Trade',
-        'Banking & Finance'
+        'Banking & Finance',
+        'Business & Corporate'
       ] 
     },
     { 

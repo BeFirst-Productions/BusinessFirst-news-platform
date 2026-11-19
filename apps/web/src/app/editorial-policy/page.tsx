@@ -10,11 +10,7 @@ import { CheckCircle2, ShieldCheck, Newspaper, AlertCircle, Compass, Target, Sca
 
 export async function generateMetadata() {
   const seoProps = await getPageSeoProps(`policy/editorial`);
-  return buildMetadata({
-    ...seoProps,
-    title: 'Editorial Policy | Business First UAE',
-    description: 'Explore the editorial values, reporting standards, source verification rules, and UAE media compliance guidelines that guide Business First journalism.',
-  });
+  return buildMetadata(seoProps);
 }
 
 export default function EditorialPolicyPage() {

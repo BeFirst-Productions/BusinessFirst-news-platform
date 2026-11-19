@@ -15,24 +15,65 @@ import {
   findCategory,
   isCategoryValid,
 } from '@/lib/category-validation';
+import { getCategorySlug, SPECIAL_CATEGORY_MAP, slugToTitle, getArticleUrl } from '@/lib/category-utils';
 
+export interface CategoryListingProps {
+  initialSlug?: string;
+  initialCategoryName?: string;
+}
 
-const CategoryListing: React.FC = () => {
+const CategoryListing: React.FC<CategoryListingProps> = ({
+  initialSlug,
+  initialCategoryName,
+}) => {
   const searchParams = useSearchParams();
   const rawSearchQuery = searchParams.get('search') || searchParams.get('q') || '';
   const searchQuery = rawSearchQuery.trim();
   const isSearchMode = searchQuery.length > 0;
 
-  const isSponsoredParam = searchParams.get('isSponsored') === 'true';
-  const isFeaturedParam = searchParams.get('isFeatured') === 'true';
-  const isTrendingParam = searchParams.get('isTrending') === 'true';
-  const isUaeNewsParam = searchParams.get('isUaeNews') === 'true';
-  const rawCategoryName = searchParams.get('category');
+  const cleanInitialSlug = initialSlug ? getCategorySlug(initialSlug) : '';
 
-  const isTrending = isTrendingParam || rawCategoryName?.toLowerCase() === 'trending news' || rawCategoryName?.toLowerCase() === 'trending';
-  const isUaeNews = isUaeNewsParam || rawCategoryName?.toLowerCase() === 'uae news' || rawCategoryName?.toLowerCase() === 'uae';
-  const isSponsored = isSponsoredParam || rawCategoryName?.toLowerCase() === 'sponsored contents' || rawCategoryName?.toLowerCase() === 'sponsored';
-  const isFeatured = isFeaturedParam || rawCategoryName?.toLowerCase() === 'featured analysis';
+  const isSponsoredParam =
+    searchParams.get('isSponsored') === 'true' ||
+    cleanInitialSlug === 'sponsored' ||
+    cleanInitialSlug === 'sponsored-contents';
+  const isFeaturedParam =
+    searchParams.get('isFeatured') === 'true' ||
+    cleanInitialSlug === 'featured' ||
+    cleanInitialSlug === 'featured-analysis';
+  const isTrendingParam =
+    searchParams.get('isTrending') === 'true' ||
+    cleanInitialSlug === 'trending' ||
+    cleanInitialSlug === 'trending-news';
+  const isUaeNewsParam =
+    searchParams.get('isUaeNews') === 'true' ||
+    cleanInitialSlug === 'uae' ||
+    cleanInitialSlug === 'uae-news';
+
+  const rawCategoryParam =
+    initialCategoryName ||
+    (cleanInitialSlug ? (SPECIAL_CATEGORY_MAP[cleanInitialSlug]?.name || slugToTitle(cleanInitialSlug)) : null) ||
+    searchParams.get('category');
+
+  const isTrending = isTrendingParam || rawCategoryParam?.toLowerCase() === 'trending news' || rawCategoryParam?.toLowerCase() === 'trending';
+  const isUaeNews = isUaeNewsParam || rawCategoryParam?.toLowerCase() === 'uae news' || rawCategoryParam?.toLowerCase() === 'uae';
+  const isSponsored = isSponsoredParam || rawCategoryParam?.toLowerCase() === 'sponsored contents' || rawCategoryParam?.toLowerCase() === 'sponsored';
+  const isFeatured = isFeaturedParam || rawCategoryParam?.toLowerCase() === 'featured analysis';
+
+  const pageParam = searchParams.get('page');
+  const currentPage = pageParam ? parseInt(pageParam, 10) : 1;
+  const itemsPerPage = 12;
+
+  // Fetch all categories to get matched category & ID
+  const { data: categories, isLoading: isCategoriesLoading } = useCategories();
+
+  const isSpecialParam = isSponsored || isTrending || isUaeNews || isFeatured;
+
+  // Resolve matching category from database
+  const matchedCategory = findCategory(
+    categories,
+    initialCategoryName || (cleanInitialSlug && !isSpecialParam ? cleanInitialSlug : rawCategoryParam || '')
+  );
 
   const categoryName = isSearchMode
     ? `Search: "${searchQuery}"`
@@ -44,23 +85,17 @@ const CategoryListing: React.FC = () => {
           ? 'Trending News'
           : isUaeNews
             ? 'UAE News'
-            : (rawCategoryName || 'Latest News');
+            : (matchedCategory?.name || rawCategoryParam || 'Latest News');
 
-  const pageParam = searchParams.get('page');
-  const currentPage = pageParam ? parseInt(pageParam, 10) : 1;
-  const itemsPerPage = 12;
-
-  // Fetch all categories to get matched category & ID
-  const { data: categories, isLoading: isCategoriesLoading } = useCategories();
-
-  const isSpecialParam = isSponsored || isTrending || isUaeNews || isFeatured;
-  if (rawCategoryName && !isSearchMode && !isSpecialParam && !isCategoriesLoading) {
-    if (!isCategoryValid(rawCategoryName, categories || [])) {
+  if (cleanInitialSlug && !isSearchMode && !isSpecialParam && !isCategoriesLoading) {
+    if (!matchedCategory && !isCategoryValid(cleanInitialSlug, categories || [])) {
+      notFound();
+    }
+  } else if (rawCategoryParam && !isSearchMode && !isSpecialParam && !isCategoriesLoading) {
+    if (!isCategoryValid(rawCategoryParam, categories || [])) {
       notFound();
     }
   }
-
-  const matchedCategory = findCategory(categories, categoryName);
 
   const isFeaturedAnalysis = categoryName === 'Featured Analysis';
   const targetCategoryId =
@@ -118,6 +153,7 @@ const CategoryListing: React.FC = () => {
     id: item.slug || item.id,
     title: item.title,
     category: item.category?.name || (isSearchMode ? 'News' : categoryName),
+    url: getArticleUrl(item, cleanInitialSlug || getCategorySlug(categoryName)),
     date: item.publishedAt
       ? new Date(item.publishedAt).toLocaleDateString('en-US', {
         month: 'short',
@@ -138,16 +174,11 @@ const CategoryListing: React.FC = () => {
     if (isSearchMode) {
       return `/news?search=${encodeURIComponent(searchQuery)}&page=${pageNum}`;
     }
-    if (isTrendingParam) {
-      return `/news?isTrending=true&page=${pageNum}`;
+    const cleanSlug = cleanInitialSlug || getCategorySlug(categoryName);
+    if (cleanSlug) {
+      return `/${cleanSlug}?page=${pageNum}`;
     }
-    if (isUaeNewsParam) {
-      return `/news?isUaeNews=true&page=${pageNum}`;
-    }
-    if (isSponsoredParam) {
-      return `/news?isSponsored=true&page=${pageNum}`;
-    }
-    return `/news?category=${encodeURIComponent(categoryName)}&page=${pageNum}`;
+    return `/news?page=${pageNum}`;
   };
 
   // Sidebar widget: Show UAE News if currently on Trending News page, otherwise show Trending News
@@ -171,6 +202,7 @@ const CategoryListing: React.FC = () => {
     id: item.slug || item.id,
     title: item.title,
     category: item.category?.name || (isTrendingPage ? 'UAE News' : 'Trending News'),
+    url: getArticleUrl(item, isTrendingPage ? 'uae-news' : 'trending'),
     date: item.publishedAt
       ? new Date(item.publishedAt).toLocaleDateString('en-US', {
         month: 'short',
@@ -209,6 +241,7 @@ const CategoryListing: React.FC = () => {
       id: item.slug || item.id,
       title: item.title,
       category: item.category?.name || 'UAE News',
+      url: getArticleUrl(item, 'uae-news'),
       date: item.publishedAt
         ? new Date(item.publishedAt).toLocaleDateString('en-US', {
           month: 'short',
@@ -304,7 +337,7 @@ const CategoryListing: React.FC = () => {
                 {paginatedArticles.map((article) => (
                   <Link
                     key={article.id}
-                    href={`/news/${article.id}`}
+                    href={article.url || getArticleUrl(article)}
                     className="group flex flex-col gap-2.5 cursor-pointer"
                   >
                     <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-gray-100 shadow-sm">
@@ -393,7 +426,7 @@ const CategoryListing: React.FC = () => {
                 {sidebarArticles.map((item, index) => (
                   <Link
                     key={item.id}
-                    href={`/news/${item.id}`}
+                    href={item.url || getArticleUrl(item)}
                     className={`flex gap-3 hover:opacity-90 transition-opacity pb-3 ${index !== sidebarArticles.length - 1 ? 'border-b border-white/10' : ''
                       }`}
                   >
@@ -461,7 +494,7 @@ const CategoryListing: React.FC = () => {
               {suggestedArticles.map((article) => (
                 <Link
                   key={article.id}
-                  href={`/news/${article.id}`}
+                  href={article.url || getArticleUrl(article)}
                   className="group bg-white border border-gray-200/70 rounded-2xl p-3 pb-5 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col gap-3.5 cursor-pointer"
                 >
                   <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-gray-50 shrink-0">

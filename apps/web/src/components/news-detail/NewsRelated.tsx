@@ -4,6 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRelatedArticles } from '@/hooks/use-articles';
+import { getArticleUrl } from '@/lib/category-utils';
 import { Skeleton } from '../ui/Skeleton';
 
 interface NewsRelatedProps {
@@ -39,7 +40,7 @@ const NewsRelated: React.FC<NewsRelatedProps> = ({ articleId }) => {
           ))
           : articles.map((article) => (
             <Link
-              href={`/news/${article.slug}`}
+              href={getArticleUrl(article)}
               key={article.id}
               className="group bg-white rounded-2xl overflow-hidden border border-gray-200 hover:shadow-md transition-all duration-300 flex flex-col"
             >
