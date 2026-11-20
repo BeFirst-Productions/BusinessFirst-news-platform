@@ -1,34 +1,29 @@
 "use client";
 
-import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { X, Mail, User, CheckCircle2, ChevronDown, Sparkles, AlertCircle } from 'lucide-react';
-import { useCategories } from '@/hooks/use-categories';
+import React, { useState, useEffect, useRef } from 'react';
+import { X, Mail, User, CheckCircle2, Check, AlertCircle } from 'lucide-react';
 import { useNewsletterSubscribe } from '@/hooks/use-newsletter';
 import { useSubscriptionModal } from '@/hooks/use-subscription-modal';
 
-const FALLBACK_CATEGORIES = [
-  'All Categories',
-  'UAE News',
-  'MENA',
-  'Economy & Policy',
-  'International',
-  'Oil, Gas & Energy',
-  'Real Estate & Construction',
-  'Technology & Innovation',
-  'Banking & Finance',
-  'Logistics & Trade',
-  'Aviation & Aerospace',
-  'Education & Training',
-  'Manufacturing & Industrial',
-  'Sustainability & CSR',
-  'Media & Entertainment',
-  'Tourism & Hospitality',
-  'Retail & E-commerce',
-  'Healthcare & Pharma',
-  'Sports & Recreation',
-  'Lifestyle & Culture',
-  'Daily Insights',
+export interface InterestCategory {
+  id: string;
+  label: string;
+  value: string;
+}
+
+export const INTEREST_CATEGORIES: InterestCategory[] = [
+  { id: 'ALL', label: 'ALL', value: 'All Categories' },
+  { id: 'BANKING', label: 'BANKING', value: 'Banking & Finance' },
+  { id: 'SPORTS', label: 'SPORTS', value: 'Sports & Recreation' },
+  { id: 'TOURISM', label: 'TOURISM', value: 'Tourism & Hospitality' },
+  { id: 'HEALTH', label: 'HEALTH', value: 'Healthcare & Pharma' },
+  { id: 'ECONOMY', label: 'ECONOMY', value: 'Economy & Policy' },
+  { id: 'UAE_NEWS', label: 'UAE NEWS', value: 'UAE News' },
+  { id: 'E_COM', label: 'E-COM', value: 'Retail & E-commerce' },
 ];
+
+const ALL_CATEGORY_IDS = INTEREST_CATEGORIES.map((c) => c.id);
+const INDIVIDUAL_CATEGORY_IDS = INTEREST_CATEGORIES.filter((c) => c.id !== 'ALL').map((c) => c.id);
 
 interface FormErrors {
   name?: string;
@@ -55,25 +50,53 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All Categories');
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [submittedCategory, setSubmittedCategory] = useState('All Categories');
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSuccess, setIsSuccess] = useState(false);
 
   const closeBtnRef = useRef<HTMLButtonElement>(null);
+  const autoCloseTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Fetch dynamic categories from the API
-  const { data: apiCategories } = useCategories();
-
-  // Unified list of categories
-  const categoriesList = useMemo(() => {
-    if (apiCategories && apiCategories.length > 0) {
-      const activeNames = apiCategories
-        .filter((cat) => cat.isActive !== false)
-        .map((cat) => cat.name);
-      return Array.from(new Set(['All Categories', ...activeNames, ...FALLBACK_CATEGORIES]));
+  // Toggle category selection: clicking ALL checks/unchecks all checkboxes
+  const handleCategoryToggle = (id: string) => {
+    if (errors.category) {
+      setErrors((prev) => ({ ...prev, category: undefined }));
     }
-    return FALLBACK_CATEGORIES;
-  }, [apiCategories]);
+
+    if (id === 'ALL') {
+      if (selectedCategories.includes('ALL')) {
+        // If ALL was checked, uncheck all checkboxes
+        setSelectedCategories([]);
+      } else {
+        // If ALL was unchecked, check ALL checkboxes
+        setSelectedCategories(ALL_CATEGORY_IDS);
+      }
+      return;
+    }
+
+    // Toggling an individual category
+    const isCurrentlyChecked = selectedCategories.includes(id);
+    let nextSelected: string[];
+
+    if (isCurrentlyChecked) {
+      // Uncheck this category and uncheck ALL
+      nextSelected = selectedCategories.filter((c) => c !== id && c !== 'ALL');
+    } else {
+      // Check this category
+      const withoutAll = selectedCategories.filter((c) => c !== 'ALL');
+      const updatedIndividual = [...withoutAll, id];
+
+      // If all individual categories are now checked, check ALL as well
+      if (updatedIndividual.length === INDIVIDUAL_CATEGORY_IDS.length) {
+        nextSelected = ALL_CATEGORY_IDS;
+      } else {
+        nextSelected = updatedIndividual;
+      }
+    }
+
+    setSelectedCategories(nextSelected);
+  };
 
   // Open ONLY ONCE on user's first visit
   useEffect(() => {
@@ -108,6 +131,7 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
     const handleOpenEvent = () => {
       setIsSuccess(false);
       setErrors({});
+      setSelectedCategories([]);
       setInternalIsOpen(true);
       storeOpenModal();
     };
@@ -132,6 +156,11 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
 
   // Master close function
   const handleClose = () => {
+    if (autoCloseTimerRef.current) {
+      clearTimeout(autoCloseTimerRef.current);
+      autoCloseTimerRef.current = null;
+    }
+    setIsSuccess(false);
     setInternalIsOpen(false);
     storeCloseModal();
 
@@ -199,8 +228,8 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
     };
   }, [isVisible]);
 
-  // Newsletter subscribe mutation
-  const { mutate: subscribe, isPending } = useNewsletterSubscribe();
+  // Newsletter subscribe mutation (disable top-right toast since modal has its own success animation)
+  const { mutate: subscribe, isPending } = useNewsletterSubscribe({ showToast: false });
 
   // Validation function
   const validate = (): boolean => {
@@ -226,38 +255,72 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
     }
 
     // Category validation
-    if (!selectedCategory) {
-      newErrors.category = 'Please select a category';
+    if (selectedCategories.length === 0) {
+      newErrors.category = 'Please select at least one area of interest';
     }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
+  const getSelectedCategoryString = (): string => {
+    if (selectedCategories.includes('ALL') || selectedCategories.length === 0) {
+      return 'All Categories';
+    }
+    return selectedCategories
+      .map((id) => INTEREST_CATEGORIES.find((c) => c.id === id)?.value || id)
+      .join(', ');
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
+
+    const categoryPayload = getSelectedCategoryString();
+    setSubmittedCategory(categoryPayload);
 
     subscribe(
       {
         email: email.trim(),
         name: name.trim(),
-        category: selectedCategory,
+        category: categoryPayload,
         isLead: true,
         source: 'SUBSCRIPTION_MODAL',
       },
       {
         onSuccess: () => {
           setIsSuccess(true);
+          // Clear all fields
+          setName('');
+          setEmail('');
+          setSelectedCategories([]);
+          setErrors({});
+
           try {
             localStorage.setItem(POPUP_STORAGE_KEY, 'true');
           } catch {
             // Storage unavailable fallback
           }
+
+          if (autoCloseTimerRef.current) {
+            clearTimeout(autoCloseTimerRef.current);
+          }
+          autoCloseTimerRef.current = setTimeout(() => {
+            handleClose();
+          }, 2600);
         },
       }
     );
   };
+
+  // Clear timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (autoCloseTimerRef.current) {
+        clearTimeout(autoCloseTimerRef.current);
+      }
+    };
+  }, []);
 
   if (!isVisible) return null;
 
@@ -276,7 +339,7 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
       />
 
       {/* 2. Dialog Card */}
-      <div className="relative z-10 w-full max-w-md bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
+      <div className="relative z-10 w-full max-w-md sm:max-w-lg bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
         {/* Header */}
         <div className="bg-[#1F194E] text-white p-6 relative">
           {/* Explicit close button */}
@@ -290,11 +353,6 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
           >
             <X className="w-5 h-5 pointer-events-none" />
           </button>
-{/* 
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#fcb827]/20 text-[#fcb827] text-xs font-semibold uppercase tracking-wider mb-2">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Newsletter</span>
-          </div> */}
 
           <h2 className="text-xl font-bold font-newsreader text-white leading-tight">
             Subscribe to Business First
@@ -307,23 +365,61 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
         {/* Content */}
         <div className="p-6">
           {isSuccess ? (
-            <div className="text-center py-4">
-              <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-3">
-                <CheckCircle2 className="w-7 h-7" />
+            <div className="py-8 px-4 flex flex-col items-center justify-center text-center animate-modal-success">
+              {/* Rich Multi-layered Animated Checkmark */}
+              <div className="relative mb-5 flex items-center justify-center">
+                {/* Concentric pulsing ripple rings */}
+                <div className="absolute w-24 h-24 rounded-full bg-emerald-400/20 animate-success-ripple-1 pointer-events-none" />
+                <div className="absolute w-20 h-20 rounded-full bg-emerald-400/30 animate-success-ripple-2 pointer-events-none" />
+
+                {/* Festive sparkle burst particles */}
+                <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
+                  <span className="success-particle sp-1" />
+                  <span className="success-particle sp-2" />
+                  <span className="success-particle sp-3" />
+                  <span className="success-particle sp-4" />
+                  <span className="success-particle sp-5" />
+                  <span className="success-particle sp-6" />
+                </div>
+
+                {/* Main animated checkmark badge */}
+                <div className="relative w-20 h-20 rounded-full bg-gradient-to-tr from-emerald-500 via-emerald-400 to-teal-400 text-white flex items-center justify-center shadow-xl shadow-emerald-500/30 animate-success-pop">
+                  <svg
+                    className="w-12 h-12"
+                    viewBox="0 0 52 52"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    {/* Circle outline drawing */}
+                    <circle
+                      cx="26"
+                      cy="26"
+                      r="23"
+                      stroke="rgba(255, 255, 255, 0.45)"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      className="animate-circle-draw"
+                    />
+                    {/* Animated checkmark line */}
+                    <path
+                      d="M15 27 L23 35 L37 19"
+                      fill="none"
+                      stroke="#ffffff"
+                      strokeWidth="4"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="animate-tick-draw"
+                    />
+                  </svg>
+                </div>
               </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-1">
-                Thank you for subscribing, {name}!
+
+              <h3 className="text-xl font-bold font-newsreader text-gray-900 mb-1.5">
+                Successfully Subscribed!
               </h3>
-              <p className="text-xs text-gray-600 mb-5">
-                We'll send updates for <span className="font-semibold text-gray-800">{selectedCategory}</span> to <span className="font-semibold text-[#1F194E]">{email}</span>.
+              <p className="text-xs sm:text-sm text-gray-600 max-w-xs leading-relaxed mb-4">
+                Thank you for subscribing to <span className="font-semibold text-gray-800">Business First</span>. You will receive updates directly in your inbox.
               </p>
-              <button
-                type="button"
-                onClick={handleClose}
-                className="w-full bg-[#1F194E] hover:bg-[#2c246b] text-white text-xs font-bold uppercase tracking-wider py-2.5 px-4 rounded-xl transition cursor-pointer"
-              >
-                Close
-              </button>
             </div>
           ) : (
             <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
@@ -391,34 +487,61 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
                 )}
               </div>
 
-              {/* 3. Category Dropdown Below Email Field */}
+              {/* 3. Area of Interest (Checkboxes) */}
               <div>
-                <label htmlFor="modal-category" className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
-                  Category
-                </label>
-                <div className="relative">
-                  <select
-                    id="modal-category"
-                    value={selectedCategory}
-                    onChange={(e) => {
-                      setSelectedCategory(e.target.value);
-                      if (errors.category) setErrors((prev) => ({ ...prev, category: undefined }));
-                    }}
-                    disabled={isPending}
-                    className={`w-full appearance-none pl-3.5 pr-9 py-2.5 text-xs sm:text-sm text-gray-800 bg-gray-50 border rounded-xl focus:bg-white focus:outline-none transition cursor-pointer ${
-                      errors.category
-                        ? 'border-red-500 focus:ring-2 focus:ring-red-400/50'
-                        : 'border-gray-200 focus:ring-2 focus:ring-[#1F194E]'
-                    }`}
-                  >
-                    {categoriesList.map((category) => (
-                      <option key={category} value={category}>
-                        {category}
-                      </option>
-                    ))}
-                  </select>
-                  <ChevronDown className="w-4 h-4 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
+                    Area of Interest <span className="text-red-500">*</span>
+                  </label>
+                  <span className="text-[11px] text-gray-400 font-medium">
+                    {selectedCategories.includes('ALL')
+                      ? 'All news updates'
+                      : selectedCategories.length === 0
+                      ? 'None selected'
+                      : `${selectedCategories.length} selected`}
+                  </span>
                 </div>
+
+                <div
+                  className={`grid grid-cols-2 min-[420px]:grid-cols-4 gap-2.5 p-3 rounded-xl border transition-colors ${
+                    errors.category
+                      ? 'border-red-500 bg-red-50/20'
+                      : 'border-gray-200 bg-gray-50/60'
+                  }`}
+                >
+                  {INTEREST_CATEGORIES.map((cat) => {
+                    const isSelected = selectedCategories.includes(cat.id);
+                    return (
+                      <label
+                        key={cat.id}
+                        htmlFor={`category-${cat.id}`}
+                        className="flex items-center gap-2 cursor-pointer select-none group py-0.5"
+                      >
+                        <div className="relative flex items-center justify-center shrink-0">
+                          <input
+                            id={`category-${cat.id}`}
+                            type="checkbox"
+                            checked={isSelected}
+                            onChange={() => handleCategoryToggle(cat.id)}
+                            disabled={isPending}
+                            className="peer appearance-none w-4 h-4 rounded border border-gray-300 bg-white checked:bg-[#1F194E] checked:border-[#1F194E] focus:outline-none focus:ring-2 focus:ring-[#1F194E]/30 transition-all cursor-pointer disabled:opacity-50"
+                          />
+                          <Check className="w-3 h-3 text-white absolute pointer-events-none opacity-0 peer-checked:opacity-100 transition-opacity stroke-[3]" />
+                        </div>
+                        <span
+                          className={`text-[11px] sm:text-xs font-semibold tracking-wide transition-colors truncate ${
+                            isSelected
+                              ? 'text-[#1F194E] font-bold'
+                              : 'text-gray-600 group-hover:text-gray-900'
+                          }`}
+                        >
+                          {cat.label}
+                        </span>
+                      </label>
+                    );
+                  })}
+                </div>
+
                 {errors.category ? (
                   <div className="flex items-center gap-1 text-red-500 text-xs mt-1">
                     <AlertCircle className="w-3.5 h-3.5 shrink-0" />
@@ -426,7 +549,7 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
                   </div>
                 ) : (
                   <p className="text-[11px] text-gray-400 mt-1">
-                    Choose a category or receive all latest business updates.
+                    Select your preferred topics or choose ALL to receive all business updates.
                   </p>
                 )}
               </div>
@@ -434,10 +557,14 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
               {/* 4. Submit Button */}
               <button
                 type="submit"
-                disabled={isPending}
-                className="w-full mt-1 bg-[#FF0202] hover:bg-[#d80000] active:scale-95 text-white font-bold text-xs sm:text-sm uppercase tracking-wider py-2.5 px-4 rounded-xl shadow-md transition disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
+                disabled={isPending || isSuccess}
+                className={`w-full mt-1 font-bold text-xs sm:text-sm uppercase tracking-wider py-2.5 px-4 rounded-xl shadow-md transition disabled:cursor-not-allowed cursor-pointer ${
+                  isSuccess
+                    ? 'bg-emerald-600 text-white'
+                    : 'bg-[#FF0202] hover:bg-[#d80000] active:scale-95 text-white disabled:opacity-60'
+                }`}
               >
-                {isPending ? 'Subscribing...' : 'Subscribe'}
+                {isSuccess ? 'Subscribed!' : isPending ? 'Subscribing...' : 'Subscribe'}
               </button>
 
               <div className="flex items-center justify-between text-[11px] text-gray-400 pt-1">

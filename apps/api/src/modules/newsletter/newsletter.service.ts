@@ -37,15 +37,16 @@ export class NewsletterService {
       }
       // Re-subscribe: reset token, mark active
       const token = generateToken();
+      const isLead = data.isLead !== undefined ? data.isLead : (existing.isLead ?? false);
       const updated = await prisma.newsletter.update({
         where: { email: data.email },
         data: {
           isActive: true,
           token,
           name: data.name ?? existing.name,
-          category: data.category ?? existing.category ?? 'All Categories',
-          isLead: data.isLead !== undefined ? data.isLead : (existing.isLead ?? false),
-          source: data.source ?? existing.source ?? 'NEWSLETTER',
+          category: isLead ? (data.category ?? existing.category ?? 'All Categories') : null,
+          isLead,
+          source: data.source ?? existing.source ?? (isLead ? 'LEAD' : 'NEWSLETTER'),
           subscribedAt: new Date(),
           unsubscribedAt: null,
         },
@@ -64,13 +65,14 @@ export class NewsletterService {
 
     // New subscriber
     const token = generateToken();
+    const isLead = data.isLead ?? false;
     const subscriber = await prisma.newsletter.create({
       data: {
         email: data.email,
         name: data.name ?? null,
-        category: data.category ?? 'All Categories',
-        isLead: data.isLead ?? false,
-        source: data.source ?? 'NEWSLETTER',
+        category: isLead ? (data.category ?? 'All Categories') : null,
+        isLead,
+        source: data.source ?? (isLead ? 'LEAD' : 'NEWSLETTER'),
         token,
         isActive: true,
       },
@@ -210,7 +212,7 @@ export class NewsletterService {
     const rows = subscribers
       .map(
         (s) =>
-          `"${s.email}","${s.name ?? ''}","${s.category ?? 'All Categories'}","${s.isLead ? 'Lead' : 'Newsletter'}","${s.source ?? 'NEWSLETTER'}","${s.subscribedAt.toISOString()}"`,
+          `"${s.email}","${s.name ?? ''}","${s.isLead ? (s.category ?? 'All Categories') : ''}","${s.isLead ? 'Lead' : 'Newsletter'}","${s.source ?? (s.isLead ? 'LEAD' : 'NEWSLETTER')}","${s.subscribedAt.toISOString()}"`,
       )
       .join('\n');
 

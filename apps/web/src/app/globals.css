@@ -220,4 +220,148 @@ h1, h2, h3, h4, h5, h6, .prose h1, .prose h2, .tiptap-content h1, .tiptap-conten
   scrollbar-color: rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.04);
 }
 
+/* Modal Smooth Success Animation */
+@keyframes modalSuccessFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes successPop {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+  80% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes circleDraw {
+  0% {
+    stroke-dashoffset: 150;
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes tickDraw {
+  0% {
+    stroke-dashoffset: 40;
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes successRipple1 {
+  0% {
+    transform: scale(0.65);
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 0.45;
+  }
+  100% {
+    transform: scale(1.45);
+    opacity: 0;
+  }
+}
+
+@keyframes successRipple2 {
+  0% {
+    transform: scale(0.75);
+    opacity: 0.7;
+  }
+  60% {
+    opacity: 0.35;
+  }
+  100% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+}
+
+@keyframes particleBurst {
+  0% {
+    transform: translate(0, 0) scale(0);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: var(--particle-target) scale(0.8);
+    opacity: 0;
+  }
+}
+
+.animate-modal-success {
+  animation: modalSuccessFadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-success-pop {
+  animation: successPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.animate-circle-draw {
+  stroke-dasharray: 150;
+  stroke-dashoffset: 150;
+  animation: circleDraw 0.6s ease-out forwards;
+}
+
+.animate-tick-draw {
+  stroke-dasharray: 40;
+  stroke-dashoffset: 40;
+  animation: tickDraw 0.5s 0.22s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.animate-success-ripple-1 {
+  animation: successRipple1 1.6s 0.1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+.animate-success-ripple-2 {
+  animation: successRipple2 1.6s 0.45s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+.success-particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  pointer-events: none;
+  animation: particleBurst 0.8s 0.25s ease-out forwards;
+}
+
+.sp-1 { background-color: #10b981; --particle-target: translate(-28px, -28px); }
+.sp-2 { background-color: #34d399; --particle-target: translate(28px, -28px); }
+.sp-3 { background-color: #059669; --particle-target: translate(-34px, 4px); }
+.sp-4 { background-color: #10b981; --particle-target: translate(34px, 4px); }
+.sp-5 { background-color: #6ee7b7; --particle-target: translate(-24px, 30px); }
+.sp-6 { background-color: #34d399; --particle-target: translate(24px, 30px); }
+
 

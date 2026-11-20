@@ -53,6 +53,14 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col relative font-sans">
+        {/* Google AdSense */}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9932221100436124"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
+
         {/* Google Analytics (gtag.js) */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-FF43EBK0GL"
