@@ -4,7 +4,7 @@ import { z } from 'zod';
 export const subscribeSchema = z.object({
   email: z.string().email('Please provide a valid email address'),
   name: z.string().min(1).max(100).optional(),
-  category: z.string().max(100).optional(),
+  category: z.string().max(500).optional(),
   isLead: z.boolean().optional(),
   source: z.string().max(100).optional(),
 });

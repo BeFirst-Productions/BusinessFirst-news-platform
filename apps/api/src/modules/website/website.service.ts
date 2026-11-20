@@ -609,12 +609,13 @@ export class WebsiteService {
       throw new BadRequestError('Invalid email address');
     }
 
+    const isLeadFlag = isLead ?? false;
     const subscriber = await prisma.newsletter.upsert({
       where: { email },
       update: {
         isActive: true,
         ...(name ? { name } : {}),
-        ...(category ? { category } : {}),
+        ...(isLeadFlag ? (category ? { category } : {}) : { category: null }),
         ...(isLead !== undefined ? { isLead } : {}),
         ...(source ? { source } : {}),
         unsubscribedAt: null,
@@ -622,9 +623,9 @@ export class WebsiteService {
       create: {
         email,
         name: name || null,
-        category: category || 'All Categories',
-        isLead: isLead ?? false,
-        source: source || 'WEBSITE',
+        category: isLeadFlag ? (category || 'All Categories') : null,
+        isLead: isLeadFlag,
+        source: source || (isLeadFlag ? 'LEAD' : 'WEBSITE'),
         isActive: true,
       },
     });

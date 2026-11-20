@@ -18,17 +18,27 @@ export type SubscribePayload =
       source?: string;
     };
 
-export function useNewsletterSubscribe() {
+export interface UseNewsletterSubscribeOptions {
+  showToast?: boolean;
+}
+
+export function useNewsletterSubscribe(options?: UseNewsletterSubscribeOptions) {
+  const showToast = options?.showToast ?? true;
+
   return useMutation({
     mutationFn: (data: SubscribePayload) => {
       const payload = typeof data === 'string' ? { email: data } : data;
       return apiClient.post('/newsletter/subscribe', payload);
     },
     onSuccess: () => {
-      toast.success('Successfully subscribed to newsletter!');
+      if (showToast) {
+        toast.success('Successfully subscribed to newsletter!');
+      }
     },
     onError: (error: Error) => {
-      toast.error(error.message || 'Failed to subscribe');
+      if (showToast) {
+        toast.error(error.message || 'Failed to subscribe');
+      }
     },
   });
 }

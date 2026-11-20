@@ -633,7 +633,11 @@ export default function NewsletterPage() {
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <input
                   type="text"
-                  placeholder="Search by email, name, or category..."
+                  placeholder={
+                    activeTab === 'leads'
+                      ? 'Search leads by email, name, or area of interest...'
+                      : 'Search by email or name...'
+                  }
                   value={search}
                   onChange={(e) => handleSearchChange(e.target.value)}
                   className="w-full pl-9 pr-4 h-9 text-sm rounded-lg border border-input bg-background focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
@@ -689,7 +693,11 @@ export default function NewsletterPage() {
                       </th>
                       <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide">Name</th>
                       <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide">Email</th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide">Category</th>
+                      {activeTab !== 'subscribers' && (
+                        <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                          {activeTab === 'leads' ? 'Area of Interest' : 'Category'}
+                        </th>
+                      )}
                       <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide">Type</th>
                       <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide">Status</th>
                       <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide hidden sm:table-cell">Subscribed</th>
@@ -714,11 +722,17 @@ export default function NewsletterPage() {
                           )}
                         </td>
                         <td className="px-4 py-3 text-foreground font-mono text-xs sm:text-sm">{sub.email}</td>
-                        <td className="px-4 py-3">
-                          <Badge variant="outline" className="text-[11px] font-normal">
-                            {sub.category || 'All Categories'}
-                          </Badge>
-                        </td>
+                        {activeTab !== 'subscribers' && (
+                          <td className="px-4 py-3">
+                            {sub.isLead && sub.category ? (
+                              <Badge variant="outline" className="text-[11px] font-normal">
+                                {sub.category}
+                              </Badge>
+                            ) : (
+                              <span className="text-muted-foreground text-xs italic">—</span>
+                            )}
+                          </td>
+                        )}
                         <td className="px-4 py-3">
                           <Badge variant={sub.isLead ? 'warning' : 'default'} className="text-[11px]">
                             {sub.isLead ? 'Lead' : 'Newsletter'}
